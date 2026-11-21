@@ -88,12 +88,17 @@ en el archivo. Se probó explícitamente; ver "Decisiones verificadas" abajo.
 | `.divisor` | Separador de dos bloques, con o sin texto |
 | `.acordeon` (sobre `<details>`/`<summary>`) | Contenido expandible |
 | `.paginacion` (`.activo`) | Navegación por páginas |
+| `.menu` / `.menu-panel` (sobre `<details>`/`<summary>`) | Menú desplegable anclado |
+| `.insignia` (`.punto`, mismos colores) | Punto o número de notificación |
+| `.cargando` (`.oscuro`/`.chico`/`.grande`) | Spinner de carga |
 
-Dos ajustes más, sin clase nueva: `select` ya no usa la flecha del sistema
-operativo, y el bloque de inputs de `.campo` cubre también `email`, `tel`,
-`date`, `search` y `password` (antes solo `text` y `number`). Y un
-`:focus-visible` global reemplaza el foco que antes solo cubría
-input/select/textarea.
+Ajustes sin clase nueva: `select` ya no usa la flecha del sistema
+operativo, el bloque de inputs de `.campo` cubre también `email`, `tel`,
+`date`, `search` y `password` (antes solo `text` y `number`),
+`input[type=file]::file-selector-button` e `input[type=range]` tienen
+color de marca, `.tabla-scroll` usa una barra de scroll delgada en vez de
+la del sistema operativo, y un `:focus-visible` global reemplaza el foco
+que antes solo cubría input/select/textarea.
 
 Ver `guia/index.html` para cada uno renderizado con datos reales.
 

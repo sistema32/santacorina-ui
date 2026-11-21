@@ -216,6 +216,47 @@ function buildComponents() {
     },
     ".campo-check": { display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" },
     ".campo-check label": { margin: "0", fontWeight: "400", color: "var(--color-texto)", cursor: "pointer" },
+    /* input[type=file] -- solo el boton "Elegir archivo"; el cuadro de
+       dialogo del sistema operativo no se toca. */
+    "input[type=file]::file-selector-button": {
+      padding: "8px 14px",
+      borderRadius: "8px",
+      border: "1px solid var(--color-borde)",
+      backgroundColor: "var(--color-gris-fondo)",
+      color: "var(--color-navy)",
+      fontWeight: "600",
+      fontSize: "13px",
+      cursor: "pointer",
+      marginRight: "10px"
+    },
+    "input[type=file]::file-selector-button:hover": { backgroundColor: "#e6eaef" },
+    /* input[type=range] -- mismos colores que `.barra-progreso`. */
+    "input[type=range]": {
+      appearance: "none",
+      width: "100%",
+      height: "7px",
+      borderRadius: "999px",
+      backgroundColor: "#e8ebef",
+      cursor: "pointer"
+    },
+    "input[type=range]::-webkit-slider-thumb": {
+      appearance: "none",
+      width: "16px",
+      height: "16px",
+      borderRadius: "50%",
+      backgroundColor: "var(--color-azul)",
+      border: "2px solid #fff",
+      boxShadow: "0 1px 3px rgba(12, 45, 74, 0.35)"
+    },
+    "input[type=range]::-moz-range-thumb": {
+      width: "16px",
+      height: "16px",
+      borderRadius: "50%",
+      backgroundColor: "var(--color-azul)",
+      border: "2px solid #fff",
+      boxShadow: "0 1px 3px rgba(12, 45, 74, 0.35)"
+    },
+    "input[type=range]::-moz-range-track": { height: "7px", borderRadius: "999px", backgroundColor: "#e8ebef" },
     /* ---------------------------------------------------------------
      * Tabla -- base de cualquier listado tabular.
      * ------------------------------------------------------------- */
@@ -231,7 +272,14 @@ function buildComponents() {
     },
     td: { padding: "11px 10px", borderBottom: "1px solid var(--color-borde)", verticalAlign: "top" },
     "tr:last-child td": { borderBottom: "0" },
-    ".tabla-scroll": { overflowX: "auto" },
+    ".tabla-scroll": {
+      overflowX: "auto",
+      scrollbarColor: "var(--color-borde) transparent",
+      scrollbarWidth: "thin"
+    },
+    ".tabla-scroll::-webkit-scrollbar": { height: "8px" },
+    ".tabla-scroll::-webkit-scrollbar-thumb": { backgroundColor: "var(--color-borde)", borderRadius: "999px" },
+    ".tabla-scroll::-webkit-scrollbar-track": { backgroundColor: "transparent" },
     "td.peso, th.der, td.der": { textAlign: "right" },
     "td.peso": { fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" },
     "th.cen, td.cen": { textAlign: "center" },
@@ -737,6 +785,99 @@ function buildComponents() {
       color: "#fff"
     },
     ".paginacion button:disabled": { opacity: "0.45", cursor: "not-allowed" },
+    /* ---------------------------------------------------------------
+     * Menu -- igual tecnica que `.acordeon` (details/summary nativo),
+     * pero el panel flota anclado al trigger en vez de empujar el layout.
+     * ------------------------------------------------------------- */
+    ".menu": { position: "relative", display: "inline-block" },
+    ".menu summary": {
+      listStyle: "none",
+      cursor: "pointer",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "30px",
+      height: "30px",
+      borderRadius: "8px",
+      color: "var(--color-tenue)"
+    },
+    ".menu summary::-webkit-details-marker": { display: "none" },
+    ".menu summary:hover": { backgroundColor: "var(--color-gris-fondo)" },
+    ".menu[open] summary": { backgroundColor: "var(--color-gris-fondo)" },
+    ".menu-panel": {
+      position: "absolute",
+      top: "calc(100% + 4px)",
+      right: "0",
+      zIndex: "100",
+      minWidth: "180px",
+      backgroundColor: "#fff",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "10px",
+      boxShadow: "0 10px 30px rgba(12, 45, 74, 0.18)",
+      padding: "6px"
+    },
+    ".menu-panel a, .menu-panel button": {
+      display: "block",
+      width: "100%",
+      textAlign: "left",
+      padding: "8px 10px",
+      borderRadius: "7px",
+      border: "0",
+      backgroundColor: "transparent",
+      color: "var(--color-texto)",
+      fontSize: "13.5px",
+      fontFamily: "inherit",
+      cursor: "pointer",
+      textDecoration: "none"
+    },
+    ".menu-panel a:hover, .menu-panel button:hover": { backgroundColor: "var(--color-gris-fondo)" },
+    ".menu-panel button.peligro, .menu-panel a.peligro": { color: "var(--color-rojo)" },
+    ".menu-panel hr": { border: "0", borderTop: "1px solid var(--color-borde)", margin: "6px 0" },
+    /* ---------------------------------------------------------------
+     * Insignia -- punto o numero sobre un padre `position:relative`
+     * (un icono, una pastilla) para avisar pendientes sin empujar texto.
+     * ------------------------------------------------------------- */
+    ".insignia": {
+      position: "absolute",
+      top: "-6px",
+      right: "-6px",
+      display: "inline-grid",
+      placeItems: "center",
+      minWidth: "17px",
+      height: "17px",
+      padding: "0 4px",
+      borderRadius: "999px",
+      backgroundColor: "var(--color-rojo)",
+      color: "#fff",
+      fontSize: "10.5px",
+      fontWeight: "700",
+      lineHeight: "1",
+      border: "2px solid #fff"
+    },
+    ".insignia.punto": { minWidth: "10px", width: "10px", height: "10px", padding: "0" },
+    ".insignia.azul": { backgroundColor: "var(--color-azul)" },
+    ".insignia.verde": { backgroundColor: "var(--color-verde)" },
+    ".insignia.naranjo": { backgroundColor: "var(--color-naranjo)" },
+    ".insignia.gris": { backgroundColor: "var(--color-gris)" },
+    /* ---------------------------------------------------------------
+     * Spinner -- para meter dentro de `.boton` mientras se envia algo.
+     * ------------------------------------------------------------- */
+    ".cargando": {
+      display: "inline-block",
+      width: "16px",
+      height: "16px",
+      borderRadius: "50%",
+      border: "2px solid rgba(255, 255, 255, 0.4)",
+      borderTopColor: "#fff",
+      animation: "santacorina-girar 0.7s linear infinite"
+    },
+    ".cargando.oscuro": { border: "2px solid var(--color-borde)", borderTopColor: "var(--color-azul)" },
+    ".cargando.chico": { width: "12px", height: "12px", borderWidth: "2px" },
+    ".cargando.grande": { width: "24px", height: "24px", borderWidth: "3px" },
+    "@keyframes santacorina-girar": {
+      "0%": { transform: "rotate(0deg)" },
+      "100%": { transform: "rotate(360deg)" }
+    },
     /* ---------------------------------------------------------------
      * Foco de teclado -- uno solo para todo lo navegable, en vez de un
      * `:focus` por componente (antes solo cubria input/select/textarea).

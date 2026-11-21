@@ -87,6 +87,11 @@
     <a href="#divisor">Divisor</a>
     <a href="#acordeon">Acordeón</a>
     <a href="#paginacion">Paginación</a>
+    <a href="#archivo">Archivo</a>
+    <a href="#rango">Rango</a>
+    <a href="#menu">Menú</a>
+    <a href="#insignia">Insignia</a>
+    <a href="#cargando">Spinner</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -428,6 +433,70 @@
           </nav>
         </div>
         <pre class="codigo">&lt;nav class="paginacion"&gt;&lt;button class="activo"&gt;1&lt;/button&gt;&lt;/nav&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="archivo">
+      <h2>Archivo</h2>
+      <p class="uso">Marca solo sobre el botón "Elegir archivo" — el cuadro de diálogo del sistema operativo no se toca.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="campo" style="margin-bottom:0">
+          <label for="g-f1">Agregar antecedente</label>
+          <input type="file" id="g-f1">
+        </div></div>
+        <pre class="codigo">&lt;input type="file"&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="rango">
+      <h2>Rango</h2>
+      <p class="uso">Mismos colores que <code>.barra-progreso</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo"><input type="range" min="0" max="100" value="65"></div>
+        <pre class="codigo">&lt;input type="range" min="0" max="100" value="65"&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="menu">
+      <h2>Menú</h2>
+      <p class="uso">Misma técnica que <code>.acordeon</code> (<code>&lt;details&gt;</code> nativo), pero el panel flota anclado en vez de empujar el layout.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;justify-content:flex-end">
+          <details class="menu">
+            <summary>⋮</summary>
+            <div class="menu-panel">
+              <a href="#">Ver detalle</a>
+              <button>Editar</button>
+              <hr>
+              <button class="peligro">Eliminar</button>
+            </div>
+          </details>
+        </div>
+        <pre class="codigo">&lt;details class="menu"&gt;&lt;summary&gt;⋮&lt;/summary&gt;&lt;div class="menu-panel"&gt;...&lt;/div&gt;&lt;/details&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="insignia">
+      <h2>Insignia</h2>
+      <p class="uso">Sobre un padre <code>position:relative</code> — un ícono, una pastilla, un avatar.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span style="position:relative;display:inline-block"><span class="avatar azul">AR</span><span class="insignia punto verde"></span></span>
+          <span style="position:relative;display:inline-block"><button class="pastilla celeste">Notificaciones</button><span class="insignia">3</span></span>
+        </div>
+        <pre class="codigo">&lt;span style="position:relative"&gt;...&lt;span class="insignia"&gt;3&lt;/span&gt;&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="cargando">
+      <h2>Spinner</h2>
+      <p class="uso">Para meter dentro de <code>.boton</code> mientras se envía algo.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <button class="boton" style="display:inline-flex;align-items:center;gap:8px"><span class="cargando"></span> Enviando...</button>
+          <span class="cargando oscuro grande"></span>
+        </div>
+        <pre class="codigo">&lt;button class="boton"&gt;&lt;span class="cargando"&gt;&lt;/span&gt; Enviando...&lt;/button&gt;</pre>
       </div>
     </section>
   </main>

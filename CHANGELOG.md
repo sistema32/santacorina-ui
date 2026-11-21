@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.4.0 — sin publicar
+
+Confirmado cada gap contra uso real en `sgp` antes de agregarlo
+(`input[type=file]` en 6 pantallas, `.tabla-scroll` en 30+ plantillas).
+
+Estilo de marca sobre lo que el navegador ya resuelve:
+
+- `input[type=file]::file-selector-button` — botón "Elegir archivo" de marca.
+- `input[type=range]` — thumb y track con los mismos colores que `.barra-progreso`.
+- `.tabla-scroll` — barra de scroll delgada (`scrollbar-color` + fallback `::-webkit-scrollbar`).
+
+Componentes nuevos, sin equivalente previo:
+
+- `.menu` / `.menu-panel` — menú desplegable, misma técnica que `.acordeon`
+  (`<details>`/`<summary>` nativo) pero el panel flota anclado al trigger.
+- `.insignia` (`.punto`, mismos 5 colores) — punto o número de notificación.
+- `.cargando` (`.oscuro`/`.chico`/`.grande`) — spinner de carga para meter
+  dentro de `.boton`.
+
 ## 0.3.0 — sin publicar
 
 Estilo de marca sobre lo que el navegador ya resuelve (en vez de
