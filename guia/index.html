@@ -95,6 +95,8 @@
     <a href="#armazon">Armazón de página</a>
     <a href="#lateral">Menú lateral</a>
     <a href="#utils-js">Utilidades JS</a>
+    <a href="#buscador">Buscador</a>
+    <a href="#contador">Contador de caracteres</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -564,6 +566,33 @@
           <tr><td class="codigo">copiarAlPortapapeles(txt)</td><td>Con fallback para contextos sin HTTPS</td><td class="cen">—</td></tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="doc-sec" id="buscador">
+      <h2>Buscador</h2>
+      <p class="uso"><code>input[type=search]</code> ya trae un botón nativo de limpiar, pero depende del navegador y no tiene ícono — se oculta y se reemplaza por uno de marca (<code>iniciarBuscadores</code>).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="buscador">
+            <input type="search" placeholder="Buscar establecimiento...">
+            <button type="button" class="limpiar" aria-label="Limpiar">×</button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="buscador"&gt;&lt;input type="search"&gt;&lt;button class="limpiar"&gt;×&lt;/button&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="contador">
+      <h2>Contador de caracteres</h2>
+      <p class="uso">Sobre un <code>textarea</code> con <code>maxlength</code> — marca <code>.cerca</code> al 90% y <code>.lleno</code> al límite (<code>iniciarContadores</code>).</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="campo" style="margin-bottom:0">
+          <label for="g-ta1">Motivo del rechazo</label>
+          <textarea id="g-ta1" data-contador maxlength="120"></textarea>
+          <span class="contador-caracteres">0/120</span>
+        </div></div>
+        <pre class="codigo">&lt;textarea data-contador maxlength="120"&gt;&lt;/textarea&gt;&lt;span class="contador-caracteres"&gt;&lt;/span&gt;</pre>
+      </div>
     </section>
   </main>
 </div>

@@ -413,6 +413,49 @@ function buildComponents() {
       paddingRight: "32px"
     },
     /* ---------------------------------------------------------------
+     * Buscador -- input[type=search] ya trae el boton nativo de limpiar,
+     * pero depende del navegador y no tiene icono. El JS vive en
+     * `@sistema32/santacorina-ui/js` (`iniciarBuscadores`).
+     * ------------------------------------------------------------- */
+    ".buscador": { position: "relative", display: "block", width: "100%" },
+    ".buscador input": {
+      paddingLeft: "34px",
+      paddingRight: "30px",
+      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 15 15'%3E%3Ccircle cx='6.5' cy='6.5' r='5' fill='none' stroke='%235b6b7c' stroke-width='1.5'/%3E%3Cline x1='10.3' y1='10.3' x2='14' y2='14' stroke='%235b6b7c' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E")`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "10px center"
+    },
+    ".buscador .limpiar": {
+      display: "none",
+      position: "absolute",
+      right: "6px",
+      top: "50%",
+      transform: "translateY(-50%)",
+      border: "0",
+      backgroundColor: "transparent",
+      cursor: "pointer",
+      color: "var(--color-tenue)",
+      fontSize: "16px",
+      lineHeight: "1",
+      padding: "4px"
+    },
+    ".buscador .limpiar.visible": { display: "block" },
+    ".buscador .limpiar:hover": { color: "var(--color-navy)" },
+    ".buscador input::-webkit-search-cancel-button": { appearance: "none" },
+    /* ---------------------------------------------------------------
+     * Contador de caracteres -- para un textarea con `maxlength`. El JS
+     * vive en `@sistema32/santacorina-ui/js` (`iniciarContadores`).
+     * ------------------------------------------------------------- */
+    ".contador-caracteres": {
+      display: "block",
+      textAlign: "right",
+      fontSize: "12px",
+      color: "var(--color-tenue)",
+      marginTop: "4px"
+    },
+    ".contador-caracteres.cerca": { color: "var(--color-naranjo)" },
+    ".contador-caracteres.lleno": { color: "var(--color-rojo)", fontWeight: "600" },
+    /* ---------------------------------------------------------------
      * Checkbox / radio -- nativos, solo con el color de marca (en vez
      * de reconstruirlos con un input oculto + div decorado: el navegador
      * ya resuelve foco, teclado y el estado marcado/sin marcar).

@@ -7,20 +7,26 @@ export { iniciarLateral } from "./lateral.js";
 export { iniciarTabs } from "./tabs.js";
 export { iniciarRangoFechas } from "./rango-fechas.js";
 export { iniciarCalendario } from "./calendario.js";
+export { iniciarBuscadores } from "./buscador.js";
+export { iniciarContadores } from "./contador.js";
 
 import { iniciarModales } from "./modal.js";
 import { iniciarLateral } from "./lateral.js";
 import { iniciarTabs } from "./tabs.js";
 import { iniciarRangoFechas } from "./rango-fechas.js";
 import { iniciarCalendario } from "./calendario.js";
+import { iniciarBuscadores } from "./buscador.js";
+import { iniciarContadores } from "./contador.js";
 
-/** Conecta todo lo auto-iniciable (modal, lateral, tabs, rango de fechas, calendario). */
+/** Conecta todo lo auto-iniciable (modal, lateral, tabs, rango de fechas, calendario, buscador, contador). */
 export function iniciarTodo(raiz: ParentNode = document): void {
   iniciarModales(raiz);
   iniciarLateral(raiz);
   iniciarTabs(raiz);
   iniciarRangoFechas(raiz);
   iniciarCalendario(raiz);
+  iniciarBuscadores(raiz);
+  iniciarContadores(raiz);
 }
 
 if (typeof document !== "undefined") {

@@ -275,6 +275,42 @@ function iniciarCalendario(raiz = document) {
   });
 }
 
+// src/js/buscador.ts
+function iniciarBuscadores(raiz = document) {
+  raiz.querySelectorAll(".buscador").forEach((caja) => {
+    const input = caja.querySelector("input");
+    const limpiar = caja.querySelector(".limpiar");
+    if (!input || !limpiar) return;
+    const actualizar = () => limpiar.classList.toggle("visible", input.value.length > 0);
+    input.addEventListener("input", actualizar);
+    limpiar.addEventListener("click", () => {
+      input.value = "";
+      input.focus();
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      actualizar();
+    });
+    actualizar();
+  });
+}
+
+// src/js/contador.ts
+function iniciarContadores(raiz = document) {
+  raiz.querySelectorAll("textarea[data-contador]").forEach((textarea) => {
+    const max = textarea.maxLength;
+    if (!max || max < 0) return;
+    const contador = textarea.parentElement?.querySelector(".contador-caracteres");
+    if (!contador) return;
+    const actualizar = () => {
+      const n = textarea.value.length;
+      contador.textContent = `${n}/${max}`;
+      contador.classList.toggle("cerca", n >= max * 0.9 && n < max);
+      contador.classList.toggle("lleno", n >= max);
+    };
+    textarea.addEventListener("input", actualizar);
+    actualizar();
+  });
+}
+
 // src/js/index.ts
 function iniciarTodo(raiz = document) {
   iniciarModales(raiz);
@@ -282,6 +318,8 @@ function iniciarTodo(raiz = document) {
   iniciarTabs(raiz);
   iniciarRangoFechas(raiz);
   iniciarCalendario(raiz);
+  iniciarBuscadores(raiz);
+  iniciarContadores(raiz);
 }
 if (typeof document !== "undefined") {
   if (document.readyState === "loading") {
@@ -296,7 +334,9 @@ export {
   copiarAlPortapapeles,
   debounce,
   formato_exports as formato,
+  iniciarBuscadores,
   iniciarCalendario,
+  iniciarContadores,
   iniciarLateral,
   iniciarModales,
   iniciarRangoFechas,

@@ -64,7 +64,20 @@ declare function iniciarRangoFechas(raiz?: ParentNode): void;
 
 declare function iniciarCalendario(raiz?: ParentNode): void;
 
-/** Conecta todo lo auto-iniciable (modal, lateral, tabs, rango de fechas, calendario). */
+/**
+ * Muestra/oculta el boton `.limpiar` de `.buscador` segun si el input
+ * tiene texto, y lo conecta para vaciarlo (dispara `input` para que
+ * cualquier `debounce`/v-model enganchado lo reciba).
+ */
+declare function iniciarBuscadores(raiz?: ParentNode): void;
+
+/**
+ * Actualiza un `.contador-caracteres` junto a un `textarea[data-contador]`
+ * con `maxlength`, marcando `.cerca` (90%) y `.lleno` (100%).
+ */
+declare function iniciarContadores(raiz?: ParentNode): void;
+
+/** Conecta todo lo auto-iniciable (modal, lateral, tabs, rango de fechas, calendario, buscador, contador). */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarCalendario, iniciarLateral, iniciarModales, iniciarRangoFechas, iniciarTabs, iniciarTodo, mostrarToast };
+export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarBuscadores, iniciarCalendario, iniciarContadores, iniciarLateral, iniciarModales, iniciarRangoFechas, iniciarTabs, iniciarTodo, mostrarToast };

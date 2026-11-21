@@ -64,6 +64,8 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | `iniciarTabs` | Mueve `.activo` al hacer clic dentro de `.tabs` | ✓ |
 | `iniciarRangoFechas` | Sincroniza `min`/`max` entre dos `input[type=date]` en `[data-rango-fechas]` | ✓ |
 | `iniciarCalendario` | Panel de calendario sobre `[data-calendario]` | ✓ |
+| `iniciarBuscadores` | Muestra/oculta y conecta el botón `.limpiar` de `.buscador` | ✓ |
+| `iniciarContadores` | Actualiza `.contador-caracteres` de un `textarea[data-contador]` | ✓ |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
 
@@ -137,6 +139,8 @@ en el archivo. Se probó explícitamente; ver "Decisiones verificadas" abajo.
 | `.pie` | Footer |
 | `.lateral` + `.item` (`.activo`/`.inactivo`/`.salir`), `.grupo`, `.contador`, `.ubicacion` | Menú lateral, con responsivo (`.lateral-toggle`, `.lateral-fondo`, `.abierta`) bajo 900px |
 | `.calendario` / `.calendario-panel` (sobre `[data-calendario]`) | Selector de fecha en grilla visual — el JS vive en `/js` |
+| `.buscador` + `.limpiar` | Input de búsqueda con ícono y botón de limpiar propio (oculta el nativo de `type=search`) — JS en `/js` |
+| `.contador-caracteres` (`.cerca`/`.lleno`, sobre `textarea[data-contador]`) | Contador de caracteres de un textarea — JS en `/js` |
 
 El toggle móvil del menú lateral no es solo-CSS: agrega un *click handler*
 de unas líneas en el consumidor que alterne `.abierta` en `.lateral` y

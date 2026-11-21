@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.0 — sin publicar
+
+- `.buscador` + `.limpiar` (CSS) + `iniciarBuscadores` (JS) — input de
+  búsqueda con ícono y botón de limpiar de marca; se oculta
+  `::-webkit-search-cancel-button` para no mostrar dos botones de limpiar
+  (el nativo de `type=search` y el propio) duplicados.
+- `.contador-caracteres` (CSS) + `iniciarContadores` (JS) — contador de
+  caracteres para un `textarea[data-contador][maxlength]`, con `.cerca`
+  (90%) y `.lleno` (100%).
+
+Agregados preventivos, pedidos explícitamente por el usuario.
+
 ## 0.6.0 — sin publicar
 
 Primera vez que el paquete incluye JS, no solo CSS. Empaquetado en dos
