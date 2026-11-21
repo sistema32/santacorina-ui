@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>@santacorina/ui</title>
+<link rel="stylesheet" href="../dist/ui.css">
+<style>
+  :root{
+    --doc-bg: #f4f7fa; --doc-surface: #ffffff; --doc-ink: #1c2733;
+    --doc-ink-dim: #5b6b7c; --doc-border: #dde4ec;
+    --doc-code-bg: #0c2d4a; --doc-code-ink: #dce6f0; --doc-nav-w: 220px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --doc-bg:#0b1420; --doc-surface:#121d2b; --doc-ink:#e6ecf2;
+      --doc-ink-dim:#93a4b7; --doc-border:#223246;
+      --doc-code-bg:#060d16; --doc-code-ink:#d9e5f0;
+    }
+  }
+  :root[data-theme="dark"]{
+    --doc-bg:#0b1420; --doc-surface:#121d2b; --doc-ink:#e6ecf2;
+    --doc-ink-dim:#93a4b7; --doc-border:#223246;
+    --doc-code-bg:#060d16; --doc-code-ink:#d9e5f0;
+  }
+  body{ background:var(--doc-bg); color:var(--doc-ink); font:15px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; margin:0; }
+  .doc-shell{ display:flex; min-height:100vh; }
+  .doc-nav{
+    flex:0 0 var(--doc-nav-w); position:sticky; top:0; height:100vh; overflow-y:auto;
+    padding:22px 16px; border-right:1px solid var(--doc-border); background:var(--doc-surface);
+  }
+  .doc-nav .marca{ font-weight:700; font-size:15px; margin:0 0 2px; }
+  .doc-nav .sub{ font-size:12px; color:var(--doc-ink-dim); margin:0 0 20px; }
+  .doc-nav a{ display:block; padding:6px 10px; border-radius:7px; font-size:13.5px; color:var(--doc-ink-dim); text-decoration:none; }
+  .doc-nav a:hover{ background:var(--doc-bg); color:var(--doc-ink); }
+  .doc-main{ flex:1; min-width:0; padding:40px clamp(20px,4vw,56px) 80px; max-width:980px; }
+  .doc-header{ margin-bottom:36px; }
+  .doc-header .eyebrow{ font-size:11.5px; text-transform:uppercase; letter-spacing:.09em; color:var(--doc-ink-dim); font-weight:700; }
+  .doc-header h1{ margin:6px 0 10px; font-size:28px; }
+  .doc-header p{ margin:0; max-width:62ch; color:var(--doc-ink-dim); line-height:1.6; }
+  section.doc-sec{ margin-bottom:52px; scroll-margin-top:24px; }
+  section.doc-sec h2{ font-size:19px; margin:0 0 4px; }
+  section.doc-sec .uso{ font-size:13.5px; color:var(--doc-ink-dim); margin:0 0 18px; max-width:68ch; line-height:1.6; }
+  .demo{ background:var(--doc-surface); border:1px solid var(--doc-border); border-radius:12px; padding:22px; margin-bottom:10px; }
+  .demo-fila{ display:flex; flex-wrap:wrap; gap:12px; align-items:flex-start; }
+  pre.codigo{
+    background:var(--doc-code-bg); color:var(--doc-code-ink); border-radius:0 0 10px 10px;
+    padding:14px 18px; margin:0; font:12.5px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace; overflow-x:auto;
+  }
+  .demo-wrap{ border-radius:12px; overflow:hidden; border:1px solid var(--doc-border); margin-bottom:28px; }
+  .demo-wrap .demo{ border:0; border-radius:0; margin-bottom:0; }
+  .token-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
+  .token{ border:1px solid var(--doc-border); border-radius:10px; overflow:hidden; background:var(--doc-surface); }
+  .token .swatch{ height:52px; } .token .meta{ padding:8px 10px; font-size:12px; }
+  .token .meta b{ display:block; font-size:12.5px; }
+  .token .meta span{ color:var(--doc-ink-dim); font-family:ui-monospace,Consolas,monospace; font-size:11px; }
+  @media (max-width:760px){ .doc-nav{ display:none; } .doc-main{ padding:28px 16px 60px; } }
+</style>
+</head>
+<body>
+<div class="doc-shell">
+  <nav class="doc-nav">
+    <p class="marca">@santacorina/ui</p>
+    <p class="sub">Guía de componentes</p>
+    <a href="#tokens">Tokens</a>
+    <a href="#tarjeta">Tarjeta</a>
+    <a href="#kpi">KPI</a>
+    <a href="#etiqueta">Etiqueta</a>
+    <a href="#boton">Botón</a>
+    <a href="#pastilla">Pastilla</a>
+    <a href="#aviso">Aviso</a>
+    <a href="#campo">Campo</a>
+    <a href="#tabla">Tabla</a>
+    <a href="#dato">Dato</a>
+    <a href="#luz">Semáforo</a>
+    <a href="#tiempo">Línea de tiempo</a>
+    <a href="#vacio">Estado vacío</a>
+  </nav>
+  <main class="doc-main">
+    <header class="doc-header">
+      <p class="eyebrow">SLEP Santa Corina</p>
+      <h1>@santacorina/ui</h1>
+      <p>Plugin de Tailwind CSS v4: tokens de marca + los componentes que Tailwind no trae de fábrica. Este CSS lo sirve directamente <code>dist/ui.css</code> — lo que ves es exactamente lo que recibe cualquier proyecto que instale el paquete.</p>
+    </header>
+
+    <section class="doc-sec" id="tokens">
+      <h2>Tokens</h2>
+      <p class="uso">Color semántico: azul = informativo/en curso, verde = conforme, naranjo = alerta/pendiente, rojo = rechazado o sobregirado, gris = neutro.</p>
+      <div class="token-grid">
+        <div class="token"><div class="swatch" style="background:#0c2d4a"></div><div class="meta"><b>navy</b><span>#0c2d4a</span></div></div>
+        <div class="token"><div class="swatch" style="background:#2a78d6"></div><div class="meta"><b>azul</b><span>#2a78d6</span></div></div>
+        <div class="token"><div class="swatch" style="background:#1e8e5a"></div><div class="meta"><b>verde</b><span>#1e8e5a</span></div></div>
+        <div class="token"><div class="swatch" style="background:#d97a12"></div><div class="meta"><b>naranjo</b><span>#d97a12</span></div></div>
+        <div class="token"><div class="swatch" style="background:#c8362f"></div><div class="meta"><b>rojo</b><span>#c8362f</span></div></div>
+        <div class="token"><div class="swatch" style="background:#7a8794"></div><div class="meta"><b>gris</b><span>#7a8794</span></div></div>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="tarjeta">
+      <h2>Tarjeta</h2>
+      <p class="uso">Contenedor base de cualquier bloque de contenido.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="tarjeta"><h3>Presupuesto total</h3><p class="tenue">COLEGIO ALCÁZAR · RBD 12255-6 · Año 2026</p></div></div>
+        <pre class="codigo">&lt;div class="tarjeta"&gt;&lt;h3&gt;Presupuesto total&lt;/h3&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="kpi">
+      <h2>KPI</h2>
+      <p class="uso">Cifra destacada con color de estado en el borde izquierdo.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="kpis" style="margin-bottom:0">
+          <div class="kpi azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
+          <div class="kpi verde"><div class="n">99%</div><div class="t">% ejecución</div></div>
+          <div class="kpi naranjo"><div class="n">2</div><div class="t">Pendientes</div></div>
+          <div class="kpi rojo"><div class="n">1</div><div class="t">Sobregirado</div></div>
+        </div></div>
+        <pre class="codigo">&lt;div class="kpi rojo"&gt;&lt;div class="n"&gt;1&lt;/div&gt;&lt;div class="t"&gt;Sobregirado&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="etiqueta">
+      <h2>Etiqueta</h2>
+      <p class="uso">Estado corto en línea con texto. No es clicable — para eso está la pastilla.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span class="etiqueta verde">ACEPTADA</span>
+          <span class="etiqueta rojo">RECHAZADA</span>
+          <span class="etiqueta naranjo">EN REVISIÓN</span>
+          <span class="etiqueta gris">BORRADOR</span>
+        </div>
+        <pre class="codigo">&lt;span class="etiqueta verde"&gt;ACEPTADA&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="boton">
+      <h2>Botón</h2>
+      <p class="uso"><code>.btn-chico</code> es la variante para una fila o celda de tabla.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <button class="boton">Enviar solicitud</button>
+          <button class="boton secundario">Guardar borrador</button>
+          <button class="boton peligro">Rechazar</button>
+          <a class="btn-chico" href="#">Modificar</a>
+          <a class="btn-chico peligro" href="#">Eliminar</a>
+        </div>
+        <pre class="codigo">&lt;button class="boton"&gt;Enviar solicitud&lt;/button&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="pastilla">
+      <h2>Pastilla</h2>
+      <p class="uso">Decisión clicable con forma de botón.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <button class="pastilla celeste">Revisar</button>
+          <button class="pastilla roja">Rechazar</button>
+        </div>
+        <pre class="codigo">&lt;button class="pastilla celeste"&gt;Revisar&lt;/button&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="aviso">
+      <h2>Aviso</h2>
+      <p class="uso">Banner de nivel de pantalla completa.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;flex-direction:column;gap:10px">
+          <div class="aviso info">El año 2027 ya está abierto. Los datos de 2026 quedan de solo lectura.</div>
+          <div class="aviso ok">Backup completado exitosamente.</div>
+          <div class="aviso alerta">El envío de correos no está configurado.</div>
+          <div class="aviso error">El Llano de Maipú tiene 109,8% de ejecución del SEP.</div>
+        </div>
+        <pre class="codigo">&lt;div class="aviso alerta"&gt;El envío de correos no está configurado.&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="campo">
+      <h2>Campo</h2>
+      <p class="uso">Un control de formulario con su etiqueta y texto de ayuda.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="campo" style="max-width:320px">
+          <label for="rbd">RBD del establecimiento</label>
+          <input id="rbd" type="text" value="12255-6">
+          <p class="ayuda">Se usa para vincular la solicitud al presupuesto correcto.</p>
+        </div></div>
+        <pre class="codigo">&lt;div class="campo"&gt;&lt;label&gt;RBD&lt;/label&gt;&lt;input type="text"&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="tabla">
+      <h2>Tabla</h2>
+      <p class="uso">Los montos (<code>.peso</code>) van siempre alineados a la derecha, con cifras de ancho fijo.</p>
+      <div class="demo-wrap">
+        <div class="demo tabla-scroll">
+          <table>
+            <thead><tr><th>SC</th><th>Solicita</th><th class="der">Solicitado</th></tr></thead>
+            <tbody><tr><td>46255</td><td>ADQ. COLACION (DESAYUNO)</td><td class="peso">$1.422.169</td></tr></tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;td class="peso"&gt;$1.422.169&lt;/td&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="dato">
+      <h2>Dato</h2>
+      <p class="uso">Par etiqueta/valor — la unidad mínima de cualquier resumen.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="max-width:360px">
+          <div class="dato"><span>Presupuesto total</span><strong>$59.894.565</strong></div>
+          <div class="dato"><span>Saldo disponible</span><strong>$718.704</strong></div>
+        </div>
+        <pre class="codigo">&lt;div class="dato"&gt;&lt;span&gt;Saldo disponible&lt;/span&gt;&lt;strong&gt;$718.704&lt;/strong&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="luz">
+      <h2>Semáforo</h2>
+      <p class="uso">Punto de estado para una lista de chequeos.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz verde"></span><span>Presupuesto disponible</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz rojo"></span><span>Fuente sin validar</span></div>
+        </div>
+        <pre class="codigo">&lt;span class="luz verde"&gt;&lt;/span&gt; Presupuesto disponible</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="tiempo">
+      <h2>Línea de tiempo</h2>
+      <p class="uso">Historial de eventos, más reciente abajo.</p>
+      <div class="demo-wrap">
+        <div class="demo"><ul class="linea-tiempo" style="margin:0;padding:0">
+          <li><span class="ts">14-10-2026 14:42</span><br><span class="txt">Solicitud enviada</span></li>
+        </ul></div>
+        <pre class="codigo">&lt;ul class="linea-tiempo"&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="vacio">
+      <h2>Estado vacío</h2>
+      <p class="uso">Cuando un listado no tiene filas que mostrar.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="vacio"><p>Sin solicitudes pendientes.</p></div></div>
+        <pre class="codigo">&lt;div class="vacio"&gt;&lt;p&gt;Sin solicitudes pendientes.&lt;/p&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>
