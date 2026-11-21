@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.6.0 — sin publicar
+
+Primera vez que el paquete incluye JS, no solo CSS. Empaquetado en dos
+formatos: ESM/CJS para bundlers (`@sistema32/santacorina-ui/js`) y un IIFE
+(`dist/js.global.js`, `window.Santacorina`) para consumo sin Node, igual
+criterio que `dist/ui.css`.
+
+Duplicación real confirmada y extraída:
+
+- `formato.pesos/conSigno/pct/fechaCorta` — trasladado tal cual desde
+  `peso()`/`conSigno()`/`pct()`, copiados idénticos en
+  `FinanzasPresupuestoView.vue` y `FinanzasMatrizView.vue`.
+
+Cierra una promesa que el propio paquete ya había documentado sin
+resolver (el README decía "necesita JS propio" y nadie lo había escrito):
+
+- `abrirModal`/`cerrarModal` para `.modal` (0.1.0).
+- `mostrarToast` para `.toast` (0.1.0).
+- `iniciarLateral` para `.lateral-toggle` (0.5.0).
+- `iniciarTabs` para `.tabs` (0.2.0).
+
+Agregados preventivos, sin uso actual en ningún repo todavía, pedidos
+explícitamente por el usuario:
+
+- `.calendario` (CSS) + `iniciarCalendario` (JS) — selector de fecha en
+  grilla visual, mismo patrón de capa flotante que `.menu`.
+- `iniciarRangoFechas` — sincroniza `min`/`max` entre dos
+  `input[type=date]`, sobre el input nativo, sin widget nuevo.
+- `debounce(fn, ms)`.
+- `copiarAlPortapapeles(texto)` — con fallback porque la plataforma hoy
+  corre sobre HTTP en red interna y el Clipboard API moderno exige un
+  contexto seguro.
+
 ## 0.5.0 — sin publicar
 
 La migración pendiente desde Fase 3: `.tarjeta`/`.kpi`/etc. se trasladaron

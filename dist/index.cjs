@@ -1043,6 +1043,67 @@ function buildComponents() {
     ".menu-panel button.peligro, .menu-panel a.peligro": { color: "var(--color-rojo)" },
     ".menu-panel hr": { border: "0", borderTop: "1px solid var(--color-borde)", margin: "6px 0" },
     /* ---------------------------------------------------------------
+     * Calendario -- selector de fecha en grilla visual, mismo patron de
+     * capa flotante que `.menu`. El JS vive en `@sistema32/santacorina-ui/js`
+     * (`iniciarCalendario`), esto es solo la piel.
+     * ------------------------------------------------------------- */
+    ".calendario": { position: "relative", display: "inline-block" },
+    ".calendario input": { cursor: "pointer", backgroundColor: "#fff" },
+    ".calendario-panel": {
+      display: "none",
+      position: "absolute",
+      top: "calc(100% + 4px)",
+      left: "0",
+      zIndex: "100",
+      width: "260px",
+      backgroundColor: "#fff",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "10px",
+      boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
+      padding: "12px"
+    },
+    ".calendario-panel.visible": { display: "block" },
+    ".calendario-cabecera": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: "8px",
+      fontWeight: "600",
+      color: "var(--color-navy)",
+      fontSize: "13.5px",
+      textTransform: "capitalize"
+    },
+    ".calendario-nav": {
+      border: "0",
+      backgroundColor: "transparent",
+      cursor: "pointer",
+      color: "var(--color-tenue)",
+      fontSize: "15px",
+      padding: "4px 8px",
+      borderRadius: "6px"
+    },
+    ".calendario-nav:hover": { backgroundColor: "var(--color-gris-fondo)" },
+    ".calendario-grilla": { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "2px", fontSize: "12.5px" },
+    ".calendario-dow": {
+      textAlign: "center",
+      color: "var(--color-tenue)",
+      fontSize: "11px",
+      padding: "4px 0",
+      fontWeight: "600"
+    },
+    ".calendario-dia": {
+      display: "grid",
+      placeItems: "center",
+      height: "30px",
+      borderRadius: "7px",
+      cursor: "pointer",
+      color: "var(--color-texto)"
+    },
+    ".calendario-dia:hover": { backgroundColor: "var(--color-gris-fondo)" },
+    ".calendario-dia.fuera": { color: "var(--color-tenue)", opacity: "0.4" },
+    ".calendario-dia.hoy": { border: "1px solid var(--color-azul)" },
+    ".calendario-dia.activo": { backgroundColor: "var(--color-azul)", color: "#fff", fontWeight: "600" },
+    /* ---------------------------------------------------------------
      * Insignia -- punto o numero sobre un padre `position:relative`
      * (un icono, una pastilla) para avisar pendientes sin empujar texto.
      * ------------------------------------------------------------- */

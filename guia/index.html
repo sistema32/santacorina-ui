@@ -94,6 +94,7 @@
     <a href="#cargando">Spinner</a>
     <a href="#armazon">Armazón de página</a>
     <a href="#lateral">Menú lateral</a>
+    <a href="#utils-js">Utilidades JS</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -534,6 +535,35 @@
         </div>
         <pre class="codigo">&lt;aside class="lateral"&gt;&lt;nav&gt;&lt;a class="item activo"&gt;Solicitudes &lt;span class="contador"&gt;4&lt;/span&gt;&lt;/a&gt;&lt;/nav&gt;&lt;/aside&gt;</pre>
       </div>
+    </section>
+
+    <section class="doc-sec" id="utils-js">
+      <h2>Utilidades JS</h2>
+      <p class="uso">Primera vez que el paquete incluye JS, no solo CSS. Dos modos de consumo:</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <p style="margin:0 0 6px;font-weight:600;color:var(--color-navy)">Sin bundler (plantillas Jinja de <code>sgp/web</code>)</p>
+          <pre class="codigo">&lt;script src="node_modules/@sistema32/santacorina-ui/dist/js.global.js"&gt;&lt;/script&gt;
+&lt;!-- Santacorina.formato.conSigno(-6014510) -- "-$6.014.510" --&gt;
+&lt;!-- .lateral-toggle, .tabs, data-rango-fechas y data-calendario ya funcionan solos --&gt;</pre>
+          <p style="margin:14px 0 6px;font-weight:600;color:var(--color-navy)">Con bundler (Vue de <code>sgp/frontend</code>)</p>
+          <pre class="codigo">import { formato, mostrarToast } from "@sistema32/santacorina-ui/js"</pre>
+        </div>
+      </div>
+      <table style="margin-bottom:10px">
+        <thead><tr><th>Utilidad</th><th>Qué hace</th><th>Se auto-inicia</th></tr></thead>
+        <tbody>
+          <tr><td class="codigo">formato</td><td>pesos/conSigno/pct/fechaCorta</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">abrirModal/cerrarModal</td><td>Abre/cierra un <code>.modal</code>; backdrop, Escape y <code>[data-cerrar-modal]</code> ya cierran solos</td><td class="cen">✓ (cierre)</td></tr>
+          <tr><td class="codigo">mostrarToast(msg, tipo)</td><td>Crea y descarta un <code>.toast</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarLateral</td><td>Conecta <code>.lateral-toggle</code> con <code>.abierta</code>/<code>.visible</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarTabs</td><td>Mueve <code>.activo</code> al hacer clic en <code>.tabs</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarRangoFechas</td><td>Sincroniza min/max entre dos <code>input[type=date]</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarCalendario</td><td>Panel de calendario sobre <code>[data-calendario]</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">debounce(fn, ms)</td><td>Retrasa una función hasta que pasan <code>ms</code> sin llamarla</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">copiarAlPortapapeles(txt)</td><td>Con fallback para contextos sin HTTPS</td><td class="cen">—</td></tr>
+        </tbody>
+      </table>
     </section>
   </main>
 </div>

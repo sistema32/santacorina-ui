@@ -38,6 +38,47 @@ de hoy: el backend Python de `sgp` no tiene Node en su imagen de
 producción, así que ese archivo se commitea (ver `CHANGELOG.md` para
 cuándo se regeneró por última vez).
 
+## Utilidades JS
+
+Desde 0.6.0 el paquete también trae JS (antes solo CSS), en dos modos de
+consumo, igual criterio que `dist/ui.css`:
+
+```html
+<!-- sin bundler (plantillas Jinja) -->
+<script src="node_modules/@sistema32/santacorina-ui/dist/js.global.js"></script>
+<!-- expone window.Santacorina; .lateral-toggle, .tabs, data-rango-fechas
+     y data-calendario ya funcionan solos al cargar la página -->
+```
+
+```ts
+// con bundler (Vue u otro)
+import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js";
+```
+
+| Utilidad | Qué hace | Se auto-inicia |
+|---|---|---|
+| `formato.pesos/conSigno/pct/fechaCorta` | Formato chileno de moneda, porcentaje y fecha corta | — |
+| `abrirModal`/`cerrarModal` | Abre/cierra un `.modal`; backdrop, Escape y `[data-cerrar-modal]` cierran solos | parcial (el cierre) |
+| `mostrarToast(mensaje, tipo?)` | Crea y descarta un `.toast` | — |
+| `iniciarLateral` | Conecta `.lateral-toggle` con `.abierta`/`.visible` | ✓ |
+| `iniciarTabs` | Mueve `.activo` al hacer clic dentro de `.tabs` | ✓ |
+| `iniciarRangoFechas` | Sincroniza `min`/`max` entre dos `input[type=date]` en `[data-rango-fechas]` | ✓ |
+| `iniciarCalendario` | Panel de calendario sobre `[data-calendario]` | ✓ |
+| `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
+| `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
+
+Las marcadas "✓" las conecta `iniciarTodo()` solo con cargar el script
+(auto-ejecuta al `DOMContentLoaded`, como el `data-bs-*` de Bootstrap). El
+resto se llama a mano desde el código de cada pantalla, porque dependen de
+cuándo esa pantalla decide mostrar un modal, un toast, etc.
+
+`formato` viene de duplicación real: `peso()`/`conSigno()`/`pct()` estaban
+copiados idénticos en `FinanzasPresupuestoView.vue` y
+`FinanzasMatrizView.vue`. El resto son agregados preventivos (sin uso
+actual en ningún repo todavía), pedidos explícitamente para cubrir
+necesidad futura — igual que Bootstrap trae su propio JS de componentes
+sin que cada consumidor lo haya pedido antes.
+
 ## Cambiar un color de marca
 
 ```css
@@ -95,6 +136,7 @@ en el archivo. Se probó explícitamente; ver "Decisiones verificadas" abajo.
 | `.cabecera` + `.cabecera-datos`/`.punto`/`.cabecera-usuario`/`.usuario-nombre`/`.usuario-rol` | Header |
 | `.pie` | Footer |
 | `.lateral` + `.item` (`.activo`/`.inactivo`/`.salir`), `.grupo`, `.contador`, `.ubicacion` | Menú lateral, con responsivo (`.lateral-toggle`, `.lateral-fondo`, `.abierta`) bajo 900px |
+| `.calendario` / `.calendario-panel` (sobre `[data-calendario]`) | Selector de fecha en grilla visual — el JS vive en `/js` |
 
 El toggle móvil del menú lateral no es solo-CSS: agrega un *click handler*
 de unas líneas en el consumidor que alterne `.abierta` en `.lateral` y
