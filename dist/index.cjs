@@ -51,6 +51,173 @@ var defaultTheme = {
 function buildComponents() {
   return {
     /* ---------------------------------------------------------------
+     * Armazon de pagina -- trasladado de portal.css, que lo dejaba fuera
+     * de la Fase 3 por "especifico de una pantalla" cuando en realidad lo
+     * usa toda plantilla que extiende portal_base.html.
+     * ------------------------------------------------------------- */
+    ".app": { display: "flex", minHeight: "100vh" },
+    ".principal": { flex: "1", minWidth: "0", display: "flex", flexDirection: "column" },
+    ".cabecera": {
+      backgroundColor: "#fff",
+      borderBottom: "1px solid var(--color-borde)",
+      padding: "18px 30px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      gap: "20px",
+      flexWrap: "wrap"
+    },
+    ".cabecera h1": { margin: "0", fontSize: "19px", color: "var(--color-navy)" },
+    ".cabecera-datos": { margin: "4px 0 0", fontSize: "13px", color: "var(--color-tenue)" },
+    ".punto": { opacity: "0.45", margin: "0 5px" },
+    ".cabecera-usuario": { textAlign: "right", fontSize: "13px", lineHeight: "1.4" },
+    ".usuario-nombre": { display: "block", fontWeight: "700", color: "var(--color-navy)" },
+    ".usuario-rol": { display: "block", color: "var(--color-tenue)", fontSize: "12px" },
+    ".contenido": { flex: "1", padding: "26px 30px 40px", maxWidth: "1180px", width: "100%" },
+    ".contenido.ancho": { maxWidth: "1400px" },
+    ".pie": {
+      padding: "16px 30px 24px",
+      fontSize: "12px",
+      color: "var(--color-tenue)",
+      borderTop: "1px solid var(--color-borde)"
+    },
+    /* ---------------------------------------------------------------
+     * Menu lateral -- trasladado de lateral.css tal cual (incluido el
+     * patron responsivo con hamburguesa/overlay bajo 900px). El toggle
+     * movil necesita que el consumidor agregue un click handler de unas
+     * lineas (ver README): no es solo-CSS como `.acordeon`/`.menu` porque
+     * el estado tiene que sobrevivir a cambios de pagina en una app
+     * multi-pagina, no reiniciarse solo como un `<details>`.
+     * ------------------------------------------------------------- */
+    ".lateral": {
+      width: "var(--lat-ancho, 264px)",
+      flex: "0 0 var(--lat-ancho, 264px)",
+      backgroundColor: "var(--color-navy)",
+      color: "#dce6f0",
+      display: "flex",
+      flexDirection: "column",
+      position: "sticky",
+      top: "0",
+      height: "100vh",
+      maxHeight: "100vh",
+      overflowY: "auto",
+      boxSizing: "border-box",
+      scrollbarWidth: "thin",
+      scrollbarColor: "rgba(255,255,255,0.35) transparent"
+    },
+    ".lateral::-webkit-scrollbar": { width: "8px" },
+    ".lateral::-webkit-scrollbar-track": { backgroundColor: "transparent" },
+    ".lateral::-webkit-scrollbar-thumb": { backgroundColor: "rgba(255,255,255,0.3)", borderRadius: "4px" },
+    ".lateral::-webkit-scrollbar-thumb:hover": { backgroundColor: "rgba(255,255,255,0.5)" },
+    ".lateral.lateral-fija": { position: "fixed", left: "0", top: "0", zIndex: "1000" },
+    ".lateral *": { boxSizing: "border-box" },
+    ".lateral a": { color: "inherit", textDecoration: "none" },
+    ".lateral .lateral-marca": {
+      display: "block",
+      padding: "20px 22px 16px",
+      borderBottom: "1px solid rgba(255,255,255,0.12)"
+    },
+    ".lateral .lateral-logo": { display: "block", width: "100%", maxWidth: "200px", height: "auto" },
+    ".lateral .lateral-sub": { display: "block", fontSize: "12px", opacity: "0.72", marginTop: "8px", letterSpacing: "0.3px" },
+    ".lateral nav": { padding: "14px 12px 26px" },
+    ".lateral .grupo": {
+      fontSize: "11px",
+      textTransform: "uppercase",
+      letterSpacing: "0.9px",
+      opacity: "0.5",
+      padding: "16px 12px 6px",
+      fontWeight: "700"
+    },
+    ".lateral .item": {
+      display: "flex",
+      alignItems: "center",
+      gap: "10px",
+      padding: "9px 12px",
+      borderRadius: "7px",
+      fontSize: "14px",
+      color: "#dce6f0",
+      marginBottom: "2px",
+      width: "100%",
+      backgroundColor: "transparent",
+      border: "0",
+      fontFamily: "inherit",
+      textAlign: "left",
+      cursor: "pointer",
+      lineHeight: "1.4"
+    },
+    ".lateral a.item:hover, .lateral button.item:hover": { backgroundColor: "rgba(255,255,255,0.09)" },
+    ".lateral .item.activo": { backgroundColor: "var(--color-azul)", color: "#fff", fontWeight: "600" },
+    ".lateral .item.inactivo": { opacity: "0.38", cursor: "default" },
+    ".lateral .item.salir:hover": { backgroundColor: "rgba(200,54,47,0.35)" },
+    ".lateral .ico": { width: "18px", textAlign: "center", fontSize: "13px", opacity: "0.85", flex: "0 0 18px" },
+    ".lateral .salir-form": { margin: "0" },
+    ".lateral .contador": {
+      marginLeft: "auto",
+      backgroundColor: "var(--color-azul)",
+      color: "#fff",
+      borderRadius: "999px",
+      padding: "1px 8px",
+      fontSize: "11.5px",
+      fontWeight: "700"
+    },
+    ".lateral .item.activo .contador": { backgroundColor: "rgba(255,255,255,0.28)" },
+    ".lateral .ubicacion": {
+      marginTop: "26px",
+      padding: "13px 14px",
+      borderRadius: "8px",
+      backgroundColor: "rgba(255,255,255,0.07)",
+      fontSize: "12px",
+      lineHeight: "1.5",
+      opacity: "0.9"
+    },
+    ".lateral .ubicacion strong": { display: "block", marginTop: "3px", fontSize: "13px" },
+    ".lateral-toggle": {
+      display: "none",
+      position: "fixed",
+      top: "12px",
+      left: "12px",
+      zIndex: "1300",
+      width: "40px",
+      height: "40px",
+      borderRadius: "8px",
+      border: "0",
+      backgroundColor: "var(--color-navy)",
+      color: "#fff",
+      fontSize: "19px",
+      lineHeight: "1",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      boxShadow: "0 2px 10px rgba(12,45,74,0.35)"
+    },
+    ".lateral-fondo": {
+      display: "none",
+      position: "fixed",
+      inset: "0",
+      backgroundColor: "rgba(8,20,34,0.5)",
+      zIndex: "1150"
+    },
+    "@media (max-width: 900px)": {
+      ".app": { flexDirection: "column" },
+      ".contenido": { padding: "20px 16px 34px" },
+      ".cabecera": { padding: "16px" },
+      ".lateral, .lateral.lateral-fija": {
+        position: "fixed",
+        left: "0",
+        top: "0",
+        width: "min(280px, 85vw)",
+        flex: "none",
+        height: "100vh",
+        maxHeight: "100vh",
+        zIndex: "1200",
+        transform: "translateX(-100%)",
+        transition: "transform 0.22s ease"
+      },
+      ".lateral.abierta": { transform: "translateX(0)" },
+      ".lateral-toggle": { display: "flex" },
+      ".lateral-fondo.visible": { display: "block" }
+    },
+    /* ---------------------------------------------------------------
      * Tarjeta -- contenedor base de cualquier bloque de contenido.
      * ------------------------------------------------------------- */
     ".tarjeta": {

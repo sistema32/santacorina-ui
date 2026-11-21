@@ -91,6 +91,15 @@ en el archivo. Se probó explícitamente; ver "Decisiones verificadas" abajo.
 | `.menu` / `.menu-panel` (sobre `<details>`/`<summary>`) | Menú desplegable anclado |
 | `.insignia` (`.punto`, mismos colores) | Punto o número de notificación |
 | `.cargando` (`.oscuro`/`.chico`/`.grande`) | Spinner de carga |
+| `.app` / `.principal` / `.contenido` (`.ancho`) | Armazón flex de página completa |
+| `.cabecera` + `.cabecera-datos`/`.punto`/`.cabecera-usuario`/`.usuario-nombre`/`.usuario-rol` | Header |
+| `.pie` | Footer |
+| `.lateral` + `.item` (`.activo`/`.inactivo`/`.salir`), `.grupo`, `.contador`, `.ubicacion` | Menú lateral, con responsivo (`.lateral-toggle`, `.lateral-fondo`, `.abierta`) bajo 900px |
+
+El toggle móvil del menú lateral no es solo-CSS: agrega un *click handler*
+de unas líneas en el consumidor que alterne `.abierta` en `.lateral` y
+`.visible` en `.lateral-fondo` (el estado tiene que sobrevivir a cambios de
+página en una app multi-página, no reiniciarse solo como un `<details>`).
 
 Ajustes sin clase nueva: `select` ya no usa la flecha del sistema
 operativo, el bloque de inputs de `.campo` cubre también `email`, `tel`,

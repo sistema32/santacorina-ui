@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.5.0 — sin publicar
+
+La migración pendiente desde Fase 3: `.tarjeta`/`.kpi`/etc. se trasladaron
+a este paquete en 0.1.0, pero el armazón de página y el menú lateral se
+dejaron fuera por "específicos de una pantalla" cuando en realidad los usa
+toda la plataforma. Trasladado tal cual desde `portal.css`/`lateral.css`
+(producción), no inventado:
+
+- `.app` / `.principal` / `.contenido` (`.ancho`) — armazón flex de página.
+- `.cabecera` (+ `.cabecera-datos`, `.punto`, `.cabecera-usuario`,
+  `.usuario-nombre`, `.usuario-rol`) — header.
+- `.pie` — footer.
+- `.lateral` — menú lateral completo (marca, grupos, items con estado,
+  contador, ubicación) con el patrón responsivo íntegro: hamburguesa,
+  overlay y panel deslizante bajo 900px.
+
+Queda fuera, a propósito: los parches de compatibilidad del dashboard
+heredado (`body.emisa-tablero`, `.emisa-*`) y el modal de rechazo, que ya
+duplica `.modal`/`.modal-panel` — ninguno de los dos es un componente
+reusable, son específicos de una sola pantalla.
+
 ## 0.4.0 — sin publicar
 
 Confirmado cada gap contra uso real en `sgp` antes de agregarlo

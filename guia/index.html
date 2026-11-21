@@ -92,6 +92,8 @@
     <a href="#menu">Menú</a>
     <a href="#insignia">Insignia</a>
     <a href="#cargando">Spinner</a>
+    <a href="#armazon">Armazón de página</a>
+    <a href="#lateral">Menú lateral</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -497,6 +499,40 @@
           <span class="cargando oscuro grande"></span>
         </div>
         <pre class="codigo">&lt;button class="boton"&gt;&lt;span class="cargando"&gt;&lt;/span&gt; Enviando...&lt;/button&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="armazon">
+      <h2>Armazón de página</h2>
+      <p class="uso"><code>.app</code> (layout completo) → <code>.lateral</code> + <code>.principal</code> (<code>.cabecera</code> + <code>.contenido</code> + <code>.pie</code>). Es el mismo armazón que ya corre en cada pantalla de <code>sgp</code>, solo que ahora viene del paquete en vez de duplicado en cada deploy.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0;overflow:hidden">
+          <div class="cabecera" style="padding:14px 20px">
+            <div><h1 style="font-size:16px">COLEGIO ALCÁZAR</h1><p class="cabecera-datos">RBD 12255-6 <span class="punto">·</span> Año 2026</p></div>
+            <div class="cabecera-usuario"><span class="usuario-nombre">arodriguez</span><span class="usuario-rol">Encargado de Compras</span></div>
+          </div>
+          <div style="padding:14px 20px;background:var(--color-fondo)"><div class="tarjeta" style="margin:0"><h3>Contenido de la página</h3></div></div>
+          <div class="pie" style="padding:10px 20px">EMISA · SLEP Santa Corina</div>
+        </div>
+        <pre class="codigo">&lt;div class="app"&gt;&lt;aside class="lateral"&gt;...&lt;/aside&gt;&lt;div class="principal"&gt;&lt;header class="cabecera"&gt;...&lt;/header&gt;&lt;main class="contenido"&gt;...&lt;/main&gt;&lt;footer class="pie"&gt;...&lt;/footer&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="lateral">
+      <h2>Menú lateral</h2>
+      <p class="uso">Incluye el patrón responsivo completo (hamburguesa + overlay + panel deslizante bajo 900px). El toggle móvil necesita que el consumidor agregue un <em>click handler</em> de unas líneas que alterne <code>.abierta</code> en <code>.lateral</code> y <code>.visible</code> en <code>.lateral-fondo</code> — el CSS deja listas las tres clases, pero no es solo-CSS como <code>.acordeon</code>/<code>.menu</code> porque el estado tiene que sobrevivir a cambios de página en una app multi-página.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <aside class="lateral" style="height:auto;position:static">
+            <div class="lateral-marca"><strong style="font-size:15px">EMISA</strong><span class="lateral-sub">SLEP Santa Corina</span></div>
+            <nav>
+              <div class="grupo">Compras</div>
+              <a class="item activo" href="#">Solicitudes <span class="contador">4</span></a>
+              <a class="item" href="#">Recepción conforme</a>
+            </nav>
+          </aside>
+        </div>
+        <pre class="codigo">&lt;aside class="lateral"&gt;&lt;nav&gt;&lt;a class="item activo"&gt;Solicitudes &lt;span class="contador"&gt;4&lt;/span&gt;&lt;/a&gt;&lt;/nav&gt;&lt;/aside&gt;</pre>
       </div>
     </section>
   </main>
