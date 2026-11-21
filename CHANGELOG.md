@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.3.0 — sin publicar
+
+Estilo de marca sobre lo que el navegador ya resuelve (en vez de
+reconstruirlo con markup propio):
+
+- Checkbox y radio: `accent-color` de marca.
+- `<select>`: flecha propia en vez de la del sistema operativo.
+- `.campo` ahora cubre también `input[type=email|tel|date|search|password]`
+  (antes solo `text` y `number`).
+- `.acordeon`: piel sobre `<details>`/`<summary>` nativos (chevron que rota).
+- `:focus-visible` global — reemplaza el foco que antes solo cubría
+  input/select/textarea, ahora cualquier elemento navegable por teclado.
+
+Componentes nuevos, sin equivalente previo:
+
+- `.interruptor` — switch on/off.
+- `.chip` (mismos 5 colores que `.etiqueta`) — etiqueta removible.
+- `.avatar` (`.chico`/`.grande`, mismos 5 colores) — iniciales en círculo.
+- `.divisor` — separador de dos bloques, con o sin texto.
+- `.paginacion` (`.activo`, mismo patrón que `.tabs`/`.stepper-paso`).
+
 ## 0.2.0 — sin publicar
 
 Seis componentes nuevos, ninguno copiado de un uso existente (no había

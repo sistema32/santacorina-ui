@@ -81,6 +81,19 @@ en el archivo. Se probó explícitamente; ver "Decisiones verificadas" abajo.
 | `[data-tooltip]` | Tooltip solo-CSS, sin JS |
 | `.breadcrumb` | «Estás viendo: X → Y» |
 | `.skeleton` / `.skeleton-texto` (`.corto`) | Estado de carga |
+| `.campo-check` + `input[type=checkbox\|radio]` | Checkbox/radio nativos con color de marca |
+| `.interruptor` | Switch on/off |
+| `.chip` (mismos colores) | Etiqueta removible (filtros seleccionados) |
+| `.avatar` (`.chico`/`.grande`, mismos colores) | Iniciales en círculo |
+| `.divisor` | Separador de dos bloques, con o sin texto |
+| `.acordeon` (sobre `<details>`/`<summary>`) | Contenido expandible |
+| `.paginacion` (`.activo`) | Navegación por páginas |
+
+Dos ajustes más, sin clase nueva: `select` ya no usa la flecha del sistema
+operativo, y el bloque de inputs de `.campo` cubre también `email`, `tel`,
+`date`, `search` y `password` (antes solo `text` y `number`). Y un
+`:focus-visible` global reemplaza el foco que antes solo cubría
+input/select/textarea.
 
 Ver `guia/index.html` para cada uno renderizado con datos reales.
 

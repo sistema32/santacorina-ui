@@ -80,6 +80,13 @@
     <a href="#tooltip">Tooltip</a>
     <a href="#breadcrumb">Breadcrumb</a>
     <a href="#skeleton">Skeleton</a>
+    <a href="#check">Checkbox / radio</a>
+    <a href="#interruptor">Interruptor</a>
+    <a href="#chip">Chip</a>
+    <a href="#avatar">Avatar</a>
+    <a href="#divisor">Divisor</a>
+    <a href="#acordeon">Acordeón</a>
+    <a href="#paginacion">Paginación</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -328,6 +335,99 @@
           <div class="skeleton skeleton-texto corto"></div>
         </div>
         <pre class="codigo">&lt;div class="skeleton skeleton-texto"&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="check">
+      <h2>Checkbox / radio</h2>
+      <p class="uso">Nativos, solo con <code>accent-color</code> de marca — no un input oculto + div decorado.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="campo-check"><input type="checkbox" id="g-c1" checked><label for="g-c1">Recepción conforme</label></div>
+          <div class="campo-check"><input type="radio" name="g-r" id="g-r1" checked><label for="g-r1">SEP</label></div>
+        </div>
+        <pre class="codigo">&lt;div class="campo-check"&gt;&lt;input type="checkbox" id="c1"&gt;&lt;label for="c1"&gt;Recepción conforme&lt;/label&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="interruptor">
+      <h2>Interruptor</h2>
+      <p class="uso">On/off — activar o desactivar algo (ej. un destino de Finanzas).</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <label class="interruptor"><input type="checkbox" checked><span class="pista"></span></label>
+          <label class="interruptor"><input type="checkbox"><span class="pista"></span></label>
+        </div>
+        <pre class="codigo">&lt;label class="interruptor"&gt;&lt;input type="checkbox"&gt;&lt;span class="pista"&gt;&lt;/span&gt;&lt;/label&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="chip">
+      <h2>Chip</h2>
+      <p class="uso">Como <code>.etiqueta</code>, pero removible — para filtros seleccionados.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span class="chip azul">SEP <button class="quitar">×</button></span>
+          <span class="chip verde">FAEP <button class="quitar">×</button></span>
+        </div>
+        <pre class="codigo">&lt;span class="chip azul"&gt;SEP &lt;button class="quitar"&gt;×&lt;/button&gt;&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="avatar">
+      <h2>Avatar</h2>
+      <p class="uso">Iniciales en círculo, para listas de usuarios o aprobadores.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span class="avatar azul">AR</span>
+          <span class="avatar chico verde">MO</span>
+          <span class="avatar grande naranjo">CL</span>
+        </div>
+        <pre class="codigo">&lt;span class="avatar azul"&gt;AR&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="divisor">
+      <h2>Divisor</h2>
+      <p class="uso">Separa dos bloques, con o sin texto en medio.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <p style="margin:0 0 10px">Bloque uno</p>
+          <div class="divisor">o</div>
+          <p style="margin:10px 0 0">Bloque dos</p>
+        </div>
+        <pre class="codigo">&lt;div class="divisor"&gt;o&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="acordeon">
+      <h2>Acordeón</h2>
+      <p class="uso">Marca sobre <code>&lt;details&gt;/&lt;summary&gt;</code> nativos — el navegador resuelve abrir/cerrar y teclado.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <details class="acordeon" open>
+            <summary>Qué incluye el presupuesto</summary>
+            <div class="cuerpo">Fuente SEP, FAEP y subvención regular.</div>
+          </details>
+        </div>
+        <pre class="codigo">&lt;details class="acordeon"&gt;&lt;summary&gt;Título&lt;/summary&gt;&lt;div class="cuerpo"&gt;...&lt;/div&gt;&lt;/details&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="paginacion">
+      <h2>Paginación</h2>
+      <p class="uso">Mismo estado <code>.activo</code> que tabs y stepper.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <nav class="paginacion">
+            <button>‹</button>
+            <button class="activo">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>›</button>
+          </nav>
+        </div>
+        <pre class="codigo">&lt;nav class="paginacion"&gt;&lt;button class="activo"&gt;1&lt;/button&gt;&lt;/nav&gt;</pre>
       </div>
     </section>
   </main>

@@ -173,7 +173,17 @@ function buildComponents() {
       marginBottom: "5px"
     },
     ".campo .ayuda": { fontSize: "12.5px", color: "var(--color-tenue)", margin: "4px 0 0" },
-    "input[type=text], input[type=number], select, textarea": {
+    [[
+      "input[type=text]",
+      "input[type=number]",
+      "input[type=email]",
+      "input[type=tel]",
+      "input[type=date]",
+      "input[type=search]",
+      "input[type=password]",
+      "select",
+      "textarea"
+    ].join(", ")]: {
       width: "100%",
       padding: "10px 12px",
       border: "1px solid var(--color-borde)",
@@ -183,12 +193,29 @@ function buildComponents() {
       color: "var(--color-texto)"
     },
     textarea: { resize: "vertical", minHeight: "88px" },
-    "input:focus, select:focus, textarea:focus": {
-      outline: "2px solid var(--color-azul)",
-      outlineOffset: "1px"
-    },
     "input:disabled, input[readonly]": { backgroundColor: "var(--color-gris-fondo)", color: "var(--color-tenue)" },
     ".fila": { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: "16px" },
+    /* select -- quita la flecha del sistema operativo, pone una de marca. */
+    select: {
+      appearance: "none",
+      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235b6b7c' d='M1 1l5 5 5-5'/%3E%3C/svg%3E")`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "right 12px center",
+      paddingRight: "32px"
+    },
+    /* ---------------------------------------------------------------
+     * Checkbox / radio -- nativos, solo con el color de marca (en vez
+     * de reconstruirlos con un input oculto + div decorado: el navegador
+     * ya resuelve foco, teclado y el estado marcado/sin marcar).
+     * ------------------------------------------------------------- */
+    "input[type=checkbox], input[type=radio]": {
+      accentColor: "var(--color-azul)",
+      width: "17px",
+      height: "17px",
+      cursor: "pointer"
+    },
+    ".campo-check": { display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" },
+    ".campo-check label": { margin: "0", fontWeight: "400", color: "var(--color-texto)", cursor: "pointer" },
     /* ---------------------------------------------------------------
      * Tabla -- base de cualquier listado tabular.
      * ------------------------------------------------------------- */
@@ -543,7 +570,178 @@ function buildComponents() {
     "@keyframes santacorina-skeleton": {
       "0%": { backgroundPosition: "100% 50%" },
       "100%": { backgroundPosition: "0 50%" }
-    }
+    },
+    /* ---------------------------------------------------------------
+     * Interruptor (switch) -- on/off, para activar/desactivar algo
+     * (ej. un destino de Finanzas) sin el checkbox cuadrado.
+     * ------------------------------------------------------------- */
+    ".interruptor": {
+      position: "relative",
+      display: "inline-flex",
+      alignItems: "center",
+      cursor: "pointer"
+    },
+    ".interruptor input": { position: "absolute", opacity: "0", width: "0", height: "0" },
+    ".interruptor .pista": {
+      width: "38px",
+      height: "22px",
+      backgroundColor: "var(--color-gris-fondo)",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "999px",
+      transition: "background-color 0.15s ease",
+      flex: "none"
+    },
+    ".interruptor .pista::after": {
+      content: "''",
+      display: "block",
+      width: "16px",
+      height: "16px",
+      margin: "2px",
+      borderRadius: "50%",
+      backgroundColor: "#fff",
+      boxShadow: "0 1px 2px rgba(12, 45, 74, 0.25)",
+      transition: "transform 0.15s ease"
+    },
+    ".interruptor input:checked ~ .pista": { backgroundColor: "var(--color-azul)", borderColor: "var(--color-azul)" },
+    ".interruptor input:checked ~ .pista::after": { transform: "translateX(16px)" },
+    ".interruptor input:disabled ~ .pista": { opacity: "0.5", cursor: "not-allowed" },
+    /* ---------------------------------------------------------------
+     * Chip -- como `.etiqueta`, pero removible (filtros seleccionados).
+     * ------------------------------------------------------------- */
+    ".chip": {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "6px",
+      padding: "3px 6px 3px 10px",
+      borderRadius: "999px",
+      fontSize: "12px",
+      fontWeight: "600",
+      backgroundColor: "var(--color-gris-fondo)",
+      color: "#4c5966"
+    },
+    ".chip.azul": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
+    ".chip.verde": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
+    ".chip.naranjo": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
+    ".chip.rojo": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".chip .quitar": {
+      display: "grid",
+      placeItems: "center",
+      width: "15px",
+      height: "15px",
+      borderRadius: "50%",
+      border: "0",
+      padding: "0",
+      cursor: "pointer",
+      backgroundColor: "rgba(0,0,0,0.08)",
+      color: "inherit",
+      fontSize: "11px",
+      lineHeight: "1"
+    },
+    ".chip .quitar:hover": { backgroundColor: "rgba(0,0,0,0.16)" },
+    /* ---------------------------------------------------------------
+     * Avatar -- iniciales en circulo (listas de usuarios/aprobadores).
+     * ------------------------------------------------------------- */
+    ".avatar": {
+      display: "inline-grid",
+      placeItems: "center",
+      width: "36px",
+      height: "36px",
+      borderRadius: "50%",
+      backgroundColor: "var(--color-gris-fondo)",
+      color: "var(--color-navy)",
+      fontSize: "13px",
+      fontWeight: "700",
+      flex: "none"
+    },
+    ".avatar.chico": { width: "26px", height: "26px", fontSize: "11px" },
+    ".avatar.grande": { width: "48px", height: "48px", fontSize: "16px" },
+    ".avatar.azul": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
+    ".avatar.verde": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
+    ".avatar.naranjo": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
+    ".avatar.rojo": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    /* ---------------------------------------------------------------
+     * Divisor -- separa dos bloques, con o sin texto en medio.
+     * ------------------------------------------------------------- */
+    ".divisor": {
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      margin: "18px 0",
+      fontSize: "12.5px",
+      color: "var(--color-tenue)"
+    },
+    ".divisor::before, .divisor::after": {
+      content: "''",
+      flex: "1",
+      borderTop: "1px solid var(--color-borde)"
+    },
+    /* ---------------------------------------------------------------
+     * Acordeon -- marca sobre `<details>/<summary>` nativos: el
+     * navegador resuelve abrir/cerrar, foco y teclado; esto es solo piel.
+     * ------------------------------------------------------------- */
+    ".acordeon": {
+      border: "1px solid var(--color-borde)",
+      borderRadius: "11px",
+      marginBottom: "10px",
+      overflow: "hidden"
+    },
+    ".acordeon summary": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "14px 18px",
+      cursor: "pointer",
+      fontWeight: "600",
+      color: "var(--color-navy)",
+      listStyle: "none"
+    },
+    ".acordeon summary::-webkit-details-marker": { display: "none" },
+    ".acordeon summary::after": {
+      content: "''",
+      width: "8px",
+      height: "8px",
+      borderRight: "2px solid var(--color-tenue)",
+      borderBottom: "2px solid var(--color-tenue)",
+      transform: "rotate(45deg)",
+      transition: "transform 0.15s ease",
+      flex: "none"
+    },
+    ".acordeon[open] summary::after": { transform: "rotate(225deg)" },
+    ".acordeon .cuerpo": {
+      padding: "0 18px 16px",
+      fontSize: "14px",
+      color: "var(--color-texto)"
+    },
+    /* ---------------------------------------------------------------
+     * Paginacion -- mismo estado `.activo` que `.tabs`/`.stepper-paso`.
+     * ------------------------------------------------------------- */
+    ".paginacion": { display: "inline-flex", gap: "4px", fontSize: "13px" },
+    ".paginacion a, .paginacion button": {
+      display: "grid",
+      placeItems: "center",
+      minWidth: "30px",
+      height: "30px",
+      padding: "0 8px",
+      borderRadius: "7px",
+      border: "1px solid var(--color-borde)",
+      backgroundColor: "#fff",
+      color: "var(--color-tenue)",
+      textDecoration: "none",
+      cursor: "pointer",
+      font: "inherit"
+    },
+    ".paginacion a:hover, .paginacion button:hover": { backgroundColor: "var(--color-gris-fondo)" },
+    ".paginacion a.activo, .paginacion button.activo": {
+      backgroundColor: "var(--color-azul)",
+      borderColor: "var(--color-azul)",
+      color: "#fff"
+    },
+    ".paginacion button:disabled": { opacity: "0.45", cursor: "not-allowed" },
+    /* ---------------------------------------------------------------
+     * Foco de teclado -- uno solo para todo lo navegable, en vez de un
+     * `:focus` por componente (antes solo cubria input/select/textarea).
+     * ------------------------------------------------------------- */
+    ":focus-visible": { outline: "2px solid var(--color-azul)", outlineOffset: "2px" }
   };
 }
 var init_components = __esm({
