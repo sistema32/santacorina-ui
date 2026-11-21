@@ -21,7 +21,7 @@ export interface SantacorinaUIOptions {
  *
  * Uso (Tailwind v4, CSS-first):
  *   @import "tailwindcss";
- *   @plugin "@santacorina/ui";
+ *   @plugin "@sistema32/santacorina-ui";
  *
  * Para cambiar un color de marca, la opcion `colors` del plugin via
  * `withOptions` NO es alcanzable desde la sintaxis `@plugin "pkg" { ... }`
@@ -30,7 +30,7 @@ export interface SantacorinaUIOptions {
  * un @layer (una regla sin layer le gana a cualquier regla en @layer,
  * sea cual sea el orden en el archivo):
  *   @import "tailwindcss";
- *   @plugin "@santacorina/ui";
+ *   @plugin "@sistema32/santacorina-ui";
  *
  *   :root { --color-azul: #1d4ed8; }
  */

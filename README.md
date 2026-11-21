@@ -1,4 +1,4 @@
-# @santacorina/ui
+# @sistema32/santacorina-ui
 
 Plugin de Tailwind CSS v4 del Servicio Local de Educación Pública Santa
 Corina: los tokens de marca (colores) y los componentes que Tailwind no
@@ -10,7 +10,7 @@ después) sin copiar CSS entre repos.
 ## Instalación
 
 ```bash
-npm install @santacorina/ui
+npm install @sistema32/santacorina-ui
 ```
 
 ## Uso — con tu propio build de Tailwind
@@ -18,7 +18,7 @@ npm install @santacorina/ui
 ```css
 /* src/estilos.css */
 @import "tailwindcss";
-@plugin "@santacorina/ui";
+@plugin "@sistema32/santacorina-ui";
 ```
 
 Eso agrega los ~16 colores de marca (como utilidades: `bg-navy`,
@@ -29,7 +29,7 @@ escaneando.
 ## Uso — sin Node (backend sin build propio)
 
 ```html
-<link rel="stylesheet" href="node_modules/@santacorina/ui/dist/ui.css">
+<link rel="stylesheet" href="node_modules/@sistema32/santacorina-ui/dist/ui.css">
 ```
 
 `dist/ui.css` es el plugin ya compilado contra Tailwind — no necesita que
@@ -42,7 +42,7 @@ cuándo se regeneró por última vez).
 
 ```css
 @import "tailwindcss";
-@plugin "@santacorina/ui";
+@plugin "@sistema32/santacorina-ui";
 
 :root {
   --color-azul: #1d4ed8;
@@ -110,15 +110,19 @@ consumidores (el backend de `sgp`) sin Node en su pipeline de deploy.
 
 ## Qué falta para que esto sea de verdad "externo"
 
-Este paquete está listo para instalarse, pero **no está publicado
-todavía**. Falta, y requiere acción de alguien con permisos en la
-organización (no se puede automatizar sin esas credenciales):
-
-1. Crear el repo (`github.com/santacorina/ui` o el nombre de org que
-   corresponda).
-2. Elegir registry: GitHub Packages (recomendado, cero infraestructura
-   nueva) o uno propio.
-3. Publicar `v0.1.0`.
-4. En cada consumidor (`sgp/frontend` primero), cambiar la dependencia
-   local por la publicada y borrar la copia que hoy vive en
-   `sgp/frontend/src/legado.css` + `tokens.css`.
+- [x] Repo: `github.com/sistema32/santacorina-ui`.
+- [x] Registry elegido: GitHub Packages (`publishConfig` en este
+      `package.json` ya apunta a `npm.pkg.github.com`).
+- [ ] **Publicar `v0.1.0`.** Requiere un Personal Access Token de GitHub
+      con permiso `write:packages`, de alguien con acceso al org
+      `sistema32` (no se puede automatizar sin esa credencial):
+      ```bash
+      npm login --registry=https://npm.pkg.github.com --scope=@sistema32
+      # usuario: tu usuario de GitHub; password: el token (no tu clave real)
+      npm publish
+      ```
+- [ ] En cada consumidor (`sgp/frontend` primero), cambiar la dependencia
+      `file:` local por `"@sistema32/santacorina-ui": "^0.1.0"` una vez
+      publicado, y agregar un `.npmrc` con
+      `@sistema32:registry=https://npm.pkg.github.com` para que `npm
+      install` sepa de dónde bajarlo.

@@ -1,5 +1,5 @@
 {
-  "name": "@santacorina/ui",
+  "name": "@sistema32/santacorina-ui",
   "version": "0.1.0",
   "description": "Tokens de marca y componentes compartidos (plugin de Tailwind CSS v4) para los sistemas del Servicio Local de Educacion Publica Santa Corina.",
   "license": "UNLICENSED",
@@ -39,5 +39,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sistema32/santacorina-ui.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
