@@ -74,6 +74,12 @@
     <a href="#luz">Semáforo</a>
     <a href="#tiempo">Línea de tiempo</a>
     <a href="#vacio">Estado vacío</a>
+    <a href="#stepper">Stepper</a>
+    <a href="#progreso">Barra de progreso</a>
+    <a href="#tabs">Tabs</a>
+    <a href="#tooltip">Tooltip</a>
+    <a href="#breadcrumb">Breadcrumb</a>
+    <a href="#skeleton">Skeleton</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -241,6 +247,87 @@
       <div class="demo-wrap">
         <div class="demo"><div class="vacio"><p>Sin solicitudes pendientes.</p></div></div>
         <pre class="codigo">&lt;div class="vacio"&gt;&lt;p&gt;Sin solicitudes pendientes.&lt;/p&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="stepper">
+      <h2>Stepper</h2>
+      <p class="uso">Progreso de un flujo de varios pasos, con sus estados posibles.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <ol class="stepper" style="list-style:none;margin:0;padding:0">
+            <li class="stepper-paso completado"><span class="num">✓</span> Datos</li>
+            <li class="stepper-paso activo"><span class="num">2</span> Productos</li>
+            <li class="stepper-paso"><span class="num">3</span> Revisión</li>
+            <li class="stepper-paso rechazado"><span class="num">✕</span> Rechazado</li>
+            <li class="stepper-paso omitido"><span class="num">5</span> Omitido</li>
+          </ol>
+        </div>
+        <pre class="codigo">&lt;li class="stepper-paso activo"&gt;&lt;span class="num"&gt;2&lt;/span&gt; Productos&lt;/li&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="progreso">
+      <h2>Barra de progreso</h2>
+      <p class="uso">Mismos tres colores semánticos que el resto de la librería: azul en curso, naranjo alerta, rojo pasado.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;flex-direction:column;gap:10px">
+          <div class="barra-progreso"><div class="relleno" style="width:60%"></div></div>
+          <div class="barra-progreso"><div class="relleno alerta" style="width:85%"></div></div>
+          <div class="barra-progreso"><div class="relleno pasada" style="width:100%"></div></div>
+        </div>
+        <pre class="codigo">&lt;div class="barra-progreso"&gt;&lt;div class="relleno alerta" style="width:85%"&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="tabs">
+      <h2>Tabs</h2>
+      <p class="uso">Mismo nombre de estado que el stepper: <code>.activo</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="tabs">
+            <button class="activo">Los 105</button>
+            <button>Les falta algo (103)</button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="tabs"&gt;&lt;button class="activo"&gt;Los 105&lt;/button&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="tooltip">
+      <h2>Tooltip</h2>
+      <p class="uso">Solo CSS, vía <code>data-tooltip</code> — no requiere JS.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <span data-tooltip="Precio de mercado sin fuente conectada todavía" style="text-decoration:underline;cursor:help">Precio de mercado</span>
+        </div>
+        <pre class="codigo">&lt;span data-tooltip="Precio de mercado sin fuente conectada todavía"&gt;Precio de mercado&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="breadcrumb">
+      <h2>Breadcrumb</h2>
+      <p class="uso">Generaliza el «Estás viendo: X → Y» que antes se armaba a mano.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="breadcrumb">
+            <a href="#">COLEGIO ALCÁZAR</a><span class="sep">→</span><span class="actual">Solicitudes de Compras</span>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="breadcrumb"&gt;&lt;a href="#"&gt;COLEGIO ALCÁZAR&lt;/a&gt;&lt;span class="sep"&gt;→&lt;/span&gt;&lt;span class="actual"&gt;Solicitudes de Compras&lt;/span&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="skeleton">
+      <h2>Skeleton</h2>
+      <p class="uso">Estado de carga — antes una pantalla cargando no mostraba nada hasta que llegaba el dato.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;flex-direction:column;gap:8px">
+          <div class="skeleton skeleton-texto"></div>
+          <div class="skeleton skeleton-texto"></div>
+          <div class="skeleton skeleton-texto corto"></div>
+        </div>
+        <pre class="codigo">&lt;div class="skeleton skeleton-texto"&gt;&lt;/div&gt;</pre>
       </div>
     </section>
   </main>

@@ -72,6 +72,15 @@ en el archivo. Se probó explícitamente; ver "Decisiones verificadas" abajo.
 | `.luz` (`.verde`/`.naranjo`/`.rojo`/`.gris`) | Punto de semáforo en listas de validación |
 | `.linea-tiempo` | Historial de eventos |
 | `.vacio` | Estado vacío de un listado |
+| `.columnas` | Grilla responsiva de varias columnas |
+| `.modal` / `.modal-panel` (`.visible`) | Diálogo modal |
+| `.toast-contenedor` / `.toast` (`.ok`/`.alerta`/`.error`) | Notificación flotante |
+| `.stepper` / `.stepper-paso` (`.activo`/`.completado`/`.rechazado`/`.omitido`) | Progreso de un flujo de varios pasos |
+| `.barra-progreso` / `.relleno` (`.alerta`/`.pasada`) | Barra de progreso |
+| `.tabs` (`.activo`) | Navegación por pestañas |
+| `[data-tooltip]` | Tooltip solo-CSS, sin JS |
+| `.breadcrumb` | «Estás viendo: X → Y» |
+| `.skeleton` / `.skeleton-texto` (`.corto`) | Estado de carga |
 
 Ver `guia/index.html` para cada uno renderizado con datos reales.
 

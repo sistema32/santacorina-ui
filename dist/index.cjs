@@ -423,6 +423,168 @@ function buildComponents() {
     "@keyframes santacorina-toast-in": {
       from: { opacity: "0", transform: "translateY(8px)" },
       to: { opacity: "1", transform: "translateY(0)" }
+    },
+    /* ---------------------------------------------------------------
+     * Stepper -- consolida dos versiones que ya existian por separado:
+     * `.paso-chip` (wizard de carga, el usuario avanza) y `.etapas-fila`
+     * (estado de un proceso ya corrido, de solo lectura). Mismo lenguaje
+     * visual, un solo nombre: `.stepper-paso` + estado.
+     * ------------------------------------------------------------- */
+    ".stepper": {
+      listStyle: "none",
+      margin: "0",
+      padding: "0",
+      display: "flex",
+      gap: "8px",
+      flexWrap: "wrap",
+      alignItems: "center"
+    },
+    ".stepper-paso": {
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      padding: "9px 15px",
+      borderRadius: "999px",
+      backgroundColor: "#fff",
+      border: "1px solid var(--color-borde)",
+      fontSize: "13px",
+      color: "var(--color-tenue)"
+    },
+    ".stepper-paso .num": {
+      width: "21px",
+      height: "21px",
+      borderRadius: "50%",
+      backgroundColor: "var(--color-gris-fondo)",
+      color: "var(--color-tenue)",
+      display: "grid",
+      placeItems: "center",
+      fontSize: "12px",
+      fontWeight: "700",
+      flex: "none"
+    },
+    ".stepper-paso.activo": { borderColor: "var(--color-azul)", color: "var(--color-navy)", fontWeight: "600" },
+    ".stepper-paso.activo .num": { backgroundColor: "var(--color-azul)", color: "#fff" },
+    ".stepper-paso.completado": { borderColor: "#bfe3ce", color: "#146540" },
+    ".stepper-paso.completado .num": { backgroundColor: "var(--color-verde)", color: "#fff" },
+    ".stepper-paso.rechazado": {
+      borderColor: "#f0bdba",
+      color: "#8d241e",
+      fontWeight: "600",
+      backgroundColor: "#fdf4f3"
+    },
+    ".stepper-paso.rechazado .num": { backgroundColor: "var(--color-rojo)", color: "#fff" },
+    ".stepper-paso.omitido": { opacity: "0.55", textDecoration: "line-through" },
+    /* ---------------------------------------------------------------
+     * Barra de progreso -- generaliza `.barra-reparto` (existia solo
+     * para presupuesto, con los mismos tres colores que ya son
+     * semanticos en el resto de la libreria).
+     * ------------------------------------------------------------- */
+    ".barra-progreso": {
+      height: "7px",
+      borderRadius: "999px",
+      backgroundColor: "#e8ebef",
+      overflow: "hidden"
+    },
+    ".barra-progreso .relleno": {
+      height: "100%",
+      borderRadius: "999px",
+      backgroundColor: "var(--color-azul)"
+    },
+    ".barra-progreso .relleno.alerta": { backgroundColor: "var(--color-naranjo)" },
+    ".barra-progreso .relleno.pasada": { backgroundColor: "var(--color-rojo)" },
+    /* ---------------------------------------------------------------
+     * Tabs -- generaliza `.filtro-ver` (existia solo para la lista de
+     * establecimientos). `.activo` en vez de `.elegido`: mismo nombre de
+     * estado que usa `.stepper-paso`.
+     * ------------------------------------------------------------- */
+    ".tabs": { display: "inline-flex", gap: "4px", fontSize: "13px" },
+    ".tabs a, .tabs button": {
+      padding: "4px 11px",
+      borderRadius: "999px",
+      color: "var(--color-tenue)",
+      border: "1px solid transparent",
+      backgroundColor: "transparent",
+      cursor: "pointer",
+      font: "inherit",
+      textDecoration: "none"
+    },
+    ".tabs a:hover, .tabs button:hover": { backgroundColor: "var(--color-gris-fondo)" },
+    ".tabs a.activo, .tabs button.activo": {
+      backgroundColor: "#eaf2fc",
+      borderColor: "#cfe0f6",
+      color: "var(--color-azul-oscuro)",
+      fontWeight: "600"
+    },
+    /* ---------------------------------------------------------------
+     * Tooltip -- nuevo, no existia nada (solo `title=""` nativo, sin
+     * estilo y que se corta en movil). Solo CSS, via `data-tooltip`.
+     * ------------------------------------------------------------- */
+    "[data-tooltip]": { position: "relative", cursor: "help" },
+    "[data-tooltip]::after": {
+      content: "attr(data-tooltip)",
+      position: "absolute",
+      bottom: "calc(100% + 6px)",
+      left: "50%",
+      transform: "translateX(-50%)",
+      backgroundColor: "var(--color-navy)",
+      color: "#fff",
+      padding: "6px 10px",
+      borderRadius: "6px",
+      fontSize: "12px",
+      maxWidth: "220px",
+      width: "max-content",
+      textAlign: "center",
+      opacity: "0",
+      pointerEvents: "none",
+      transition: "opacity 0.12s ease",
+      zIndex: "9999"
+    },
+    "[data-tooltip]::before": {
+      content: "''",
+      position: "absolute",
+      bottom: "100%",
+      left: "50%",
+      transform: "translateX(-50%)",
+      border: "5px solid transparent",
+      borderTopColor: "var(--color-navy)",
+      opacity: "0",
+      pointerEvents: "none",
+      transition: "opacity 0.12s ease"
+    },
+    "[data-tooltip]:hover::after, [data-tooltip]:hover::before, [data-tooltip]:focus-visible::after, [data-tooltip]:focus-visible::before": { opacity: "1" },
+    /* ---------------------------------------------------------------
+     * Breadcrumb -- generaliza el "Estas viendo: X -> Y" que hoy es
+     * texto suelto armado a mano en cada pantalla que lo necesita.
+     * ------------------------------------------------------------- */
+    ".breadcrumb": {
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      gap: "6px",
+      fontSize: "13px",
+      color: "var(--color-tenue)",
+      margin: "0 0 14px"
+    },
+    ".breadcrumb a": { color: "var(--color-azul-oscuro)" },
+    ".breadcrumb a:hover": { textDecoration: "underline" },
+    ".breadcrumb .sep": { opacity: "0.5" },
+    ".breadcrumb .actual": { color: "var(--color-navy)", fontWeight: "600" },
+    /* ---------------------------------------------------------------
+     * Skeleton -- nuevo, no existia ningun estado de carga: hoy una
+     * pantalla cargando no muestra nada hasta que llega el dato.
+     * ------------------------------------------------------------- */
+    ".skeleton": {
+      backgroundColor: "var(--color-gris-fondo)",
+      backgroundImage: "linear-gradient(90deg, var(--color-gris-fondo) 25%, #e4e9ee 37%, var(--color-gris-fondo) 63%)",
+      backgroundSize: "400% 100%",
+      animation: "santacorina-skeleton 1.4s ease infinite",
+      borderRadius: "6px"
+    },
+    ".skeleton-texto": { height: "14px", marginBottom: "8px" },
+    ".skeleton-texto.corto": { width: "40%" },
+    "@keyframes santacorina-skeleton": {
+      "0%": { backgroundPosition: "100% 50%" },
+      "100%": { backgroundPosition: "0 50%" }
     }
   };
 }
