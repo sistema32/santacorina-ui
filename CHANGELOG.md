@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.7.1 — sin publicar
+
+Dos ajustes responsivos bajo 600px (teléfono — el 900px del resto del
+paquete es muy ancho para esto), sin clase nueva:
+
+- `.breadcrumb` trunca cada tramo con `…` en vez de desbordar o partirse
+  a media palabra.
+- `.menu-panel` pasa de panel flotante anclado al trigger a una hoja fija
+  abajo — anclado a la derecha de un trigger angosto, se salía del
+  viewport en una pantalla angosta (se vio justo eso al verificar).
+
 ## 0.7.0 — sin publicar
 
 - `.buscador` + `.limpiar` (CSS) + `iniciarBuscadores` (JS) — input de

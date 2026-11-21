@@ -1095,6 +1095,31 @@ export function buildComponents(): CSSRuleObject {
     ".menu-panel button.peligro, .menu-panel a.peligro": { color: "var(--color-rojo)" },
     ".menu-panel hr": { border: "0", borderTop: "1px solid var(--color-borde)", margin: "6px 0" },
 
+    /* Bajo 600px (telefono, no tablet -- el 900px del resto del paquete
+       es muy ancho para esto): el breadcrumb trunca cada tramo en vez de
+       desbordar o partirse a media palabra, y el menu desplegable pasa
+       de panel flotante anclado al trigger a una hoja fija abajo (si
+       quedara anclado a la derecha del trigger, en una pantalla angosta
+       se sale del viewport -- se vio justo eso al verificar). */
+    "@media (max-width: 600px)": {
+      ".breadcrumb a, .breadcrumb .actual": {
+        display: "inline-block",
+        maxWidth: "40vw",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        verticalAlign: "bottom",
+      },
+      ".menu-panel": {
+        position: "fixed",
+        top: "auto",
+        left: "16px",
+        right: "16px",
+        bottom: "16px",
+        width: "auto",
+      },
+    },
+
     /* ---------------------------------------------------------------
      * Calendario -- selector de fecha en grilla visual, mismo patron de
      * capa flotante que `.menu`. El JS vive en `@sistema32/santacorina-ui/js`
