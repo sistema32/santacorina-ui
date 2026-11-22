@@ -136,6 +136,11 @@ function iniciarTabs(raiz = document) {
       if (!el || !tabs.contains(el)) return;
       tabs.querySelectorAll(".activo").forEach((a) => a.classList.remove("activo"));
       el.classList.add("activo");
+      const destino = el.dataset.tab;
+      if (!destino) return;
+      document.querySelectorAll("[data-tab-panel]").forEach((panel) => {
+        panel.classList.toggle("activo", panel.dataset.tabPanel === destino);
+      });
     });
   });
 }

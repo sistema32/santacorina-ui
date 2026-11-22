@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.10.0 — sin publicar
+
+- `.formulario-seccion` (+ `-titulo`/`-nota`) — agrupa los `.campo` de un
+  formulario largo. Preventivo: `solicitud_form.html` hoy solo usa
+  `h2.seccion` para separar bloques, sin agrupar visualmente los campos.
+- **`iniciarTabs` ampliado, retrocompatible** — con `data-tab`/
+  `data-tab-panel`, también muestra/oculta el `.tab-panel`
+  correspondiente. Sin esos atributos, `.tabs` sigue siendo exactamente
+  el segmented control de 0.2.0, sin cambios.
+- `.columnas-2` / `.columnas-4` — variantes de `.columnas` (antes solo
+  3 columnas fijas).
+- `.masonry` — empaquetado tipo Pinterest vía `columns` CSS (no
+  `grid-template-rows: masonry`, soporte real hoy es solo Firefox tras
+  flag; tampoco una librería JS).
+- `.hero` — banner de introducción, agregado preventivo (sin uso real
+  hoy en `sgp`).
+
 ## 0.9.0 — sin publicar
 
 **Ocho íconos más**, cada uno con un concepto real y verificable en

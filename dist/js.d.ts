@@ -50,8 +50,10 @@ declare function mostrarToast(mensaje: string, tipo?: TipoToast, duracionMs?: nu
 declare function iniciarLateral(raiz?: ParentNode): void;
 
 /**
- * Alterna `.activo` al hacer clic dentro de `.tabs` -- solo mueve la
- * clase, el filtrado de contenido lo sigue resolviendo cada pantalla.
+ * Alterna `.activo` al hacer clic dentro de `.tabs`. Si el boton tiene
+ * `data-tab="x"`, tambien muestra `[data-tab-panel="x"]` y oculta el
+ * resto -- retrocompatible: un `.tabs` sin `data-tab` sigue siendo solo
+ * un segmented control, como hasta 0.9.0.
  */
 declare function iniciarTabs(raiz?: ParentNode): void;
 

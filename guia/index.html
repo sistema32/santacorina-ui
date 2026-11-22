@@ -100,6 +100,12 @@
     <a href="#iconos">Íconos</a>
     <a href="#variantes-cabecera">Variantes de cabecera/pie</a>
     <a href="#tipografia">Tipografía</a>
+    <a href="#formulario-seccion">Secciones de formulario</a>
+    <a href="#tab-panel">Pestañas con panel</a>
+    <a href="#columnas-variantes">Columnas (2/4)</a>
+    <a href="#masonry">Masonry</a>
+    <a href="#hero">Hero</a>
+    <a href="#formulario-largo">Formulario largo (ejemplo)</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -673,6 +679,115 @@
       <div class="demo-wrap">
         <div class="demo">
           <pre class="codigo" style="margin:0;border-radius:8px">:root { --font-sans: 'Inter', sans-serif; }</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="formulario-seccion">
+      <h2>Secciones de formulario</h2>
+      <p class="uso">Agrupa los <code>.campo</code> de un formulario largo bajo un título, en vez de dejarlos todos sueltos uno tras otro.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="formulario-seccion" style="margin-bottom:0">
+            <h4 class="formulario-seccion-titulo">Datos del solicitante</h4>
+            <p class="formulario-seccion-nota">Quién pide la compra y para qué establecimiento.</p>
+            <div class="campo" style="margin-bottom:0"><label>Nombre</label><input type="text" value="Alejandro Rodríguez"></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="formulario-seccion"&gt;&lt;h4 class="formulario-seccion-titulo"&gt;...&lt;/h4&gt;&lt;div class="campo"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="tab-panel">
+      <h2>Pestañas con panel real</h2>
+      <p class="uso">Con <code>data-tab</code>/<code>data-tab-panel</code>, <code>iniciarTabs()</code> muestra/oculta el panel correspondiente — sin esos atributos, <code>.tabs</code> sigue siendo solo un segmented control, igual que hasta 0.9.0.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="tabs"><button class="activo" data-tab="g-a">Activas (105)</button><button data-tab="g-b">Cerradas (12)</button></div>
+          <div data-tab-panel="g-a" class="tab-panel activo" style="margin-top:14px"><div class="dato" style="border-bottom:0"><span>Colegio Alcázar</span><strong>En revisión</strong></div></div>
+          <div data-tab-panel="g-b" class="tab-panel" style="margin-top:14px"><div class="dato" style="border-bottom:0"><span>Escuela República</span><strong>Aprobada</strong></div></div>
+        </div>
+        <pre class="codigo">&lt;button data-tab="g-a" class="activo"&gt;...&lt;/button&gt;&lt;div data-tab-panel="g-a" class="tab-panel activo"&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="columnas-variantes">
+      <h2>Columnas (2 / 4)</h2>
+      <p class="uso"><code>.columnas-2</code>/<code>.columnas-4</code> sobre <code>.columnas</code> existente — mismo breakpoint de 1150px que ya colapsa a 1 columna.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="columnas columnas-4" style="gap:12px">
+            <div class="kpi azul"><div class="n">4</div><div class="t">Pendientes</div></div>
+            <div class="kpi verde"><div class="n">12</div><div class="t">Aprobadas</div></div>
+            <div class="kpi naranjo"><div class="n">2</div><div class="t">En revisión</div></div>
+            <div class="kpi rojo"><div class="n">1</div><div class="t">Rechazada</div></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="columnas columnas-4"&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="masonry">
+      <h2>Masonry</h2>
+      <p class="uso">Empaquetado tipo Pinterest vía <code>columns</code> CSS — soporte universal, sin JS (<code>grid-template-rows: masonry</code> hoy solo lo tiene Firefox tras flag).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="masonry">
+            <div class="tarjeta" style="margin-bottom:0"><p style="margin:0">Corta.</p></div>
+            <div class="tarjeta" style="margin-bottom:0"><p style="margin:0">Con bastante más texto, para que la altura sea claramente distinta a las demás.</p></div>
+            <div class="tarjeta" style="margin-bottom:0"><p style="margin:0">Mediana, un poco más larga.</p></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="masonry"&gt;&lt;div class="tarjeta"&gt;...&lt;/div&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="hero">
+      <h2>Hero</h2>
+      <p class="uso">Banner de introducción para un dashboard o pantalla de bienvenida.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <div class="hero" style="margin:0;border-radius:0">
+            <h1>Bienvenido, Alejandro</h1>
+            <p>Tiene 4 solicitudes pendientes de revisión esta semana.</p>
+            <div class="acciones"><button class="boton">Ver pendientes</button><button class="boton secundario">Ir al tablero</button></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="hero"&gt;&lt;h1&gt;...&lt;/h1&gt;&lt;p&gt;...&lt;/p&gt;&lt;div class="acciones"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="formulario-largo">
+      <h2>Formulario largo (ejemplo)</h2>
+      <p class="uso">Combinando lo de arriba en contexto real: una solicitud de compra con 4 secciones.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="formulario-seccion">
+            <h4 class="formulario-seccion-titulo">Datos del solicitante</h4>
+            <p class="formulario-seccion-nota">Quién pide la compra y para qué establecimiento.</p>
+            <div class="fila">
+              <div class="campo"><label>Nombre</label><input type="text" value="Alejandro Rodríguez"></div>
+              <div class="campo"><label>Establecimiento</label><select><option>Colegio Alcázar</option></select></div>
+            </div>
+          </div>
+          <div class="formulario-seccion">
+            <h4 class="formulario-seccion-titulo">Detalle de la compra</h4>
+            <div class="campo"><label>Producto o servicio</label><input type="text" placeholder="Ej. Material de oficina"></div>
+            <div class="campo-check"><input type="checkbox" id="g-urgente"><label for="g-urgente">Es urgente</label></div>
+          </div>
+          <div class="formulario-seccion">
+            <h4 class="formulario-seccion-titulo">Justificación</h4>
+            <div class="campo" style="margin-bottom:0">
+              <label>Motivo de la solicitud</label>
+              <textarea data-contador maxlength="300" placeholder="Explique por qué se necesita esta compra..."></textarea>
+              <span class="contador-caracteres">0/300</span>
+            </div>
+          </div>
+          <div class="formulario-seccion" style="margin-bottom:0">
+            <h4 class="formulario-seccion-titulo">Antecedentes</h4>
+            <p class="formulario-seccion-nota">Adjunte cotizaciones o documentos de respaldo.</p>
+            <input type="file">
+          </div>
         </div>
       </div>
     </section>

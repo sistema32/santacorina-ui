@@ -66,6 +66,7 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | `iniciarCalendario` | Panel de calendario sobre `[data-calendario]` | ✓ |
 | `iniciarBuscadores` | Muestra/oculta y conecta el botón `.limpiar` de `.buscador` | ✓ |
 | `iniciarContadores` | Actualiza `.contador-caracteres` de un `textarea[data-contador]` | ✓ |
+| `iniciarTabs` (ampliado en 0.10.0) | Con `data-tab`/`data-tab-panel`, también muestra/oculta el panel — sin esos atributos sigue siendo solo un segmented control, retrocompatible | ✓ |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
 
@@ -170,6 +171,11 @@ plataforma queda en una sola tipografía, consistente.
 | `.icono` + `.icono-check/cerrar/flecha-derecha/chevron-izq/chevron-der/mas-opciones/menu/buscar/agregar/candado/filtro/eliminar/editar/ver/advertencia/info` (`.chico`/`.grande`) | Ícono 100% CSS, hereda el color de texto |
 | `.cabecera-compacta` / `.cabecera-centrada` / `.cabecera-con-buscador` | Variantes de `.cabecera` |
 | `.pie-compacto` | Variante de `.pie` |
+| `.formulario-seccion` + `.formulario-seccion-titulo`/`.formulario-seccion-nota` | Agrupa los `.campo` de un formulario largo |
+| `.tab-panel` (sobre `[data-tab-panel]`) | Panel real para `.tabs` con `data-tab` |
+| `.columnas-2` / `.columnas-4` | Variantes de `.columnas` |
+| `.masonry` | Empaquetado tipo Pinterest, vía `columns` CSS |
+| `.hero` | Banner de introducción (dashboard/bienvenida) |
 
 Dos ajustes responsivos nuevos, sin clase nueva, bajo 600px (teléfono —
 el 900px del resto del paquete es muy ancho para esto): `.breadcrumb`

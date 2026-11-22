@@ -239,7 +239,8 @@ function buildComponents() {
       },
       ".lateral.abierta": { transform: "translateX(0)" },
       ".lateral-toggle": { display: "flex" },
-      ".lateral-fondo.visible": { display: "block" }
+      ".lateral-fondo.visible": { display: "block" },
+      ".masonry": { columnCount: "2" }
     },
     /* ---------------------------------------------------------------
      * Tarjeta -- contenedor base de cualquier bloque de contenido.
@@ -428,6 +429,19 @@ function buildComponents() {
     textarea: { resize: "vertical", minHeight: "88px" },
     "input:disabled, input[readonly]": { backgroundColor: "var(--color-gris-fondo)", color: "var(--color-tenue)" },
     ".fila": { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: "16px" },
+    /* ---------------------------------------------------------------
+     * Seccion de formulario -- agrupa los `.campo` de un formulario
+     * largo bajo un titulo, en vez de dejarlos todos sueltos uno tras
+     * otro (hoy `solicitud_form.html` solo tiene `h2.seccion` para
+     * separar bloques, sin agrupar visualmente los campos de cada uno).
+     * ------------------------------------------------------------- */
+    ".formulario-seccion": { marginBottom: "28px" },
+    ".formulario-seccion + .formulario-seccion": {
+      borderTop: "1px solid var(--color-borde)",
+      paddingTop: "28px"
+    },
+    ".formulario-seccion-titulo": { color: "var(--color-navy)", margin: "0 0 4px", fontSize: "16px" },
+    ".formulario-seccion-nota": { color: "var(--color-tenue)", margin: "0 0 16px", fontSize: "13px" },
     /* select -- quita la flecha del sistema operativo, pone una de marca. */
     select: {
       appearance: "none",
@@ -645,9 +659,37 @@ function buildComponents() {
       gap: "18px",
       alignItems: "start"
     },
+    ".columnas.columnas-2": { gridTemplateColumns: "repeat(2, minmax(0, 1fr))" },
+    ".columnas.columnas-4": { gridTemplateColumns: "repeat(4, minmax(0, 1fr))" },
     "@media (max-width: 1150px)": {
-      ".columnas": { gridTemplateColumns: "1fr" }
+      ".columnas, .columnas.columnas-2, .columnas.columnas-4": { gridTemplateColumns: "1fr" }
     },
+    /* ---------------------------------------------------------------
+     * Masonry -- empaquetado tipo Pinterest via `columns` CSS, no
+     * `grid-template-rows: masonry` (hoy solo Firefox tras flag) ni una
+     * libreria JS: con soporte universal y sin JS alcanza.
+     * ------------------------------------------------------------- */
+    ".masonry": { columnCount: "3", columnGap: "18px" },
+    ".masonry > *": { breakInside: "avoid", marginBottom: "18px" },
+    "@media (max-width: 560px)": {
+      ".masonry": { columnCount: "1" }
+    },
+    /* ---------------------------------------------------------------
+     * Hero -- banner de introduccion para un dashboard o pantalla de
+     * bienvenida. Nuevo: no hay nada parecido hoy en sgp.
+     * ------------------------------------------------------------- */
+    ".hero": {
+      backgroundColor: "var(--color-navy)",
+      color: "#fff",
+      borderRadius: "14px",
+      padding: "38px 36px",
+      marginBottom: "24px"
+    },
+    ".hero h1": { margin: "0 0 10px", fontSize: "26px" },
+    ".hero p": { margin: "0 0 20px", maxWidth: "60ch", color: "#c9d6e4", fontSize: "14.5px", lineHeight: "1.6" },
+    ".hero .acciones": { display: "flex", gap: "10px", flexWrap: "wrap" },
+    ".hero .boton.secundario": { backgroundColor: "rgba(255,255,255,0.12)", color: "#fff", border: "0" },
+    ".hero .boton.secundario:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
     /* ---------------------------------------------------------------
      * Modal -- superpuesto de pantalla completa + panel centrado.
      * Nuevo: generaliza los dos modales que ya existian cada uno a mano
@@ -824,6 +866,12 @@ function buildComponents() {
       color: "var(--color-azul-oscuro)",
       fontWeight: "600"
     },
+    /* Panel real de pestana -- opcional: `.tabs` sin `data-tab` sigue
+       siendo solo un segmented control, como hasta 0.9.0. Con
+       `data-tab`/`data-tab-panel`, `iniciarTabs()` (en
+       @sistema32/santacorina-ui/js) muestra/oculta el panel. */
+    ".tab-panel": { display: "none" },
+    ".tab-panel.activo": { display: "block" },
     /* ---------------------------------------------------------------
      * Tooltip -- nuevo, no existia nada (solo `title=""` nativo, sin
      * estilo y que se corta en movil). Solo CSS, via `data-tooltip`.
