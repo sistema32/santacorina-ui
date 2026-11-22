@@ -114,6 +114,11 @@
     <a href="#masonry">Masonry</a>
     <a href="#hero">Hero</a>
     <a href="#formulario-largo">Formulario largo (ejemplo)</a>
+    <a href="#asistente">Asistente</a>
+    <a href="#rastreador">Rastreador de proceso</a>
+    <a href="#validacion">Validación</a>
+    <a href="#total-caja">Total</a>
+    <a href="#col-ancha">Columna ancha</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -910,6 +915,98 @@
             <input type="file">
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="asistente">
+      <h2>Asistente</h2>
+      <p class="uso">Trasladado tal cual de <code>portal.css</code> (wizard horizontal, usado en 5 pantallas reales: <code>compras_dashboard</code>, <code>compras_solicitud</code>, <code>solicitud_form</code>, <code>tesoreria_dashboard</code>, <code>tesoreria_solicitud</code>). La fila de chips reutiliza <code>.stepper</code>/<code>.stepper-paso</code> ya existente — <code>.stepper-paso.completado</code> es el equivalente de lo que esas pantallas llaman <code>.paso-chip.listo</code>. Avanzar sigue siendo decisión de cada pantalla: valida antes de llamar <code>irAPaso</code> (el paquete no auto-avanza un botón "Continuar").</p>
+      <div class="demo-wrap">
+        <div class="demo" data-asistente>
+          <ol class="stepper" style="list-style:none;margin:0 0 14px;padding:0">
+            <li class="stepper-paso completado" data-chip="1"><span class="num">✓</span> Datos</li>
+            <li class="stepper-paso activo" data-chip="2"><span class="num">2</span> Productos</li>
+            <li class="stepper-paso" data-chip="3"><span class="num">3</span> Resumen</li>
+          </ol>
+          <section data-paso="2" class="paso visible"><p style="margin:0">Contenido del paso 2.</p></section>
+          <div class="acciones">
+            <button class="boton secundario">← Volver</button>
+            <button class="boton">Continuar →</button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;ol class="stepper"&gt;&lt;li class="stepper-paso completado" data-chip="1"&gt;...&lt;/li&gt;&lt;/ol&gt;&lt;section data-paso="2" class="paso visible"&gt;...&lt;/section&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="rastreador">
+      <h2>Rastreador de proceso</h2>
+      <p class="uso">Trasladado tal cual de <code>portal.css</code> (<code>.pasos-compra</code>, usado en <code>compras_dashboard</code>/<code>compras_solicitud</code>), con nombre genérico — no "-compra" — porque sirve para cualquier proceso de varias etapas. Distinto de <code>.linea-tiempo</code> (solo un log) y de <code>.stepper</code> (horizontal, sin descripción).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <ul class="rastreador">
+            <li class="rastreador-item hecho"><span class="n">1</span><span class="titulo">Solicitud enviada</span><span class="descripcion">Registrada en el sistema.</span><span class="responsable">Comprador</span></li>
+            <li class="rastreador-item actual"><span class="n">2</span><span class="titulo">En revisión</span><span class="descripcion">Esperando aprobación de presupuesto.</span><span class="responsable">Encargado</span></li>
+            <li class="rastreador-item pendiente"><span class="n">3</span><span class="titulo">Publicación</span><span class="descripcion">Se publica en Mercado Público.</span><span class="responsable">Comprador</span></li>
+          </ul>
+        </div>
+        <pre class="codigo">&lt;ul class="rastreador"&gt;&lt;li class="rastreador-item hecho"&gt;&lt;span class="n"&gt;1&lt;/span&gt;...&lt;/li&gt;&lt;/ul&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="validacion">
+      <h2>Validación</h2>
+      <p class="uso">Trasladado tal cual de <code>portal.css</code> (usado en 6 pantallas). Siempre va junto a <code>.luz</code>. <code>.detalle-tecnico</code> (sobre <code>&lt;details&gt;</code> nativo, igual criterio que <code>.acordeon</code>) va dentro de <code>.validacion-txt</code> para información técnica opcional.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="validacion">
+            <div class="luz verde"></div>
+            <div class="validacion-txt">
+              <h4>Presupuesto disponible</h4>
+              <p>El establecimiento tiene saldo suficiente en la fuente SEP.</p>
+            </div>
+          </div>
+          <div class="validacion" style="border-bottom:0">
+            <div class="luz rojo"></div>
+            <div class="validacion-txt">
+              <h4>Fuente de financiamiento</h4>
+              <p>No se pudo validar automáticamente.</p>
+              <details class="detalle-tecnico">
+                <summary>Ver detalle técnico</summary>
+                <pre>fuente_financiamiento: regla "FAEP-22" sin match (preliminar)</pre>
+              </details>
+            </div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="validacion"&gt;&lt;div class="luz rojo"&gt;&lt;/div&gt;&lt;div class="validacion-txt"&gt;...&lt;details class="detalle-tecnico"&gt;...&lt;/details&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="total-caja">
+      <h2>Total</h2>
+      <p class="uso">Trasladado tal cual de <code>portal.css</code> (<code>solicitud_form.html</code>). Parecido a <code>.hero</code>, pero chico y pensado para ir dentro de un formulario.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="total-caja" style="margin:0">
+            <span>VALOR TOTAL (se calcula automáticamente)</span>
+            <strong>$1.422.169</strong>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="total-caja"&gt;&lt;span&gt;VALOR TOTAL&lt;/span&gt;&lt;strong&gt;$1.422.169&lt;/strong&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="col-ancha">
+      <h2>Columna ancha</h2>
+      <p class="uso">Para usar dentro de <code>.columnas</code>/<code>.fila</code>/<code>.masonry</code> cuando un ítem debe ocupar todo el ancho de la grilla, en vez de un <code>style</code> inline por pantalla.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="columnas" style="margin:0">
+            <div class="kpi azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
+            <div class="kpi verde"><div class="n">99%</div><div class="t">Ejecución</div></div>
+            <div class="tarjeta col-ancha" style="margin:0"><p style="margin:0">Esta tarjeta ocupa las 3 columnas.</p></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="columnas"&gt;...&lt;div class="tarjeta col-ancha"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
       </div>
     </section>
   </main>

@@ -72,6 +72,8 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | `iniciarCajones` | Conecta `[data-cajon-toggle]`/`[data-cajon-fondo]` con `.cajon` | ✓ |
 | `iniciarCombobox` | Filtra `.combobox-opciones` (sin distinguir tildes), navegación por teclado | ✓ |
 | `iniciarMedidorClave` | Actualiza `.medidor-clave` junto a `input[data-medidor-clave]` | ✓ |
+| `irAPaso(asistente, n)` | Muestra el `[data-paso]` n-ésimo y marca los `[data-chip]` — la llama cada pantalla después de su propia validación | — |
+| `iniciarAsistentes` | Conecta el clic en un chip ya completado/activo para volver a ese paso (no deja saltar a uno no alcanzado) | ✓ |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
 
@@ -189,6 +191,12 @@ plataforma queda en una sola tipografía, consistente.
 | `.cajon` / `.cajon-fondo` | Panel deslizante genérico (ej. filtros) — JS en `/js` |
 | `.combobox` + `.combobox-opciones` | Select con autocompletado, sin distinguir tildes — JS en `/js` |
 | `.medidor-clave` | Medidor de fuerza de contraseña — JS en `/js` |
+| `.paso` (sobre `[data-paso]`) + `.acciones` | Panel de contenido y fila de botones de un asistente — la fila de chips reutiliza `.stepper`/`.stepper-paso` (`.completado` ≡ el "listo" de producción); JS en `/js` |
+| `.rastreador` + `.rastreador-item` (`.hecho`/`.actual`/`.pendiente`) | Lista vertical de etapas de un proceso, con descripción y responsable |
+| `.validacion` + `.validacion-txt` (junto a `.luz`) | Fila de chequeo con semáforo |
+| `.detalle-tecnico` (sobre `<details>`) | Información técnica opcional dentro de `.validacion-txt` |
+| `.total-caja` | Caja de total (parecida a `.hero`, pero chica, para un formulario) |
+| `.col-ancha` | Para usar dentro de `.columnas`/`.fila`/`.masonry`: el ítem ocupa todo el ancho de la grilla |
 
 Dos ajustes responsivos nuevos, sin clase nueva, bajo 600px (teléfono —
 el 900px del resto del paquete es muy ancho para esto): `.breadcrumb`

@@ -87,7 +87,21 @@ declare function iniciarCombobox(raiz?: ParentNode): void;
 
 declare function iniciarMedidorClave(raiz?: ParentNode): void;
 
+/**
+ * Asistente de varios pasos (wizard): mueve `.visible` en `[data-paso]`
+ * y `.activo`/`.completado` en `[data-chip]` dentro del contenedor.
+ * Avanzar sigue siendo decision de cada pantalla -- cada una valida
+ * *antes* de llamar `irAPaso` (ej. una validacion async antes de pasar
+ * al paso 2), el paquete no auto-avanza un boton "Continuar".
+ */
+declare function irAPaso(asistente: HTMLElement, n: number): void;
+/**
+ * Conecta el clic en un chip ya completado o activo para volver a ese
+ * paso -- no deja saltar a uno todavia no alcanzado.
+ */
+declare function iniciarAsistentes(raiz?: ParentNode): void;
+
 /** Conecta todo lo auto-iniciable. */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarTabs, iniciarTodo, mostrarToast };
+export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarTabs, iniciarTodo, irAPaso, mostrarToast };

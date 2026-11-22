@@ -885,6 +885,129 @@ function buildComponents() {
     ".stepper-paso.rechazado .num": { backgroundColor: "var(--color-rojo)", color: "#fff" },
     ".stepper-paso.omitido": { opacity: "0.55", textDecoration: "line-through" },
     /* ---------------------------------------------------------------
+     * Asistente -- trasladado de portal.css:43-54 (usado en 5 pantallas
+     * reales: compras_dashboard, compras_solicitud, solicitud_form,
+     * tesoreria_dashboard, tesoreria_solicitud). La fila de chips
+     * reutiliza `.stepper`/`.stepper-paso` ya existente desde 0.1.0
+     * (`.stepper-paso.completado` es el equivalente de lo que en esas
+     * pantallas se llama `.paso-chip.listo`) -- lo que faltaba era el
+     * panel de contenido y la fila de acciones. El JS vive en `/js`
+     * (`irAPaso`/`iniciarAsistentes`): avanzar sigue siendo decision de
+     * cada pantalla (valida antes de llamar `irAPaso`), el paquete solo
+     * resuelve mostrar/ocultar y dejar volver a un paso ya completado.
+     * ------------------------------------------------------------- */
+    ".paso": { display: "none" },
+    ".paso.visible": { display: "block" },
+    ".acciones": {
+      display: "flex",
+      justifyContent: "space-between",
+      gap: "10px",
+      marginTop: "22px",
+      flexWrap: "wrap"
+    },
+    /* ---------------------------------------------------------------
+     * Rastreador de proceso -- trasladado de portal.css:230-248
+     * (`.pasos-compra`, usado en compras_dashboard/compras_solicitud).
+     * Nombre generico (no "-compra"): sirve para cualquier proceso de
+     * varias etapas, no solo compras. Distinto de `.linea-tiempo` (solo
+     * un log de eventos) y de `.stepper` (horizontal, sin descripcion).
+     * ------------------------------------------------------------- */
+    ".rastreador": {
+      listStyle: "none",
+      margin: "0",
+      padding: "0",
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+      gap: "12px"
+    },
+    ".rastreador-item": {
+      border: "1px solid var(--color-borde)",
+      borderRadius: "10px",
+      padding: "13px 14px",
+      backgroundColor: "#fff"
+    },
+    ".rastreador-item .n": {
+      display: "inline-grid",
+      placeItems: "center",
+      width: "24px",
+      height: "24px",
+      borderRadius: "50%",
+      backgroundColor: "var(--color-gris-fondo)",
+      color: "var(--color-tenue)",
+      fontSize: "12px",
+      fontWeight: "700",
+      marginBottom: "8px"
+    },
+    ".rastreador-item .titulo": {
+      display: "block",
+      fontWeight: "600",
+      color: "var(--color-navy)",
+      fontSize: "13.5px",
+      marginBottom: "5px"
+    },
+    ".rastreador-item .descripcion": { display: "block", fontSize: "12.5px", color: "var(--color-tenue)", lineHeight: "1.5" },
+    ".rastreador-item .responsable": {
+      display: "inline-block",
+      marginTop: "8px",
+      fontSize: "11.5px",
+      color: "var(--color-tenue)",
+      backgroundColor: "var(--color-gris-fondo)",
+      padding: "2px 8px",
+      borderRadius: "999px"
+    },
+    ".rastreador-item.hecho": { borderColor: "#bfe3ce", backgroundColor: "#f4faf6" },
+    ".rastreador-item.hecho .n": { backgroundColor: "var(--color-verde)", color: "#fff" },
+    ".rastreador-item.actual": { borderColor: "var(--color-azul)", boxShadow: "0 0 0 3px rgba(42,120,214,0.13)" },
+    ".rastreador-item.actual .n": { backgroundColor: "var(--color-azul)", color: "#fff" },
+    ".rastreador-item.pendiente": { opacity: "0.62" },
+    /* ---------------------------------------------------------------
+     * Validacion -- trasladado de portal.css:56-62 (usado en 6
+     * pantallas: atp_solicitud, presupuesto_solicitud,
+     * rendicion_solicitud, revision_solicitud, solicitud_detalle,
+     * solicitud_form). Siempre va junto a `.luz`, que ya existe.
+     * ------------------------------------------------------------- */
+    ".validacion": { display: "flex", gap: "13px", padding: "14px 0", borderBottom: "1px solid var(--color-borde)" },
+    ".validacion:last-child": { borderBottom: "0" },
+    ".validacion-txt": { flex: "1", minWidth: "0" },
+    ".validacion-txt h4": { margin: "0 0 3px", fontSize: "14px", color: "var(--color-navy)" },
+    ".validacion-txt p": { margin: "0", fontSize: "13.5px", color: "var(--color-tenue)" },
+    ".validacion-txt ul": { margin: "7px 0 0", paddingLeft: "19px", fontSize: "13px", color: "var(--color-tenue)" },
+    /* Detalle tecnico -- trasladado de portal.css:63-67, sobre
+       `<details>` nativo (mismo criterio que `.acordeon`: el navegador
+       resuelve abrir/cerrar), pensado para ir dentro de `.validacion-txt`. */
+    ".detalle-tecnico": { marginTop: "8px", fontSize: "12.5px" },
+    ".detalle-tecnico summary": { cursor: "pointer", color: "var(--color-azul)" },
+    ".detalle-tecnico pre": {
+      backgroundColor: "var(--color-gris-fondo)",
+      padding: "10px",
+      borderRadius: "7px",
+      overflowX: "auto",
+      margin: "7px 0 0",
+      fontSize: "12px"
+    },
+    /* ---------------------------------------------------------------
+     * Total -- trasladado de portal.css:68-71 (`.total-caja`, usado en
+     * solicitud_form). Parecido a `.hero`, pero chico y pensado para ir
+     * dentro de un formulario, no como banner de pagina.
+     * ------------------------------------------------------------- */
+    ".total-caja": {
+      backgroundColor: "var(--color-navy)",
+      color: "#fff",
+      borderRadius: "10px",
+      padding: "16px 20px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      gap: "14px",
+      flexWrap: "wrap"
+    },
+    ".total-caja span": { fontSize: "13px", opacity: "0.82" },
+    ".total-caja strong": { fontSize: "25px", fontWeight: "700" },
+    /* Columna ancha -- para usar dentro de .columnas/.fila/.masonry
+       cuando un item debe ocupar todo el ancho de la grilla, en vez de
+       un style inline por pantalla. */
+    ".col-ancha": { gridColumn: "1 / -1" },
+    /* ---------------------------------------------------------------
      * Barra de progreso -- generaliza `.barra-reparto` (existia solo
      * para presupuesto, con los mismos tres colores que ya son
      * semanticos en el resto de la libreria).

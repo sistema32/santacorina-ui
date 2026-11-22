@@ -601,6 +601,28 @@ function iniciarMedidorClave(raiz = document) {
   });
 }
 
+// src/js/asistente.ts
+function irAPaso(asistente, n) {
+  asistente.querySelectorAll("[data-paso]").forEach((panel) => {
+    panel.classList.toggle("visible", panel.dataset.paso === String(n));
+  });
+  asistente.querySelectorAll("[data-chip]").forEach((chip) => {
+    const num = Number(chip.dataset.chip);
+    chip.classList.toggle("activo", num === n);
+    chip.classList.toggle("completado", num < n);
+  });
+}
+function iniciarAsistentes(raiz = document) {
+  raiz.querySelectorAll("[data-asistente]").forEach((asistente) => {
+    asistente.addEventListener("click", (e) => {
+      const chip = e.target.closest("[data-chip]");
+      if (!chip || !asistente.contains(chip)) return;
+      if (!chip.classList.contains("completado") && !chip.classList.contains("activo")) return;
+      irAPaso(asistente, Number(chip.dataset.chip));
+    });
+  });
+}
+
 // src/js/index.ts
 function iniciarTodo(raiz = document) {
   iniciarModales(raiz);
@@ -615,6 +637,7 @@ function iniciarTodo(raiz = document) {
   iniciarCajones(raiz);
   iniciarCombobox(raiz);
   iniciarMedidorClave(raiz);
+  iniciarAsistentes(raiz);
 }
 if (typeof document !== "undefined") {
   if (document.readyState === "loading") {
@@ -629,6 +652,7 @@ export {
   copiarAlPortapapeles,
   debounce,
   formato_exports as formato,
+  iniciarAsistentes,
   iniciarBuscadores,
   iniciarCajones,
   iniciarCalendario,
@@ -642,5 +666,6 @@ export {
   iniciarRangoFechas,
   iniciarTabs,
   iniciarTodo,
+  irAPaso,
   mostrarToast
 };

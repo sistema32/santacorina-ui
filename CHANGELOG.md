@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.13.0 — sin publicar
+
+Migración pendiente del mismo tipo que `.cabecera`/`.lateral` en su
+momento: componentes reales de producción (`portal.css`) que nunca se
+extrajeron por "específicos de una pantalla" cuando en realidad los usa
+toda la plataforma.
+
+- `.paso` (sobre `[data-paso]`) + `.acciones` + `irAPaso`/
+  `iniciarAsistentes` — asistente de varios pasos, trasladado de
+  `portal.css:43-54` (5 pantallas reales). La fila de chips reutiliza
+  `.stepper`/`.stepper-paso` ya existente (`.completado` ≡ el "listo" de
+  producción). Avanzar sigue siendo decisión de cada pantalla — el
+  paquete no auto-avanza un botón "Continuar", solo resuelve
+  mostrar/ocultar y dejar volver a un paso ya completado.
+- `.rastreador` + `.rastreador-item` (`.hecho`/`.actual`/`.pendiente`) —
+  trasladado de `.pasos-compra` en `portal.css:230-248` (usado en
+  `compras_dashboard`/`compras_solicitud`), con nombre genérico.
+- `.validacion` + `.validacion-txt` — trasladado de `portal.css:56-62`
+  (6 pantallas), siempre junto a `.luz`.
+- `.detalle-tecnico` — trasladado de `portal.css:63-67`, sobre
+  `<details>` nativo.
+- `.total-caja` — trasladado de `portal.css:68-71`.
+- `.col-ancha` — nuevo, para usar dentro de `.columnas`/`.fila`/
+  `.masonry` (hasta ahora cada pantalla necesitaba un `style` inline;
+  incluso la propia vitrina de 0.11.0 tenía su propia `.sc-ancho`
+  interna, nunca empaquetada).
+
 ## 0.12.0 — sin publicar
 
 **Accesibilidad (ARIA + manejo de foco)** — cero atributos ARIA en todo
