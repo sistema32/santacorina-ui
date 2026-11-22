@@ -71,6 +71,7 @@
     <a href="#tabla">Tabla</a>
     <a href="#tabla-ordenable">Tabla ordenable</a>
     <a href="#tabla-variantes">Variantes de tabla</a>
+    <a href="#densidad">Densidad por bloque</a>
     <a href="#dato">Dato</a>
     <a href="#luz">Semáforo</a>
     <a href="#tiempo">Línea de tiempo</a>
@@ -253,6 +254,21 @@
           </table>
         </div>
         <pre class="codigo">&lt;table class="tabla-cabecera-fija tabla-compacta"&gt;...&lt;/table&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="densidad">
+      <h2>Densidad por bloque</h2>
+      <p class="uso"><code>[data-densidad="compacta"]</code> (0.25.0) generaliza <code>.tabla-compacta</code> a cualquier contenedor -- una tabla puede ser compacta mientras el formulario vecino sigue con controles cómodos. Mismo criterio que <code>data-tono</code>/<code>data-tamano</code>: un atributo, no una clase nueva por componente.</p>
+      <div class="demo-wrap">
+        <div class="demo" data-densidad="compacta">
+          <div class="campo"><label>RBD</label><input type="text" value="12345-6"></div>
+          <table>
+            <thead><tr><th>Nombre</th><th>Monto</th></tr></thead>
+            <tbody><tr><td>Escuela A</td><td>100</td></tr><tr><td>Escuela B</td><td>200</td></tr></tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;div data-densidad="compacta"&gt;&lt;div class="campo"&gt;...&lt;/div&gt;&lt;table&gt;...&lt;/table&gt;&lt;/div&gt;</pre>
       </div>
     </section>
 
@@ -564,7 +580,7 @@
 
 <section class="doc-sec" id="menu">
       <h2>Menú</h2>
-      <p class="uso">Misma técnica que <code>.acordeon</code> (<code>&lt;details&gt;</code> nativo), pero el panel flota anclado en vez de empujar el layout.</p>
+      <p class="uso">Misma técnica que <code>.acordeon</code> (<code>&lt;details&gt;</code> nativo), pero el panel flota anclado en vez de empujar el layout. <code>iniciarMenus</code> (0.25.0) mejora el <code>&lt;details&gt;</code> sin reemplazarlo: <code>role="menu"</code>/<code>"menuitem"</code>, flechas arriba/abajo entre items, foco inicial al abrir, y abre hacia arriba si no hay espacio debajo (<code>posicionarFlotante</code>).</p>
       <div class="demo-wrap">
         <div class="demo" style="display:flex;justify-content:flex-end">
           <details class="menu">

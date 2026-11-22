@@ -23,6 +23,8 @@ export { iniciarCarruseles, avanzarCarrusel } from "./carousel.js";
 export { destruirTodo } from "./una-vez.js";
 export { iniciarFormularios, ponerCargando, quitarCargando } from "./formulario.js";
 export { iniciarSeleccionTabla } from "./seleccion.js";
+export { iniciarMenus } from "./menu.js";
+export { posicionarFlotante } from "./flotante.js";
 
 import { iniciarModales } from "./modal.js";
 import { iniciarLateral } from "./lateral.js";
@@ -44,6 +46,7 @@ import { iniciarTablasOrdenables } from "./tabla-ordenable.js";
 import { iniciarCarruseles } from "./carousel.js";
 import { iniciarFormularios } from "./formulario.js";
 import { iniciarSeleccionTabla } from "./seleccion.js";
+import { iniciarMenus } from "./menu.js";
 
 /** Conecta todo lo auto-iniciable. */
 export function iniciarTodo(raiz: ParentNode = document): void {
@@ -67,12 +70,5 @@ export function iniciarTodo(raiz: ParentNode = document): void {
   iniciarCarruseles(raiz);
   iniciarFormularios(raiz);
   iniciarSeleccionTabla(raiz);
-}
-
-if (typeof document !== "undefined") {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => iniciarTodo());
-  } else {
-    iniciarTodo();
-  }
+  iniciarMenus(raiz);
 }

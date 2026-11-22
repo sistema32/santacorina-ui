@@ -1,5 +1,72 @@
 # Changelog
 
+## 0.25.0 — sin publicar — adaptabilidad, accesibilidad y CI
+
+Primera de dos rondas pedidas por el usuario para completar flujos de
+gestión reales: esta es la base de adaptabilidad/accesibilidad; la
+siguiente (0.26.0) agrega utilidades nuevas para listados/formularios/
+documentos sobre esta base. Investigué el código real antes de diseñar
+nada — confirmado: las 5 capas flotantes no tenían ninguna lógica de
+flip/colisión, `.menu` no tenía ningún módulo JS (100% `<details>`
+nativo), `tabs`/`colapsar`/`calendario` no tenían navegación por
+flechas, y ningún módulo sabía "qué capa está arriba" (modal/cajón
+cerraban TODAS las instancias visibles con `Escape`, no solo la
+última).
+
+- **`@container`** — `.cajon`/`.modal-panel` son `container-type:
+  inline-size`; `.barra-filtros` se apila por espacio disponible
+  dentro de ellos (no solo por ancho de ventana, que ya cubría el
+  `@media 600px` de 0.20.0).
+- **Densidad por bloque** — `[data-densidad="compacta"]` generaliza
+  `.tabla-compacta` (0.20.0, intacta) a cualquier contenedor
+  (`<table>`, `<form>`, `.tarjeta`), mismo criterio que `data-tono`/
+  `data-tamano` (0.17.0).
+- **`posicionarFlotante(ancla, panel)`** (nuevo, `src/js/flotante.ts`)
+  — mide el espacio disponible y marca `data-posicion="arriba"` si no
+  alcanza debajo del ancla; la JS solo decide, el CSS define los
+  valores reales (mismo criterio que `aria-sort`/`data-tono`). Alcance
+  explícito: solo colisión vertical. Conectado en popover, toggletip,
+  calendario, combobox y el nuevo menú.
+- **`iniciarMenus`** (nuevo, `src/js/menu.ts`) — mejora progresiva
+  sobre `.menu`/`<details>` nativo (el abrir/cerrar básico sigue
+  funcionando sin JS): `role="menu"`/`"menuitem"`, flechas arriba/abajo
+  entre items, foco inicial al abrir, posicionamiento.
+- **Navegación por teclado completada** — flechas arriba/abajo/
+  izquierda/derecha entre días del calendario (no existía); flechas
+  entre items del menú (nuevo, ver arriba). `combobox` ya tenía
+  ArrowUp/Down desde antes.
+- **Pila de capas compartida** (`apilarCapa`/`una-vez.ts`) — `Escape`
+  cierra solo la capa superior. Antes, modal/cajón escuchaban Escape
+  por su cuenta y cerraban *todas* las instancias visibles a la vez;
+  popover/toggletip/calendario/combobox cada uno por separado, sin
+  saber de los demás. Ahora los 7 módulos (+ menú) se apilan al abrir
+  y se desapilan al cerrar — un calendario abierto dentro de un modal
+  se cierra primero con Escape, el modal recién con el segundo.
+- **`prefers-reduced-motion`** — sin transición/animación en
+  `.cajon`/`.lateral`/`.toast`/`.cargando`/`.skeleton`.
+- **`forced-colors: active`** (alto contraste) — `.insignia`/
+  `.etiqueta`/`.luz`/`.chip` suman un borde (antes solo comunicaban su
+  estado con el color de fondo, invisible en este modo).
+- **Entrada JS sin auto-arranque para bundlers** — `src/js/index.ts`
+  queda limpio (sin efecto secundario al importarlo); el auto-arranque
+  se movió a `src/js/auto.ts`, usado SOLO para compilar
+  `dist/js.global.js` (`<script src>` sin bundler, Jinja).
+  `dist/js.mjs`/`js.cjs` (Vite/Vue) ya no ejecutan nada al importarse —
+  cada pantalla llama `iniciarTodo(suContenedor)`/`destruirTodo(...)`
+  cuando corresponde. Mismos nombres de archivo en `dist/`, nada se
+  rompe para quien ya usa `js.global.js`.
+- **CI con Playwright real** — `tests/e2e/` (4 specs,
+  `.github/workflows/ci.yml`): filtros apilados por contenedor angosto,
+  menú que abre hacia arriba en la última fila de una tabla, calendario
+  dentro de un modal operado solo con teclado (Escape cierra de a una
+  capa), y montar/destruir/remontar sin duplicar eventos — antes esto
+  se verificaba a mano con Playwright en cada ronda, fuera del repo.
+
+Verificado con Playwright (local y en CI): los 4 escenarios de arriba,
+más una repetición completa de las suites de 0.22.0-0.24.0 para
+confirmar que el refactor de capas no rompió nada existente (formulario,
+selección de filas, combobox, ciclo de vida) — sin regresiones.
+
 ## 0.24.0 — sin publicar — 4 hallazgos reales de una revisión externa a 0.23.0
 
 Revisión externa del JS en el commit `817278d`. Confirmé cada hallazgo

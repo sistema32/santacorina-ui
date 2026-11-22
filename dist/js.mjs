@@ -155,21 +155,44 @@ function activar(el, nombre) {
 function desactivar(el, nombre) {
   activos.get(el)?.delete(nombre);
 }
+var pila = [];
+var escapeActivo = false;
+function apilarCapa(cerrar2) {
+  if (!escapeActivo) {
+    escapeActivo = true;
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      const capa2 = pila.pop();
+      capa2?.cerrar();
+    });
+  }
+  const capa = { cerrar: cerrar2 };
+  pila.push(capa);
+  return () => {
+    const i = pila.indexOf(capa);
+    if (i !== -1) pila.splice(i, 1);
+  };
+}
 
 // src/js/modal.ts
 var liberadores = /* @__PURE__ */ new WeakMap();
+var desapiladores = /* @__PURE__ */ new WeakMap();
 function abrirModal(el) {
   if (!el.getAttribute("role")) el.setAttribute("role", "dialog");
   el.setAttribute("aria-modal", "true");
   el.classList.add("visible");
   const panel = el.querySelector(".modal-panel") ?? el;
   liberadores.set(el, atraparFoco(panel));
+  desapiladores.set(el, apilarCapa(() => cerrarModal(el)));
   el.dispatchEvent(new CustomEvent("santacorina:modal-abrir", { bubbles: true }));
 }
 function cerrarModal(el) {
+  if (!el.classList.contains("visible")) return;
   el.classList.remove("visible");
   liberadores.get(el)?.();
   liberadores.delete(el);
+  desapiladores.get(el)?.();
+  desapiladores.delete(el);
   el.dispatchEvent(new CustomEvent("santacorina:modal-cerrar", { bubbles: true }));
 }
 function cerrarSiCorresponde(modal, objetivo) {
@@ -177,24 +200,11 @@ function cerrarSiCorresponde(modal, objetivo) {
     cerrarModal(modal);
   }
 }
-var escapeGlobalActivo = false;
 function iniciarModales(raiz = document) {
   raiz.querySelectorAll(".modal").forEach((modal) => {
     if (!primeraVez(modal, "modal")) return;
     modal.addEventListener("click", (e) => cerrarSiCorresponde(modal, e.target));
   });
-  if (!escapeGlobalActivo) {
-    escapeGlobalActivo = true;
-    const manejador = (e) => {
-      if (e.key !== "Escape") return;
-      document.querySelectorAll(".modal.visible").forEach((modal) => cerrarModal(modal));
-    };
-    document.addEventListener("keydown", manejador);
-    registrarDestructor(raiz, () => {
-      document.removeEventListener("keydown", manejador);
-      escapeGlobalActivo = false;
-    });
-  }
 }
 
 // src/js/toast.ts
@@ -298,6 +308,19 @@ function iniciarRangoFechas(raiz = document) {
   });
 }
 
+// src/js/flotante.ts
+function posicionarFlotante(ancla, panel) {
+  const rect = ancla.getBoundingClientRect();
+  const alturaPanel = panel.offsetHeight || panel.scrollHeight;
+  const espacioAbajo = window.innerHeight - rect.bottom;
+  const espacioArriba = rect.top;
+  if (espacioAbajo < alturaPanel && espacioArriba > espacioAbajo) {
+    panel.dataset.posicion = "arriba";
+  } else {
+    delete panel.dataset.posicion;
+  }
+}
+
 // src/js/calendario.ts
 var DOW = ["L", "M", "M", "J", "V", "S", "D"];
 var MESES = [
@@ -320,7 +343,7 @@ function mismaFecha(a, b) {
 function primerDiaDe(fecha) {
   return new Date(fecha.getFullYear(), fecha.getMonth(), 1);
 }
-function construirGrilla(panel, mesVisible, seleccionada, onElegir, onCambiarMes) {
+function construirGrilla(panel, mesVisible, seleccionada, focoDia, onElegir, onCambiarMes) {
   panel.innerHTML = "";
   const cabecera = document.createElement("div");
   cabecera.className = "calendario-cabecera";
@@ -352,12 +375,14 @@ function construirGrilla(panel, mesVisible, seleccionada, onElegir, onCambiarMes
   for (let i = 0; i < 42; i++) {
     const dia = new Date(inicio);
     dia.setDate(inicio.getDate() + i);
-    const el = document.createElement("div");
+    const el = document.createElement("button");
+    el.type = "button";
     el.className = "calendario-dia";
     if (dia.getMonth() !== mesVisible.getMonth()) el.classList.add("fuera");
     if (mismaFecha(dia, hoy)) el.classList.add("hoy");
     if (seleccionada && mismaFecha(dia, seleccionada)) el.classList.add("activo");
     el.textContent = String(dia.getDate());
+    el.tabIndex = mismaFecha(dia, focoDia) ? 0 : -1;
     el.addEventListener("click", () => onElegir(dia));
     grilla.appendChild(el);
   }
@@ -380,38 +405,71 @@ function iniciarCalendario(raiz = document) {
       if (!input || !panel) return;
       let seleccionada = null;
       let mesVisible = primerDiaDe(/* @__PURE__ */ new Date());
+      let focoDia = /* @__PURE__ */ new Date();
+      const enfocarDiaActual = () => {
+        panel.querySelector(".calendario-dia[tabindex='0']")?.focus();
+      };
+      let desapilar = null;
       const redibujar = () => {
-        construirGrilla(
-          panel,
-          mesVisible,
-          seleccionada,
-          (dia) => {
-            seleccionada = dia;
-            mesVisible = primerDiaDe(dia);
-            input.value = fechaCorta(dia);
-            input.dispatchEvent(new Event("input", { bubbles: true }));
-            input.dispatchEvent(new Event("change", { bubbles: true }));
-            cerrar3();
-          },
-          (mes) => {
-            mesVisible = mes;
-            redibujar();
-          }
-        );
+        construirGrilla(panel, mesVisible, seleccionada, focoDia, elegir, cambiarMes);
+      };
+      const elegir = (dia) => {
+        seleccionada = dia;
+        focoDia = dia;
+        mesVisible = primerDiaDe(dia);
+        input.value = fechaCorta(dia);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+        cerrar3();
+      };
+      const cambiarMes = (mes) => {
+        mesVisible = mes;
+        redibujar();
+      };
+      const moverFoco = (delta) => {
+        const nuevo = new Date(focoDia);
+        nuevo.setDate(nuevo.getDate() + delta);
+        focoDia = nuevo;
+        mesVisible = primerDiaDe(focoDia);
+        redibujar();
+        enfocarDiaActual();
       };
       const abrir2 = () => {
+        focoDia = seleccionada ?? /* @__PURE__ */ new Date();
+        mesVisible = primerDiaDe(focoDia);
         redibujar();
         panel.classList.add("visible");
+        posicionarFlotante(input, panel);
+        enfocarDiaActual();
+        desapilar = apilarCapa(() => cerrar3(true));
         contenedor2.dispatchEvent(new CustomEvent("santacorina:calendario-abrir", { bubbles: true }));
       };
-      const cerrar3 = () => {
+      const cerrar3 = (devolverFoco = false) => {
         if (!panel.classList.contains("visible")) return;
         panel.classList.remove("visible");
+        desapilar?.();
+        desapilar = null;
+        if (devolverFoco) input.focus();
         contenedor2.dispatchEvent(new CustomEvent("santacorina:calendario-cerrar", { bubbles: true }));
       };
       input.addEventListener("click", (e) => {
         e.stopPropagation();
         abrir2();
+      });
+      panel.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          moverFoco(-1);
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          moverFoco(1);
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          moverFoco(-7);
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          moverFoco(7);
+        }
       });
       cerrarDe.set(contenedor2, cerrar3);
     }
@@ -420,14 +478,9 @@ function iniciarCalendario(raiz = document) {
     const alClicAfuera = (e) => {
       if (!contenedor2.contains(e.target)) cerrar2();
     };
-    const alTeclado = (e) => {
-      if (e.key === "Escape") cerrar2();
-    };
     document.addEventListener("click", alClicAfuera);
-    document.addEventListener("keydown", alTeclado);
     registrarDestructor(raiz, () => {
       document.removeEventListener("click", alClicAfuera);
-      document.removeEventListener("keydown", alTeclado);
       desactivar(contenedor2, "calendario-doc");
     });
   });
@@ -487,20 +540,27 @@ function iniciarPopovers(raiz = document) {
       trigger.setAttribute("aria-haspopup", "true");
       trigger.setAttribute("aria-controls", idDe(panel, "popover"));
       trigger.setAttribute("aria-expanded", "false");
+      let desapilar = null;
       const cerrar2 = (devolverFoco = false) => {
         if (!panel.classList.contains("visible")) return;
         panel.classList.remove("visible");
         trigger.setAttribute("aria-expanded", "false");
+        desapilar?.();
+        desapilar = null;
         if (devolverFoco) trigger.focus();
         contenedor2.dispatchEvent(new CustomEvent("santacorina:popover-cerrar", { bubbles: true }));
       };
       const alternar = (e) => {
         e.stopPropagation();
-        const abrir2 = !panel.classList.contains("visible");
-        panel.classList.toggle("visible", abrir2);
-        trigger.setAttribute("aria-expanded", String(abrir2));
-        if (abrir2) contenedor2.dispatchEvent(new CustomEvent("santacorina:popover-abrir", { bubbles: true }));
-        else contenedor2.dispatchEvent(new CustomEvent("santacorina:popover-cerrar", { bubbles: true }));
+        if (panel.classList.contains("visible")) {
+          cerrar2();
+          return;
+        }
+        panel.classList.add("visible");
+        posicionarFlotante(trigger, panel);
+        trigger.setAttribute("aria-expanded", "true");
+        desapilar = apilarCapa(() => cerrar2(true));
+        contenedor2.dispatchEvent(new CustomEvent("santacorina:popover-abrir", { bubbles: true }));
       };
       trigger.addEventListener("click", alternar);
       instancias.set(contenedor2, { panel, cerrar: cerrar2 });
@@ -510,14 +570,9 @@ function iniciarPopovers(raiz = document) {
     const alClicAfuera = (e) => {
       if (!contenedor2.contains(e.target)) instancia.cerrar();
     };
-    const alTeclado = (e) => {
-      if (e.key === "Escape" && instancia.panel.classList.contains("visible")) instancia.cerrar(true);
-    };
     document.addEventListener("click", alClicAfuera);
-    document.addEventListener("keydown", alTeclado);
     registrarDestructor(raiz, () => {
       document.removeEventListener("click", alClicAfuera);
-      document.removeEventListener("keydown", alTeclado);
       desactivar(contenedor2, "popover-doc");
     });
   });
@@ -550,22 +605,26 @@ function iniciarColapsables(raiz = document) {
 
 // src/js/cajon.ts
 var liberadores2 = /* @__PURE__ */ new WeakMap();
+var desapiladores2 = /* @__PURE__ */ new WeakMap();
 function abrir(cajon, fondo) {
   if (!cajon.getAttribute("role")) cajon.setAttribute("role", "dialog");
   cajon.setAttribute("aria-modal", "true");
   cajon.classList.add("abierto");
   fondo?.classList.add("visible");
   liberadores2.set(cajon, atraparFoco(cajon));
+  desapiladores2.set(cajon, apilarCapa(() => cerrar(cajon, fondo)));
   cajon.dispatchEvent(new CustomEvent("santacorina:cajon-abrir", { bubbles: true }));
 }
 function cerrar(cajon, fondo) {
+  if (!cajon.classList.contains("abierto")) return;
   cajon.classList.remove("abierto");
   fondo?.classList.remove("visible");
   liberadores2.get(cajon)?.();
   liberadores2.delete(cajon);
+  desapiladores2.get(cajon)?.();
+  desapiladores2.delete(cajon);
   cajon.dispatchEvent(new CustomEvent("santacorina:cajon-cerrar", { bubbles: true }));
 }
-var escapeGlobalActivo2 = false;
 function iniciarCajones(raiz = document) {
   raiz.querySelectorAll("[data-cajon-toggle]").forEach((boton) => {
     if (!primeraVez(boton, "cajon-toggle")) return;
@@ -588,22 +647,6 @@ function iniciarCajones(raiz = document) {
       if (cajon) cerrar(cajon, fondo);
     });
   });
-  if (!escapeGlobalActivo2) {
-    escapeGlobalActivo2 = true;
-    const manejador = (e) => {
-      if (e.key !== "Escape") return;
-      document.querySelectorAll(".cajon.abierto").forEach((cajon) => {
-        const destino = cajon.dataset.cajon;
-        const fondo = cajon.querySelector(".cajon-fondo") ?? (destino ? document.querySelector(`[data-cajon-fondo="${destino}"]`) : null);
-        cerrar(cajon, fondo);
-      });
-    };
-    document.addEventListener("keydown", manejador);
-    registrarDestructor(raiz, () => {
-      document.removeEventListener("keydown", manejador);
-      escapeGlobalActivo2 = false;
-    });
-  }
 }
 
 // src/js/combobox.ts
@@ -662,15 +705,23 @@ function iniciarCombobox(raiz = document) {
         lista.appendChild(li);
       });
     };
+    let desapilar = null;
     const abrir2 = () => {
+      const yaVisible = lista.classList.contains("visible");
       redibujar(input.value);
+      if (yaVisible) return;
       lista.classList.add("visible");
+      posicionarFlotante(input, lista);
       input.setAttribute("aria-expanded", "true");
+      desapilar = apilarCapa(cerrar2);
     };
     const cerrar2 = () => {
+      if (!lista.classList.contains("visible")) return;
       lista.classList.remove("visible");
       input.setAttribute("aria-expanded", "false");
       input.removeAttribute("aria-activedescendant");
+      desapilar?.();
+      desapilar = null;
     };
     const marcarResaltada = (indice) => {
       const items = Array.from(lista.querySelectorAll("li:not(.sin-resultados)"));
@@ -715,8 +766,6 @@ function iniciarCombobox(raiz = document) {
           const elegida = opciones.find((o) => o.value === items[resaltada]?.dataset.valor);
           if (elegida) seleccionar(elegida);
         }
-      } else if (e.key === "Escape") {
-        cerrar2();
       }
     });
     if (select.value) {
@@ -834,20 +883,27 @@ function iniciarToggletips(raiz = document) {
       contenedor2.appendChild(panel);
       trigger.setAttribute("aria-describedby", idDe(panel, "toggletip"));
       trigger.setAttribute("aria-expanded", "false");
+      let desapilar = null;
       const cerrar2 = (devolverFoco = false) => {
         if (!panel.classList.contains("visible")) return;
         panel.classList.remove("visible");
         trigger.setAttribute("aria-expanded", "false");
+        desapilar?.();
+        desapilar = null;
         if (devolverFoco) trigger.focus();
         contenedor2.dispatchEvent(new CustomEvent("santacorina:toggletip-cerrar", { bubbles: true }));
       };
       const alternar = (e) => {
         e.stopPropagation();
-        const abrir2 = !panel.classList.contains("visible");
-        panel.classList.toggle("visible", abrir2);
-        trigger.setAttribute("aria-expanded", String(abrir2));
-        if (abrir2) contenedor2.dispatchEvent(new CustomEvent("santacorina:toggletip-abrir", { bubbles: true }));
-        else contenedor2.dispatchEvent(new CustomEvent("santacorina:toggletip-cerrar", { bubbles: true }));
+        if (panel.classList.contains("visible")) {
+          cerrar2();
+          return;
+        }
+        panel.classList.add("visible");
+        posicionarFlotante(trigger, panel);
+        trigger.setAttribute("aria-expanded", "true");
+        desapilar = apilarCapa(() => cerrar2(true));
+        contenedor2.dispatchEvent(new CustomEvent("santacorina:toggletip-abrir", { bubbles: true }));
       };
       trigger.addEventListener("click", alternar);
       instancias3.set(contenedor2, { panel, cerrar: cerrar2 });
@@ -857,14 +913,9 @@ function iniciarToggletips(raiz = document) {
     const alClicAfuera = (e) => {
       if (!contenedor2.contains(e.target)) instancia.cerrar();
     };
-    const alTeclado = (e) => {
-      if (e.key === "Escape" && instancia.panel.classList.contains("visible")) instancia.cerrar(true);
-    };
     document.addEventListener("click", alClicAfuera);
-    document.addEventListener("keydown", alTeclado);
     registrarDestructor(raiz, () => {
       document.removeEventListener("click", alClicAfuera);
-      document.removeEventListener("keydown", alTeclado);
       desactivar(contenedor2, "toggletip-doc");
     });
   });
@@ -1118,6 +1169,43 @@ function iniciarSeleccionTabla(raiz = document) {
   });
 }
 
+// src/js/menu.ts
+function iniciarMenus(raiz = document) {
+  raiz.querySelectorAll("details.menu").forEach((detalle) => {
+    if (!primeraVez(detalle, "menu")) return;
+    const resumen = detalle.querySelector("summary");
+    const panel = detalle.querySelector(".menu-panel");
+    if (!resumen || !panel) return;
+    panel.setAttribute("role", "menu");
+    const items = () => Array.from(panel.querySelectorAll(":scope > a, :scope > button"));
+    items().forEach((item) => item.setAttribute("role", "menuitem"));
+    let desapilar = null;
+    detalle.addEventListener("toggle", () => {
+      if (detalle.open) {
+        posicionarFlotante(resumen, panel);
+        items()[0]?.focus();
+        desapilar = apilarCapa(() => {
+          detalle.open = false;
+        });
+      } else {
+        desapilar?.();
+        desapilar = null;
+      }
+    });
+    panel.addEventListener("keydown", (e) => {
+      const lista = items();
+      const actual = lista.indexOf(document.activeElement);
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        lista[Math.min(actual + 1, lista.length - 1)]?.focus();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        lista[Math.max(actual - 1, 0)]?.focus();
+      }
+    });
+  });
+}
+
 // src/js/index.ts
 function iniciarTodo(raiz = document) {
   iniciarModales(raiz);
@@ -1140,13 +1228,7 @@ function iniciarTodo(raiz = document) {
   iniciarCarruseles(raiz);
   iniciarFormularios(raiz);
   iniciarSeleccionTabla(raiz);
-}
-if (typeof document !== "undefined") {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => iniciarTodo());
-  } else {
-    iniciarTodo();
-  }
+  iniciarMenus(raiz);
 }
 export {
   abrirModal,
@@ -1167,6 +1249,7 @@ export {
   iniciarFormularios,
   iniciarLateral,
   iniciarMedidorClave,
+  iniciarMenus,
   iniciarModales,
   iniciarPopovers,
   iniciarRangoFechas,
@@ -1180,5 +1263,6 @@ export {
   irAPaso,
   mostrarToast,
   ponerCargando,
+  posicionarFlotante,
   quitarCargando
 };

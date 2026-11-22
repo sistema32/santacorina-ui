@@ -6,7 +6,8 @@
  * es modal, solo recibe el foco inicial al abrir.
  */
 import { idDe } from "./foco.js";
-import { activar, desactivar, primeraVez, registrarDestructor } from "./una-vez.js";
+import { posicionarFlotante } from "./flotante.js";
+import { activar, apilarCapa, desactivar, primeraVez, registrarDestructor } from "./una-vez.js";
 
 const instancias = new WeakMap<HTMLElement, { panel: HTMLElement; cerrar: (devolverFoco?: boolean) => void }>();
 
@@ -26,20 +27,27 @@ export function iniciarToggletips(raiz: ParentNode = document): void {
       trigger.setAttribute("aria-describedby", idDe(panel, "toggletip"));
       trigger.setAttribute("aria-expanded", "false");
 
+      let desapilar: (() => void) | null = null;
       const cerrar = (devolverFoco = false) => {
         if (!panel.classList.contains("visible")) return;
         panel.classList.remove("visible");
         trigger.setAttribute("aria-expanded", "false");
+        desapilar?.();
+        desapilar = null;
         if (devolverFoco) trigger.focus();
         contenedor.dispatchEvent(new CustomEvent("santacorina:toggletip-cerrar", { bubbles: true }));
       };
       const alternar = (e: Event) => {
         e.stopPropagation();
-        const abrir = !panel.classList.contains("visible");
-        panel.classList.toggle("visible", abrir);
-        trigger.setAttribute("aria-expanded", String(abrir));
-        if (abrir) contenedor.dispatchEvent(new CustomEvent("santacorina:toggletip-abrir", { bubbles: true }));
-        else contenedor.dispatchEvent(new CustomEvent("santacorina:toggletip-cerrar", { bubbles: true }));
+        if (panel.classList.contains("visible")) {
+          cerrar();
+          return;
+        }
+        panel.classList.add("visible");
+        posicionarFlotante(trigger, panel);
+        trigger.setAttribute("aria-expanded", "true");
+        desapilar = apilarCapa(() => cerrar(true));
+        contenedor.dispatchEvent(new CustomEvent("santacorina:toggletip-abrir", { bubbles: true }));
       };
 
       trigger.addEventListener("click", alternar);
@@ -55,14 +63,9 @@ export function iniciarToggletips(raiz: ParentNode = document): void {
     const alClicAfuera = (e: Event) => {
       if (!contenedor.contains(e.target as Node)) instancia.cerrar();
     };
-    const alTeclado = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && instancia.panel.classList.contains("visible")) instancia.cerrar(true);
-    };
     document.addEventListener("click", alClicAfuera);
-    document.addEventListener("keydown", alTeclado);
     registrarDestructor(raiz, () => {
       document.removeEventListener("click", alClicAfuera);
-      document.removeEventListener("keydown", alTeclado);
       desactivar(contenedor, "toggletip-doc");
     });
   });

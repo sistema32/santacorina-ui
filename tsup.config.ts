@@ -11,15 +11,27 @@ export default defineConfig([
     },
   },
   {
+    // Sin auto-arranque -- para quien consume con bundler (Vite/Vue):
+    // importar esto no ejecuta nada por su cuenta (ver `auto.ts`).
     entry: { js: "src/js/index.ts" },
-    format: ["esm", "cjs", "iife"],
-    globalName: "Santacorina",
+    format: ["esm", "cjs"],
     dts: true,
     clean: false,
     outExtension({ format }) {
-      if (format === "cjs") return { js: ".cjs" };
-      if (format === "iife") return { js: ".global.js" };
-      return { js: ".mjs" };
+      return { js: format === "cjs" ? ".cjs" : ".mjs" };
+    },
+  },
+  {
+    // Con auto-arranque -- para `<script src>` sin bundler (Jinja).
+    // Mismo nombre de archivo final (`dist/js.global.js`) que antes de
+    // separar las dos entradas.
+    entry: { js: "src/js/auto.ts" },
+    format: ["iife"],
+    globalName: "Santacorina",
+    dts: false,
+    clean: false,
+    outExtension() {
+      return { js: ".global.js" };
     },
   },
 ]);

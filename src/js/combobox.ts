@@ -8,7 +8,8 @@
  * `role="option"` + `aria-selected`.
  */
 import { idDe } from "./foco.js";
-import { activar, desactivar, primeraVez, registrarDestructor } from "./una-vez.js";
+import { posicionarFlotante } from "./flotante.js";
+import { activar, apilarCapa, desactivar, primeraVez, registrarDestructor } from "./una-vez.js";
 
 const instancias = new WeakMap<HTMLElement, { reconciliar: () => void; cerrar: () => void }>();
 
@@ -72,15 +73,23 @@ export function iniciarCombobox(raiz: ParentNode = document): void {
       });
     };
 
+    let desapilar: (() => void) | null = null;
     const abrir = () => {
+      const yaVisible = lista.classList.contains("visible");
       redibujar(input.value);
+      if (yaVisible) return;
       lista.classList.add("visible");
+      posicionarFlotante(input, lista);
       input.setAttribute("aria-expanded", "true");
+      desapilar = apilarCapa(cerrar);
     };
     const cerrar = () => {
+      if (!lista.classList.contains("visible")) return;
       lista.classList.remove("visible");
       input.setAttribute("aria-expanded", "false");
       input.removeAttribute("aria-activedescendant");
+      desapilar?.();
+      desapilar = null;
     };
 
     const marcarResaltada = (indice: number) => {
@@ -144,8 +153,6 @@ export function iniciarCombobox(raiz: ParentNode = document): void {
           const elegida = opciones.find((o) => o.value === items[resaltada]?.dataset.valor);
           if (elegida) seleccionar(elegida);
         }
-      } else if (e.key === "Escape") {
-        cerrar();
       }
     });
     if (select.value) {

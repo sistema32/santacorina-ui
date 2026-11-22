@@ -71,6 +71,7 @@
     <a href="componentes.html#tabla">Tabla</a>
     <a href="componentes.html#tabla-ordenable">Tabla ordenable</a>
     <a href="componentes.html#tabla-variantes">Variantes de tabla</a>
+    <a href="componentes.html#densidad">Densidad por bloque</a>
     <a href="componentes.html#dato">Dato</a>
     <a href="componentes.html#luz">Semáforo</a>
     <a href="componentes.html#tiempo">Línea de tiempo</a>
@@ -128,8 +129,9 @@
           <pre class="codigo">&lt;script src="node_modules/@sistema32/santacorina-ui/dist/js.global.js"&gt;&lt;/script&gt;
 &lt;!-- Santacorina.formato.conSigno(-6014510) -- "-$6.014.510" --&gt;
 &lt;!-- .lateral-toggle, .tabs, data-rango-fechas y data-calendario ya funcionan solos --&gt;</pre>
-          <p style="margin:14px 0 6px;font-weight:600;color:var(--color-navy)">Con bundler (Vue de <code>sgp/frontend</code>)</p>
-          <pre class="codigo">import { formato, mostrarToast } from "@sistema32/santacorina-ui/js"</pre>
+          <p style="margin:14px 0 6px;font-weight:600;color:var(--color-navy)">Con bundler (Vue de <code>sgp/frontend</code>) -- sin auto-arranque desde 0.25.0</p>
+          <pre class="codigo">import { formato, mostrarToast, iniciarTodo, destruirTodo } from "@sistema32/santacorina-ui/js"
+// onMounted(() => iniciarTodo(raiz)); onUnmounted(() => destruirTodo(raiz));</pre>
         </div>
       </div>
       <table style="margin-bottom:10px">
@@ -148,13 +150,15 @@
           <tr><td class="codigo">iniciarFormularios</td><td>Valida con la Constraint Validation API nativa cada <code>&lt;form data-validar&gt;</code></td><td class="cen">✓</td></tr>
           <tr><td class="codigo">ponerCargando/quitarCargando(boton)</td><td>Estado "Guardando…" en un <code>.boton</code> sin cambiar su ancho</td><td class="cen">—</td></tr>
           <tr><td class="codigo">iniciarSeleccionTabla</td><td>Checkbox de cabecera/fila en <code>table[data-seleccion]</code> + <code>.barra-seleccion</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarMenus</td><td>Mejora <code>.menu</code>/<code>&lt;details&gt;</code>: roles ARIA, flechas entre items, foco inicial, posicionamiento</td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">posicionarFlotante(ancla, panel)</td><td>Marca <code>data-posicion="arriba"</code> si no hay espacio debajo de <code>ancla</code></td><td class="cen">—</td></tr>
         </tbody>
       </table>
     </section>
 
 <section class="doc-sec" id="ciclo-de-vida">
       <h2>Ciclo de vida y eventos</h2>
-      <p class="uso"><code>iniciarTodo()</code> ya era seguro de llamar dos veces sobre el mismo DOM (0.19.0) — no duplica listeners. Lo que faltaba era el caso de una SPA que <strong>desmonta</strong> <code>raiz</code> y monta un nodo equivalente: los listeners que modal/cajón/popover/toggletip/calendario/combobox ponen en <code>document</code> (Escape, clic-afuera) no se liberan solos, porque <code>document</code> nunca se destruye. <code>destruirTodo(raiz)</code> los libera antes de desmontar.</p>
+      <p class="uso"><code>iniciarTodo()</code> ya era seguro de llamar dos veces sobre el mismo DOM (0.19.0) — no duplica listeners. Lo que faltaba era el caso de una SPA que <strong>desmonta</strong> <code>raiz</code> y monta un nodo equivalente: los listeners que modal/cajón/popover/toggletip/calendario/combobox/menú ponen en <code>document</code> (clic-afuera) no se liberan solos, porque <code>document</code> nunca se destruye. <code>destruirTodo(raiz)</code> los libera antes de desmontar. Desde 0.25.0, <code>Escape</code> ya no depende de un listener por módulo: los 7 se apilan en una pila compartida al abrirse (<code>apilarCapa</code>) y <code>Escape</code> cierra solo la capa superior — un popover abierto dentro de un modal se cierra primero, el modal recién con el segundo <code>Escape</code>.</p>
       <div class="demo-wrap">
         <div class="demo" id="demo-ciclo-vida">
           <div data-popover-demo><button data-popover-trigger class="boton secundario">Abrir popover</button><div data-popover-contenido>Contenido del popover</div></div>

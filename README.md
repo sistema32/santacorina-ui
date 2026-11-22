@@ -51,8 +51,16 @@ consumo, igual criterio que `dist/ui.css`:
 ```
 
 ```ts
-// con bundler (Vue u otro)
-import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js";
+// con bundler (Vue u otro) -- esta entrada NO se auto-ejecuta (a
+// diferencia de dist/js.global.js): cada pantalla llama iniciarTodo
+// (o cada iniciar* suelto) cuando le corresponde, y destruirTodo al
+// desmontar. Desde 0.25.0 -- antes, importar el paquete ya disparaba
+// iniciarTodo() aunque viniera de un bundler.
+import { formato, mostrarToast, abrirModal, iniciarTodo, destruirTodo } from "@sistema32/santacorina-ui/js";
+
+// ej. en un componente Vue:
+// onMounted(() => iniciarTodo(raizRef.value));
+// onUnmounted(() => destruirTodo(raizRef.value));
 ```
 
 | Utilidad | Qué hace | Se auto-inicia |
@@ -85,6 +93,8 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | `iniciarFormularios` | Valida con la Constraint Validation API nativa en cada `<form data-validar>`; si falla, marca `.campo-error`/`[aria-invalid]` y arma `.resumen-errores` | ✓ |
 | `ponerCargando(boton)` / `quitarCargando(boton)` | Estado "Guardando…" en un `.boton` sin cambiar su ancho (`aria-busy` + `disabled`, evita doble envío) | — |
 | `iniciarSeleccionTabla` | Checkbox de cabecera (marca/desmarca/`indeterminate`) + checkboxes de fila en `table[data-seleccion]`, dispara `santacorina:seleccion-cambiar` y muestra/oculta `.barra-seleccion` | ✓ |
+| `iniciarMenus` | Mejora `.menu`/`.menu-panel` (`<details>` nativo): roles ARIA de menú, flechas arriba/abajo entre items, foco inicial al abrir, posicionamiento y Escape (ver abajo) | ✓ |
+| `posicionarFlotante(ancla, panel)` | Marca `panel.dataset.posicion = "arriba"` si no hay espacio debajo de `ancla` — usado internamente por popover/toggletip/calendario/combobox/menu, exportado por si una pantalla arma su propia capa flotante | — |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
 
@@ -101,8 +111,16 @@ duplican listeners ni se repiten eventos por un mismo clic. Si en cambio
 `raiz` se **desmonta** (el nodo se saca del DOM) y luego se vuelve a montar
 un nodo equivalente, llamar `destruirTodo(raiz)` antes de desmontar libera
 los listeners que algunos módulos (modal, cajón, popover, toggletip,
-calendario, combobox) ponen sobre `document` — esos no se liberan solos
+calendario, combobox, menú) ponen sobre `document` — esos no se liberan solos
 porque `document` nunca se destruye.
+
+**`Escape` cierra solo la capa de arriba** (0.25.0): modal, cajón,
+popover, toggletip, calendario, combobox y menú se apilan en una pila
+compartida al abrirse (`src/js/una-vez.ts`, `apilarCapa`) — un
+calendario abierto dentro de un modal se cierra primero con `Escape`,
+el modal recién con el segundo. Antes, modal/cajón cerraban *todas*
+las instancias visibles de una sola vez; ahora cierran solo la última
+abierta.
 
 ### Eventos `santacorina:*`
 
@@ -201,6 +219,31 @@ franjas oscuras por diseño, no por tema) y los colores saturados base
 (`--color-azul`/`-azul-oscuro`/`-verde`/`-naranjo`/`-rojo`/`-gris`,
 usados como fondo de botón/badge con texto blanco fijo o como borde —
 su variante de *texto* reactiva es la versión `-texto` de cada uno).
+
+## Adaptabilidad y accesibilidad (0.25.0)
+
+- **`@container`**: `.cajon` y `.modal-panel` son `container-type: inline-size`
+  — `.barra-filtros` se apila por ESPACIO DISPONIBLE dentro de ellos, no
+  solo por ancho de ventana (el `@media (max-width: 600px)` de 0.20.0
+  sigue cubriendo el caso de pantalla angosta; esto cubre el cajón/modal
+  angosto en una pantalla ancha).
+- **Densidad por bloque**: `[data-densidad="compacta"]` en cualquier
+  contenedor (`<table>`, `<form>`, `.tarjeta`) reduce su padding —
+  generaliza `.tabla-compacta` (0.20.0, que sigue funcionando igual) a
+  cualquier componente, mismo criterio que `data-tono`/`data-tamano`.
+  Una tabla puede ser compacta mientras el formulario vecino no.
+- **Posicionamiento flotante**: popover, toggletip, calendario,
+  combobox y menú miden el espacio disponible y abren hacia arriba
+  (`data-posicion="arriba"`) si no alcanza hacia abajo — ver
+  `posicionarFlotante` arriba. Solo colisión vertical por ahora.
+- **Teclado**: flechas arriba/abajo navegan entre items de `.menu` y
+  entre días del calendario (además del ya existente ArrowUp/Down del
+  combobox); `Escape` cierra solo la capa superior (ver arriba).
+- **`prefers-reduced-motion`**: sin transición en `.cajon`/`.lateral`,
+  sin animación en `.toast`/`.cargando`/`.skeleton`.
+- **`forced-colors` (alto contraste de Windows)**: `.insignia`,
+  `.etiqueta`, `.luz` y `.chip` (que comunican su estado solo con el
+  color de fondo) suman un borde para seguir siendo distinguibles.
 
 ## Componentes incluidos
 
@@ -339,7 +382,8 @@ opcional:
 | `[data-popover]` | El trigger recibe `aria-haspopup`/`aria-expanded`; el panel, `role="dialog"`; Escape devuelve el foco al trigger — pero solo si ese popover está realmente abierto (ver más abajo, "Decisiones verificadas"). |
 | `.combobox` | Patrón ARIA 1.2 completo: `role="combobox"` + `aria-expanded`/`aria-controls`/`aria-activedescendant` en el input; `role="listbox"`/`"option"` en la lista. |
 | `[data-colapsar]` | `aria-expanded` + `aria-controls` apuntando al panel. |
-| `.acordeon`, `.menu` | Ya accesibles de fábrica — son `<details>`/`<summary>` nativos, el navegador resuelve foco, teclado y el estado expandido/colapsado. |
+| `.acordeon` | Ya accesible de fábrica — es `<details>`/`<summary>` nativo, el navegador resuelve foco, teclado y el estado expandido/colapsado. |
+| `.menu` | El abrir/cerrar sigue siendo `<details>`/`<summary>` nativo; `iniciarMenus` (0.25.0) suma `role="menu"`/`"menuitem"`, flechas arriba/abajo entre items y foco inicial al abrir. |
 
 ## Decisiones verificadas (no asumidas)
 

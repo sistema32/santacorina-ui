@@ -752,6 +752,19 @@ export function buildComponents(): CssEnJs {
     ".tabla-compacta th": { padding: "6px 8px" },
     ".tabla-compacta td": { padding: "7px 8px" },
 
+    /* Densidad por bloque -- generaliza `.tabla-compacta` (una sola
+     * tabla) a cualquier contenedor, mismo criterio que `data-tono`/
+     * `data-tamano` (0.17.0): un atributo, no una clase nueva por
+     * componente. Una tabla puede usar `[data-densidad="compacta"]`
+     * mientras el formulario vecino sigue con controles comodos --
+     * `.tabla-compacta` queda intacta (equivale a aplicar el atributo
+     * solo a esa tabla).
+     */
+    "[data-densidad='compacta'] .campo": { marginBottom: "10px" },
+    "[data-densidad='compacta'] .tarjeta": { padding: "12px 14px", marginBottom: "12px" },
+    "[data-densidad='compacta'] table th": { padding: "6px 8px" },
+    "[data-densidad='compacta'] table td": { padding: "7px 8px" },
+
     /* Encabezado de tabla ordenable -- de Carbon Design System (tabla
        de datos). Solo la flecha y el estado `[aria-sort]`; el JS vive
        en `/js` (`iniciarTablasOrdenables`) y solo dispara un evento --
@@ -1043,6 +1056,7 @@ export function buildComponents(): CssEnJs {
       maxHeight: "82vh",
       overflow: "auto",
       boxShadow: "0 22px 60px rgba(4, 20, 36, 0.4)",
+      containerType: "inline-size",
     },
     ".modal-panel h3": { margin: "0 0 12px", fontSize: "17px", color: "var(--color-titulo)" },
     ".modal-panel .cerrar": {
@@ -1687,6 +1701,11 @@ export function buildComponents(): CssEnJs {
       boxShadow: "0 10px 30px rgba(12, 45, 74, 0.18)",
       padding: "6px",
     },
+    /* `data-posicion="arriba"` lo pone `posicionarFlotante()` (JS en
+     * `/js`, `flotante.ts`) cuando no hay espacio debajo del ancla --
+     * mismo criterio que `aria-sort`/`data-tono`: la JS solo decide y
+     * marca el atributo, el CSS define los valores reales. */
+    ".menu-panel[data-posicion='arriba']": { top: "auto", bottom: "calc(100% + 4px)" },
     ".menu-panel a, .menu-panel button": {
       display: "block",
       width: "100%",
@@ -1726,6 +1745,7 @@ export function buildComponents(): CssEnJs {
       padding: "12px",
     },
     ".calendario-panel.visible": { display: "block" },
+    ".calendario-panel[data-posicion='arriba']": { top: "auto", bottom: "calc(100% + 4px)" },
     ".calendario-cabecera": {
       display: "flex",
       alignItems: "center",
@@ -1761,6 +1781,10 @@ export function buildComponents(): CssEnJs {
       borderRadius: "7px",
       cursor: "pointer",
       color: "var(--color-texto)",
+      border: "0",
+      backgroundColor: "transparent",
+      font: "inherit",
+      width: "100%",
     },
     ".calendario-dia:hover": { backgroundColor: "var(--color-gris-fondo)" },
     ".calendario-dia.fuera": { color: "var(--color-tenue)", opacity: "0.4" },
@@ -1791,6 +1815,7 @@ export function buildComponents(): CssEnJs {
       color: "var(--color-texto)",
     },
     ".popover-panel.visible": { display: "block" },
+    ".popover-panel[data-posicion='arriba']": { top: "auto", bottom: "calc(100% + 8px)" },
     ".popover-panel .titulo": { display: "block", fontWeight: "700", color: "var(--color-titulo)", marginBottom: "4px" },
 
     /* ---------------------------------------------------------------
@@ -1818,6 +1843,7 @@ export function buildComponents(): CssEnJs {
       lineHeight: "1.5",
     },
     ".toggletip-panel.visible": { display: "block" },
+    ".toggletip-panel[data-posicion='arriba']": { top: "auto", bottom: "calc(100% + 8px)" },
 
     /* Bajo 600px (telefono, no tablet -- el 900px del resto del paquete
        es muy ancho para esto): el breadcrumb trunca cada tramo en vez de
@@ -1860,6 +1886,20 @@ export function buildComponents(): CssEnJs {
       },
     },
 
+    /* `.cajon`/`.modal-panel` ya son `container-type: inline-size` (ver
+     * sus reglas arriba) -- esto hace que `.barra-filtros` se apile
+     * tambien por ESPACIO DISPONIBLE, no solo por ancho de ventana: un
+     * cajon angosto en una pantalla ancha hoy dejaba la barra de
+     * filtros apretada contra el borde sin apilarse (el `@media 600px`
+     * de arriba no se activa si la VENTANA es ancha, aunque el cajon
+     * en si sea angosto). Mismas reglas, misma razon de orden (despues
+     * de las reglas base para ganar el empate de cascada). */
+    "@container (max-width: 480px)": {
+      ".barra-filtros": { flexDirection: "column", alignItems: "stretch" },
+      ".barra-filtros .buscador, .barra-filtros select": { flex: "none", width: "100%" },
+      ".barra-filtros .limpiar-filtros": { marginLeft: "0", textAlign: "center" },
+    },
+
     /* ---------------------------------------------------------------
      * Colapsar (generico) -- a diferencia de `.acordeon` (auto-contenido
      * en `<details>`), el boton y el panel pueden vivir en cualquier
@@ -1888,6 +1928,7 @@ export function buildComponents(): CssEnJs {
       transition: "transform 0.22s ease",
       overflowY: "auto",
       padding: "22px 24px",
+      containerType: "inline-size",
     },
     ".cajon.abierto": { transform: "translateX(0)" },
     ".cajon-fondo": {
@@ -1932,6 +1973,7 @@ export function buildComponents(): CssEnJs {
       listStyle: "none",
     },
     ".combobox-opciones.visible": { display: "block" },
+    ".combobox-opciones[data-posicion='arriba']": { top: "auto", bottom: "calc(100% + 4px)" },
     ".combobox-opciones li": {
       padding: "8px 10px",
       borderRadius: "7px",
@@ -2215,5 +2257,28 @@ export function buildComponents(): CssEnJs {
     ".punto-estado.hecho": { backgroundColor: "var(--color-verde)" },
     ".punto-estado.en-curso": { backgroundColor: "var(--color-naranjo)" },
     ".punto-estado.fallido": { backgroundColor: "var(--color-rojo)" },
+
+    /* ---------------------------------------------------------------
+     * Movimiento reducido -- quien activo esta preferencia del sistema
+     * no quiere que nada se deslice ni gire. Van al final a proposito
+     * (mismo criterio que el bloque de 600px): pisan la transicion/
+     * animacion que cada regla base ya definio, sin tocarlas alla.
+     * ------------------------------------------------------------- */
+    "@media (prefers-reduced-motion: reduce)": {
+      ".cajon, .lateral, .lateral.lateral-fija": { transition: "none" },
+      ".toast": { animation: "none" },
+      ".cargando": { animation: "none" },
+      ".skeleton": { animation: "none" },
+    },
+
+    /* ---------------------------------------------------------------
+     * Alto contraste (Windows "forced-colors") -- el navegador
+     * reemplaza todos los colores por la paleta del sistema; estos
+     * indicadores comunican su estado SOLO con el color de fondo, asi
+     * que sin un borde quedan indistinguibles entre si.
+     * ------------------------------------------------------------- */
+    "@media (forced-colors: active)": {
+      ".insignia, .etiqueta, .luz, .chip": { border: "1px solid CanvasText" },
+    },
   };
 }

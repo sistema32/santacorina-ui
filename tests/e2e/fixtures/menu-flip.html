@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../dist/ui.css">
+<style>body{margin:0;padding:0}</style>
+</head>
+<body>
+
+<!-- La tabla es mas alta que la ventana a proposito: el menu de la
+     ultima fila no tiene espacio debajo, debe abrir hacia arriba. -->
+<table style="width:100%">
+  <thead><tr><th>Fila</th><th></th></tr></thead>
+  <tbody>
+    <tr style="height:700px"><td>Fila 1</td><td></td></tr>
+    <tr id="fila-ultima">
+      <td>Fila ultima</td>
+      <td>
+        <details class="menu" id="menu-fila">
+          <summary>⋮</summary>
+          <div class="menu-panel">
+            <a href="#">Ver detalle</a>
+            <button type="button">Editar</button>
+          </div>
+        </details>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script src="../../../dist/js.global.js"></script>
+</body>
+</html>

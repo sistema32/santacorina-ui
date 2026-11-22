@@ -4,7 +4,8 @@
  * (sin uso real hoy en sgp), pedido explicitamente por el usuario.
  */
 import { fechaCorta } from "./formato.js";
-import { activar, desactivar, primeraVez, registrarDestructor } from "./una-vez.js";
+import { posicionarFlotante } from "./flotante.js";
+import { activar, apilarCapa, desactivar, primeraVez, registrarDestructor } from "./una-vez.js";
 
 const DOW = ["L", "M", "M", "J", "V", "S", "D"];
 const MESES = [
@@ -31,6 +32,7 @@ function construirGrilla(
   panel: HTMLElement,
   mesVisible: Date,
   seleccionada: Date | null,
+  focoDia: Date,
   onElegir: (dia: Date) => void,
   onCambiarMes: (mes: Date) => void,
 ): void {
@@ -69,12 +71,14 @@ function construirGrilla(
   for (let i = 0; i < 42; i++) {
     const dia = new Date(inicio);
     dia.setDate(inicio.getDate() + i);
-    const el = document.createElement("div");
+    const el = document.createElement("button");
+    el.type = "button";
     el.className = "calendario-dia";
     if (dia.getMonth() !== mesVisible.getMonth()) el.classList.add("fuera");
     if (mismaFecha(dia, hoy)) el.classList.add("hoy");
     if (seleccionada && mismaFecha(dia, seleccionada)) el.classList.add("activo");
     el.textContent = String(dia.getDate());
+    el.tabIndex = mismaFecha(dia, focoDia) ? 0 : -1;
     el.addEventListener("click", () => onElegir(dia));
     grilla.appendChild(el);
   }
@@ -101,40 +105,67 @@ export function iniciarCalendario(raiz: ParentNode = document): void {
 
       let seleccionada: Date | null = null;
       let mesVisible = primerDiaDe(new Date());
+      let focoDia = new Date();
+
+      const enfocarDiaActual = () => {
+        panel.querySelector<HTMLElement>(".calendario-dia[tabindex='0']")?.focus();
+      };
+
+      let desapilar: (() => void) | null = null;
 
       const redibujar = () => {
-        construirGrilla(
-          panel,
-          mesVisible,
-          seleccionada,
-          (dia) => {
-            seleccionada = dia;
-            mesVisible = primerDiaDe(dia);
-            input.value = fechaCorta(dia);
-            input.dispatchEvent(new Event("input", { bubbles: true }));
-            input.dispatchEvent(new Event("change", { bubbles: true }));
-            cerrar();
-          },
-          (mes) => {
-            mesVisible = mes;
-            redibujar();
-          },
-        );
+        construirGrilla(panel, mesVisible, seleccionada, focoDia, elegir, cambiarMes);
       };
+      const elegir = (dia: Date): void => {
+        seleccionada = dia;
+        focoDia = dia;
+        mesVisible = primerDiaDe(dia);
+        input.value = fechaCorta(dia);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+        cerrar();
+      };
+      const cambiarMes = (mes: Date): void => {
+        mesVisible = mes;
+        redibujar();
+      };
+      const moverFoco = (delta: number): void => {
+        const nuevo = new Date(focoDia);
+        nuevo.setDate(nuevo.getDate() + delta);
+        focoDia = nuevo;
+        mesVisible = primerDiaDe(focoDia);
+        redibujar();
+        enfocarDiaActual();
+      };
+
       const abrir = () => {
+        focoDia = seleccionada ?? new Date();
+        mesVisible = primerDiaDe(focoDia);
         redibujar();
         panel.classList.add("visible");
+        posicionarFlotante(input, panel);
+        enfocarDiaActual();
+        desapilar = apilarCapa(() => cerrar(true));
         contenedor.dispatchEvent(new CustomEvent("santacorina:calendario-abrir", { bubbles: true }));
       };
-      const cerrar = () => {
+      const cerrar = (devolverFoco = false) => {
         if (!panel.classList.contains("visible")) return;
         panel.classList.remove("visible");
+        desapilar?.();
+        desapilar = null;
+        if (devolverFoco) input.focus();
         contenedor.dispatchEvent(new CustomEvent("santacorina:calendario-cerrar", { bubbles: true }));
       };
 
       input.addEventListener("click", (e) => {
         e.stopPropagation();
         abrir();
+      });
+      panel.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") { e.preventDefault(); moverFoco(-1); }
+        else if (e.key === "ArrowRight") { e.preventDefault(); moverFoco(1); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); moverFoco(-7); }
+        else if (e.key === "ArrowDown") { e.preventDefault(); moverFoco(7); }
       });
       cerrarDe.set(contenedor, cerrar);
     }
@@ -149,14 +180,9 @@ export function iniciarCalendario(raiz: ParentNode = document): void {
     const alClicAfuera = (e: Event) => {
       if (!contenedor.contains(e.target as Node)) cerrar();
     };
-    const alTeclado = (e: KeyboardEvent) => {
-      if (e.key === "Escape") cerrar();
-    };
     document.addEventListener("click", alClicAfuera);
-    document.addEventListener("keydown", alTeclado);
     registrarDestructor(raiz, () => {
       document.removeEventListener("click", alClicAfuera);
-      document.removeEventListener("keydown", alTeclado);
       desactivar(contenedor, "calendario-doc");
     });
   });

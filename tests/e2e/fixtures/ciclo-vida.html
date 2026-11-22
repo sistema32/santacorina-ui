@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../dist/ui.css">
+</head>
+<body>
+
+<div id="raiz">
+  <table data-seleccion>
+    <thead><tr><th><input type="checkbox" data-seleccionar-todo></th><th>Nombre</th></tr></thead>
+    <tbody>
+      <tr><td><input type="checkbox" data-seleccionar-fila value="1"></td><td>uno</td></tr>
+      <tr><td><input type="checkbox" data-seleccionar-fila value="2"></td><td>dos</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<button id="btn-remontar">remontar</button>
+<pre id="log"></pre>
+
+<script src="../../../dist/js.global.js"></script>
+<script>
+  var eventos = 0;
+  var ultimoDetalle = null;
+  function escribirLog() {
+    document.getElementById("log").textContent = JSON.stringify({ eventos: eventos, detalle: ultimoDetalle });
+  }
+  function escuchar() {
+    eventos = 0;
+    escribirLog();
+    document.querySelector("table[data-seleccion]").addEventListener("santacorina:seleccion-cambiar", function (e) {
+      eventos++;
+      ultimoDetalle = e.detail;
+      escribirLog();
+    });
+  }
+  escuchar();
+
+  document.getElementById("btn-remontar").addEventListener("click", function () {
+    var raiz = document.getElementById("raiz");
+    Santacorina.destruirTodo(raiz);
+    var nuevo = raiz.cloneNode(true);
+    raiz.replaceWith(nuevo);
+    nuevo.id = "raiz";
+    escuchar();
+    Santacorina.iniciarTodo(nuevo);
+  });
+</script>
+</body>
+</html>

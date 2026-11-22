@@ -4,9 +4,10 @@
  * esta abierto y lo devuelve al cerrar (ver foco.ts).
  */
 import { atraparFoco } from "./foco.js";
-import { primeraVez, registrarDestructor } from "./una-vez.js";
+import { apilarCapa, primeraVez } from "./una-vez.js";
 
 const liberadores = new WeakMap<HTMLElement, () => void>();
+const desapiladores = new WeakMap<HTMLElement, () => void>();
 
 export function abrirModal(el: HTMLElement): void {
   if (!el.getAttribute("role")) el.setAttribute("role", "dialog");
@@ -14,13 +15,17 @@ export function abrirModal(el: HTMLElement): void {
   el.classList.add("visible");
   const panel = el.querySelector<HTMLElement>(".modal-panel") ?? el;
   liberadores.set(el, atraparFoco(panel));
+  desapiladores.set(el, apilarCapa(() => cerrarModal(el)));
   el.dispatchEvent(new CustomEvent("santacorina:modal-abrir", { bubbles: true }));
 }
 
 export function cerrarModal(el: HTMLElement): void {
+  if (!el.classList.contains("visible")) return;
   el.classList.remove("visible");
   liberadores.get(el)?.();
   liberadores.delete(el);
+  desapiladores.get(el)?.();
+  desapiladores.delete(el);
   el.dispatchEvent(new CustomEvent("santacorina:modal-cerrar", { bubbles: true }));
 }
 
@@ -30,24 +35,10 @@ function cerrarSiCorresponde(modal: HTMLElement, objetivo: EventTarget | null): 
   }
 }
 
-let escapeGlobalActivo = false;
-
-/** Conecta clic en el backdrop, `[data-cerrar-modal]` y Escape para cada `.modal`. */
+/** Conecta clic en el backdrop, `[data-cerrar-modal]` y Escape (solo la capa superior, ver `una-vez.ts`) para cada `.modal`. */
 export function iniciarModales(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>(".modal").forEach((modal) => {
     if (!primeraVez(modal, "modal")) return;
     modal.addEventListener("click", (e) => cerrarSiCorresponde(modal, e.target));
   });
-  if (!escapeGlobalActivo) {
-    escapeGlobalActivo = true;
-    const manejador = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      document.querySelectorAll<HTMLElement>(".modal.visible").forEach((modal) => cerrarModal(modal));
-    };
-    document.addEventListener("keydown", manejador);
-    registrarDestructor(raiz, () => {
-      document.removeEventListener("keydown", manejador);
-      escapeGlobalActivo = false;
-    });
-  }
 }

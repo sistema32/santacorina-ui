@@ -87,3 +87,36 @@ export function activar(el: Element, nombre: string): boolean {
 export function desactivar(el: Element, nombre: string): void {
   activos.get(el)?.delete(nombre);
 }
+
+/**
+ * Pila de capas abiertas (modal, cajon, popover, toggletip, calendario,
+ * combobox, menu) -- antes cada modulo escuchaba `Escape` por su
+ * cuenta, sin saber de los demas: con un popover abierto ARRIBA de un
+ * modal, Escape en el modal no tocaba el popover, pero si alguna vez
+ * se abrian dos modales (o un modal y un cajon) a la vez, Escape los
+ * cerraba a TODOS de un tiron en vez de solo al de arriba. Un solo
+ * listener de `document` (activado perezosamente la primera vez que
+ * algo se apila) cierra nada mas la capa que esta en la punta de la
+ * pila.
+ */
+type Capa = { cerrar: () => void };
+const pila: Capa[] = [];
+let escapeActivo = false;
+
+/** Se llama al ABRIR una capa; devuelve la funcion para desapilarla al cerrar. */
+export function apilarCapa(cerrar: () => void): () => void {
+  if (!escapeActivo) {
+    escapeActivo = true;
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      const capa = pila.pop();
+      capa?.cerrar();
+    });
+  }
+  const capa: Capa = { cerrar };
+  pila.push(capa);
+  return () => {
+    const i = pila.indexOf(capa);
+    if (i !== -1) pila.splice(i, 1);
+  };
+}

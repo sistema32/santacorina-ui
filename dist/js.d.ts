@@ -45,7 +45,7 @@ declare function copiarAlPortapapeles(texto: string): Promise<boolean>;
 
 declare function abrirModal(el: HTMLElement): void;
 declare function cerrarModal(el: HTMLElement): void;
-/** Conecta clic en el backdrop, `[data-cerrar-modal]` y Escape para cada `.modal`. */
+/** Conecta clic en el backdrop, `[data-cerrar-modal]` y Escape (solo la capa superior, ver `una-vez.ts`) para cada `.modal`. */
 declare function iniciarModales(raiz?: ParentNode): void;
 
 /**
@@ -110,7 +110,25 @@ declare function quitarCargando(boton: HTMLButtonElement): void;
 
 declare function iniciarSeleccionTabla(raiz?: ParentNode): void;
 
+declare function iniciarMenus(raiz?: ParentNode): void;
+
+/**
+ * Posicionamiento compartido para capas flotantes (popover, toggletip,
+ * calendario, combobox, menu): hoy todas abren siempre hacia abajo,
+ * ancladas a un lado fijo -- un menu en la ultima fila de una tabla
+ * larga se abre fuera de la pantalla si no hay espacio debajo. La
+ * JS solo MIDE y marca `data-posicion="arriba"`; los valores reales
+ * de `top`/`bottom` los define el CSS (mismo criterio que
+ * `aria-sort`/`data-tono` en el resto del paquete -- nunca estilos
+ * inline desde JS).
+ *
+ * Alcance: solo colision vertical (arriba/abajo). Colision horizontal
+ * (desborda los costados) queda fuera -- no hay un caso concreto que
+ * lo pida.
+ */
+declare function posicionarFlotante(ancla: HTMLElement, panel: HTMLElement): void;
+
 /** Conecta todo lo auto-iniciable. */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, avanzarCarrusel, cerrarModal, copiarAlPortapapeles, debounce, destruirTodo, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarCarruseles, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarFormularios, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarResumenErrores, iniciarSeleccionTabla, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarZonasArrastre, irAPaso, mostrarToast, ponerCargando, quitarCargando };
+export { abrirModal, avanzarCarrusel, cerrarModal, copiarAlPortapapeles, debounce, destruirTodo, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarCarruseles, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarFormularios, iniciarLateral, iniciarMedidorClave, iniciarMenus, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarResumenErrores, iniciarSeleccionTabla, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarZonasArrastre, irAPaso, mostrarToast, ponerCargando, posicionarFlotante, quitarCargando };

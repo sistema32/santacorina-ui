@@ -5,9 +5,10 @@
  * de capa modal/deslizante.
  */
 import { atraparFoco } from "./foco.js";
-import { primeraVez, registrarDestructor } from "./una-vez.js";
+import { apilarCapa, primeraVez } from "./una-vez.js";
 
 const liberadores = new WeakMap<HTMLElement, () => void>();
+const desapiladores = new WeakMap<HTMLElement, () => void>();
 
 function abrir(cajon: HTMLElement, fondo: HTMLElement | null | undefined): void {
   if (!cajon.getAttribute("role")) cajon.setAttribute("role", "dialog");
@@ -15,18 +16,20 @@ function abrir(cajon: HTMLElement, fondo: HTMLElement | null | undefined): void 
   cajon.classList.add("abierto");
   fondo?.classList.add("visible");
   liberadores.set(cajon, atraparFoco(cajon));
+  desapiladores.set(cajon, apilarCapa(() => cerrar(cajon, fondo)));
   cajon.dispatchEvent(new CustomEvent("santacorina:cajon-abrir", { bubbles: true }));
 }
 
 function cerrar(cajon: HTMLElement, fondo: HTMLElement | null | undefined): void {
+  if (!cajon.classList.contains("abierto")) return;
   cajon.classList.remove("abierto");
   fondo?.classList.remove("visible");
   liberadores.get(cajon)?.();
   liberadores.delete(cajon);
+  desapiladores.get(cajon)?.();
+  desapiladores.delete(cajon);
   cajon.dispatchEvent(new CustomEvent("santacorina:cajon-cerrar", { bubbles: true }));
 }
-
-let escapeGlobalActivo = false;
 
 export function iniciarCajones(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>("[data-cajon-toggle]").forEach((boton) => {
@@ -51,21 +54,4 @@ export function iniciarCajones(raiz: ParentNode = document): void {
       if (cajon) cerrar(cajon, fondo);
     });
   });
-
-  if (!escapeGlobalActivo) {
-    escapeGlobalActivo = true;
-    const manejador = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      document.querySelectorAll<HTMLElement>(".cajon.abierto").forEach((cajon) => {
-        const destino = cajon.dataset.cajon;
-        const fondo = cajon.querySelector<HTMLElement>(".cajon-fondo") ?? (destino ? document.querySelector<HTMLElement>(`[data-cajon-fondo="${destino}"]`) : null);
-        cerrar(cajon, fondo);
-      });
-    };
-    document.addEventListener("keydown", manejador);
-    registrarDestructor(raiz, () => {
-      document.removeEventListener("keydown", manejador);
-      escapeGlobalActivo = false;
-    });
-  }
 }

@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../dist/ui.css">
+</head>
+<body>
+
+<!-- Ventana ancha a proposito (ver playwright config / viewport por
+     defecto, >600px): si la barra se apila aca, es POR EL CONTENEDOR
+     angosto (.cajon), no por ancho de ventana -- eso es lo que prueba
+     este fixture (el `@media 600px` existente ya cubria el otro caso). -->
+<button id="abrir" data-cajon-toggle="filtros">abrir cajon</button>
+<div class="cajon" data-cajon="filtros">
+  <div class="barra-filtros" id="barra">
+    <input class="buscador" type="search" placeholder="Buscar...">
+    <select><option>Todos</option></select>
+    <button type="button" class="limpiar-filtros">Limpiar filtros</button>
+  </div>
+</div>
+
+<script src="../../../dist/js.global.js"></script>
+</body>
+</html>
