@@ -1,6 +1,6 @@
 {
   "name": "@sistema32/santacorina-ui",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "Tokens de marca y componentes compartidos (plugin de Tailwind CSS v4) para los sistemas del Servicio Local de Educacion Publica Santa Corina.",
   "license": "UNLICENSED",
   "private": false,

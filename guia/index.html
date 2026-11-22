@@ -166,12 +166,12 @@
       <p class="uso">Cifra destacada con color de estado en el borde izquierdo.</p>
       <div class="demo-wrap">
         <div class="demo"><div class="kpis" style="margin-bottom:0">
-          <div class="kpi azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
-          <div class="kpi verde"><div class="n">99%</div><div class="t">% ejecución</div></div>
-          <div class="kpi naranjo"><div class="n">2</div><div class="t">Pendientes</div></div>
-          <div class="kpi rojo"><div class="n">1</div><div class="t">Sobregirado</div></div>
+          <div class="kpi" data-tono="azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
+          <div class="kpi" data-tono="verde"><div class="n">99%</div><div class="t">% ejecución</div></div>
+          <div class="kpi" data-tono="naranjo"><div class="n">2</div><div class="t">Pendientes</div></div>
+          <div class="kpi" data-tono="rojo"><div class="n">1</div><div class="t">Sobregirado</div></div>
         </div></div>
-        <pre class="codigo">&lt;div class="kpi rojo"&gt;&lt;div class="n"&gt;1&lt;/div&gt;&lt;div class="t"&gt;Sobregirado&lt;/div&gt;&lt;/div&gt;</pre>
+        <pre class="codigo">&lt;div class="kpi" data-tono="rojo"&gt;&lt;div class="n"&gt;1&lt;/div&gt;&lt;div class="t"&gt;Sobregirado&lt;/div&gt;&lt;/div&gt;</pre>
       </div>
     </section>
 
@@ -180,12 +180,12 @@
       <p class="uso">Estado corto en línea con texto. No es clicable — para eso está la pastilla.</p>
       <div class="demo-wrap">
         <div class="demo demo-fila">
-          <span class="etiqueta verde">ACEPTADA</span>
-          <span class="etiqueta rojo">RECHAZADA</span>
-          <span class="etiqueta naranjo">EN REVISIÓN</span>
-          <span class="etiqueta gris">BORRADOR</span>
+          <span class="etiqueta" data-tono="verde">ACEPTADA</span>
+          <span class="etiqueta" data-tono="rojo">RECHAZADA</span>
+          <span class="etiqueta" data-tono="naranjo">EN REVISIÓN</span>
+          <span class="etiqueta" data-tono="gris">BORRADOR</span>
         </div>
-        <pre class="codigo">&lt;span class="etiqueta verde"&gt;ACEPTADA&lt;/span&gt;</pre>
+        <pre class="codigo">&lt;span class="etiqueta" data-tono="verde"&gt;ACEPTADA&lt;/span&gt;</pre>
       </div>
     </section>
 
@@ -209,10 +209,10 @@
       <p class="uso">Decisión clicable con forma de botón.</p>
       <div class="demo-wrap">
         <div class="demo demo-fila">
-          <button class="pastilla celeste">Revisar</button>
-          <button class="pastilla roja">Rechazar</button>
+          <button class="pastilla" data-tono="celeste">Revisar</button>
+          <button class="pastilla" data-tono="roja">Rechazar</button>
         </div>
-        <pre class="codigo">&lt;button class="pastilla celeste"&gt;Revisar&lt;/button&gt;</pre>
+        <pre class="codigo">&lt;button class="pastilla" data-tono="celeste"&gt;Revisar&lt;/button&gt;</pre>
       </div>
     </section>
 
@@ -221,12 +221,12 @@
       <p class="uso">Banner de nivel de pantalla completa.</p>
       <div class="demo-wrap">
         <div class="demo" style="display:flex;flex-direction:column;gap:10px">
-          <div class="aviso info">El año 2027 ya está abierto. Los datos de 2026 quedan de solo lectura.</div>
-          <div class="aviso ok">Backup completado exitosamente.</div>
-          <div class="aviso alerta">El envío de correos no está configurado.</div>
-          <div class="aviso error">El Llano de Maipú tiene 109,8% de ejecución del SEP.</div>
+          <div class="aviso" data-tono="info">El año 2027 ya está abierto. Los datos de 2026 quedan de solo lectura.</div>
+          <div class="aviso" data-tono="ok">Backup completado exitosamente.</div>
+          <div class="aviso" data-tono="alerta">El envío de correos no está configurado.</div>
+          <div class="aviso" data-tono="error">El Llano de Maipú tiene 109,8% de ejecución del SEP.</div>
         </div>
-        <pre class="codigo">&lt;div class="aviso alerta"&gt;El envío de correos no está configurado.&lt;/div&gt;</pre>
+        <pre class="codigo">&lt;div class="aviso" data-tono="alerta"&gt;El envío de correos no está configurado.&lt;/div&gt;</pre>
       </div>
     </section>
 
@@ -274,10 +274,10 @@
       <p class="uso">Punto de estado para una lista de chequeos.</p>
       <div class="demo-wrap">
         <div class="demo" style="display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz verde"></span><span>Presupuesto disponible</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz rojo"></span><span>Fuente sin validar</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz" data-tono="verde"></span><span>Presupuesto disponible</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz" data-tono="rojo"></span><span>Fuente sin validar</span></div>
         </div>
-        <pre class="codigo">&lt;span class="luz verde"&gt;&lt;/span&gt; Presupuesto disponible</pre>
+        <pre class="codigo">&lt;span class="luz" data-tono="verde"&gt;&lt;/span&gt; Presupuesto disponible</pre>
       </div>
     </section>
 
@@ -411,10 +411,10 @@
       <p class="uso">Como <code>.etiqueta</code>, pero removible — para filtros seleccionados.</p>
       <div class="demo-wrap">
         <div class="demo demo-fila">
-          <span class="chip azul">SEP <button class="quitar">×</button></span>
-          <span class="chip verde">FAEP <button class="quitar">×</button></span>
+          <span class="chip" data-tono="azul">SEP <button class="quitar">×</button></span>
+          <span class="chip" data-tono="verde">FAEP <button class="quitar">×</button></span>
         </div>
-        <pre class="codigo">&lt;span class="chip azul"&gt;SEP &lt;button class="quitar"&gt;×&lt;/button&gt;&lt;/span&gt;</pre>
+        <pre class="codigo">&lt;span class="chip" data-tono="azul"&gt;SEP &lt;button class="quitar"&gt;×&lt;/button&gt;&lt;/span&gt;</pre>
       </div>
     </section>
 
@@ -423,11 +423,11 @@
       <p class="uso">Iniciales en círculo, para listas de usuarios o aprobadores.</p>
       <div class="demo-wrap">
         <div class="demo demo-fila">
-          <span class="avatar azul">AR</span>
-          <span class="avatar chico verde">MO</span>
-          <span class="avatar grande naranjo">CL</span>
+          <span class="avatar" data-tono="azul">AR</span>
+          <span class="avatar" data-tono="verde" data-tamano="chico">MO</span>
+          <span class="avatar" data-tono="naranjo" data-tamano="grande">CL</span>
         </div>
-        <pre class="codigo">&lt;span class="avatar azul"&gt;AR&lt;/span&gt;</pre>
+        <pre class="codigo">&lt;span class="avatar" data-tono="azul"&gt;AR&lt;/span&gt;</pre>
       </div>
     </section>
 
@@ -520,8 +520,8 @@
       <p class="uso">Sobre un padre <code>position:relative</code> — un ícono, una pastilla, un avatar.</p>
       <div class="demo-wrap">
         <div class="demo demo-fila">
-          <span style="position:relative;display:inline-block"><span class="avatar azul">AR</span><span class="insignia punto verde"></span></span>
-          <span style="position:relative;display:inline-block"><button class="pastilla celeste">Notificaciones</button><span class="insignia">3</span></span>
+          <span style="position:relative;display:inline-block"><span class="avatar" data-tono="azul">AR</span><span class="insignia punto" data-tono="verde"></span></span>
+          <span style="position:relative;display:inline-block"><button class="pastilla" data-tono="celeste">Notificaciones</button><span class="insignia">3</span></span>
         </div>
         <pre class="codigo">&lt;span style="position:relative"&gt;...&lt;span class="insignia"&gt;3&lt;/span&gt;&lt;/span&gt;</pre>
       </div>
@@ -729,8 +729,8 @@
       <div class="demo-wrap">
         <div class="demo">
           <div class="lista-grupo">
-            <a href="#" class="lista-grupo-item activo">Colegio Alcázar <span class="etiqueta azul">105</span></a>
-            <a href="#" class="lista-grupo-item">Escuela República <span class="etiqueta gris">12</span></a>
+            <a href="#" class="lista-grupo-item activo">Colegio Alcázar <span class="etiqueta" data-tono="azul">105</span></a>
+            <a href="#" class="lista-grupo-item">Escuela República <span class="etiqueta" data-tono="gris">12</span></a>
           </div>
         </div>
         <pre class="codigo">&lt;div class="lista-grupo"&gt;&lt;a class="lista-grupo-item activo"&gt;...&lt;/a&gt;&lt;/div&gt;</pre>
@@ -855,10 +855,10 @@
       <div class="demo-wrap">
         <div class="demo">
           <div class="columnas columnas-4" style="gap:12px">
-            <div class="kpi azul"><div class="n">4</div><div class="t">Pendientes</div></div>
-            <div class="kpi verde"><div class="n">12</div><div class="t">Aprobadas</div></div>
-            <div class="kpi naranjo"><div class="n">2</div><div class="t">En revisión</div></div>
-            <div class="kpi rojo"><div class="n">1</div><div class="t">Rechazada</div></div>
+            <div class="kpi" data-tono="azul"><div class="n">4</div><div class="t">Pendientes</div></div>
+            <div class="kpi" data-tono="verde"><div class="n">12</div><div class="t">Aprobadas</div></div>
+            <div class="kpi" data-tono="naranjo"><div class="n">2</div><div class="t">En revisión</div></div>
+            <div class="kpi" data-tono="rojo"><div class="n">1</div><div class="t">Rechazada</div></div>
           </div>
         </div>
         <pre class="codigo">&lt;div class="columnas columnas-4"&gt;...&lt;/div&gt;</pre>
@@ -971,14 +971,14 @@
       <div class="demo-wrap">
         <div class="demo">
           <div class="validacion">
-            <div class="luz verde"></div>
+            <div class="luz" data-tono="verde"></div>
             <div class="validacion-txt">
               <h4>Presupuesto disponible</h4>
               <p>El establecimiento tiene saldo suficiente en la fuente SEP.</p>
             </div>
           </div>
           <div class="validacion" style="border-bottom:0">
-            <div class="luz rojo"></div>
+            <div class="luz" data-tono="rojo"></div>
             <div class="validacion-txt">
               <h4>Fuente de financiamiento</h4>
               <p>No se pudo validar automáticamente.</p>
@@ -989,7 +989,7 @@
             </div>
           </div>
         </div>
-        <pre class="codigo">&lt;div class="validacion"&gt;&lt;div class="luz rojo"&gt;&lt;/div&gt;&lt;div class="validacion-txt"&gt;...&lt;details class="detalle-tecnico"&gt;...&lt;/details&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+        <pre class="codigo">&lt;div class="validacion"&gt;&lt;div class="luz" data-tono="rojo"&gt;&lt;/div&gt;&lt;div class="validacion-txt"&gt;...&lt;details class="detalle-tecnico"&gt;...&lt;/details&gt;&lt;/div&gt;&lt;/div&gt;</pre>
       </div>
     </section>
 
@@ -1013,8 +1013,8 @@
       <div class="demo-wrap">
         <div class="demo">
           <div class="columnas" style="margin:0">
-            <div class="kpi azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
-            <div class="kpi verde"><div class="n">99%</div><div class="t">Ejecución</div></div>
+            <div class="kpi" data-tono="azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
+            <div class="kpi" data-tono="verde"><div class="n">99%</div><div class="t">Ejecución</div></div>
             <div class="tarjeta col-ancha" style="margin:0"><p style="margin:0">Esta tarjeta ocupa las 3 columnas.</p></div>
           </div>
         </div>
@@ -1027,11 +1027,11 @@
       <p class="uso">De <code>acepta/frontend</code> (<code>IconBadge.vue</code>, 23 usos). El propio componente reemplazó "~6 variantes casi idénticas" que había antes de empaquetarlo una vez.</p>
       <div class="demo-wrap">
         <div class="demo demo-fila">
-          <span class="insignia-icono chica azul">⚙</span>
-          <span class="insignia-icono verde">✓</span>
-          <span class="insignia-icono grande rojo">!</span>
+          <span class="insignia-icono" data-tono="azul" data-tamano="chica">⚙</span>
+          <span class="insignia-icono" data-tono="verde">✓</span>
+          <span class="insignia-icono" data-tono="rojo" data-tamano="grande">!</span>
         </div>
-        <pre class="codigo">&lt;span class="insignia-icono verde"&gt;✓&lt;/span&gt;</pre>
+        <pre class="codigo">&lt;span class="insignia-icono" data-tono="verde"&gt;✓&lt;/span&gt;</pre>
       </div>
     </section>
 
@@ -1040,9 +1040,9 @@
       <p class="uso">De <code>acepta/frontend</code> (<code>.home-section-card</code>/<code>.process-card</code>) — ícono + título + descripción, clicable, para grillas de acceso rápido de un dashboard.</p>
       <div class="demo-wrap">
         <div class="demo" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <a href="#" class="tarjeta-accion"><span class="insignia-icono azul">⚙</span><strong>Procesos</strong><small>Lanzar un proceso de scraping manual.</small></a>
+          <a href="#" class="tarjeta-accion"><span class="insignia-icono" data-tono="azul">⚙</span><strong>Procesos</strong><small>Lanzar un proceso de scraping manual.</small></a>
         </div>
-        <pre class="codigo">&lt;a class="tarjeta-accion"&gt;&lt;span class="insignia-icono azul"&gt;...&lt;/span&gt;&lt;strong&gt;Procesos&lt;/strong&gt;&lt;small&gt;...&lt;/small&gt;&lt;/a&gt;</pre>
+        <pre class="codigo">&lt;a class="tarjeta-accion"&gt;&lt;span class="insignia-icono" data-tono="azul"&gt;...&lt;/span&gt;&lt;strong&gt;Procesos&lt;/strong&gt;&lt;small&gt;...&lt;/small&gt;&lt;/a&gt;</pre>
       </div>
     </section>
 
@@ -1162,9 +1162,9 @@
       <p class="uso">De <a href="https://design-system.service.gov.uk/components/notification-banner/">GOV.UK "notification banner"</a>/USWDS "site alert" — franja persistente bajo la cabecera, distinta de <code>.aviso</code> (por tarjeta) y <code>.toast</code> (transitorio).</p>
       <div class="demo-wrap">
         <div class="demo" style="padding:0">
-          <div class="aviso-pagina info"><strong>Tienes 3 solicitudes pendientes</strong>Revísalas antes del cierre del mes.</div>
+          <div class="aviso-pagina" data-tono="info"><strong>Tienes 3 solicitudes pendientes</strong>Revísalas antes del cierre del mes.</div>
         </div>
-        <pre class="codigo">&lt;div class="aviso-pagina info"&gt;&lt;strong&gt;Tienes 3 solicitudes pendientes&lt;/strong&gt;Revísalas...&lt;/div&gt;</pre>
+        <pre class="codigo">&lt;div class="aviso-pagina" data-tono="info"&gt;&lt;strong&gt;Tienes 3 solicitudes pendientes&lt;/strong&gt;Revísalas...&lt;/div&gt;</pre>
       </div>
     </section>
 

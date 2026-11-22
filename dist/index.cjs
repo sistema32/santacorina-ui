@@ -285,11 +285,11 @@ function buildComponents() {
       lineHeight: "1.1"
     },
     ".kpi .t": { fontSize: "12.5px", color: "var(--color-tenue)", marginTop: "3px" },
-    ".kpi.azul": { borderLeftColor: "var(--color-azul)" },
-    ".kpi.verde": { borderLeftColor: "var(--color-verde)" },
-    ".kpi.naranjo": { borderLeftColor: "var(--color-naranjo)" },
-    ".kpi.rojo": { borderLeftColor: "var(--color-rojo)" },
-    ".kpi.gris": { borderLeftColor: "var(--color-gris)" },
+    ".kpi[data-tono='azul']": { borderLeftColor: "var(--color-azul)" },
+    ".kpi[data-tono='verde']": { borderLeftColor: "var(--color-verde)" },
+    ".kpi[data-tono='naranjo']": { borderLeftColor: "var(--color-naranjo)" },
+    ".kpi[data-tono='rojo']": { borderLeftColor: "var(--color-rojo)" },
+    ".kpi[data-tono='gris']": { borderLeftColor: "var(--color-gris)" },
     /* ---------------------------------------------------------------
      * Etiqueta -- estado corto, en linea con texto (no es clicable).
      * ------------------------------------------------------------- */
@@ -301,11 +301,11 @@ function buildComponents() {
       fontWeight: "600",
       whiteSpace: "nowrap"
     },
-    ".etiqueta.gris": { backgroundColor: "var(--color-gris-fondo)", color: "#4c5966" },
-    ".etiqueta.azul": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
-    ".etiqueta.verde": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
-    ".etiqueta.naranjo": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".etiqueta.rojo": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".etiqueta[data-tono='gris']": { backgroundColor: "var(--color-gris-fondo)", color: "#4c5966" },
+    ".etiqueta[data-tono='azul']": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
+    ".etiqueta[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
+    ".etiqueta[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
+    ".etiqueta[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
     /* ---------------------------------------------------------------
      * Boton -- la accion principal de una pantalla o formulario.
      * ------------------------------------------------------------- */
@@ -374,18 +374,18 @@ function buildComponents() {
       fontFamily: "inherit",
       whiteSpace: "nowrap"
     },
-    ".pastilla.celeste": {
+    ".pastilla[data-tono='celeste']": {
       backgroundColor: "#e7f0fc",
       borderColor: "#cfe0f6",
       color: "var(--color-azul-oscuro)"
     },
-    ".pastilla.celeste:hover": { backgroundColor: "#d7e7fa" },
-    ".pastilla.roja": {
+    ".pastilla[data-tono='celeste']:hover": { backgroundColor: "#d7e7fa" },
+    ".pastilla[data-tono='roja']": {
       backgroundColor: "var(--color-rojo-fondo)",
       borderColor: "#f3d3cf",
       color: "#8d241e"
     },
-    ".pastilla.roja:hover": { backgroundColor: "#fbdedb" },
+    ".pastilla[data-tono='roja']:hover": { backgroundColor: "#fbdedb" },
     ".pastilla:disabled": { opacity: "0.55", cursor: "default" },
     /* ---------------------------------------------------------------
      * Aviso -- banner de nivel de pantalla completa (no por fila).
@@ -397,14 +397,14 @@ function buildComponents() {
       marginBottom: "18px",
       borderLeft: "4px solid"
     },
-    ".aviso.info": { backgroundColor: "#eaf2fc", borderColor: "var(--color-azul)", color: "#1a4b8a" },
-    ".aviso.ok": { backgroundColor: "var(--color-verde-fondo)", borderColor: "var(--color-verde)", color: "#14603c" },
-    ".aviso.alerta": {
+    ".aviso[data-tono='info']": { backgroundColor: "#eaf2fc", borderColor: "var(--color-azul)", color: "#1a4b8a" },
+    ".aviso[data-tono='ok']": { backgroundColor: "var(--color-verde-fondo)", borderColor: "var(--color-verde)", color: "#14603c" },
+    ".aviso[data-tono='alerta']": {
       backgroundColor: "var(--color-naranjo-fondo)",
       borderColor: "var(--color-naranjo)",
       color: "#8a4e08"
     },
-    ".aviso.error": { backgroundColor: "var(--color-rojo-fondo)", borderColor: "var(--color-rojo)", color: "#8d241e" },
+    ".aviso[data-tono='error']": { backgroundColor: "var(--color-rojo-fondo)", borderColor: "var(--color-rojo)", color: "#8d241e" },
     /* ---------------------------------------------------------------
      * Aviso de pagina -- de GOV.UK "notification banner"/USWDS "site
      * alert": a diferencia de `.aviso` (dentro de una tarjeta) y
@@ -418,10 +418,10 @@ function buildComponents() {
       borderBottom: "1px solid var(--color-borde)"
     },
     ".aviso-pagina strong": { display: "block", marginBottom: "2px" },
-    ".aviso-pagina.info": { backgroundColor: "#eaf2fc", color: "#1a4b8a" },
-    ".aviso-pagina.ok": { backgroundColor: "var(--color-verde-fondo)", color: "#14603c" },
-    ".aviso-pagina.alerta": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".aviso-pagina.error": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".aviso-pagina[data-tono='info']": { backgroundColor: "#eaf2fc", color: "#1a4b8a" },
+    ".aviso-pagina[data-tono='ok']": { backgroundColor: "var(--color-verde-fondo)", color: "#14603c" },
+    ".aviso-pagina[data-tono='alerta']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
+    ".aviso-pagina[data-tono='error']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
     /* ---------------------------------------------------------------
      * Campo -- un control de formulario con su etiqueta y ayuda.
      * ------------------------------------------------------------- */
@@ -741,10 +741,10 @@ function buildComponents() {
       marginTop: "5px",
       display: "inline-block"
     },
-    ".luz.verde": { backgroundColor: "var(--color-verde)" },
-    ".luz.naranjo": { backgroundColor: "var(--color-naranjo)" },
-    ".luz.rojo": { backgroundColor: "var(--color-rojo)" },
-    ".luz.gris": { backgroundColor: "var(--color-gris)" },
+    ".luz[data-tono='verde']": { backgroundColor: "var(--color-verde)" },
+    ".luz[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo)" },
+    ".luz[data-tono='rojo']": { backgroundColor: "var(--color-rojo)" },
+    ".luz[data-tono='gris']": { backgroundColor: "var(--color-gris)" },
     /* ---------------------------------------------------------------
      * Linea de tiempo -- historial de eventos, mas reciente abajo.
      * ------------------------------------------------------------- */
@@ -1292,10 +1292,10 @@ function buildComponents() {
       backgroundColor: "var(--color-gris-fondo)",
       color: "#4c5966"
     },
-    ".chip.azul": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
-    ".chip.verde": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
-    ".chip.naranjo": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".chip.rojo": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".chip[data-tono='azul']": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
+    ".chip[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
+    ".chip[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
+    ".chip[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
     ".chip .quitar": {
       display: "grid",
       placeItems: "center",
@@ -1326,12 +1326,12 @@ function buildComponents() {
       fontWeight: "700",
       flex: "none"
     },
-    ".avatar.chico": { width: "26px", height: "26px", fontSize: "11px" },
-    ".avatar.grande": { width: "48px", height: "48px", fontSize: "16px" },
-    ".avatar.azul": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
-    ".avatar.verde": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
-    ".avatar.naranjo": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".avatar.rojo": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".avatar[data-tamano='chico']": { width: "26px", height: "26px", fontSize: "11px" },
+    ".avatar[data-tamano='grande']": { width: "48px", height: "48px", fontSize: "16px" },
+    ".avatar[data-tono='azul']": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
+    ".avatar[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
+    ".avatar[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
+    ".avatar[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
     /* ---------------------------------------------------------------
      * Insignia de icono -- de acepta/frontend/src/components/IconBadge.vue
      * (23 usos en ConfiguracionView/DashboardView/ProcesosView). El
@@ -1350,12 +1350,12 @@ function buildComponents() {
       backgroundColor: "var(--color-gris-fondo)",
       color: "var(--color-tenue)"
     },
-    ".insignia-icono.chica": { width: "28px", height: "28px", borderRadius: "6px" },
-    ".insignia-icono.grande": { width: "44px", height: "44px", borderRadius: "10px" },
-    ".insignia-icono.azul": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
-    ".insignia-icono.verde": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
-    ".insignia-icono.naranjo": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".insignia-icono.rojo": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".insignia-icono[data-tamano='chica']": { width: "28px", height: "28px", borderRadius: "6px" },
+    ".insignia-icono[data-tamano='grande']": { width: "44px", height: "44px", borderRadius: "10px" },
+    ".insignia-icono[data-tono='azul']": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
+    ".insignia-icono[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
+    ".insignia-icono[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
+    ".insignia-icono[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
     /* ---------------------------------------------------------------
      * Divisor -- separa dos bloques, con o sin texto en medio.
      * ------------------------------------------------------------- */
@@ -1750,10 +1750,10 @@ function buildComponents() {
       border: "2px solid #fff"
     },
     ".insignia.punto": { minWidth: "10px", width: "10px", height: "10px", padding: "0" },
-    ".insignia.azul": { backgroundColor: "var(--color-azul)" },
-    ".insignia.verde": { backgroundColor: "var(--color-verde)" },
-    ".insignia.naranjo": { backgroundColor: "var(--color-naranjo)" },
-    ".insignia.gris": { backgroundColor: "var(--color-gris)" },
+    ".insignia[data-tono='azul']": { backgroundColor: "var(--color-azul)" },
+    ".insignia[data-tono='verde']": { backgroundColor: "var(--color-verde)" },
+    ".insignia[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo)" },
+    ".insignia[data-tono='gris']": { backgroundColor: "var(--color-gris)" },
     /* ---------------------------------------------------------------
      * Spinner -- para meter dentro de `.boton` mientras se envia algo.
      * ------------------------------------------------------------- */

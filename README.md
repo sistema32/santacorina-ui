@@ -137,16 +137,30 @@ plataforma queda en una sola tipografía, consistente.
 
 ## Componentes incluidos
 
+Convención para variantes de diseño: desde 0.17.0, el tono de color y
+el tamaño de un componente se eligen con los atributos `data-tono`/
+`data-tamano` en vez de una clase suelta (`<span class="etiqueta"
+data-tono="azul">` en vez de `<span class="etiqueta azul">`) — mismo
+criterio que ya usan los componentes interactivos (`data-ordenable`,
+`data-toggletip`). Solo se migraron los 9 componentes que ya tenían
+este patrón (`.kpi`, `.etiqueta`, `.pastilla`, `.aviso`/`.aviso-pagina`,
+`.luz`, `.chip`, `.avatar`, `.insignia-icono`, `.insignia`); las clases
+de **estado** que alterna el propio JS (`.visible`, `.activo`,
+`.abierta`...) siguen siendo clases, igual que `.boton.secundario`/
+`.peligro` (eso es "intención", no tono ni tamaño). No se tocó
+vocabulario: los valores (`azul`, `celeste`, `info`, `chica`...) son
+los mismos de antes, solo cambió el mecanismo.
+
 | Clase | Qué es |
 |---|---|
 | `.tarjeta` | Contenedor base de un bloque de contenido |
-| `.kpis` / `.kpi` (`.azul`/`.verde`/`.naranjo`/`.rojo`/`.gris`) | Cifra destacada con color de estado |
-| `.etiqueta` (mismos colores) | Estado corto en línea con texto, no clicable |
+| `.kpis` / `.kpi` (`data-tono="azul\|verde\|naranjo\|rojo\|gris"`) | Cifra destacada con color de estado |
+| `.etiqueta` (mismos `data-tono`) | Estado corto en línea con texto, no clicable |
 | `.boton` (`.secundario`/`.peligro`) | Acción principal |
 | `.btn-chico`, `a.btn-chico` (`.peligro`) | Acción secundaria por fila/celda |
-| `.pastilla` (`.celeste`/`.roja`) | Decisión clicable con forma de botón |
-| `.aviso` (`.info`/`.ok`/`.alerta`/`.error`) | Banner de nivel de pantalla |
-| `.aviso-pagina` (mismos tonos) | Franja persistente bajo la cabecera (no por fila como `.aviso`, no transitoria como `.toast`) — de [GOV.UK notification banner](https://design-system.service.gov.uk/components/notification-banner/)/USWDS site alert |
+| `.pastilla` (`data-tono="celeste\|roja"`) | Decisión clicable con forma de botón |
+| `.aviso` (`data-tono="info\|ok\|alerta\|error"`) | Banner de nivel de pantalla |
+| `.aviso-pagina` (mismos `data-tono`) | Franja persistente bajo la cabecera (no por fila como `.aviso`, no transitoria como `.toast`) — de [GOV.UK notification banner](https://design-system.service.gov.uk/components/notification-banner/)/USWDS site alert |
 | `.campo` + `input`/`select`/`textarea` | Control de formulario con etiqueta y ayuda |
 | `fieldset.campo-grupo` + `legend` | Agrupa varios `.campo-check` bajo una pregunta, con el HTML nativo correcto |
 | tabla base + `.tabla-scroll`, `.peso`/`.der`/`.cen`/`.codigo` | Listados tabulares, montos alineados |
@@ -156,7 +170,7 @@ plataforma queda en una sola tipografía, consistente.
 | `[data-toggletip]` + `.toggletip-panel` | Tooltip accesible en touch (abre con clic, no con hover); JS en `/js` (`iniciarToggletips`) |
 | `.dato` | Par etiqueta/valor |
 | `.ficha` | Grilla de datos más ancha que una columna |
-| `.luz` (`.verde`/`.naranjo`/`.rojo`/`.gris`) | Punto de semáforo en listas de validación |
+| `.luz` (`data-tono="verde\|naranjo\|rojo\|gris"`) | Punto de semáforo en listas de validación |
 | `.linea-tiempo` | Historial de eventos |
 | `.vacio` | Estado vacío de un listado |
 | `.columnas` | Grilla responsiva de varias columnas |
@@ -170,13 +184,13 @@ plataforma queda en una sola tipografía, consistente.
 | `.skeleton` / `.skeleton-texto` (`.corto`) | Estado de carga |
 | `.campo-check` + `input[type=checkbox\|radio]` | Checkbox/radio nativos con color de marca |
 | `.interruptor` | Switch on/off |
-| `.chip` (mismos colores) | Etiqueta removible (filtros seleccionados) |
-| `.avatar` (`.chico`/`.grande`, mismos colores) | Iniciales en círculo |
+| `.chip` (`data-tono="azul\|verde\|naranjo\|rojo"`) | Etiqueta removible (filtros seleccionados) |
+| `.avatar` (`data-tamano="chico\|grande"` + `data-tono`, mismos tonos) | Iniciales en círculo |
 | `.divisor` | Separador de dos bloques, con o sin texto |
 | `.acordeon` (sobre `<details>`/`<summary>`) | Contenido expandible |
 | `.paginacion` (`.activo`) | Navegación por páginas |
 | `.menu` / `.menu-panel` (sobre `<details>`/`<summary>`) | Menú desplegable anclado |
-| `.insignia` (`.punto`, mismos colores) | Punto o número de notificación |
+| `.insignia` (`.punto` sigue siendo clase; color con `data-tono="azul\|verde\|naranjo\|gris"`) | Punto o número de notificación |
 | `.cargando` (`.oscuro`/`.chico`/`.grande`) | Spinner de carga |
 | `.app` / `.principal` / `.contenido` (`.ancho`) | Armazón flex de página completa |
 | `.cabecera` + `.cabecera-datos`/`.punto`/`.cabecera-usuario`/`.usuario-nombre`/`.usuario-rol` | Header |
@@ -207,7 +221,7 @@ plataforma queda en una sola tipografía, consistente.
 | `.detalle-tecnico` (sobre `<details>`) | Información técnica opcional dentro de `.validacion-txt` |
 | `.total-caja` | Caja de total (parecida a `.hero`, pero chica, para un formulario) |
 | `.col-ancha` | Para usar dentro de `.columnas`/`.fila`/`.masonry`: el ítem ocupa todo el ancho de la grilla |
-| `.insignia-icono` (`.chica`/`.grande`, mismos 5 colores) | Caja con ícono — de `acepta/frontend` (`IconBadge.vue`, 23 usos) |
+| `.insignia-icono` (`data-tamano="chica\|grande"` + `data-tono`, mismos 4 tonos) | Caja con ícono — de `acepta/frontend` (`IconBadge.vue`, 23 usos) |
 | `.tarjeta-accion` | Ícono + título + descripción, clicable — de `acepta/frontend` (`.home-section-card`) |
 | `.pildora-archivo` (`.tenue`) | Link/botón outline para documentos — de `acepta/frontend` (`.file-pill`, 21 usos) |
 | `.zona-arrastre` (`.activa`) + `.lista-documentos`/`.documento-fila` | Drag & drop + fila de documento — de `acepta/frontend`; JS en `/js` |

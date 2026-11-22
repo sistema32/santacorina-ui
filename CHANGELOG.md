@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.17.0 — sin publicar — cambio incompatible de markup
+
+El usuario preguntó si podíamos mejorar cómo se llaman las clases CSS
+y eligió: pasar las variantes de diseño (tono de color, tamaño) de
+clase suelta a atributo `data-*`, el mismo criterio que ya usan los
+componentes interactivos más nuevos (`data-ordenable`, `data-toggletip`).
+
+Antes de migrar todo, audité qué se rompería: confirmé con `grep` en
+`sgp/frontend/src` que, aunque `style.css` ya importa
+`@plugin "@sistema32/santacorina-ui"`, ningún `.vue` usa hoy las clases
+`etiqueta`/`chip`/`avatar`/`insignia-icono`/`kpi`/`luz`/`insignia`/
+`pastilla` (0 coincidencias cada una). No había markup real que
+romper, así que se migraron los 9 componentes completos:
+
+- `.kpi`, `.etiqueta`, `.pastilla`, `.aviso`/`.aviso-pagina`, `.luz`,
+  `.chip`, `.avatar`, `.insignia-icono`, `.insignia` — el tono pasa de
+  clase (`.azul`) a `data-tono="azul"`; el tamaño (`.avatar`,
+  `.insignia-icono`) pasa a `data-tamano="chica"`.
+
+**Antes:** `<span class="etiqueta azul">ACEPTADA</span>`
+**Ahora:** `<span class="etiqueta" data-tono="azul">ACEPTADA</span>`
+
+No se tocó vocabulario (los valores son los mismos), ni las clases de
+estado que alterna el propio JS (`.visible`/`.activo`/`.abierta`...) —
+esas no ganan nada con el cambio y hubiera obligado a reescribir cada
+módulo de `/js`. Tampoco `.boton.secundario`/`.peligro` ni
+`.insignia.punto` (no son tono ni tamaño).
+
+Verificado: `grep` confirma cero selectores de clase viejos a medio
+migrar en `src/components.ts`; captura de pantalla de los 9
+componentes con `data-tono`/`data-tamano` confirmando que se ven
+exactamente igual que antes (cambio de mecanismo, no de diseño).
+
 ## 0.16.0 — sin publicar
 
 Investigué qué componentes faltaban comparando el inventario actual
