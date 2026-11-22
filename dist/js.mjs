@@ -316,6 +316,181 @@ function iniciarContadores(raiz = document) {
   });
 }
 
+// src/js/popover.ts
+function iniciarPopovers(raiz = document) {
+  raiz.querySelectorAll("[data-popover]").forEach((contenedor2) => {
+    const trigger = contenedor2.querySelector("[data-popover-trigger]") ?? contenedor2.firstElementChild;
+    const fuente = contenedor2.querySelector("[data-popover-contenido]");
+    if (!trigger || !fuente) return;
+    const panel = document.createElement("div");
+    panel.className = "popover-panel";
+    panel.innerHTML = fuente.innerHTML;
+    contenedor2.appendChild(panel);
+    const cerrar = () => panel.classList.remove("visible");
+    const alternar = (e) => {
+      e.stopPropagation();
+      panel.classList.toggle("visible");
+    };
+    trigger.addEventListener("click", alternar);
+    document.addEventListener("click", (e) => {
+      if (!contenedor2.contains(e.target)) cerrar();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") cerrar();
+    });
+  });
+}
+
+// src/js/colapsar.ts
+function iniciarColapsables(raiz = document) {
+  raiz.querySelectorAll("[data-colapsar]").forEach((boton) => {
+    boton.addEventListener("click", () => {
+      const destino = boton.dataset.colapsar;
+      if (!destino) return;
+      document.querySelectorAll(`[data-colapsable="${destino}"]`).forEach((panel) => {
+        panel.classList.toggle("activo");
+      });
+    });
+  });
+}
+
+// src/js/cajon.ts
+function iniciarCajones(raiz = document) {
+  raiz.querySelectorAll("[data-cajon-toggle]").forEach((boton) => {
+    boton.addEventListener("click", () => {
+      const destino = boton.dataset.cajonToggle;
+      if (!destino) return;
+      const cajon = document.querySelector(`[data-cajon="${destino}"]`);
+      const fondo = cajon?.querySelector(".cajon-fondo") ?? document.querySelector(`[data-cajon-fondo="${destino}"]`);
+      cajon?.classList.toggle("abierto");
+      fondo?.classList.toggle("visible");
+    });
+  });
+  raiz.querySelectorAll("[data-cajon-fondo]").forEach((fondo) => {
+    fondo.addEventListener("click", () => {
+      const destino = fondo.dataset.cajonFondo;
+      if (!destino) return;
+      document.querySelector(`[data-cajon="${destino}"]`)?.classList.remove("abierto");
+      fondo.classList.remove("visible");
+    });
+  });
+}
+
+// src/js/combobox.ts
+function iniciarCombobox(raiz = document) {
+  raiz.querySelectorAll(".combobox").forEach((caja) => {
+    const input = caja.querySelector("input[type=text]");
+    const select = caja.querySelector("select");
+    const lista = caja.querySelector(".combobox-opciones");
+    if (!input || !select || !lista) return;
+    const opciones = Array.from(select.options).filter((o) => o.value);
+    let resaltada = -1;
+    const seleccionar = (opcion) => {
+      select.value = opcion.value;
+      input.value = opcion.textContent ?? "";
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+      cerrar();
+    };
+    const normalizar = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    const redibujar = (filtro) => {
+      lista.innerHTML = "";
+      const texto = normalizar(filtro.trim());
+      const visibles = opciones.filter((o) => normalizar(o.textContent ?? "").includes(texto));
+      resaltada = -1;
+      if (visibles.length === 0) {
+        const li = document.createElement("li");
+        li.className = "sin-resultados";
+        li.textContent = "Sin resultados";
+        lista.appendChild(li);
+        return;
+      }
+      visibles.forEach((opcion) => {
+        const li = document.createElement("li");
+        li.textContent = opcion.textContent ?? "";
+        li.addEventListener("click", () => seleccionar(opcion));
+        li.dataset.valor = opcion.value;
+        lista.appendChild(li);
+      });
+    };
+    const abrir = () => {
+      redibujar(input.value);
+      lista.classList.add("visible");
+    };
+    const cerrar = () => lista.classList.remove("visible");
+    const marcarResaltada = (indice) => {
+      const items = Array.from(lista.querySelectorAll("li:not(.sin-resultados)"));
+      items.forEach((el) => el.classList.remove("resaltada"));
+      if (items[indice]) {
+        items[indice].classList.add("resaltada");
+        items[indice].scrollIntoView({ block: "nearest" });
+      }
+    };
+    input.addEventListener("input", () => abrir());
+    input.addEventListener("focus", () => abrir());
+    input.addEventListener("keydown", (e) => {
+      const items = Array.from(lista.querySelectorAll("li:not(.sin-resultados)"));
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (!lista.classList.contains("visible")) return abrir();
+        resaltada = Math.min(resaltada + 1, items.length - 1);
+        marcarResaltada(resaltada);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        resaltada = Math.max(resaltada - 1, 0);
+        marcarResaltada(resaltada);
+      } else if (e.key === "Enter") {
+        if (resaltada >= 0 && opciones.length) {
+          e.preventDefault();
+          const elegida = opciones.find((o) => o.value === items[resaltada]?.dataset.valor);
+          if (elegida) seleccionar(elegida);
+        }
+      } else if (e.key === "Escape") {
+        cerrar();
+      }
+    });
+    document.addEventListener("click", (e) => {
+      if (!caja.contains(e.target)) cerrar();
+    });
+    if (select.value) {
+      const actual = opciones.find((o) => o.value === select.value);
+      if (actual) input.value = actual.textContent ?? "";
+    }
+  });
+}
+
+// src/js/medidor-clave.ts
+function puntaje(clave) {
+  if (!clave) return 0;
+  let p = 0;
+  if (clave.length >= 8) p++;
+  if (clave.length >= 12) p++;
+  if (/[a-z]/.test(clave) && /[A-Z]/.test(clave)) p++;
+  if (/\d/.test(clave)) p++;
+  if (/[^a-zA-Z0-9]/.test(clave)) p++;
+  return Math.min(p, 4);
+}
+var ETIQUETAS = ["", "D\xE9bil", "Regular", "Buena", "Fuerte"];
+var NIVELES = ["", "debil", "regular", "buena", "fuerte"];
+function iniciarMedidorClave(raiz = document) {
+  raiz.querySelectorAll("input[data-medidor-clave]").forEach((input) => {
+    const medidor = document.createElement("div");
+    medidor.className = "medidor-clave";
+    medidor.innerHTML = '<div class="segmentos"><span></span><span></span><span></span><span></span></div><span class="etiqueta"></span>';
+    input.insertAdjacentElement("afterend", medidor);
+    const segmentos = medidor.querySelectorAll(".segmentos span");
+    const etiqueta = medidor.querySelector(".etiqueta");
+    const actualizar = () => {
+      const n = puntaje(input.value);
+      segmentos.forEach((seg, i) => {
+        seg.className = i < n ? `activo ${NIVELES[n]}` : "";
+      });
+      etiqueta.textContent = input.value ? ETIQUETAS[n] : "";
+    };
+    input.addEventListener("input", actualizar);
+    actualizar();
+  });
+}
+
 // src/js/index.ts
 function iniciarTodo(raiz = document) {
   iniciarModales(raiz);
@@ -325,6 +500,11 @@ function iniciarTodo(raiz = document) {
   iniciarCalendario(raiz);
   iniciarBuscadores(raiz);
   iniciarContadores(raiz);
+  iniciarPopovers(raiz);
+  iniciarColapsables(raiz);
+  iniciarCajones(raiz);
+  iniciarCombobox(raiz);
+  iniciarMedidorClave(raiz);
 }
 if (typeof document !== "undefined") {
   if (document.readyState === "loading") {
@@ -340,10 +520,15 @@ export {
   debounce,
   formato_exports as formato,
   iniciarBuscadores,
+  iniciarCajones,
   iniciarCalendario,
+  iniciarColapsables,
+  iniciarCombobox,
   iniciarContadores,
   iniciarLateral,
+  iniciarMedidorClave,
   iniciarModales,
+  iniciarPopovers,
   iniciarRangoFechas,
   iniciarTabs,
   iniciarTodo,

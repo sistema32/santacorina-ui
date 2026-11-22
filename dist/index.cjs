@@ -334,6 +334,16 @@ function buildComponents() {
       border: "1px solid #f0c4c1"
     },
     ".boton.peligro:hover": { backgroundColor: "var(--color-rojo-fondo)" },
+    /* ---------------------------------------------------------------
+     * Grupo de botones -- botones de accion visualmente unidos (ej.
+     * "Aprobar / Rechazar / Revisar" en una fila de bandeja).
+     * ------------------------------------------------------------- */
+    ".grupo-botones": { display: "inline-flex" },
+    ".grupo-botones .boton": { borderRadius: "0", marginLeft: "-1px" },
+    ".grupo-botones .boton:first-child": { borderRadius: "8px 0 0 8px", marginLeft: "0" },
+    ".grupo-botones .boton:last-child": { borderRadius: "0 8px 8px 0" },
+    ".grupo-botones .boton.secundario": { position: "relative" },
+    ".grupo-botones .boton.secundario:hover": { zIndex: "1" },
     /* Boton chico -- accion secundaria en una fila o celda de tabla. */
     ".btn-chico": { fontSize: "12px", padding: "4px 9px" },
     "a.btn-chico": {
@@ -480,6 +490,31 @@ function buildComponents() {
     ".buscador .limpiar.visible": { display: "block" },
     ".buscador .limpiar:hover": { color: "var(--color-navy)" },
     ".buscador input::-webkit-search-cancel-button": { appearance: "none" },
+    /* ---------------------------------------------------------------
+     * Grupo de campo -- prefijo/sufijo pegado a un input (ej. "$" en un
+     * monto -- esta plataforma maneja pesos en cada tabla).
+     * ------------------------------------------------------------- */
+    ".grupo-campo": {
+      display: "flex",
+      alignItems: "stretch",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "8px",
+      overflow: "hidden",
+      backgroundColor: "#fff"
+    },
+    ".grupo-campo .prefijo, .grupo-campo .sufijo": {
+      display: "flex",
+      alignItems: "center",
+      padding: "0 12px",
+      backgroundColor: "var(--color-gris-fondo)",
+      color: "var(--color-tenue)",
+      fontSize: "14px",
+      whiteSpace: "nowrap"
+    },
+    ".grupo-campo .prefijo": { borderRight: "1px solid var(--color-borde)" },
+    ".grupo-campo .sufijo": { borderLeft: "1px solid var(--color-borde)" },
+    ".grupo-campo input": { border: "0", borderRadius: "0", flex: "1", minWidth: "0" },
+    ".grupo-campo input:focus-visible": { outline: "0" },
     /* ---------------------------------------------------------------
      * Contador de caracteres -- para un textarea con `maxlength`. El JS
      * vive en `@sistema32/santacorina-ui/js` (`iniciarContadores`).
@@ -646,6 +681,30 @@ function buildComponents() {
      * Estado vacio -- cuando un listado no tiene filas que mostrar.
      * ------------------------------------------------------------- */
     ".vacio": { textAlign: "center", padding: "38px 20px", color: "var(--color-tenue)" },
+    /* ---------------------------------------------------------------
+     * Lista de grupo -- lista vertical de items clicables/seleccionables
+     * con borde, distinta de `.lateral .item` (solo del menu) y de una
+     * tabla (no tiene columnas).
+     * ------------------------------------------------------------- */
+    ".lista-grupo": {
+      border: "1px solid var(--color-borde)",
+      borderRadius: "11px",
+      overflow: "hidden"
+    },
+    ".lista-grupo-item": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "10px",
+      padding: "12px 16px",
+      borderBottom: "1px solid var(--color-borde)",
+      color: "var(--color-texto)",
+      backgroundColor: "#fff"
+    },
+    "a.lista-grupo-item, button.lista-grupo-item": { cursor: "pointer", width: "100%", textAlign: "left", border: "0" },
+    "a.lista-grupo-item:hover, button.lista-grupo-item:hover": { backgroundColor: "var(--color-gris-fondo)" },
+    ".lista-grupo-item:last-child": { borderBottom: "0" },
+    ".lista-grupo-item.activo": { backgroundColor: "#eaf2fc", color: "var(--color-azul-oscuro)", fontWeight: "600" },
     ".vacio p": { margin: "0 0 14px" },
     ".tenue": { color: "var(--color-tenue)" },
     /* ---------------------------------------------------------------
@@ -1242,6 +1301,129 @@ function buildComponents() {
     ".calendario-dia.fuera": { color: "var(--color-tenue)", opacity: "0.4" },
     ".calendario-dia.hoy": { border: "1px solid var(--color-azul)" },
     ".calendario-dia.activo": { backgroundColor: "var(--color-azul)", color: "#fff", fontWeight: "600" },
+    /* ---------------------------------------------------------------
+     * Popover -- como `[data-tooltip]`, pero con contenido rico y
+     * abierto por clic, no por hover. Mismo patron de capa flotante que
+     * `.menu-panel`. El JS vive en `@sistema32/santacorina-ui/js`
+     * (`iniciarPopovers`).
+     * ------------------------------------------------------------- */
+    "[data-popover]": { position: "relative", display: "inline-block" },
+    ".popover-panel": {
+      display: "none",
+      position: "absolute",
+      top: "calc(100% + 8px)",
+      left: "50%",
+      transform: "translateX(-50%)",
+      zIndex: "200",
+      width: "260px",
+      backgroundColor: "#fff",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "10px",
+      boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
+      padding: "14px 16px",
+      fontSize: "13.5px",
+      color: "var(--color-texto)"
+    },
+    ".popover-panel.visible": { display: "block" },
+    ".popover-panel .titulo": { display: "block", fontWeight: "700", color: "var(--color-navy)", marginBottom: "4px" },
+    /* ---------------------------------------------------------------
+     * Colapsar (generico) -- a diferencia de `.acordeon` (auto-contenido
+     * en `<details>`), el boton y el panel pueden vivir en cualquier
+     * parte del DOM, y varios paneles son independientes entre si (no
+     * mutuamente excluyentes como `.tabs`/`.tab-panel`). Reutiliza
+     * `.tab-panel`/`.tab-panel.activo` para mostrar/ocultar -- el JS
+     * vive en `/js` (`iniciarColapsables`).
+     * ------------------------------------------------------------- */
+    "[data-colapsar]": { cursor: "pointer" },
+    /* ---------------------------------------------------------------
+     * Cajon -- generaliza el panel deslizante que ya tiene `.lateral` en
+     * movil, para usarlo en *otra* cosa (ej. un panel de filtros), no
+     * solo el menu. El JS vive en `/js` (`iniciarCajones`).
+     * ------------------------------------------------------------- */
+    ".cajon": {
+      position: "fixed",
+      top: "0",
+      right: "0",
+      height: "100vh",
+      width: "min(380px, 90vw)",
+      backgroundColor: "#fff",
+      boxShadow: "-8px 0 30px rgba(12,45,74,0.18)",
+      zIndex: "1200",
+      transform: "translateX(100%)",
+      transition: "transform 0.22s ease",
+      overflowY: "auto",
+      padding: "22px 24px"
+    },
+    ".cajon.abierto": { transform: "translateX(0)" },
+    ".cajon-fondo": {
+      display: "none",
+      position: "fixed",
+      inset: "0",
+      backgroundColor: "rgba(8,20,34,0.5)",
+      zIndex: "1150"
+    },
+    ".cajon-fondo.visible": { display: "block" },
+    ".cajon-cabecera": {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "16px"
+    },
+    ".cajon-cabecera h3": { margin: "0", fontSize: "16px", color: "var(--color-navy)" },
+    /* ---------------------------------------------------------------
+     * Combobox -- select con autocompletado. Conexion real: elegir uno
+     * de 105 establecimientos en un `<select>` plano es incomodo. Sobre
+     * un `<select>` oculto (sigue funcionando sin JS en un form normal).
+     * El JS vive en `/js` (`iniciarCombobox`).
+     * ------------------------------------------------------------- */
+    ".combobox": { position: "relative" },
+    ".combobox select": { position: "absolute", width: "1px", height: "1px", opacity: "0", pointerEvents: "none" },
+    ".combobox-opciones": {
+      display: "none",
+      position: "absolute",
+      top: "calc(100% + 4px)",
+      left: "0",
+      right: "0",
+      zIndex: "100",
+      maxHeight: "220px",
+      overflowY: "auto",
+      backgroundColor: "#fff",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "10px",
+      boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
+      padding: "6px",
+      margin: "0",
+      listStyle: "none"
+    },
+    ".combobox-opciones.visible": { display: "block" },
+    ".combobox-opciones li": {
+      padding: "8px 10px",
+      borderRadius: "7px",
+      cursor: "pointer",
+      fontSize: "14px"
+    },
+    ".combobox-opciones li:hover, .combobox-opciones li.resaltada": { backgroundColor: "var(--color-gris-fondo)" },
+    ".combobox-opciones li.sin-resultados": { color: "var(--color-tenue)", cursor: "default" },
+    ".combobox-opciones li.sin-resultados:hover": { backgroundColor: "transparent" },
+    /* ---------------------------------------------------------------
+     * Medidor de clave -- heuristica simple (longitud + variedad de
+     * caracteres) para una guia visual, no para validar seguridad real
+     * (eso lo sigue haciendo el backend). El JS vive en `/js`
+     * (`iniciarMedidorClave`).
+     * ------------------------------------------------------------- */
+    ".medidor-clave": { marginTop: "8px" },
+    ".medidor-clave .segmentos": { display: "flex", gap: "4px", marginBottom: "5px" },
+    ".medidor-clave .segmentos span": {
+      height: "4px",
+      flex: "1",
+      borderRadius: "999px",
+      backgroundColor: "var(--color-gris-fondo)"
+    },
+    ".medidor-clave .segmentos span.activo.debil": { backgroundColor: "var(--color-rojo)" },
+    ".medidor-clave .segmentos span.activo.regular": { backgroundColor: "var(--color-naranjo)" },
+    ".medidor-clave .segmentos span.activo.buena": { backgroundColor: "#cbb400" },
+    ".medidor-clave .segmentos span.activo.fuerte": { backgroundColor: "var(--color-verde)" },
+    ".medidor-clave .etiqueta": { fontSize: "12px", color: "var(--color-tenue)" },
     /* ---------------------------------------------------------------
      * Insignia -- punto o numero sobre un padre `position:relative`
      * (un icono, una pastilla) para avisar pendientes sin empujar texto.

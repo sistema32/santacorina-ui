@@ -79,7 +79,37 @@ declare function iniciarBuscadores(raiz?: ParentNode): void;
  */
 declare function iniciarContadores(raiz?: ParentNode): void;
 
-/** Conecta todo lo auto-iniciable (modal, lateral, tabs, rango de fechas, calendario, buscador, contador). */
+/**
+ * Tooltip con contenido rico, abierto por clic (no por hover como
+ * `[data-tooltip]`). El contenido vive oculto en `[data-popover-contenido]`
+ * dentro del mismo `[data-popover]`, y se clona al panel la primera vez.
+ */
+declare function iniciarPopovers(raiz?: ParentNode): void;
+
+/**
+ * Collapse generico: a diferencia de `.acordeon` (auto-contenido en
+ * `<details>`), el boton y el panel pueden vivir en cualquier parte del
+ * DOM, y varios son independientes entre si (no mutuamente excluyentes
+ * como `.tabs`). Reutiliza `.tab-panel`/`.tab-panel.activo`.
+ */
+declare function iniciarColapsables(raiz?: ParentNode): void;
+
+/**
+ * Generaliza el panel deslizante que ya tiene `.lateral` en movil, para
+ * usarlo en *otra* cosa (ej. un panel de filtros), no solo el menu.
+ */
+declare function iniciarCajones(raiz?: ParentNode): void;
+
+/**
+ * Select con autocompletado sobre un `<select>` oculto -- sigue
+ * funcionando con un form normal si el JS falla. Filtra por texto,
+ * flechas arriba/abajo + Enter para elegir, clic en una opcion tambien.
+ */
+declare function iniciarCombobox(raiz?: ParentNode): void;
+
+declare function iniciarMedidorClave(raiz?: ParentNode): void;
+
+/** Conecta todo lo auto-iniciable. */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarBuscadores, iniciarCalendario, iniciarContadores, iniciarLateral, iniciarModales, iniciarRangoFechas, iniciarTabs, iniciarTodo, mostrarToast };
+export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarTabs, iniciarTodo, mostrarToast };

@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.11.0 — sin publicar
+
+Revisión de paridad contra **Bootstrap 6** (alpha real, lanzada
+8-oct-2026) — qué ya teníamos, qué faltaba con conexión real a `sgp` (se
+agregó) y qué se dejó fuera a propósito.
+
+Ya cubierto antes de esta revisión: Alert→`.aviso`, Avatar, Badge→`.insignia`,
+Breadcrumb, Button→`.boton`, Card→`.tarjeta`, Dialog→`.modal`, Menu,
+Pagination, Placeholder→`.skeleton`, Progress, Spinner→`.cargando`,
+Stepper, Tab, Toasts, Tooltip, Chips, Datepicker→`.calendario`,
+Checkbox/Radio/Switch/Range.
+
+Agregado esta ronda:
+
+- `.grupo-botones` — botones de acción unidos.
+- `.lista-grupo` + `.lista-grupo-item` — lista vertical clicable.
+- `.grupo-campo` — prefijo/sufijo en un input (conexión real: montos en
+  pesos en cada tabla de la plataforma).
+- `[data-popover]` + `iniciarPopovers` — tooltip con contenido rico,
+  por clic.
+- `[data-colapsar]` + `iniciarColapsables` — collapse genérico (a
+  diferencia de `.acordeon`, botón y panel en cualquier parte del DOM,
+  paneles independientes entre sí).
+- `.cajon` + `iniciarCajones` — generaliza el panel deslizante de
+  `.lateral` para otro uso (ej. filtros).
+- `.combobox` + `iniciarCombobox` — select con autocompletado.
+  Encontrado y corregido antes de terminar: el filtro no encontraba
+  "República" al escribir "repub" (sin tilde) — se normalizan acentos
+  en ambos lados de la comparación (`normalize("NFD")`), algo
+  especialmente relevante en español.
+- `.medidor-clave` + `iniciarMedidorClave` — heurística simple de
+  fuerza de contraseña (conexión real: `sgp/CLAUDE.md` documenta el
+  flujo de hash scrypt + regenerar claves).
+
+Deliberadamente fuera: Carousel (sin caso de uso en un portal de
+compras públicas), Navbar/Toggler genérico (ya se decidió que `sgp` usa
+sidebar, no barra superior), Nav overflow y Scrollspy (nicho, sin caso
+de uso concreto), Floating labels (reemplazaría un patrón de formulario
+ya consistente, no lo completa), OTP input (sin 2FA en `sgp`), Form
+adorn (ya resuelto por `.grupo-campo` + el ícono de `.buscador`).
+
 ## 0.10.0 — sin publicar
 
 - `.formulario-seccion` (+ `-titulo`/`-nota`) — agrupa los `.campo` de un

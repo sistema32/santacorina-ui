@@ -9,6 +9,11 @@ export { iniciarRangoFechas } from "./rango-fechas.js";
 export { iniciarCalendario } from "./calendario.js";
 export { iniciarBuscadores } from "./buscador.js";
 export { iniciarContadores } from "./contador.js";
+export { iniciarPopovers } from "./popover.js";
+export { iniciarColapsables } from "./colapsar.js";
+export { iniciarCajones } from "./cajon.js";
+export { iniciarCombobox } from "./combobox.js";
+export { iniciarMedidorClave } from "./medidor-clave.js";
 
 import { iniciarModales } from "./modal.js";
 import { iniciarLateral } from "./lateral.js";
@@ -17,8 +22,13 @@ import { iniciarRangoFechas } from "./rango-fechas.js";
 import { iniciarCalendario } from "./calendario.js";
 import { iniciarBuscadores } from "./buscador.js";
 import { iniciarContadores } from "./contador.js";
+import { iniciarPopovers } from "./popover.js";
+import { iniciarColapsables } from "./colapsar.js";
+import { iniciarCajones } from "./cajon.js";
+import { iniciarCombobox } from "./combobox.js";
+import { iniciarMedidorClave } from "./medidor-clave.js";
 
-/** Conecta todo lo auto-iniciable (modal, lateral, tabs, rango de fechas, calendario, buscador, contador). */
+/** Conecta todo lo auto-iniciable. */
 export function iniciarTodo(raiz: ParentNode = document): void {
   iniciarModales(raiz);
   iniciarLateral(raiz);
@@ -27,6 +37,11 @@ export function iniciarTodo(raiz: ParentNode = document): void {
   iniciarCalendario(raiz);
   iniciarBuscadores(raiz);
   iniciarContadores(raiz);
+  iniciarPopovers(raiz);
+  iniciarColapsables(raiz);
+  iniciarCajones(raiz);
+  iniciarCombobox(raiz);
+  iniciarMedidorClave(raiz);
 }
 
 if (typeof document !== "undefined") {

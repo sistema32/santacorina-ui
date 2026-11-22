@@ -67,6 +67,11 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | `iniciarBuscadores` | Muestra/oculta y conecta el botón `.limpiar` de `.buscador` | ✓ |
 | `iniciarContadores` | Actualiza `.contador-caracteres` de un `textarea[data-contador]` | ✓ |
 | `iniciarTabs` (ampliado en 0.10.0) | Con `data-tab`/`data-tab-panel`, también muestra/oculta el panel — sin esos atributos sigue siendo solo un segmented control, retrocompatible | ✓ |
+| `iniciarPopovers` | Abre/cierra `.popover-panel` al hacer clic en `[data-popover-trigger]` | ✓ |
+| `iniciarColapsables` | Alterna `.activo` en `[data-colapsable]` al hacer clic en `[data-colapsar]` | ✓ |
+| `iniciarCajones` | Conecta `[data-cajon-toggle]`/`[data-cajon-fondo]` con `.cajon` | ✓ |
+| `iniciarCombobox` | Filtra `.combobox-opciones` (sin distinguir tildes), navegación por teclado | ✓ |
+| `iniciarMedidorClave` | Actualiza `.medidor-clave` junto a `input[data-medidor-clave]` | ✓ |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
 
@@ -176,6 +181,14 @@ plataforma queda en una sola tipografía, consistente.
 | `.columnas-2` / `.columnas-4` | Variantes de `.columnas` |
 | `.masonry` | Empaquetado tipo Pinterest, vía `columns` CSS |
 | `.hero` | Banner de introducción (dashboard/bienvenida) |
+| `.grupo-botones` | Botones de acción visualmente unidos |
+| `.lista-grupo` + `.lista-grupo-item` (`.activo`) | Lista vertical de ítems clicables |
+| `.grupo-campo` + `.prefijo`/`.sufijo` | Prefijo/sufijo pegado a un input (ej. montos en pesos) |
+| `[data-popover]` + `.popover-panel` | Tooltip con contenido rico, abierto por clic — JS en `/js` |
+| `[data-colapsar]` + `[data-colapsable]` (reusa `.tab-panel`) | Collapse genérico, paneles independientes — JS en `/js` |
+| `.cajon` / `.cajon-fondo` | Panel deslizante genérico (ej. filtros) — JS en `/js` |
+| `.combobox` + `.combobox-opciones` | Select con autocompletado, sin distinguir tildes — JS en `/js` |
+| `.medidor-clave` | Medidor de fuerza de contraseña — JS en `/js` |
 
 Dos ajustes responsivos nuevos, sin clase nueva, bajo 600px (teléfono —
 el 900px del resto del paquete es muy ancho para esto): `.breadcrumb`

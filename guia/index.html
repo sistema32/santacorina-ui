@@ -100,6 +100,14 @@
     <a href="#iconos">Íconos</a>
     <a href="#variantes-cabecera">Variantes de cabecera/pie</a>
     <a href="#tipografia">Tipografía</a>
+    <a href="#grupo-botones">Grupo de botones</a>
+    <a href="#lista-grupo">Lista de grupo</a>
+    <a href="#grupo-campo">Grupo de campo</a>
+    <a href="#popover">Popover</a>
+    <a href="#colapsar">Colapsar genérico</a>
+    <a href="#cajon">Cajón</a>
+    <a href="#combobox">Combobox</a>
+    <a href="#medidor-clave">Medidor de contraseña</a>
     <a href="#formulario-seccion">Secciones de formulario</a>
     <a href="#tab-panel">Pestañas con panel</a>
     <a href="#columnas-variantes">Columnas (2/4)</a>
@@ -680,6 +688,119 @@
         <div class="demo">
           <pre class="codigo" style="margin:0;border-radius:8px">:root { --font-sans: 'Inter', sans-serif; }</pre>
         </div>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="grupo-botones">
+      <h2>Grupo de botones</h2>
+      <p class="uso">Botones de acción visualmente unidos — ej. "Aprobar / Revisar / Rechazar" en una fila de bandeja.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="grupo-botones">
+            <button class="boton secundario">Aprobar</button>
+            <button class="boton secundario">Revisar</button>
+            <button class="boton secundario">Rechazar</button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="grupo-botones"&gt;&lt;button class="boton secundario"&gt;Aprobar&lt;/button&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="lista-grupo">
+      <h2>Lista de grupo</h2>
+      <p class="uso">Lista vertical de ítems clicables/seleccionables con borde — distinta de <code>.lateral .item</code> (solo del menú) y de una tabla.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="lista-grupo">
+            <a href="#" class="lista-grupo-item activo">Colegio Alcázar <span class="etiqueta azul">105</span></a>
+            <a href="#" class="lista-grupo-item">Escuela República <span class="etiqueta gris">12</span></a>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="lista-grupo"&gt;&lt;a class="lista-grupo-item activo"&gt;...&lt;/a&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="grupo-campo">
+      <h2>Grupo de campo</h2>
+      <p class="uso">Prefijo/sufijo pegado a un input — esta plataforma maneja montos en pesos en cada tabla.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="grupo-campo" style="max-width:220px">
+            <span class="prefijo">$</span>
+            <input type="text" value="1.422.169">
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="grupo-campo"&gt;&lt;span class="prefijo"&gt;$&lt;/span&gt;&lt;input type="text"&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="popover">
+      <h2>Popover</h2>
+      <p class="uso">Como <code>[data-tooltip]</code>, pero con contenido rico y abierto por clic, no por hover.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div data-popover style="display:inline-block">
+            <button class="boton secundario" data-popover-trigger>Precio de mercado</button>
+            <div data-popover-contenido style="display:none">
+              <span class="titulo">Sin fuente conectada</span>
+              Precio de mercado no tiene fuente conectada todavía.
+            </div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div data-popover&gt;&lt;button data-popover-trigger&gt;...&lt;/button&gt;&lt;div data-popover-contenido&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="colapsar">
+      <h2>Colapsar genérico</h2>
+      <p class="uso">A diferencia de <code>.acordeon</code> (auto-contenido en <code>&lt;details&gt;</code>), el botón y el panel pueden vivir en cualquier parte del DOM, y son independientes entre sí (no mutuamente excluyentes como <code>.tabs</code>).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <button class="boton secundario" data-colapsar="g-det">Mostrar detalle técnico</button>
+          <div data-colapsable="g-det" class="tab-panel" style="margin-top:10px;font-size:13px;color:var(--color-tenue)">Detalle técnico del cálculo.</div>
+        </div>
+        <pre class="codigo">&lt;button data-colapsar="x"&gt;...&lt;/button&gt;&lt;div data-colapsable="x" class="tab-panel"&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="cajon">
+      <h2>Cajón</h2>
+      <p class="uso">Generaliza el panel deslizante que ya tiene <code>.lateral</code> en móvil, para usarlo en <em>otra</em> cosa (ej. un panel de filtros), no solo el menú.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <button class="boton secundario" data-cajon-toggle="g-filtros">Abrir filtros</button>
+        </div>
+        <pre class="codigo">&lt;button data-cajon-toggle="x"&gt;...&lt;/button&gt;&lt;div class="cajon" data-cajon="x"&gt;...&lt;/div&gt;&lt;div class="cajon-fondo" data-cajon-fondo="x"&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="combobox">
+      <h2>Combobox</h2>
+      <p class="uso">Select con autocompletado sobre un <code>&lt;select&gt;</code> oculto — sigue funcionando con un form normal si el JS falla. Filtra sin distinguir tildes.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="combobox">
+            <input type="text" placeholder="Buscar establecimiento...">
+            <select>
+              <option value="">Seleccione...</option>
+              <option value="12255-6">Colegio Alcázar</option>
+              <option value="98765-4">Escuela República de Venezuela</option>
+            </select>
+            <ul class="combobox-opciones"></ul>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="combobox"&gt;&lt;input type="text"&gt;&lt;select&gt;...&lt;/select&gt;&lt;ul class="combobox-opciones"&gt;&lt;/ul&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="medidor-clave">
+      <h2>Medidor de contraseña</h2>
+      <p class="uso">Heurística simple (longitud + variedad de caracteres) para una guía visual — la seguridad real la sigue validando el backend.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <input type="password" data-medidor-clave placeholder="Nueva contraseña">
+        </div>
+        <pre class="codigo">&lt;input type="password" data-medidor-clave&gt;</pre>
       </div>
     </section>
 
