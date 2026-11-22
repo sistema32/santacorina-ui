@@ -10,6 +10,9 @@
  */
 interface SantacorinaTheme {
     colors: Record<string, string>;
+    fonts: {
+        sans: string;
+    };
 }
 declare const defaultTheme: SantacorinaTheme;
 

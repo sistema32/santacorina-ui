@@ -10,6 +10,9 @@
  */
 export interface SantacorinaTheme {
   colors: Record<string, string>;
+  fonts: {
+    sans: string;
+  };
 }
 
 export const defaultTheme: SantacorinaTheme = {
@@ -30,5 +33,13 @@ export const defaultTheme: SantacorinaTheme = {
     tenue: "#5b6b7c",
     borde: "#dde4ec",
     fondo: "#f4f7fa",
+  },
+  fonts: {
+    // Public Sans: disenada para el US Web Design System (licencia SIL
+    // Open Font), pensada para texto denso en tablas y formularios de
+    // gobierno -- encaja con lo que es esta plataforma. El plugin no
+    // carga el <link> de Google Fonts por su cuenta (ver README); sin
+    // el, el navegador cae al mismo system-ui de siempre.
+    sans: "'Public Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
   },
 };

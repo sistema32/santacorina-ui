@@ -133,6 +133,13 @@ interface SantacorinaUIOptions {
      * build propio de JS) usa el override por variable CSS, ver mas abajo.
      */
     colors?: Partial<SantacorinaTheme["colors"]>;
+    /**
+     * Sobreescribe la tipografia de marca (ej. { sans: "'Inter', sans-serif" }).
+     * Misma limitacion que `colors`: solo alcanzable invocando el plugin
+     * desde JS/TS. Para CSS puro, sobreescribe `--font-sans` igual que se
+     * sobreescribe `--color-azul` (ver README).
+     */
+    fonts?: Partial<SantacorinaTheme["fonts"]>;
 }
 declare const _default: PluginWithOptions<SantacorinaUIOptions>;
 

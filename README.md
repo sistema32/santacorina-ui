@@ -97,6 +97,32 @@ layer le gana a cualquier regla dentro de un layer (el plugin define sus
 colores dentro de `@layer base`), sin importar el orden en que aparezcan
 en el archivo. Se probó explícitamente; ver "Decisiones verificadas" abajo.
 
+## Tipografía de marca
+
+**Public Sans** (licencia SIL Open Font) es la fuente por defecto, vía la
+variable `--font-sans` — mismo mecanismo que los colores: el plugin
+declara el valor en un `:root` sin `@layer` en `src/plugin.ts`, lo que
+le gana a cualquier regla dentro de un layer sin importar el orden. El
+paquete no carga el `<link>` de Google Fonts por su cuenta (una petición
+de red no debe imponerla un plugin); sin él, cae a `system-ui` — exactamente
+el aspecto de antes de 0.9.0.
+
+```css
+@import "tailwindcss";
+@plugin "@sistema32/santacorina-ui";
+
+/* opcional: para que se vea con Public Sans de verdad */
+/* <link> en el <head>: https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&display=swap */
+
+/* para usar otra tipografia en vez de Public Sans */
+:root { --font-sans: 'Inter', sans-serif; }
+```
+
+`--font-sans` es el mismo nombre que usa el tema por defecto de Tailwind
+v4 para su utilidad `font-sans` — el override (sin `@layer`) también le
+gana a esa utilidad y al `<html>` base, no solo a `body`: toda la
+plataforma queda en una sola tipografía, consistente.
+
 ## Componentes incluidos
 
 | Clase | Qué es |
@@ -141,7 +167,7 @@ en el archivo. Se probó explícitamente; ver "Decisiones verificadas" abajo.
 | `.calendario` / `.calendario-panel` (sobre `[data-calendario]`) | Selector de fecha en grilla visual — el JS vive en `/js` |
 | `.buscador` + `.limpiar` | Input de búsqueda con ícono y botón de limpiar propio (oculta el nativo de `type=search`) — JS en `/js` |
 | `.contador-caracteres` (`.cerca`/`.lleno`, sobre `textarea[data-contador]`) | Contador de caracteres de un textarea — JS en `/js` |
-| `.icono` + `.icono-check/cerrar/flecha-derecha/chevron-izq/chevron-der/mas-opciones/menu/buscar` (`.chico`/`.grande`) | Ícono 100% CSS, hereda el color de texto |
+| `.icono` + `.icono-check/cerrar/flecha-derecha/chevron-izq/chevron-der/mas-opciones/menu/buscar/agregar/candado/filtro/eliminar/editar/ver/advertencia/info` (`.chico`/`.grande`) | Ícono 100% CSS, hereda el color de texto |
 | `.cabecera-compacta` / `.cabecera-centrada` / `.cabecera-con-buscador` | Variantes de `.cabecera` |
 | `.pie-compacto` | Variante de `.pie` |
 

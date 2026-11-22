@@ -11,6 +11,13 @@ export interface SantacorinaUIOptions {
    * build propio de JS) usa el override por variable CSS, ver mas abajo.
    */
   colors?: Partial<SantacorinaTheme["colors"]>;
+  /**
+   * Sobreescribe la tipografia de marca (ej. { sans: "'Inter', sans-serif" }).
+   * Misma limitacion que `colors`: solo alcanzable invocando el plugin
+   * desde JS/TS. Para CSS puro, sobreescribe `--font-sans` igual que se
+   * sobreescribe `--color-azul` (ver README).
+   */
+  fonts?: Partial<SantacorinaTheme["fonts"]>;
 }
 
 /**
@@ -38,6 +45,10 @@ function resolveColors(options: SantacorinaUIOptions): Record<string, string> {
   return { ...defaultTheme.colors, ...options.colors } as Record<string, string>;
 }
 
+function resolveFonts(options: SantacorinaUIOptions): SantacorinaTheme["fonts"] {
+  return { ...defaultTheme.fonts, ...options.fonts };
+}
+
 export default plugin.withOptions<SantacorinaUIOptions>(
   (options = {}) => {
     return ({ addBase }) => {
@@ -48,10 +59,14 @@ export default plugin.withOptions<SantacorinaUIOptions>(
       // responder a `colors` sin repetir el valor, asi que esas custom
       // properties hay que declararlas nosotros mismos, desde la misma
       // fuente (resolveColors) que alimenta theme.extend.
+      const fonts = resolveFonts(options);
       addBase({
-        ":root": Object.fromEntries(
-          Object.entries(colors).map(([nombre, valor]) => [`--color-${nombre}`, valor])
-        ),
+        ":root": {
+          ...Object.fromEntries(
+            Object.entries(colors).map(([nombre, valor]) => [`--color-${nombre}`, valor])
+          ),
+          "--font-sans": fonts.sans,
+        },
       });
 
       // addComponents en Tailwind v4 es un alias de addUtilities (exige
@@ -63,7 +78,9 @@ export default plugin.withOptions<SantacorinaUIOptions>(
         body: {
           backgroundColor: "var(--color-fondo)",
           color: "var(--color-texto)",
-          font: "15px/1.55 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+          fontFamily: "var(--font-sans)",
+          fontSize: "15px",
+          lineHeight: "1.55",
         },
         a: { color: "inherit", textDecoration: "none" },
       });

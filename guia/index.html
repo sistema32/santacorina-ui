@@ -99,6 +99,7 @@
     <a href="#contador">Contador de caracteres</a>
     <a href="#iconos">Íconos</a>
     <a href="#variantes-cabecera">Variantes de cabecera/pie</a>
+    <a href="#tipografia">Tipografía</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -610,6 +611,14 @@
           <span class="icono icono-mas-opciones"></span>
           <span class="icono icono-menu"></span>
           <span class="icono icono-buscar"></span>
+          <span class="icono icono-agregar"></span>
+          <span class="icono icono-candado"></span>
+          <span class="icono icono-filtro"></span>
+          <span class="icono icono-eliminar"></span>
+          <span class="icono icono-editar"></span>
+          <span class="icono icono-ver"></span>
+          <span class="icono icono-advertencia"></span>
+          <span class="icono icono-info"></span>
         </div>
         <pre class="codigo">&lt;span class="icono icono-check"&gt;&lt;/span&gt;</pre>
       </div>
@@ -649,6 +658,22 @@
           <footer class="pie pie-compacto">EMISA · SLEP Santa Corina</footer>
         </div>
         <pre class="codigo">&lt;footer class="pie pie-compacto"&gt;...&lt;/footer&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="tipografia">
+      <h2>Tipografía</h2>
+      <p class="uso"><strong>Public Sans</strong> (licencia SIL Open Font) es la tipografía de marca por defecto — diseñada para el US Web Design System, pensada para texto denso en tablas y formularios de gobierno. El paquete <strong>no</strong> carga el <code>&lt;link&gt;</code> de Google Fonts por su cuenta (un plugin no debe imponer una petición de red); sin él, el navegador cae a <code>system-ui</code>, exactamente igual que antes de 0.9.0.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <pre class="codigo" style="margin:0;border-radius:8px">&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&amp;display=swap"&gt;</pre>
+        </div>
+      </div>
+      <p class="uso">El valor vive en la variable <code>--font-sans</code> — mismo nombre que usa Tailwind para su propia utilidad <code>font-sans</code>, así que el override (sin <code>@layer</code>, igual mecanismo que los colores) también alcanza a esa utilidad y al <code>&lt;html&gt;</code> base, no solo a <code>body</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <pre class="codigo" style="margin:0;border-radius:8px">:root { --font-sans: 'Inter', sans-serif; }</pre>
+        </div>
       </div>
     </section>
   </main>

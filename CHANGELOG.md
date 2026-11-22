@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.9.0 — sin publicar
+
+**Ocho íconos más**, cada uno con un concepto real y verificable en
+`sgp` (mismo mecanismo `mask-image` de 0.8.0):
+
+- `.icono-agregar` — `solicitud_form.html:84` usa literalmente "＋
+  Agregar productos" como botón.
+- `.icono-candado` — "año cerrado / solo lectura" (`periodo.py`,
+  `_selector_anio.html`, `tesoreria_*.html`).
+- `.icono-filtro` — filtros de listado ya existentes (`admin_bitacora`,
+  `admin_usuarios`, `finanzas_presupuesto`).
+- `.icono-eliminar` (tacho) — distinto de `.icono-cerrar`: las pantallas
+  que usan `✕` para "eliminar fila" se leen mejor con un tacho que con
+  una X, que ya significa "cerrar".
+- `.icono-editar`, `.icono-ver` — acciones repetidas en bandejas.
+- `.icono-advertencia`, `.icono-info` — para usar junto a
+  `.aviso.alerta`/`.aviso.info`.
+
+**Tipografía de marca** — primera vez que el paquete define una fuente
+propia en vez de `system-ui`. **Public Sans** (licencia SIL Open Font,
+diseñada para el US Web Design System) como valor por defecto de la
+nueva variable `--font-sans`, mismo mecanismo de override sin `@layer`
+que ya tienen los colores. El plugin no carga el `<link>` de Google
+Fonts — sin él, cae a `system-ui` exactamente como antes. `SantacorinaTheme`
+gana `fonts: { sans }` y `SantacorinaUIOptions` gana `fonts?`.
+Verificado con `document.fonts` que la fuente real solo se registra
+cuando el consumidor carga el `<link>`, y que sin él el fallback es
+transparente.
+
 ## 0.8.0 — sin publicar
 
 **Pack de íconos** — 100% CSS vía `mask-image` + `background-color:
