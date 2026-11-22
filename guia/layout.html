@@ -148,8 +148,8 @@
       <h2>Menú lateral</h2>
       <p class="uso">Incluye el patrón responsivo completo (hamburguesa + overlay + panel deslizante bajo 900px). El toggle móvil necesita que el consumidor agregue un <em>click handler</em> de unas líneas que alterne <code>.abierta</code> en <code>.lateral</code> y <code>.visible</code> en <code>.lateral-fondo</code> — el CSS deja listas las tres clases, pero no es solo-CSS como <code>.acordeon</code>/<code>.menu</code> porque el estado tiene que sobrevivir a cambios de página en una app multi-página.</p>
       <div class="demo-wrap">
-        <div class="demo" style="padding:0">
-          <aside class="lateral" style="height:auto;position:static">
+        <div class="demo" style="padding:0;display:flex;justify-content:center;background:var(--doc-bg)">
+          <aside class="lateral" style="height:auto;position:static;flex:none">
             <div class="lateral-marca"><strong style="font-size:15px">EMISA</strong><span class="lateral-sub">SLEP Santa Corina</span></div>
             <nav>
               <div class="grupo">Compras</div>
