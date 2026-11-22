@@ -212,6 +212,21 @@ que antes solo cubría input/select/textarea.
 
 Ver `guia/index.html` para cada uno renderizado con datos reales.
 
+## Accesibilidad
+
+Desde 0.12.0, los componentes interactivos manejan ARIA y foco —
+`sgp` es una plataforma de un servicio público, donde esto no es
+opcional:
+
+| Componente | Qué hace |
+|---|---|
+| `.modal`, `.cajon` | `role="dialog"` + `aria-modal`. Atrapan el foco con Tab mientras están abiertos (`src/js/foco.ts`) y lo devuelven al elemento que los abrió al cerrar. |
+| `.tabs` | `role="tablist"`/`"tab"` + `aria-selected`; los `[data-tab-panel]` reciben `role="tabpanel"` + `aria-hidden` en espejo con `.activo`. |
+| `[data-popover]` | El trigger recibe `aria-haspopup`/`aria-expanded`; el panel, `role="dialog"`; Escape devuelve el foco al trigger — pero solo si ese popover está realmente abierto (ver más abajo, "Decisiones verificadas"). |
+| `.combobox` | Patrón ARIA 1.2 completo: `role="combobox"` + `aria-expanded`/`aria-controls`/`aria-activedescendant` en el input; `role="listbox"`/`"option"` en la lista. |
+| `[data-colapsar]` | `aria-expanded` + `aria-controls` apuntando al panel. |
+| `.acordeon`, `.menu` | Ya accesibles de fábrica — son `<details>`/`<summary>` nativos, el navegador resuelve foco, teclado y el estado expandido/colapsado. |
+
 ## Decisiones verificadas (no asumidas)
 
 Dos cosas que parecían deberían funcionar y no funcionaban — quedan acá
@@ -232,6 +247,17 @@ para no repetir la investigación:
    `@plugin "pkg" { ... }`** (probado, sin efecto). Solo sirve invocando el
    plugin desde JS/TS directamente. Para el caso común, usar el override
    por variable CSS de la sección anterior.
+4. **Un listener de `Escape` a nivel `document` sin guardia afecta a toda
+   la página, no solo a su propio componente.** `iniciarPopovers` cerraba
+   su panel y devolvía el foco a su trigger con cualquier `Escape`, aunque
+   ese popover especifico estuviera cerrado — así que cerrar un `.modal`
+   con Escape en una pantalla que también tiene un popover (cerrado) le
+   robaba el foco de vuelta al trigger del popover. Se vio recién al
+   instrumentar el DOM con un log de `focusin`/`keydown` (Playwright con
+   Patchright no expone `console.log` de la página — es una medida
+   anti-detección). Arreglado: el handler de Escape de cada componente
+   primero comprueba que *su propio* panel/modal/cajón esté abierto antes
+   de actuar.
 
 ## Desarrollo
 

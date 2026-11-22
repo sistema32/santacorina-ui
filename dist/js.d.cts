@@ -26,10 +26,6 @@ declare function debounce<A extends unknown[]>(fn: (...args: A) => void, ms?: nu
  */
 declare function copiarAlPortapapeles(texto: string): Promise<boolean>;
 
-/**
- * Abrir/cerrar `.modal` -- el README de 0.1.0 nunca dijo como hacerlo,
- * cada pantalla lo habria inventado distinto.
- */
 declare function abrirModal(el: HTMLElement): void;
 declare function cerrarModal(el: HTMLElement): void;
 /** Conecta clic en el backdrop, `[data-cerrar-modal]` y Escape para cada `.modal`. */
@@ -53,7 +49,9 @@ declare function iniciarLateral(raiz?: ParentNode): void;
  * Alterna `.activo` al hacer clic dentro de `.tabs`. Si el boton tiene
  * `data-tab="x"`, tambien muestra `[data-tab-panel="x"]` y oculta el
  * resto -- retrocompatible: un `.tabs` sin `data-tab` sigue siendo solo
- * un segmented control, como hasta 0.9.0.
+ * un segmented control, como hasta 0.9.0. `.tabs` recibe `role="tablist"`,
+ * cada boton `role="tab"` + `aria-selected`, y cada panel `role="tabpanel"`
+ * + `aria-hidden` en espejo con `.activo`.
  */
 declare function iniciarTabs(raiz?: ParentNode): void;
 
@@ -79,32 +77,12 @@ declare function iniciarBuscadores(raiz?: ParentNode): void;
  */
 declare function iniciarContadores(raiz?: ParentNode): void;
 
-/**
- * Tooltip con contenido rico, abierto por clic (no por hover como
- * `[data-tooltip]`). El contenido vive oculto en `[data-popover-contenido]`
- * dentro del mismo `[data-popover]`, y se clona al panel la primera vez.
- */
 declare function iniciarPopovers(raiz?: ParentNode): void;
 
-/**
- * Collapse generico: a diferencia de `.acordeon` (auto-contenido en
- * `<details>`), el boton y el panel pueden vivir en cualquier parte del
- * DOM, y varios son independientes entre si (no mutuamente excluyentes
- * como `.tabs`). Reutiliza `.tab-panel`/`.tab-panel.activo`.
- */
 declare function iniciarColapsables(raiz?: ParentNode): void;
 
-/**
- * Generaliza el panel deslizante que ya tiene `.lateral` en movil, para
- * usarlo en *otra* cosa (ej. un panel de filtros), no solo el menu.
- */
 declare function iniciarCajones(raiz?: ParentNode): void;
 
-/**
- * Select con autocompletado sobre un `<select>` oculto -- sigue
- * funcionando con un form normal si el JS falla. Filtra por texto,
- * flechas arriba/abajo + Enter para elegir, clic en una opcion tambien.
- */
 declare function iniciarCombobox(raiz?: ParentNode): void;
 
 declare function iniciarMedidorClave(raiz?: ParentNode): void;

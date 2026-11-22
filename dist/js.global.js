@@ -99,12 +99,52 @@ var Santacorina = (() => {
     return ok;
   }
 
+  // src/js/foco.ts
+  var SELECTOR_ENFOCABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  function atraparFoco(contenedor2) {
+    const previo = document.activeElement;
+    const enfocables = () => Array.from(contenedor2.querySelectorAll(SELECTOR_ENFOCABLE));
+    const primero = enfocables()[0];
+    if (!primero && !contenedor2.hasAttribute("tabindex")) contenedor2.setAttribute("tabindex", "-1");
+    (primero ?? contenedor2).focus();
+    const manejarTab = (e) => {
+      if (e.key !== "Tab") return;
+      const items = enfocables();
+      if (items.length === 0) return;
+      const [inicio, fin] = [items[0], items[items.length - 1]];
+      if (e.shiftKey && document.activeElement === inicio) {
+        e.preventDefault();
+        fin.focus();
+      } else if (!e.shiftKey && document.activeElement === fin) {
+        e.preventDefault();
+        inicio.focus();
+      }
+    };
+    contenedor2.addEventListener("keydown", manejarTab);
+    return () => {
+      contenedor2.removeEventListener("keydown", manejarTab);
+      previo?.focus();
+    };
+  }
+  var contadorId = 0;
+  function idDe(el, prefijo) {
+    if (!el.id) el.id = `${prefijo}-${++contadorId}`;
+    return el.id;
+  }
+
   // src/js/modal.ts
+  var liberadores = /* @__PURE__ */ new WeakMap();
   function abrirModal(el) {
+    if (!el.getAttribute("role")) el.setAttribute("role", "dialog");
+    el.setAttribute("aria-modal", "true");
     el.classList.add("visible");
+    const panel = el.querySelector(".modal-panel") ?? el;
+    liberadores.set(el, atraparFoco(panel));
   }
   function cerrarModal(el) {
     el.classList.remove("visible");
+    liberadores.get(el)?.();
+    liberadores.delete(el);
   }
   function cerrarSiCorresponde(modal, objetivo) {
     if (objetivo === modal || objetivo instanceof Element && objetivo.closest("[data-cerrar-modal]")) {
@@ -137,12 +177,12 @@ var Santacorina = (() => {
     const texto = document.createElement("span");
     texto.textContent = mensaje;
     toast.appendChild(texto);
-    const cerrar = document.createElement("button");
-    cerrar.type = "button";
-    cerrar.className = "cerrar";
-    cerrar.textContent = "\xD7";
-    cerrar.addEventListener("click", () => toast.remove());
-    toast.appendChild(cerrar);
+    const cerrar2 = document.createElement("button");
+    cerrar2.type = "button";
+    cerrar2.className = "cerrar";
+    cerrar2.textContent = "\xD7";
+    cerrar2.addEventListener("click", () => toast.remove());
+    toast.appendChild(cerrar2);
     contenedor().appendChild(toast);
     if (duracionMs > 0) setTimeout(() => toast.remove(), duracionMs);
     return toast;
@@ -154,7 +194,7 @@ var Santacorina = (() => {
     const lateral = raiz.querySelector(".lateral");
     const fondo = raiz.querySelector(".lateral-fondo");
     if (!toggle || !lateral) return;
-    const cerrar = () => {
+    const cerrar2 = () => {
       lateral.classList.remove("abierta");
       fondo?.classList.remove("visible");
     };
@@ -163,21 +203,34 @@ var Santacorina = (() => {
       fondo?.classList.toggle("visible");
     };
     toggle.addEventListener("click", alternar);
-    fondo?.addEventListener("click", cerrar);
+    fondo?.addEventListener("click", cerrar2);
   }
 
   // src/js/tabs.ts
   function iniciarTabs(raiz = document) {
     raiz.querySelectorAll(".tabs").forEach((tabs) => {
+      if (!tabs.getAttribute("role")) tabs.setAttribute("role", "tablist");
+      const botones = tabs.querySelectorAll("a, button");
+      botones.forEach((boton) => {
+        if (!boton.getAttribute("role")) boton.setAttribute("role", "tab");
+        boton.setAttribute("aria-selected", boton.classList.contains("activo") ? "true" : "false");
+      });
       tabs.addEventListener("click", (e) => {
         const el = e.target.closest("a, button");
         if (!el || !tabs.contains(el)) return;
-        tabs.querySelectorAll(".activo").forEach((a) => a.classList.remove("activo"));
+        botones.forEach((b) => {
+          b.classList.remove("activo");
+          b.setAttribute("aria-selected", "false");
+        });
         el.classList.add("activo");
+        el.setAttribute("aria-selected", "true");
         const destino = el.dataset.tab;
         if (!destino) return;
         document.querySelectorAll("[data-tab-panel]").forEach((panel) => {
-          panel.classList.toggle("activo", panel.dataset.tabPanel === destino);
+          const activo = panel.dataset.tabPanel === destino;
+          panel.classList.toggle("activo", activo);
+          if (!panel.getAttribute("role")) panel.setAttribute("role", "tabpanel");
+          panel.setAttribute("aria-hidden", activo ? "false" : "true");
         });
       });
     });
@@ -292,7 +345,7 @@ var Santacorina = (() => {
             input.value = fechaCorta(dia);
             input.dispatchEvent(new Event("input", { bubbles: true }));
             input.dispatchEvent(new Event("change", { bubbles: true }));
-            cerrar();
+            cerrar2();
           },
           (mes) => {
             mesVisible = mes;
@@ -300,20 +353,20 @@ var Santacorina = (() => {
           }
         );
       };
-      const abrir = () => {
+      const abrir2 = () => {
         redibujar();
         panel.classList.add("visible");
       };
-      const cerrar = () => panel.classList.remove("visible");
+      const cerrar2 = () => panel.classList.remove("visible");
       input.addEventListener("click", (e) => {
         e.stopPropagation();
-        abrir();
+        abrir2();
       });
       document.addEventListener("click", (e) => {
-        if (!contenedor2.contains(e.target)) cerrar();
+        if (!contenedor2.contains(e.target)) cerrar2();
       });
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") cerrar();
+        if (e.key === "Escape") cerrar2();
       });
     });
   }
@@ -362,19 +415,29 @@ var Santacorina = (() => {
       if (!trigger || !fuente) return;
       const panel = document.createElement("div");
       panel.className = "popover-panel";
+      panel.setAttribute("role", "dialog");
       panel.innerHTML = fuente.innerHTML;
       contenedor2.appendChild(panel);
-      const cerrar = () => panel.classList.remove("visible");
+      trigger.setAttribute("aria-haspopup", "true");
+      trigger.setAttribute("aria-controls", idDe(panel, "popover"));
+      trigger.setAttribute("aria-expanded", "false");
+      const cerrar2 = (devolverFoco = false) => {
+        panel.classList.remove("visible");
+        trigger.setAttribute("aria-expanded", "false");
+        if (devolverFoco) trigger.focus();
+      };
       const alternar = (e) => {
         e.stopPropagation();
-        panel.classList.toggle("visible");
+        const abrir2 = !panel.classList.contains("visible");
+        panel.classList.toggle("visible", abrir2);
+        trigger.setAttribute("aria-expanded", String(abrir2));
       };
       trigger.addEventListener("click", alternar);
       document.addEventListener("click", (e) => {
-        if (!contenedor2.contains(e.target)) cerrar();
+        if (!contenedor2.contains(e.target)) cerrar2();
       });
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") cerrar();
+        if (e.key === "Escape" && panel.classList.contains("visible")) cerrar2(true);
       });
     });
   }
@@ -382,34 +445,65 @@ var Santacorina = (() => {
   // src/js/colapsar.ts
   function iniciarColapsables(raiz = document) {
     raiz.querySelectorAll("[data-colapsar]").forEach((boton) => {
+      const destino = boton.dataset.colapsar;
+      if (!destino) return;
+      const paneles = Array.from(document.querySelectorAll(`[data-colapsable="${destino}"]`));
+      if (paneles.length > 0) {
+        boton.setAttribute("aria-controls", paneles.map((p) => idDe(p, "colapsable")).join(" "));
+      }
+      boton.setAttribute("aria-expanded", paneles.some((p) => p.classList.contains("activo")) ? "true" : "false");
       boton.addEventListener("click", () => {
-        const destino = boton.dataset.colapsar;
-        if (!destino) return;
-        document.querySelectorAll(`[data-colapsable="${destino}"]`).forEach((panel) => {
+        let abierto = false;
+        paneles.forEach((panel) => {
           panel.classList.toggle("activo");
+          abierto = abierto || panel.classList.contains("activo");
         });
+        boton.setAttribute("aria-expanded", abierto ? "true" : "false");
       });
     });
   }
 
   // src/js/cajon.ts
+  var liberadores2 = /* @__PURE__ */ new WeakMap();
+  function abrir(cajon, fondo) {
+    if (!cajon.getAttribute("role")) cajon.setAttribute("role", "dialog");
+    cajon.setAttribute("aria-modal", "true");
+    cajon.classList.add("abierto");
+    fondo?.classList.add("visible");
+    liberadores2.set(cajon, atraparFoco(cajon));
+  }
+  function cerrar(cajon, fondo) {
+    cajon.classList.remove("abierto");
+    fondo?.classList.remove("visible");
+    liberadores2.get(cajon)?.();
+    liberadores2.delete(cajon);
+  }
   function iniciarCajones(raiz = document) {
     raiz.querySelectorAll("[data-cajon-toggle]").forEach((boton) => {
       boton.addEventListener("click", () => {
         const destino = boton.dataset.cajonToggle;
         if (!destino) return;
         const cajon = document.querySelector(`[data-cajon="${destino}"]`);
-        const fondo = cajon?.querySelector(".cajon-fondo") ?? document.querySelector(`[data-cajon-fondo="${destino}"]`);
-        cajon?.classList.toggle("abierto");
-        fondo?.classList.toggle("visible");
+        if (!cajon) return;
+        const fondo = cajon.querySelector(".cajon-fondo") ?? document.querySelector(`[data-cajon-fondo="${destino}"]`);
+        if (cajon.classList.contains("abierto")) cerrar(cajon, fondo);
+        else abrir(cajon, fondo);
       });
     });
     raiz.querySelectorAll("[data-cajon-fondo]").forEach((fondo) => {
       fondo.addEventListener("click", () => {
         const destino = fondo.dataset.cajonFondo;
         if (!destino) return;
-        document.querySelector(`[data-cajon="${destino}"]`)?.classList.remove("abierto");
-        fondo.classList.remove("visible");
+        const cajon = document.querySelector(`[data-cajon="${destino}"]`);
+        if (cajon) cerrar(cajon, fondo);
+      });
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      raiz.querySelectorAll(".cajon.abierto").forEach((cajon) => {
+        const destino = cajon.dataset.cajon;
+        const fondo = cajon.querySelector(".cajon-fondo") ?? (destino ? document.querySelector(`[data-cajon-fondo="${destino}"]`) : null);
+        cerrar(cajon, fondo);
       });
     });
   }
@@ -421,13 +515,18 @@ var Santacorina = (() => {
       const select = caja.querySelector("select");
       const lista = caja.querySelector(".combobox-opciones");
       if (!input || !select || !lista) return;
+      input.setAttribute("role", "combobox");
+      input.setAttribute("aria-expanded", "false");
+      input.setAttribute("aria-controls", idDe(lista, "combobox-lista"));
+      input.setAttribute("aria-autocomplete", "list");
+      lista.setAttribute("role", "listbox");
       const opciones = Array.from(select.options).filter((o) => o.value);
       let resaltada = -1;
       const seleccionar = (opcion) => {
         select.value = opcion.value;
         input.value = opcion.textContent ?? "";
         select.dispatchEvent(new Event("change", { bubbles: true }));
-        cerrar();
+        cerrar2();
       };
       const normalizar = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
       const redibujar = (filtro) => {
@@ -445,31 +544,42 @@ var Santacorina = (() => {
         visibles.forEach((opcion) => {
           const li = document.createElement("li");
           li.textContent = opcion.textContent ?? "";
+          li.id = `${lista.id}-op-${opcion.value}`;
+          li.setAttribute("role", "option");
+          li.setAttribute("aria-selected", opcion.value === select.value ? "true" : "false");
           li.addEventListener("click", () => seleccionar(opcion));
           li.dataset.valor = opcion.value;
           lista.appendChild(li);
         });
       };
-      const abrir = () => {
+      const abrir2 = () => {
         redibujar(input.value);
         lista.classList.add("visible");
+        input.setAttribute("aria-expanded", "true");
       };
-      const cerrar = () => lista.classList.remove("visible");
+      const cerrar2 = () => {
+        lista.classList.remove("visible");
+        input.setAttribute("aria-expanded", "false");
+        input.removeAttribute("aria-activedescendant");
+      };
       const marcarResaltada = (indice) => {
         const items = Array.from(lista.querySelectorAll("li:not(.sin-resultados)"));
         items.forEach((el) => el.classList.remove("resaltada"));
         if (items[indice]) {
           items[indice].classList.add("resaltada");
           items[indice].scrollIntoView({ block: "nearest" });
+          input.setAttribute("aria-activedescendant", items[indice].id);
+        } else {
+          input.removeAttribute("aria-activedescendant");
         }
       };
-      input.addEventListener("input", () => abrir());
-      input.addEventListener("focus", () => abrir());
+      input.addEventListener("input", () => abrir2());
+      input.addEventListener("focus", () => abrir2());
       input.addEventListener("keydown", (e) => {
         const items = Array.from(lista.querySelectorAll("li:not(.sin-resultados)"));
         if (e.key === "ArrowDown") {
           e.preventDefault();
-          if (!lista.classList.contains("visible")) return abrir();
+          if (!lista.classList.contains("visible")) return abrir2();
           resaltada = Math.min(resaltada + 1, items.length - 1);
           marcarResaltada(resaltada);
         } else if (e.key === "ArrowUp") {
@@ -483,11 +593,11 @@ var Santacorina = (() => {
             if (elegida) seleccionar(elegida);
           }
         } else if (e.key === "Escape") {
-          cerrar();
+          cerrar2();
         }
       });
       document.addEventListener("click", (e) => {
-        if (!caja.contains(e.target)) cerrar();
+        if (!caja.contains(e.target)) cerrar2();
       });
       if (select.value) {
         const actual = opciones.find((o) => o.value === select.value);

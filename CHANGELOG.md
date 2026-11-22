@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.12.0 — sin publicar
+
+**Accesibilidad (ARIA + manejo de foco)** — cero atributos ARIA en todo
+el paquete hasta ahora, pese a tener 7 componentes interactivos propios;
+`sgp` es una plataforma de un servicio público, donde esto no es
+opcional. Nuevo `src/js/foco.ts` (`atraparFoco`, compartido por modal y
+cajón: atrapa Tab mientras está abierto, devuelve el foco al cerrar).
+
+- `.modal`/`.cajon` — `role="dialog"` + `aria-modal`, foco atrapado y
+  devuelto.
+- `.tabs` — `role="tablist"`/`"tab"` + `aria-selected`; paneles con
+  `role="tabpanel"` + `aria-hidden`.
+- `[data-popover]` — `aria-haspopup`/`aria-expanded`, `role="dialog"` en
+  el panel.
+- `.combobox` — patrón ARIA 1.2 completo (`combobox`/`listbox`/`option`
+  + `aria-activedescendant`).
+- `[data-colapsar]` — `aria-expanded`/`aria-controls`.
+- `.acordeon`/`.menu` quedan sin cambios — ya son accesibles de fábrica
+  por ser `<details>`/`<summary>` nativos.
+
+**Bug real encontrado y corregido durante la verificación**: el listener
+de `Escape` de `iniciarPopovers` no comprobaba si *su propio* panel
+estaba abierto — así que cerrar un `.modal` con Escape en una pantalla
+que también tenía un popover (cerrado) igual le devolvía el foco al
+trigger de ese popover. Se detectó instrumentando el DOM con un log de
+`focusin`/`keydown` (Patchright no expone `console.log` de la página).
+Los cuatro componentes con Escape global ahora comprueban su propio
+estado antes de actuar.
+
+**Autochequeo** — `scripts/autocheck.mjs` (`npm run check`), sin
+framework: verifica `formato.*` contra los valores reales de
+`sgp/CLAUDE.md` y que `debounce` agrupe llamadas seguidas.
+
 ## 0.11.0 — sin publicar
 
 Revisión de paridad contra **Bootstrap 6** (alpha real, lanzada
