@@ -30,6 +30,13 @@
   }
   .doc-nav .marca{ font-weight:700; font-size:15px; margin:0 0 2px; }
   .doc-nav .sub{ font-size:12px; color:var(--doc-ink-dim); margin:0 0 20px; }
+  .tema-selector{ display:flex; gap:2px; border:1px solid var(--doc-border); border-radius:8px; padding:2px; margin:0 0 20px; }
+  .tema-selector button{
+    flex:1; border:0; background:none; border-radius:6px; padding:6px 0; font-size:13px;
+    color:var(--doc-ink-dim); cursor:pointer; font-family:inherit;
+  }
+  .tema-selector button:hover{ background:var(--doc-bg); }
+  .tema-selector button[aria-pressed="true"]{ background:var(--doc-bg); color:var(--doc-ink); font-weight:600; }
   .doc-nav a{ display:block; padding:6px 10px; border-radius:7px; font-size:13.5px; color:var(--doc-ink-dim); text-decoration:none; }
   .doc-nav a:hover{ background:var(--doc-bg); color:var(--doc-ink); }
   .doc-main{ flex:1; min-width:0; padding:40px clamp(20px,4vw,56px) 80px; max-width:980px; }
@@ -75,11 +82,25 @@
 </style>
 </head>
 <body>
+<script>
+  // Aplica el tema guardado antes de pintar, para evitar parpadeo.
+  (function () {
+    var guardado = localStorage.getItem("santacorina-guia-tema");
+    if (guardado === "light" || guardado === "dark") {
+      document.documentElement.setAttribute("data-theme", guardado);
+    }
+  })();
+</script>
 <button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
 <div class="doc-shell">
   <nav class="doc-nav" id="doc-nav">
     <p class="marca">@sistema32/santacorina-ui</p>
     <p class="sub">Guía de componentes</p>
+    <div class="tema-selector" role="group" aria-label="Tema">
+      <button type="button" data-tema="light">Claro</button>
+      <button type="button" data-tema="system">Sistema</button>
+      <button type="button" data-tema="dark">Oscuro</button>
+    </div>
     <a href="#tokens">Tokens</a>
     <a href="#tarjeta">Tarjeta</a>
     <a href="#kpi">KPI</a>
@@ -1227,6 +1248,28 @@
 <script src="../dist/js.global.js"></script>
 <script>
   // Solo para esta pagina de documentacion -- no es parte del paquete.
+  var botonesTema = document.querySelectorAll(".tema-selector button");
+  function marcarTemaActivo() {
+    var actual = localStorage.getItem("santacorina-guia-tema") || "system";
+    botonesTema.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.tema === actual));
+    });
+  }
+  botonesTema.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      var tema = boton.dataset.tema;
+      if (tema === "system") {
+        localStorage.removeItem("santacorina-guia-tema");
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        localStorage.setItem("santacorina-guia-tema", tema);
+        document.documentElement.setAttribute("data-theme", tema);
+      }
+      marcarTemaActivo();
+    });
+  });
+  marcarTemaActivo();
+
   var navToggle = document.getElementById("doc-nav-toggle");
   var nav = document.getElementById("doc-nav");
   navToggle.addEventListener("click", function () {
