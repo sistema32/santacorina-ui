@@ -54,6 +54,7 @@ export function iniciarCarruseles(raiz: ParentNode = document): void {
     function ir(destino: number): void {
       indice = (destino + slides.length) % slides.length;
       render();
+      carousel.dispatchEvent(new CustomEvent("santacorina:carousel-cambiar", { bubbles: true, detail: { indice } }));
     }
 
     const anterior = () => ir(indice - 1);

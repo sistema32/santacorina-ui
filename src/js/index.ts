@@ -20,6 +20,9 @@ export { iniciarToggletips } from "./toggletip.js";
 export { iniciarResumenErrores } from "./resumen-errores.js";
 export { iniciarTablasOrdenables } from "./tabla-ordenable.js";
 export { iniciarCarruseles, avanzarCarrusel } from "./carousel.js";
+export { destruirTodo } from "./una-vez.js";
+export { iniciarFormularios, ponerCargando, quitarCargando } from "./formulario.js";
+export { iniciarSeleccionTabla } from "./seleccion.js";
 
 import { iniciarModales } from "./modal.js";
 import { iniciarLateral } from "./lateral.js";
@@ -39,6 +42,8 @@ import { iniciarToggletips } from "./toggletip.js";
 import { iniciarResumenErrores } from "./resumen-errores.js";
 import { iniciarTablasOrdenables } from "./tabla-ordenable.js";
 import { iniciarCarruseles } from "./carousel.js";
+import { iniciarFormularios } from "./formulario.js";
+import { iniciarSeleccionTabla } from "./seleccion.js";
 
 /** Conecta todo lo auto-iniciable. */
 export function iniciarTodo(raiz: ParentNode = document): void {
@@ -60,6 +65,8 @@ export function iniciarTodo(raiz: ParentNode = document): void {
   iniciarResumenErrores(raiz);
   iniciarTablasOrdenables(raiz);
   iniciarCarruseles(raiz);
+  iniciarFormularios(raiz);
+  iniciarSeleccionTabla(raiz);
 }
 
 if (typeof document !== "undefined") {

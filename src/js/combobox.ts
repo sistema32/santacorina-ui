@@ -8,7 +8,7 @@
  * `role="option"` + `aria-selected`.
  */
 import { idDe } from "./foco.js";
-import { primeraVez } from "./una-vez.js";
+import { primeraVez, registrarDestructor } from "./una-vez.js";
 
 export function iniciarCombobox(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>(".combobox").forEach((caja) => {
@@ -31,6 +31,12 @@ export function iniciarCombobox(raiz: ParentNode = document): void {
       select.value = opcion.value;
       input.value = opcion.textContent ?? "";
       select.dispatchEvent(new Event("change", { bubbles: true }));
+      caja.dispatchEvent(
+        new CustomEvent("santacorina:combobox-seleccionar", {
+          bubbles: true,
+          detail: { valor: opcion.value, texto: opcion.textContent ?? "" },
+        }),
+      );
       cerrar();
     };
 
@@ -131,8 +137,12 @@ export function iniciarCombobox(raiz: ParentNode = document): void {
         cerrar();
       }
     });
-    document.addEventListener("click", (e) => {
+    const alClicAfuera = (e: Event) => {
       if (!caja.contains(e.target as Node)) cerrar();
+    };
+    document.addEventListener("click", alClicAfuera);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("click", alClicAfuera);
     });
 
     if (select.value) {

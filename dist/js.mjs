@@ -106,6 +106,21 @@ function primeraVez(el, nombre) {
   claves.add(nombre);
   return true;
 }
+var destructores = /* @__PURE__ */ new WeakMap();
+function registrarDestructor(raiz, fn) {
+  let lista = destructores.get(raiz);
+  if (!lista) {
+    lista = [];
+    destructores.set(raiz, lista);
+  }
+  lista.push(fn);
+}
+function destruirTodo(raiz = document) {
+  const lista = destructores.get(raiz);
+  if (!lista) return;
+  lista.forEach((fn) => fn());
+  destructores.delete(raiz);
+}
 
 // src/js/modal.ts
 var liberadores = /* @__PURE__ */ new WeakMap();
@@ -115,26 +130,35 @@ function abrirModal(el) {
   el.classList.add("visible");
   const panel = el.querySelector(".modal-panel") ?? el;
   liberadores.set(el, atraparFoco(panel));
+  el.dispatchEvent(new CustomEvent("santacorina:modal-abrir", { bubbles: true }));
 }
 function cerrarModal(el) {
   el.classList.remove("visible");
   liberadores.get(el)?.();
   liberadores.delete(el);
+  el.dispatchEvent(new CustomEvent("santacorina:modal-cerrar", { bubbles: true }));
 }
 function cerrarSiCorresponde(modal, objetivo) {
   if (objetivo === modal || objetivo instanceof Element && objetivo.closest("[data-cerrar-modal]")) {
     cerrarModal(modal);
   }
 }
+var escapeGlobalActivo = false;
 function iniciarModales(raiz = document) {
   raiz.querySelectorAll(".modal").forEach((modal) => {
     if (!primeraVez(modal, "modal")) return;
     modal.addEventListener("click", (e) => cerrarSiCorresponde(modal, e.target));
   });
-  if (primeraVez(document.documentElement, "modal-escape-global")) {
-    document.addEventListener("keydown", (e) => {
+  if (!escapeGlobalActivo) {
+    escapeGlobalActivo = true;
+    const manejador = (e) => {
       if (e.key !== "Escape") return;
       document.querySelectorAll(".modal.visible").forEach((modal) => cerrarModal(modal));
+    };
+    document.addEventListener("keydown", manejador);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("keydown", manejador);
+      escapeGlobalActivo = false;
     });
   }
 }
@@ -217,6 +241,7 @@ function iniciarTabs(raiz = document) {
         if (!panel.getAttribute("role")) panel.setAttribute("role", "tabpanel");
         panel.setAttribute("aria-hidden", activo ? "false" : "true");
       });
+      tabs.dispatchEvent(new CustomEvent("santacorina:tab-cambiar", { bubbles: true, detail: { destino } }));
     });
   });
 }
@@ -342,17 +367,28 @@ function iniciarCalendario(raiz = document) {
     const abrir2 = () => {
       redibujar();
       panel.classList.add("visible");
+      contenedor2.dispatchEvent(new CustomEvent("santacorina:calendario-abrir", { bubbles: true }));
     };
-    const cerrar2 = () => panel.classList.remove("visible");
+    const cerrar2 = () => {
+      if (!panel.classList.contains("visible")) return;
+      panel.classList.remove("visible");
+      contenedor2.dispatchEvent(new CustomEvent("santacorina:calendario-cerrar", { bubbles: true }));
+    };
     input.addEventListener("click", (e) => {
       e.stopPropagation();
       abrir2();
     });
-    document.addEventListener("click", (e) => {
+    const alClicAfuera = (e) => {
       if (!contenedor2.contains(e.target)) cerrar2();
-    });
-    document.addEventListener("keydown", (e) => {
+    };
+    const alTeclado = (e) => {
       if (e.key === "Escape") cerrar2();
+    };
+    document.addEventListener("click", alClicAfuera);
+    document.addEventListener("keydown", alTeclado);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("click", alClicAfuera);
+      document.removeEventListener("keydown", alTeclado);
     });
   });
 }
@@ -411,22 +447,32 @@ function iniciarPopovers(raiz = document) {
     trigger.setAttribute("aria-controls", idDe(panel, "popover"));
     trigger.setAttribute("aria-expanded", "false");
     const cerrar2 = (devolverFoco = false) => {
+      if (!panel.classList.contains("visible")) return;
       panel.classList.remove("visible");
       trigger.setAttribute("aria-expanded", "false");
       if (devolverFoco) trigger.focus();
+      contenedor2.dispatchEvent(new CustomEvent("santacorina:popover-cerrar", { bubbles: true }));
     };
     const alternar = (e) => {
       e.stopPropagation();
       const abrir2 = !panel.classList.contains("visible");
       panel.classList.toggle("visible", abrir2);
       trigger.setAttribute("aria-expanded", String(abrir2));
+      if (abrir2) contenedor2.dispatchEvent(new CustomEvent("santacorina:popover-abrir", { bubbles: true }));
+      else contenedor2.dispatchEvent(new CustomEvent("santacorina:popover-cerrar", { bubbles: true }));
+    };
+    const alClicAfuera = (e) => {
+      if (!contenedor2.contains(e.target)) cerrar2();
+    };
+    const alTeclado = (e) => {
+      if (e.key === "Escape" && panel.classList.contains("visible")) cerrar2(true);
     };
     trigger.addEventListener("click", alternar);
-    document.addEventListener("click", (e) => {
-      if (!contenedor2.contains(e.target)) cerrar2();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && panel.classList.contains("visible")) cerrar2(true);
+    document.addEventListener("click", alClicAfuera);
+    document.addEventListener("keydown", alTeclado);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("click", alClicAfuera);
+      document.removeEventListener("keydown", alTeclado);
     });
   });
 }
@@ -449,6 +495,9 @@ function iniciarColapsables(raiz = document) {
         abierto = abierto || panel.classList.contains("activo");
       });
       boton.setAttribute("aria-expanded", abierto ? "true" : "false");
+      boton.dispatchEvent(
+        new CustomEvent(abierto ? "santacorina:colapsar-abrir" : "santacorina:colapsar-cerrar", { bubbles: true })
+      );
     });
   });
 }
@@ -461,13 +510,16 @@ function abrir(cajon, fondo) {
   cajon.classList.add("abierto");
   fondo?.classList.add("visible");
   liberadores2.set(cajon, atraparFoco(cajon));
+  cajon.dispatchEvent(new CustomEvent("santacorina:cajon-abrir", { bubbles: true }));
 }
 function cerrar(cajon, fondo) {
   cajon.classList.remove("abierto");
   fondo?.classList.remove("visible");
   liberadores2.get(cajon)?.();
   liberadores2.delete(cajon);
+  cajon.dispatchEvent(new CustomEvent("santacorina:cajon-cerrar", { bubbles: true }));
 }
+var escapeGlobalActivo2 = false;
 function iniciarCajones(raiz = document) {
   raiz.querySelectorAll("[data-cajon-toggle]").forEach((boton) => {
     if (!primeraVez(boton, "cajon-toggle")) return;
@@ -490,14 +542,20 @@ function iniciarCajones(raiz = document) {
       if (cajon) cerrar(cajon, fondo);
     });
   });
-  if (primeraVez(document.documentElement, "cajon-escape-global")) {
-    document.addEventListener("keydown", (e) => {
+  if (!escapeGlobalActivo2) {
+    escapeGlobalActivo2 = true;
+    const manejador = (e) => {
       if (e.key !== "Escape") return;
       document.querySelectorAll(".cajon.abierto").forEach((cajon) => {
         const destino = cajon.dataset.cajon;
         const fondo = cajon.querySelector(".cajon-fondo") ?? (destino ? document.querySelector(`[data-cajon-fondo="${destino}"]`) : null);
         cerrar(cajon, fondo);
       });
+    };
+    document.addEventListener("keydown", manejador);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("keydown", manejador);
+      escapeGlobalActivo2 = false;
     });
   }
 }
@@ -521,6 +579,12 @@ function iniciarCombobox(raiz = document) {
       select.value = opcion.value;
       input.value = opcion.textContent ?? "";
       select.dispatchEvent(new Event("change", { bubbles: true }));
+      caja.dispatchEvent(
+        new CustomEvent("santacorina:combobox-seleccionar", {
+          bubbles: true,
+          detail: { valor: opcion.value, texto: opcion.textContent ?? "" }
+        })
+      );
       cerrar2();
     };
     const normalizar = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
@@ -603,8 +667,12 @@ function iniciarCombobox(raiz = document) {
         cerrar2();
       }
     });
-    document.addEventListener("click", (e) => {
+    const alClicAfuera = (e) => {
       if (!caja.contains(e.target)) cerrar2();
+    };
+    document.addEventListener("click", alClicAfuera);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("click", alClicAfuera);
     });
     if (select.value) {
       const actual = opciones.find((o) => o.value === select.value);
@@ -701,22 +769,32 @@ function iniciarToggletips(raiz = document) {
     trigger.setAttribute("aria-describedby", idDe(panel, "toggletip"));
     trigger.setAttribute("aria-expanded", "false");
     const cerrar2 = (devolverFoco = false) => {
+      if (!panel.classList.contains("visible")) return;
       panel.classList.remove("visible");
       trigger.setAttribute("aria-expanded", "false");
       if (devolverFoco) trigger.focus();
+      contenedor2.dispatchEvent(new CustomEvent("santacorina:toggletip-cerrar", { bubbles: true }));
     };
     const alternar = (e) => {
       e.stopPropagation();
       const abrir2 = !panel.classList.contains("visible");
       panel.classList.toggle("visible", abrir2);
       trigger.setAttribute("aria-expanded", String(abrir2));
+      if (abrir2) contenedor2.dispatchEvent(new CustomEvent("santacorina:toggletip-abrir", { bubbles: true }));
+      else contenedor2.dispatchEvent(new CustomEvent("santacorina:toggletip-cerrar", { bubbles: true }));
+    };
+    const alClicAfuera = (e) => {
+      if (!contenedor2.contains(e.target)) cerrar2();
+    };
+    const alTeclado = (e) => {
+      if (e.key === "Escape" && panel.classList.contains("visible")) cerrar2(true);
     };
     trigger.addEventListener("click", alternar);
-    document.addEventListener("click", (e) => {
-      if (!contenedor2.contains(e.target)) cerrar2();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && panel.classList.contains("visible")) cerrar2(true);
+    document.addEventListener("click", alClicAfuera);
+    document.addEventListener("keydown", alTeclado);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("click", alClicAfuera);
+      document.removeEventListener("keydown", alTeclado);
     });
   });
 }
@@ -805,6 +883,7 @@ function iniciarCarruseles(raiz = document) {
     function ir(destino) {
       indice = (destino + slides.length) % slides.length;
       render();
+      carousel.dispatchEvent(new CustomEvent("santacorina:carousel-cambiar", { bubbles: true, detail: { indice } }));
     }
     const anterior = () => ir(indice - 1);
     const siguiente = () => ir(indice + 1);
@@ -824,6 +903,129 @@ function avanzarCarrusel(carousel, direccion = 1) {
   if (!control) return;
   if (direccion === 1) control.siguiente();
   else control.anterior();
+}
+
+// src/js/formulario.ts
+function mensajeDe(campo) {
+  return campo.dataset.mensajeError || campo.validationMessage;
+}
+function limpiarCampo(campo) {
+  campo.removeAttribute("aria-invalid");
+  const contenedor2 = campo.closest(".campo") ?? campo.parentElement;
+  contenedor2?.querySelector(".campo-error")?.remove();
+}
+function marcarInvalido(campo) {
+  campo.setAttribute("aria-invalid", "true");
+  const contenedor2 = campo.closest(".campo") ?? campo.parentElement;
+  let error = contenedor2?.querySelector(".campo-error");
+  if (!error) {
+    error = document.createElement("p");
+    error.className = "campo-error";
+    contenedor2?.appendChild(error);
+  }
+  error.innerHTML = "";
+  const icono = document.createElement("span");
+  icono.className = "icono icono-advertencia";
+  error.append(icono, document.createTextNode(mensajeDe(campo)));
+  campo.setAttribute("aria-describedby", idDe(error, "campo-error"));
+}
+function validarYMostrar(form) {
+  const campos = Array.from(form.querySelectorAll("input, select, textarea"));
+  const invalidos = campos.filter((c) => !c.checkValidity());
+  campos.forEach((c) => c.checkValidity() ? limpiarCampo(c) : marcarInvalido(c));
+  if (invalidos.length === 0) return true;
+  form.querySelector(".resumen-errores")?.remove();
+  const resumen = document.createElement("div");
+  resumen.className = "resumen-errores";
+  const titulo = document.createElement("h2");
+  titulo.textContent = invalidos.length === 1 ? "Hay 1 problema con el formulario" : `Hay ${invalidos.length} problemas con el formulario`;
+  const lista = document.createElement("ul");
+  invalidos.forEach((campo) => {
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = `#${idDe(campo, "campo")}`;
+    link.textContent = mensajeDe(campo);
+    li.appendChild(link);
+    lista.appendChild(li);
+  });
+  resumen.append(titulo, lista);
+  form.insertBefore(resumen, form.firstChild);
+  iniciarResumenErrores(form);
+  return false;
+}
+var escucharActivo = false;
+function iniciarFormularios(raiz = document) {
+  raiz.querySelectorAll("form[data-validar]").forEach((form) => {
+    if (!primeraVez(form, "formulario")) return;
+    form.noValidate = true;
+  });
+  if (escucharActivo) return;
+  escucharActivo = true;
+  const alEscribir = (e) => {
+    const campo = e.target;
+    if (!campo.closest?.("form[data-validar]")) return;
+    if (campo.checkValidity?.()) limpiarCampo(campo);
+  };
+  const alEnviar = (e) => {
+    const form = e.target;
+    if (!(form instanceof HTMLFormElement) || !form.matches("form[data-validar]")) return;
+    if (!validarYMostrar(form)) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  };
+  document.addEventListener("input", alEscribir, true);
+  document.addEventListener("submit", alEnviar, true);
+  registrarDestructor(raiz, () => {
+    document.removeEventListener("input", alEscribir, true);
+    document.removeEventListener("submit", alEnviar, true);
+    escucharActivo = false;
+  });
+}
+function ponerCargando(boton) {
+  boton.dataset.cargando = "";
+  boton.setAttribute("aria-busy", "true");
+  boton.disabled = true;
+}
+function quitarCargando(boton) {
+  delete boton.dataset.cargando;
+  boton.removeAttribute("aria-busy");
+  boton.disabled = false;
+}
+
+// src/js/seleccion.ts
+function iniciarSeleccionTabla(raiz = document) {
+  raiz.querySelectorAll("table[data-seleccion]").forEach((tabla) => {
+    if (!primeraVez(tabla, "seleccion-tabla")) return;
+    const todo = tabla.querySelector("[data-seleccionar-todo]");
+    const filas = () => Array.from(tabla.querySelectorAll("[data-seleccionar-fila]"));
+    const barra = tabla.dataset.seleccionBarra ? document.querySelector(tabla.dataset.seleccionBarra) : tabla.parentElement?.querySelector(".barra-seleccion") ?? null;
+    const emitir = () => {
+      const marcadas = filas().filter((f) => f.checked);
+      const ids = marcadas.map((f) => f.value);
+      tabla.dispatchEvent(
+        new CustomEvent("santacorina:seleccion-cambiar", {
+          bubbles: true,
+          detail: { ids, total: filas().length }
+        })
+      );
+      if (barra) {
+        barra.classList.toggle("visible", ids.length > 0);
+        const contador = barra.querySelector("[data-seleccion-contador]");
+        if (contador) contador.textContent = `${ids.length} seleccionado${ids.length === 1 ? "" : "s"}`;
+      }
+      if (todo) {
+        todo.checked = marcadas.length > 0 && marcadas.length === filas().length;
+        todo.indeterminate = marcadas.length > 0 && marcadas.length < filas().length;
+      }
+    };
+    todo?.addEventListener("change", () => {
+      filas().forEach((f) => f.checked = todo.checked);
+      emitir();
+    });
+    filas().forEach((f) => f.addEventListener("change", emitir));
+    emitir();
+  });
 }
 
 // src/js/index.ts
@@ -846,6 +1048,8 @@ function iniciarTodo(raiz = document) {
   iniciarResumenErrores(raiz);
   iniciarTablasOrdenables(raiz);
   iniciarCarruseles(raiz);
+  iniciarFormularios(raiz);
+  iniciarSeleccionTabla(raiz);
 }
 if (typeof document !== "undefined") {
   if (document.readyState === "loading") {
@@ -860,6 +1064,7 @@ export {
   cerrarModal,
   copiarAlPortapapeles,
   debounce,
+  destruirTodo,
   formato_exports as formato,
   iniciarAsistentes,
   iniciarBuscadores,
@@ -869,17 +1074,21 @@ export {
   iniciarColapsables,
   iniciarCombobox,
   iniciarContadores,
+  iniciarFormularios,
   iniciarLateral,
   iniciarMedidorClave,
   iniciarModales,
   iniciarPopovers,
   iniciarRangoFechas,
   iniciarResumenErrores,
+  iniciarSeleccionTabla,
   iniciarTablasOrdenables,
   iniciarTabs,
   iniciarTodo,
   iniciarToggletips,
   iniciarZonasArrastre,
   irAPaso,
-  mostrarToast
+  mostrarToast,
+  ponerCargando,
+  quitarCargando
 };

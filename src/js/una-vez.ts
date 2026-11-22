@@ -22,3 +22,34 @@ export function primeraVez(el: Element, nombre: string): boolean {
   claves.add(nombre);
   return true;
 }
+
+/**
+ * Los listeners que un modulo pone sobre un elemento DENTRO de `raiz`
+ * (buscador, contador, lateral, tabla-ordenable, etc.) se liberan solos
+ * cuando una SPA descarta ese subarbol del DOM -- recoleccion de basura
+ * normal, no hace falta nada. El problema real son los listeners que
+ * algunos modulos agregan a `document` (Escape, clic-afuera: modal,
+ * cajon, popover, toggletip, calendario, combobox): `document` nunca se
+ * destruye, asi que si `raiz` se desmonta y se vuelve a montar, esos
+ * listeners (y la clausura que retiene el elemento viejo) quedan para
+ * siempre -- fuga de memoria real. `registrarDestructor` guarda la
+ * funcion que los saca; `destruirTodo(raiz)` las corre todas.
+ */
+const destructores = new WeakMap<ParentNode, Array<() => void>>();
+
+export function registrarDestructor(raiz: ParentNode, fn: () => void): void {
+  let lista = destructores.get(raiz);
+  if (!lista) {
+    lista = [];
+    destructores.set(raiz, lista);
+  }
+  lista.push(fn);
+}
+
+/** Libera los listeners globales (document) que `iniciarTodo(raiz)` registro. */
+export function destruirTodo(raiz: ParentNode = document): void {
+  const lista = destructores.get(raiz);
+  if (!lista) return;
+  lista.forEach((fn) => fn());
+  destructores.delete(raiz);
+}

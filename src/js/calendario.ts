@@ -4,7 +4,7 @@
  * (sin uso real hoy en sgp), pedido explicitamente por el usuario.
  */
 import { fechaCorta } from "./formato.js";
-import { primeraVez } from "./una-vez.js";
+import { primeraVez, registrarDestructor } from "./una-vez.js";
 
 const DOW = ["L", "M", "M", "J", "V", "S", "D"];
 const MESES = [
@@ -122,18 +122,29 @@ export function iniciarCalendario(raiz: ParentNode = document): void {
     const abrir = () => {
       redibujar();
       panel.classList.add("visible");
+      contenedor.dispatchEvent(new CustomEvent("santacorina:calendario-abrir", { bubbles: true }));
     };
-    const cerrar = () => panel.classList.remove("visible");
+    const cerrar = () => {
+      if (!panel.classList.contains("visible")) return;
+      panel.classList.remove("visible");
+      contenedor.dispatchEvent(new CustomEvent("santacorina:calendario-cerrar", { bubbles: true }));
+    };
 
     input.addEventListener("click", (e) => {
       e.stopPropagation();
       abrir();
     });
-    document.addEventListener("click", (e) => {
+    const alClicAfuera = (e: Event) => {
       if (!contenedor.contains(e.target as Node)) cerrar();
-    });
-    document.addEventListener("keydown", (e) => {
+    };
+    const alTeclado = (e: KeyboardEvent) => {
       if (e.key === "Escape") cerrar();
+    };
+    document.addEventListener("click", alClicAfuera);
+    document.addEventListener("keydown", alTeclado);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("click", alClicAfuera);
+      document.removeEventListener("keydown", alTeclado);
     });
   });
 }

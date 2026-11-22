@@ -48,6 +48,7 @@ export function iniciarTabs(raiz: ParentNode = document): void {
         if (!panel.getAttribute("role")) panel.setAttribute("role", "tabpanel");
         panel.setAttribute("aria-hidden", activo ? "false" : "true");
       });
+      tabs.dispatchEvent(new CustomEvent("santacorina:tab-cambiar", { bubbles: true, detail: { destino } }));
     });
   });
 }

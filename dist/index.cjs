@@ -351,6 +351,24 @@ function buildComponents() {
     },
     ".boton.peligro:hover": { backgroundColor: "var(--color-rojo-fondo)" },
     /* ---------------------------------------------------------------
+     * Estado "guardando" -- el texto real sigue ahi (oculto con
+     * color:transparent, no con display:none/opacity:0) para que el
+     * boton ocupe exactamente el mismo espacio; el ::after superpone
+     * el texto de carga encima.
+     * ------------------------------------------------------------- */
+    ".boton[data-cargando]": { position: "relative", color: "transparent", cursor: "not-allowed" },
+    ".boton[data-cargando]::after": {
+      content: '"Guardando\u2026"',
+      position: "absolute",
+      inset: "0",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: "#fff"
+    },
+    ".boton.secundario[data-cargando]::after": { color: "var(--color-titulo)" },
+    ".boton.peligro[data-cargando]::after": { color: "var(--color-rojo-texto)" },
+    /* ---------------------------------------------------------------
      * Grupo de botones -- botones de accion visualmente unidos (ej.
      * "Aprobar / Rechazar / Revisar" en una fila de bandeja).
      * ------------------------------------------------------------- */
@@ -605,6 +623,29 @@ function buildComponents() {
       padding: "0"
     },
     ".barra-filtros .limpiar-filtros:hover": { textDecoration: "underline" },
+    /* ---------------------------------------------------------------
+     * Barra de seleccion -- calcada de `.total-caja`: "N
+     * seleccionados" + acciones. `iniciarSeleccionTabla` la
+     * muestra/oculta agregando/quitando `.visible` segun haya o no
+     * filas marcadas en `table[data-seleccion]`.
+     * ------------------------------------------------------------- */
+    ".barra-seleccion": {
+      display: "none",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "14px",
+      flexWrap: "wrap",
+      backgroundColor: "var(--color-navy)",
+      color: "#fff",
+      borderRadius: "10px",
+      padding: "12px 18px",
+      marginBottom: "14px"
+    },
+    ".barra-seleccion.visible": { display: "flex" },
+    ".barra-seleccion span": { fontSize: "13px", fontWeight: "600" },
+    ".barra-seleccion .acciones": { display: "flex", gap: "8px", flexWrap: "wrap" },
+    "table[data-seleccion] th:has([data-seleccionar-todo])": { width: "1%" },
+    "table[data-seleccion] td:has([data-seleccionar-fila])": { width: "1%" },
     /* ---------------------------------------------------------------
      * Contador de caracteres -- para un textarea con `maxlength`. El JS
      * vive en `@sistema32/santacorina-ui/js` (`iniciarContadores`).

@@ -59,6 +59,7 @@
     <a href="formularios.html#formulario-largo">Formulario largo (ejemplo)</a>
     <a href="formularios.html#resumen-revision">Resumen de revisión</a>
     <a href="formularios.html#resumen-errores">Resumen de errores</a>
+    <a href="formularios.html#validacion-guardado">Validación con guardado</a>
     <div class="grupo">Componentes</div>
     <a href="#tarjeta">Tarjeta</a>
     <a href="#kpi">KPI</a>
@@ -106,8 +107,10 @@
     <a href="#zona-arrastre">Zona de arrastre</a>
     <a href="#calendario-estado">Calendario de estado</a>
     <a href="#celda-doble">Celda de dos líneas</a>
+    <a href="#seleccion-filas">Selección de filas</a>
     <div class="grupo">JS / Utilidades</div>
     <a href="js-utilidades.html#utils-js">Utilidades JS</a>
+    <a href="js-utilidades.html#ciclo-de-vida">Ciclo de vida y eventos</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -783,6 +786,34 @@
           </table>
         </div>
         <pre class="codigo">&lt;td&gt;&lt;strong&gt;171&lt;/strong&gt;&lt;small&gt;14-10-2026 · Factura electrónica&lt;/small&gt;&lt;/td&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="seleccion-filas">
+      <h2>Selección de filas</h2>
+      <p class="uso">De Carbon Design System (data table). <code>iniciarSeleccionTabla</code> conecta el checkbox de cabecera (<code>[data-seleccionar-todo]</code>) con el de cada fila (<code>[data-seleccionar-fila]</code>): marca/desmarca solo las filas <strong>visibles en esa tabla</strong> — el paquete no sabe cuántas hay en otras páginas del servidor, así que "seleccionar las N de todas las páginas" queda fuera de alcance. Dispara <code>santacorina:seleccion-cambiar</code> y muestra/oculta <code>.barra-seleccion</code> (calcada de <a href="#total-caja">.total-caja</a>).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="barra-seleccion"><span data-seleccion-contador></span></div>
+          <table data-seleccion style="margin-top:10px">
+            <thead><tr><th><input type="checkbox" data-seleccionar-todo></th><th>Proveedor</th><th>Monto</th></tr></thead>
+            <tbody>
+              <tr><td><input type="checkbox" data-seleccionar-fila value="1"></td><td>CONSTRUCCIONES M&amp;A</td><td>$1.422.169</td></tr>
+              <tr><td><input type="checkbox" data-seleccionar-fila value="2"></td><td>Distribuidora Escolar Ltda.</td><td>$384.200</td></tr>
+              <tr><td><input type="checkbox" data-seleccionar-fila value="3"></td><td>Librería Alcázar</td><td>$96.500</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;div class="barra-seleccion"&gt;&lt;span data-seleccion-contador&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;table data-seleccion&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;input type="checkbox" data-seleccionar-todo&gt;&lt;/th&gt;...&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;input type="checkbox" data-seleccionar-fila value="1"&gt;&lt;/td&gt;...&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;script&gt;
+  tabla.addEventListener("santacorina:seleccion-cambiar", function (e) {
+    // e.detail.ids -- ids marcados en ESTA pagina de la tabla
+  });
+&lt;/script&gt;</pre>
       </div>
     </section>
   </main>

@@ -59,6 +59,7 @@
     <a href="#formulario-largo">Formulario largo (ejemplo)</a>
     <a href="#resumen-revision">Resumen de revisión</a>
     <a href="#resumen-errores">Resumen de errores</a>
+    <a href="#validacion-guardado">Validación con guardado</a>
     <div class="grupo">Componentes</div>
     <a href="componentes.html#tarjeta">Tarjeta</a>
     <a href="componentes.html#kpi">KPI</a>
@@ -106,8 +107,10 @@
     <a href="componentes.html#zona-arrastre">Zona de arrastre</a>
     <a href="componentes.html#calendario-estado">Calendario de estado</a>
     <a href="componentes.html#celda-doble">Celda de dos líneas</a>
+    <a href="componentes.html#seleccion-filas">Selección de filas</a>
     <div class="grupo">JS / Utilidades</div>
     <a href="js-utilidades.html#utils-js">Utilidades JS</a>
+    <a href="js-utilidades.html#ciclo-de-vida">Ciclo de vida y eventos</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -356,6 +359,31 @@
         <pre class="codigo">&lt;div class="resumen-errores"&gt;&lt;h2&gt;Hay 2 problemas...&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="#campo-rut"&gt;El RUT...&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</pre>
       </div>
     </section>
+
+<section class="doc-sec" id="validacion-guardado">
+      <h2>Validación con guardado</h2>
+      <p class="uso"><code>iniciarFormularios</code> conecta la Constraint Validation API nativa del navegador (<code>checkValidity()</code>) a <code>.campo-error</code>/<code>.resumen-errores</code> de arriba en cada <code>&lt;form data-validar&gt;</code>: envía el form vacío y mira. Reglas entre campos (ej. confirmar contraseña) siguen siendo del consumidor vía <code>input.setCustomValidity(...)</code> nativo — el paquete no inventa un motor de reglas. <code>ponerCargando</code>/<code>quitarCargando</code> ponen el botón en "Guardando…" sin cambiar su ancho (el texto real sigue ahí, oculto con <code>color:transparent</code>) y evitan un doble envío.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <form data-validar id="demo-form-validar">
+            <div class="campo"><label for="demo-rut">RUT</label><input id="demo-rut" type="text" required data-mensaje-error="Ingresa un RUT válido"></div>
+            <div class="campo"><label for="demo-monto">Monto</label><input id="demo-monto" type="number" required min="1" data-mensaje-error="El monto debe ser mayor a 0"></div>
+            <button type="submit" class="boton" id="demo-btn-guardar">Guardar</button>
+          </form>
+        </div>
+        <pre class="codigo">&lt;form data-validar&gt;
+  &lt;input required data-mensaje-error="Ingresa un RUT válido"&gt;
+  &lt;button type="submit"&gt;Guardar&lt;/button&gt;
+&lt;/form&gt;
+&lt;script&gt;
+  form.addEventListener("submit", function (e) {
+    if (e.defaultPrevented) return; // iniciarFormularios ya marco los errores
+    Santacorina.ponerCargando(boton);
+    fetch(...).then(() => ...).catch(() => Santacorina.quitarCargando(boton));
+  });
+&lt;/script&gt;</pre>
+      </div>
+    </section>
   </main>
 </div>
 
@@ -400,6 +428,21 @@
       caja.hidden = false;
       simularError.hidden = true;
       Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
+    });
+  }
+
+  var demoForm = document.getElementById("demo-form-validar");
+  if (demoForm) {
+    demoForm.addEventListener("submit", function (e) {
+      if (e.defaultPrevented) return; // iniciarFormularios ya marco los errores
+      e.preventDefault();
+      var boton = document.getElementById("demo-btn-guardar");
+      Santacorina.ponerCargando(boton);
+      setTimeout(function () {
+        Santacorina.quitarCargando(boton);
+        Santacorina.mostrarToast("Guardado", "ok");
+        demoForm.reset();
+      }, 900);
     });
   }
 

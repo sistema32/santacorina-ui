@@ -82,7 +82,18 @@ declare function iniciarCarruseles(raiz?: ParentNode): void;
 /** Avanza (o retrocede) un carousel ya iniciado -- para autoplay manual. */
 declare function avanzarCarrusel(carousel: HTMLElement, direccion?: 1 | -1): void;
 
+/** Libera los listeners globales (document) que `iniciarTodo(raiz)` registro. */
+declare function destruirTodo(raiz?: ParentNode): void;
+
+/** Valida nativamente al enviar; arma `.resumen-errores` y `.campo-error` si falla. */
+declare function iniciarFormularios(raiz?: ParentNode): void;
+/** Estado "guardando" en un boton -- no cambia su ancho (ver `.boton[data-cargando]`). */
+declare function ponerCargando(boton: HTMLButtonElement): void;
+declare function quitarCargando(boton: HTMLButtonElement): void;
+
+declare function iniciarSeleccionTabla(raiz?: ParentNode): void;
+
 /** Conecta todo lo auto-iniciable. */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, avanzarCarrusel, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarCarruseles, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarResumenErrores, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarZonasArrastre, irAPaso, mostrarToast };
+export { abrirModal, avanzarCarrusel, cerrarModal, copiarAlPortapapeles, debounce, destruirTodo, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarCarruseles, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarFormularios, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarResumenErrores, iniciarSeleccionTabla, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarZonasArrastre, irAPaso, mostrarToast, ponerCargando, quitarCargando };

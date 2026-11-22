@@ -26,6 +26,9 @@ export function iniciarColapsables(raiz: ParentNode = document): void {
         abierto = abierto || panel.classList.contains("activo");
       });
       boton.setAttribute("aria-expanded", abierto ? "true" : "false");
+      boton.dispatchEvent(
+        new CustomEvent(abierto ? "santacorina:colapsar-abrir" : "santacorina:colapsar-cerrar", { bubbles: true }),
+      );
     });
   });
 }

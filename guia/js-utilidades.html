@@ -59,6 +59,7 @@
     <a href="formularios.html#formulario-largo">Formulario largo (ejemplo)</a>
     <a href="formularios.html#resumen-revision">Resumen de revisión</a>
     <a href="formularios.html#resumen-errores">Resumen de errores</a>
+    <a href="formularios.html#validacion-guardado">Validación con guardado</a>
     <div class="grupo">Componentes</div>
     <a href="componentes.html#tarjeta">Tarjeta</a>
     <a href="componentes.html#kpi">KPI</a>
@@ -106,8 +107,10 @@
     <a href="componentes.html#zona-arrastre">Zona de arrastre</a>
     <a href="componentes.html#calendario-estado">Calendario de estado</a>
     <a href="componentes.html#celda-doble">Celda de dos líneas</a>
+    <a href="componentes.html#seleccion-filas">Selección de filas</a>
     <div class="grupo">JS / Utilidades</div>
     <a href="#utils-js">Utilidades JS</a>
+    <a href="#ciclo-de-vida">Ciclo de vida y eventos</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -141,6 +144,42 @@
           <tr><td class="codigo">iniciarCalendario</td><td>Panel de calendario sobre <code>[data-calendario]</code></td><td class="cen">✓</td></tr>
           <tr><td class="codigo">debounce(fn, ms)</td><td>Retrasa una función hasta que pasan <code>ms</code> sin llamarla</td><td class="cen">—</td></tr>
           <tr><td class="codigo">copiarAlPortapapeles(txt)</td><td>Con fallback para contextos sin HTTPS</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">destruirTodo(raiz?)</td><td>Libera los listeners de <code>document</code> (Escape, clic-afuera) que <code>iniciarTodo(raiz)</code> registró</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarFormularios</td><td>Valida con la Constraint Validation API nativa cada <code>&lt;form data-validar&gt;</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">ponerCargando/quitarCargando(boton)</td><td>Estado "Guardando…" en un <code>.boton</code> sin cambiar su ancho</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarSeleccionTabla</td><td>Checkbox de cabecera/fila en <code>table[data-seleccion]</code> + <code>.barra-seleccion</code></td><td class="cen">✓</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+<section class="doc-sec" id="ciclo-de-vida">
+      <h2>Ciclo de vida y eventos</h2>
+      <p class="uso"><code>iniciarTodo()</code> ya era seguro de llamar dos veces sobre el mismo DOM (0.19.0) — no duplica listeners. Lo que faltaba era el caso de una SPA que <strong>desmonta</strong> <code>raiz</code> y monta un nodo equivalente: los listeners que modal/cajón/popover/toggletip/calendario/combobox ponen en <code>document</code> (Escape, clic-afuera) no se liberan solos, porque <code>document</code> nunca se destruye. <code>destruirTodo(raiz)</code> los libera antes de desmontar.</p>
+      <div class="demo-wrap">
+        <div class="demo" id="demo-ciclo-vida">
+          <div data-popover><button data-popover-trigger class="boton secundario">Abrir popover</button><div data-popover-contenido>Contenido del popover</div></div>
+          <p style="margin:14px 0 6px">Listeners de <code>keydown</code> activos en <code>document</code> ahora mismo: <strong id="conteo-listeners">—</strong></p>
+          <button class="boton" id="btn-remontar-demo">destruirTodo() + remontar</button>
+        </div>
+        <pre class="codigo">Santacorina.destruirTodo(raiz);
+// ... desmontar raiz, montar un nodo equivalente ...
+Santacorina.iniciarTodo(); // vuelve a quedar en UN solo listener, no se acumula</pre>
+      </div>
+      <p class="uso">Cada apertura/cierre/selección dispara un <code>CustomEvent</code> que burbujea, mismo patrón que <code>santacorina:ordenar</code> (0.18.0):</p>
+      <table style="margin-bottom:10px">
+        <thead><tr><th>Evento</th><th>Se dispara en</th><th><code>detail</code></th></tr></thead>
+        <tbody>
+          <tr><td class="codigo">santacorina:modal-abrir / -cerrar</td><td class="codigo">.modal</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">santacorina:cajon-abrir / -cerrar</td><td class="codigo">.cajon</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">santacorina:popover-abrir / -cerrar</td><td class="codigo">[data-popover]</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">santacorina:toggletip-abrir / -cerrar</td><td class="codigo">[data-toggletip]</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">santacorina:calendario-abrir / -cerrar</td><td class="codigo">[data-calendario]</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">santacorina:colapsar-abrir / -cerrar</td><td class="codigo">[data-colapsar]</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">santacorina:tab-cambiar</td><td class="codigo">.tabs</td><td class="codigo">{ destino }</td></tr>
+          <tr><td class="codigo">santacorina:combobox-seleccionar</td><td class="codigo">.combobox</td><td class="codigo">{ valor, texto }</td></tr>
+          <tr><td class="codigo">santacorina:carousel-cambiar</td><td class="codigo">.carousel</td><td class="codigo">{ indice }</td></tr>
+          <tr><td class="codigo">santacorina:ordenar</td><td class="codigo">th[data-ordenable]</td><td class="codigo">{ columna, direccion }</td></tr>
+          <tr><td class="codigo">santacorina:seleccion-cambiar</td><td class="codigo">table[data-seleccion]</td><td class="codigo">{ ids, total }</td></tr>
         </tbody>
       </table>
     </section>
@@ -189,6 +228,34 @@
       simularError.hidden = true;
       Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
     });
+  }
+
+  var ciclo = document.getElementById("demo-ciclo-vida");
+  var conteoListeners = document.getElementById("conteo-listeners");
+  var keydownActivos = 0;
+  if (ciclo) {
+    var _add = document.addEventListener.bind(document);
+    var _remove = document.removeEventListener.bind(document);
+    document.addEventListener = function (tipo, fn, opts) {
+      if (tipo === "keydown") { keydownActivos++; conteoListeners.textContent = keydownActivos; }
+      return _add(tipo, fn, opts);
+    };
+    document.removeEventListener = function (tipo, fn, opts) {
+      if (tipo === "keydown") { keydownActivos--; conteoListeners.textContent = keydownActivos; }
+      return _remove(tipo, fn, opts);
+    };
+    conteoListeners.textContent = keydownActivos;
+    function remontarDemo() {
+      Santacorina.destruirTodo(ciclo);
+      var nuevo = ciclo.cloneNode(true);
+      ciclo.replaceWith(nuevo);
+      ciclo = nuevo;
+      conteoListeners = document.getElementById("conteo-listeners");
+      conteoListeners.textContent = keydownActivos;
+      ciclo.querySelector("#btn-remontar-demo").addEventListener("click", remontarDemo);
+      Santacorina.iniciarTodo(ciclo);
+    }
+    ciclo.querySelector("#btn-remontar-demo").addEventListener("click", remontarDemo);
   }
 
   document.querySelectorAll("pre.codigo").forEach(function (pre) {

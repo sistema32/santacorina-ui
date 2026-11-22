@@ -1,5 +1,77 @@
 # Changelog
 
+## 0.22.0 — sin publicar — ciclo de vida JS, validación con guardado, selección de filas
+
+Tercera ronda sobre la misma revisión externa: completar flujos de
+gestión reales (guardar, validar, seleccionar), con precedentes
+concretos de Bootstrap/Foundation/Carbon.
+
+- **Ciclo de vida JS** — `iniciarTodo()` ya era idempotente (0.19.0);
+  lo que faltaba era `destruirTodo(raiz)` para los 6 módulos que
+  agregan listeners a `document` (modal, cajón, popover, toggletip,
+  calendario, combobox): si `raiz` se desmonta y se vuelve a montar
+  (SPA con remontaje), esos listeners quedaban para siempre —
+  `document` nunca se destruye, a diferencia de los listeners sobre
+  elementos dentro de `raiz`, que se liberan solos. `registrarDestructor`/
+  `destruirTodo` (nuevo en `una-vez.ts`) resuelven esto; `destruirTodo`
+  ya se exporta desde el paquete.
+  - **Eventos de apertura/cierre/selección** (`CustomEvent` que
+    burbujea, mismo patrón que `santacorina:ordenar` de 0.18.0):
+    `santacorina:modal-abrir`/`-cerrar`, `santacorina:cajon-abrir`/`-cerrar`,
+    `santacorina:popover-abrir`/`-cerrar`, `santacorina:toggletip-abrir`/`-cerrar`,
+    `santacorina:calendario-abrir`/`-cerrar`, `santacorina:colapsar-abrir`/`-cerrar`,
+    `santacorina:tab-cambiar` (`detail:{destino}`),
+    `santacorina:combobox-seleccionar` (`detail:{valor,texto}`),
+    `santacorina:carousel-cambiar` (`detail:{indice}`).
+- **Validación con guardado** (`iniciarFormularios`, nuevo) — conecta
+  la Constraint Validation API nativa del navegador
+  (`checkValidity()`) a `.campo-error`/`.resumen-errores` (ya
+  existentes desde 0.19-0.20) en cada `<form data-validar>`: si falla,
+  marca cada campo inválido y arma el resumen con un link a cada uno,
+  reusando `iniciarResumenErrores`. Reglas entre campos (ej. confirmar
+  contraseña) siguen siendo del consumidor vía `setCustomValidity()`
+  nativo — no se inventa un motor de reglas propio. Se encontró y
+  corrigió una condición de carrera al armar la guía: un listener de
+  `submit` puesto por el consumidor directamente sobre el `<form>`
+  (para hacer su propio `fetch`) puede registrarse *antes* que el de
+  `iniciarFormularios` si ambos esperan `DOMContentLoaded` — ganaba la
+  carrera y mandaba datos inválidos. Se corrigió escuchando `submit` en
+  fase de captura sobre `document` (no sobre cada form): así siempre
+  corre antes que cualquier listener puesto directamente en el form,
+  sin importar el orden de registro, y corta el envío del consumidor
+  con `stopImmediatePropagation()` si el formulario no es válido.
+  `ponerCargando`/
+  `quitarCargando` (nuevas, + `.boton[data-cargando]` en CSS) ponen un
+  botón en estado "Guardando…" sin cambiar su ancho (el texto real
+  sigue en el DOM, oculto con `color:transparent`; un `::after`
+  superpone el texto de carga) y evitan un doble envío
+  (`aria-busy`+`disabled`). El envío real sigue siendo decisión de
+  cada pantalla.
+- **Selección de filas** (`iniciarSeleccionTabla`, nuevo +
+  `.barra-seleccion` en CSS, calcada de `.total-caja`) — en
+  `<table data-seleccion>` con `[data-seleccionar-todo]` en la
+  cabecera y `[data-seleccionar-fila]` por fila: marca/desmarca todas
+  las filas visibles en esa tabla, `indeterminate` cuando hay una
+  selección parcial, dispara `santacorina:seleccion-cambiar`
+  (`detail:{ids,total}`) y muestra/oculta `.barra-seleccion` según
+  haya o no filas marcadas.
+  - **Fuera de alcance, documentado**: "seleccionar todas las páginas"
+    (el paquete no tiene el dato de cuántas filas hay en el servidor)
+    — se deja el evento + la barra como base para que cada pantalla
+    agregue ese banner si lo necesita.
+
+Verificado con Playwright: montar modal+popover+combobox, llamar
+`destruirTodo(raiz)`, remover el nodo, insertar uno equivalente y
+llamar `iniciarTodo()` de nuevo — el número neto de listeners activos
+no crece (confirma que no se duplican ni se acumulan). Formulario con
+2 campos requeridos: envío vacío marca ambos `aria-invalid`, aparece
+`.resumen-errores` con sus 2 links; `ponerCargando` mide
+`getBoundingClientRect().width` antes/después — idéntico. Tabla de
+prueba: marcar un subconjunto deja la cabecera
+`indeterminate`; marcar todas la deja `checked`; el evento
+`santacorina:seleccion-cambiar` trae los ids correctos y
+`.barra-seleccion` se muestra/oculta en espejo.
+
 ## 0.21.0 — sin publicar — modo oscuro real
 
 El fix anterior (fondo de `.demo` siempre blanco en `guia/guia.css`)

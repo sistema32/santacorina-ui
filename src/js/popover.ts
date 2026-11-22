@@ -6,7 +6,7 @@
  * `role="dialog"`; al cerrar con Escape el foco vuelve al trigger.
  */
 import { idDe } from "./foco.js";
-import { primeraVez } from "./una-vez.js";
+import { primeraVez, registrarDestructor } from "./una-vez.js";
 
 export function iniciarPopovers(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>("[data-popover]").forEach((contenedor) => {
@@ -26,23 +26,33 @@ export function iniciarPopovers(raiz: ParentNode = document): void {
     trigger.setAttribute("aria-expanded", "false");
 
     const cerrar = (devolverFoco = false) => {
+      if (!panel.classList.contains("visible")) return;
       panel.classList.remove("visible");
       trigger.setAttribute("aria-expanded", "false");
       if (devolverFoco) trigger.focus();
+      contenedor.dispatchEvent(new CustomEvent("santacorina:popover-cerrar", { bubbles: true }));
     };
     const alternar = (e: Event) => {
       e.stopPropagation();
       const abrir = !panel.classList.contains("visible");
       panel.classList.toggle("visible", abrir);
       trigger.setAttribute("aria-expanded", String(abrir));
+      if (abrir) contenedor.dispatchEvent(new CustomEvent("santacorina:popover-abrir", { bubbles: true }));
+      else contenedor.dispatchEvent(new CustomEvent("santacorina:popover-cerrar", { bubbles: true }));
+    };
+    const alClicAfuera = (e: Event) => {
+      if (!contenedor.contains(e.target as Node)) cerrar();
+    };
+    const alTeclado = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && panel.classList.contains("visible")) cerrar(true);
     };
 
     trigger.addEventListener("click", alternar);
-    document.addEventListener("click", (e) => {
-      if (!contenedor.contains(e.target as Node)) cerrar();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && panel.classList.contains("visible")) cerrar(true);
+    document.addEventListener("click", alClicAfuera);
+    document.addEventListener("keydown", alTeclado);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("click", alClicAfuera);
+      document.removeEventListener("keydown", alTeclado);
     });
   });
 }

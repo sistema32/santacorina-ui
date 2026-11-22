@@ -79,6 +79,10 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | `iniciarResumenErrores` | Enfoca `.resumen-errores` al aparecer y mueve el foco al campo destino al hacer clic en un link — de GOV.UK Design System ([error summary](https://design-system.service.gov.uk/components/error-summary/)) | ✓ |
 | `iniciarTablasOrdenables` | Alterna `aria-sort` en `th[data-ordenable]` y dispara `santacorina:ordenar` — el consumidor reordena sus propias filas | ✓ |
 | `iniciarCarruseles` / `avanzarCarrusel(el, dir)` | Cambia la slide activa de `.carousel` por clic/indicador/flechas de teclado; `avanzarCarrusel` queda exportado para quien quiera autoplay con su propio `setInterval` | ✓ (`iniciarCarruseles`) |
+| `destruirTodo(raiz?)` | Libera los listeners de `document` (Escape, clic-afuera) que `iniciarTodo(raiz)` registró — para una SPA que desmonta y vuelve a montar `raiz` | — |
+| `iniciarFormularios` | Valida con la Constraint Validation API nativa en cada `<form data-validar>`; si falla, marca `.campo-error`/`[aria-invalid]` y arma `.resumen-errores` | ✓ |
+| `ponerCargando(boton)` / `quitarCargando(boton)` | Estado "Guardando…" en un `.boton` sin cambiar su ancho (`aria-busy` + `disabled`, evita doble envío) | — |
+| `iniciarSeleccionTabla` | Checkbox de cabecera (marca/desmarca/`indeterminate`) + checkboxes de fila en `table[data-seleccion]`, dispara `santacorina:seleccion-cambiar` y muestra/oculta `.barra-seleccion` | ✓ |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
 
@@ -91,7 +95,32 @@ cuándo esa pantalla decide mostrar un modal, un toast, etc.
 una vez sobre el mismo DOM — útil si una pantalla la llama a mano además
 del auto-run, o en un framework con remontaje/HMR. Cada módulo marca los
 elementos que ya inicializó (`src/js/una-vez.ts`), así que no se
-duplican listeners ni se repiten eventos por un mismo clic.
+duplican listeners ni se repiten eventos por un mismo clic. Si en cambio
+`raiz` se **desmonta** (el nodo se saca del DOM) y luego se vuelve a montar
+un nodo equivalente, llamar `destruirTodo(raiz)` antes de desmontar libera
+los listeners que algunos módulos (modal, cajón, popover, toggletip,
+calendario, combobox) ponen sobre `document` — esos no se liberan solos
+porque `document` nunca se destruye.
+
+### Eventos `santacorina:*`
+
+Todos burbujean (`bubbles: true`) y se disparan en el propio elemento —
+el consumidor los escucha donde le convenga (el elemento, un ancestro,
+o `document`):
+
+| Evento | Se dispara en | `detail` |
+|---|---|---|
+| `santacorina:modal-abrir` / `-cerrar` | `.modal` | — |
+| `santacorina:cajon-abrir` / `-cerrar` | `.cajon` | — |
+| `santacorina:popover-abrir` / `-cerrar` | `[data-popover]` | — |
+| `santacorina:toggletip-abrir` / `-cerrar` | `[data-toggletip]` | — |
+| `santacorina:calendario-abrir` / `-cerrar` | `[data-calendario]` | — |
+| `santacorina:colapsar-abrir` / `-cerrar` | `[data-colapsar]` | — |
+| `santacorina:tab-cambiar` | `.tabs` | `{ destino }` |
+| `santacorina:combobox-seleccionar` | `.combobox` | `{ valor, texto }` |
+| `santacorina:carousel-cambiar` | `.carousel` | `{ indice }` |
+| `santacorina:ordenar` | `th[data-ordenable]` | `{ columna, direccion }` |
+| `santacorina:seleccion-cambiar` | `table[data-seleccion]` | `{ ids, total }` |
 
 `formato` viene de duplicación real: `peso()`/`conSigno()`/`pct()` estaban
 copiados idénticos en `FinanzasPresupuestoView.vue` y
@@ -193,6 +222,7 @@ los mismos de antes, solo cambió el mecanismo.
 | `.kpis` / `.kpi` (`data-tono="azul\|verde\|naranjo\|rojo\|gris"`) | Cifra destacada con color de estado |
 | `.etiqueta` (mismos `data-tono`) | Estado corto en línea con texto, no clicable |
 | `.boton` (`.secundario`/`.peligro`) | Acción principal |
+| `.boton[data-cargando]` | Estado "Guardando…" sin cambiar de ancho — JS en `/js` (`ponerCargando`/`quitarCargando`) |
 | `.btn-chico`, `a.btn-chico` (`.peligro`) | Acción secundaria por fila/celda |
 | `.pastilla` (`data-tono="celeste\|roja"`) | Decisión clicable con forma de botón |
 | `.aviso` (`data-tono="info\|ok\|alerta\|error"`) | Banner de nivel de pantalla |
@@ -203,6 +233,7 @@ los mismos de antes, solo cambió el mecanismo.
 | `.barra-filtros` + `.limpiar-filtros` | Agrupa `.buscador` + campos sueltos + `.chip` (sin cambios) + "Limpiar filtros" en una fila; en móvil pasa a columna sin reordenar |
 | tabla base + `.tabla-scroll`, `.peso`/`.der`/`.cen`/`.codigo` | Listados tabulares, montos alineados |
 | `.tabla-cabecera-fija` / `.tabla-compacta` | Encabezado fijo con scroll vertical (reusa `--z-flotante`) y densidad compacta, para listados largos |
+| `table[data-seleccion]` + `.barra-seleccion` | Checkbox de cabecera (`[data-seleccionar-todo]`) + de fila (`[data-seleccionar-fila]`) y barra "N seleccionados" (calcada de `.total-caja`) — JS en `/js` (`iniciarSeleccionTabla`) |
 | `th[data-ordenable]` | Flecha + `aria-sort`; JS en `/js` (`iniciarTablasOrdenables`) — de [Carbon Design System](https://carbondesignsystem.com/components/data-table/usage/) (tabla de datos) |
 | `.resumen-revision` + `.resumen-revision-item` (`.cambiar`) | Pares clave/valor con acción "Cambiar", para la pantalla de revisión antes de enviar (cierra `.asistente`) — de [GOV.UK summary list](https://design-system.service.gov.uk/components/summary-list/) |
 | `.resumen-errores` | Caja de errores al inicio del formulario, enfocada automáticamente; JS en `/js` (`iniciarResumenErrores`) — de [GOV.UK error summary](https://design-system.service.gov.uk/components/error-summary/), el patrón de a11y de formularios mejor documentado que encontré |

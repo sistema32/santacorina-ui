@@ -5,7 +5,7 @@
  * de capa modal/deslizante.
  */
 import { atraparFoco } from "./foco.js";
-import { primeraVez } from "./una-vez.js";
+import { primeraVez, registrarDestructor } from "./una-vez.js";
 
 const liberadores = new WeakMap<HTMLElement, () => void>();
 
@@ -15,6 +15,7 @@ function abrir(cajon: HTMLElement, fondo: HTMLElement | null | undefined): void 
   cajon.classList.add("abierto");
   fondo?.classList.add("visible");
   liberadores.set(cajon, atraparFoco(cajon));
+  cajon.dispatchEvent(new CustomEvent("santacorina:cajon-abrir", { bubbles: true }));
 }
 
 function cerrar(cajon: HTMLElement, fondo: HTMLElement | null | undefined): void {
@@ -22,7 +23,10 @@ function cerrar(cajon: HTMLElement, fondo: HTMLElement | null | undefined): void
   fondo?.classList.remove("visible");
   liberadores.get(cajon)?.();
   liberadores.delete(cajon);
+  cajon.dispatchEvent(new CustomEvent("santacorina:cajon-cerrar", { bubbles: true }));
 }
+
+let escapeGlobalActivo = false;
 
 export function iniciarCajones(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>("[data-cajon-toggle]").forEach((boton) => {
@@ -48,14 +52,20 @@ export function iniciarCajones(raiz: ParentNode = document): void {
     });
   });
 
-  if (primeraVez(document.documentElement, "cajon-escape-global")) {
-    document.addEventListener("keydown", (e) => {
+  if (!escapeGlobalActivo) {
+    escapeGlobalActivo = true;
+    const manejador = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
       document.querySelectorAll<HTMLElement>(".cajon.abierto").forEach((cajon) => {
         const destino = cajon.dataset.cajon;
         const fondo = cajon.querySelector<HTMLElement>(".cajon-fondo") ?? (destino ? document.querySelector<HTMLElement>(`[data-cajon-fondo="${destino}"]`) : null);
         cerrar(cajon, fondo);
       });
+    };
+    document.addEventListener("keydown", manejador);
+    registrarDestructor(raiz, () => {
+      document.removeEventListener("keydown", manejador);
+      escapeGlobalActivo = false;
     });
   }
 }
