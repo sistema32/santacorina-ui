@@ -141,6 +141,9 @@ en el archivo. Se probó explícitamente; ver "Decisiones verificadas" abajo.
 | `.calendario` / `.calendario-panel` (sobre `[data-calendario]`) | Selector de fecha en grilla visual — el JS vive en `/js` |
 | `.buscador` + `.limpiar` | Input de búsqueda con ícono y botón de limpiar propio (oculta el nativo de `type=search`) — JS en `/js` |
 | `.contador-caracteres` (`.cerca`/`.lleno`, sobre `textarea[data-contador]`) | Contador de caracteres de un textarea — JS en `/js` |
+| `.icono` + `.icono-check/cerrar/flecha-derecha/chevron-izq/chevron-der/mas-opciones/menu/buscar` (`.chico`/`.grande`) | Ícono 100% CSS, hereda el color de texto |
+| `.cabecera-compacta` / `.cabecera-centrada` / `.cabecera-con-buscador` | Variantes de `.cabecera` |
+| `.pie-compacto` | Variante de `.pie` |
 
 Dos ajustes responsivos nuevos, sin clase nueva, bajo 600px (teléfono —
 el 900px del resto del paquete es muy ancho para esto): `.breadcrumb`

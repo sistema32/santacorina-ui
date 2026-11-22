@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.8.0 — sin publicar
+
+**Pack de íconos** — 100% CSS vía `mask-image` + `background-color:
+currentColor` (con `-webkit-mask-*` para Safari). Confirmado contra
+duplicación real en `sgp`: `✓`/`✔` usados de forma inconsistente para lo
+mismo en distintas plantillas, `✕`/`×`, `→`, `☰`, `⋮` repetidos a mano
+en decenas de archivos. Ocho íconos: `.icono-check`, `.icono-cerrar`,
+`.icono-flecha-derecha`, `.icono-chevron-izq`, `.icono-chevron-der`,
+`.icono-mas-opciones`, `.icono-menu`, `.icono-buscar` (`.chico`/`.grande`).
+
+**Variantes de cabecera/pie** — agregados preventivos: `sgp` usa
+deliberadamente un solo tipo de cabecera hoy (`unidad_base.html` y
+`portal_base.html` son casi idénticas; el propio `AppShell.vue` lo dice
+explícito). `.cabecera-compacta` (contextos densos/embebidos),
+`.cabecera-centrada` (pantallas standalone, sin bloque de usuario),
+`.cabecera-con-buscador` (integra el `.buscador` de 0.7.0), y
+`.pie-compacto`.
+
 ## 0.7.1 — sin publicar
 
 Dos ajustes responsivos bajo 600px (teléfono — el 900px del resto del

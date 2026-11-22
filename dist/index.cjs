@@ -82,6 +82,22 @@ function buildComponents() {
       borderTop: "1px solid var(--color-borde)"
     },
     /* ---------------------------------------------------------------
+     * Variantes de cabecera/pie -- `.cabecera`/`.pie` siguen siendo las
+     * de produccion, sin cambios. Estas son nuevas: hoy sgp usa
+     * deliberadamente un solo tipo de cabecera (confirmado: unidad_base
+     * y portal_base son casi identicas, y el propio AppShell.vue lo dice
+     * explicito), asi que no hay una segunda variante que extraer -- son
+     * preventivas, para la proxima pantalla que necesite un header
+     * distinto (un modal, un login, una bandeja con buscador integrado).
+     * ------------------------------------------------------------- */
+    ".cabecera-compacta": { padding: "12px 20px" },
+    ".cabecera-compacta h1": { fontSize: "16px" },
+    ".cabecera-centrada": { justifyContent: "center", textAlign: "center" },
+    ".cabecera-centrada .cabecera-usuario": { display: "none" },
+    ".cabecera-con-buscador": { alignItems: "center" },
+    ".cabecera-con-buscador .buscador": { maxWidth: "320px" },
+    ".pie-compacto": { textAlign: "center", borderTop: "0", padding: "14px 20px" },
+    /* ---------------------------------------------------------------
      * Menu lateral -- trasladado de lateral.css tal cual (incluido el
      * patron responsivo con hamburguesa/overlay bajo 900px). El toggle
      * movil necesita que el consumidor agregue un click handler de unas
@@ -1219,7 +1235,60 @@ function buildComponents() {
      * Foco de teclado -- uno solo para todo lo navegable, en vez de un
      * `:focus` por componente (antes solo cubria input/select/textarea).
      * ------------------------------------------------------------- */
-    ":focus-visible": { outline: "2px solid var(--color-azul)", outlineOffset: "2px" }
+    ":focus-visible": { outline: "2px solid var(--color-azul)", outlineOffset: "2px" },
+    /* ---------------------------------------------------------------
+     * Pack de iconos -- glifos sueltos (check, x, flechas) estaban
+     * repetidos a mano en decenas de plantillas de sgp, cada una con su
+     * propio caracter unicode -- incluso inconsistentes entre si (unas
+     * pantallas usan "check", otras "heavy check", distinto glifo para
+     * lo mismo). 100% CSS via `mask-image` + `background-color:
+     * currentColor`, asi el icono hereda el color de texto como
+     * cualquier letra -- la alternativa (SVG inline en cada uso) obliga
+     * a repetir marcado en cada pantalla, que es exactamente el defecto
+     * que esto reemplaza.
+     * ------------------------------------------------------------- */
+    ".icono": {
+      display: "inline-block",
+      width: "16px",
+      height: "16px",
+      backgroundColor: "currentColor",
+      WebkitMaskImage: "var(--icono-svg)",
+      maskImage: "var(--icono-svg)",
+      WebkitMaskSize: "contain",
+      maskSize: "contain",
+      WebkitMaskRepeat: "no-repeat",
+      maskRepeat: "no-repeat",
+      WebkitMaskPosition: "center",
+      maskPosition: "center",
+      verticalAlign: "middle",
+      flex: "none"
+    },
+    ".icono.chico": { width: "12px", height: "12px" },
+    ".icono.grande": { width: "20px", height: "20px" },
+    ".icono-check": {
+      "--icono-svg": `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12l5 5L20 6'/%3E%3C/svg%3E")`
+    },
+    ".icono-cerrar": {
+      "--icono-svg": `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M5 5l14 14M19 5L5 19'/%3E%3C/svg%3E")`
+    },
+    ".icono-flecha-derecha": {
+      "--icono-svg": `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h16M14 6l6 6-6 6'/%3E%3C/svg%3E")`
+    },
+    ".icono-chevron-izq": {
+      "--icono-svg": `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 5l-7 7 7 7'/%3E%3C/svg%3E")`
+    },
+    ".icono-chevron-der": {
+      "--icono-svg": `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E")`
+    },
+    ".icono-mas-opciones": {
+      "--icono-svg": `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Ccircle cx='12' cy='5' r='2'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3Ccircle cx='12' cy='19' r='2'/%3E%3C/svg%3E")`
+    },
+    ".icono-menu": {
+      "--icono-svg": `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M4 6h16M4 12h16M4 18h16'/%3E%3C/svg%3E")`
+    },
+    ".icono-buscar": {
+      "--icono-svg": `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='7'/%3E%3Cline x1='16' y1='16' x2='21' y2='21'/%3E%3C/svg%3E")`
+    }
   };
 }
 

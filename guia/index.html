@@ -97,6 +97,8 @@
     <a href="#utils-js">Utilidades JS</a>
     <a href="#buscador">Buscador</a>
     <a href="#contador">Contador de caracteres</a>
+    <a href="#iconos">Íconos</a>
+    <a href="#variantes-cabecera">Variantes de cabecera/pie</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -592,6 +594,61 @@
           <span class="contador-caracteres">0/120</span>
         </div></div>
         <pre class="codigo">&lt;textarea data-contador maxlength="120"&gt;&lt;/textarea&gt;&lt;span class="contador-caracteres"&gt;&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="iconos">
+      <h2>Íconos</h2>
+      <p class="uso">100% CSS vía <code>mask-image</code> + <code>background-color: currentColor</code> — heredan el color de texto como cualquier letra. Reemplazan los glifos sueltos (<code>✓</code>/<code>✔</code> inconsistente, <code>✕</code>, <code>→</code>) repetidos a mano en decenas de plantillas de <code>sgp</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila" style="font-size:20px">
+          <span class="icono icono-check"></span>
+          <span class="icono icono-cerrar"></span>
+          <span class="icono icono-flecha-derecha"></span>
+          <span class="icono icono-chevron-izq"></span>
+          <span class="icono icono-chevron-der"></span>
+          <span class="icono icono-mas-opciones"></span>
+          <span class="icono icono-menu"></span>
+          <span class="icono icono-buscar"></span>
+        </div>
+        <pre class="codigo">&lt;span class="icono icono-check"&gt;&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="variantes-cabecera">
+      <h2>Variantes de cabecera/pie</h2>
+      <p class="uso"><code>.cabecera</code>/<code>.pie</code> siguen siendo las de producción. Estas son preventivas — hoy <code>sgp</code> usa deliberadamente un solo tipo de cabecera (confirmado en código: <code>unidad_base.html</code>/<code>portal_base.html</code> son casi idénticas).</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <header class="cabecera cabecera-compacta">
+            <div><h1>Confirmar envío</h1></div>
+            <div class="cabecera-usuario"><span class="usuario-nombre">arodriguez</span></div>
+          </header>
+        </div>
+        <pre class="codigo">&lt;header class="cabecera cabecera-compacta"&gt;...&lt;/header&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <header class="cabecera cabecera-centrada">
+            <div><h1>Acceso a la plataforma</h1><p class="cabecera-datos">SLEP Santa Corina</p></div>
+          </header>
+        </div>
+        <pre class="codigo">&lt;header class="cabecera cabecera-centrada"&gt;...&lt;/header&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <header class="cabecera cabecera-con-buscador">
+            <div><h1>Solicitudes de Compra</h1></div>
+            <div class="buscador"><input type="search" placeholder="Buscar solicitud..."><button type="button" class="limpiar">×</button></div>
+          </header>
+        </div>
+        <pre class="codigo">&lt;header class="cabecera cabecera-con-buscador"&gt;...&lt;div class="buscador"&gt;...&lt;/div&gt;&lt;/header&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <footer class="pie pie-compacto">EMISA · SLEP Santa Corina</footer>
+        </div>
+        <pre class="codigo">&lt;footer class="pie pie-compacto"&gt;...&lt;/footer&gt;</pre>
       </div>
     </section>
   </main>
