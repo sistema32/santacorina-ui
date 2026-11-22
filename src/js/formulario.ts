@@ -17,10 +17,23 @@ function mensajeDe(campo: Campo): string {
   return campo.dataset.mensajeError || campo.validationMessage;
 }
 
+// Guarda el `aria-describedby` que el campo tenia ANTES de marcarlo
+// invalido (ej. apuntando a un `.ayuda` de texto de ayuda) -- sin esto,
+// `marcarInvalido` lo pisaba con el id del `.campo-error` y `limpiarCampo`
+// lo dejaba vacio para siempre, perdiendo la referencia al texto de
+// ayuda original incluso despues de corregir el campo.
+const describedByOriginal = new WeakMap<Campo, string>();
+
 function limpiarCampo(campo: Campo): void {
   campo.removeAttribute("aria-invalid");
   const contenedor = campo.closest<HTMLElement>(".campo") ?? campo.parentElement;
   contenedor?.querySelector(".campo-error")?.remove();
+  if (describedByOriginal.has(campo)) {
+    const original = describedByOriginal.get(campo)!;
+    if (original) campo.setAttribute("aria-describedby", original);
+    else campo.removeAttribute("aria-describedby");
+    describedByOriginal.delete(campo);
+  }
 }
 
 function marcarInvalido(campo: Campo): void {
@@ -36,16 +49,24 @@ function marcarInvalido(campo: Campo): void {
   const icono = document.createElement("span");
   icono.className = "icono icono-advertencia";
   error.append(icono, document.createTextNode(mensajeDe(campo)));
-  campo.setAttribute("aria-describedby", idDe(error, "campo-error"));
+  if (!describedByOriginal.has(campo)) {
+    describedByOriginal.set(campo, campo.getAttribute("aria-describedby") ?? "");
+  }
+  const errorId = idDe(error, "campo-error");
+  const original = describedByOriginal.get(campo);
+  campo.setAttribute("aria-describedby", original ? `${original} ${errorId}` : errorId);
 }
 
 function validarYMostrar(form: HTMLFormElement): boolean {
   const campos = Array.from(form.querySelectorAll<Campo>("input, select, textarea"));
   const invalidos = campos.filter((c) => !c.checkValidity());
   campos.forEach((c) => (c.checkValidity() ? limpiarCampo(c) : marcarInvalido(c)));
+  // Se saca ANTES del `if`: con el formulario ya valido, el resumen de
+  // un intento anterior se quedaba visible para siempre -- este
+  // `return` temprano era la unica salida que no lo limpiaba.
+  form.querySelector(".resumen-errores")?.remove();
   if (invalidos.length === 0) return true;
 
-  form.querySelector(".resumen-errores")?.remove();
   const resumen = document.createElement("div");
   resumen.className = "resumen-errores";
   const titulo = document.createElement("h2");

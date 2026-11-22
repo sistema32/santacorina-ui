@@ -9,11 +9,27 @@
  */
 import { primeraVez } from "./una-vez.js";
 
+/**
+ * Una fila oculta (ej. filtrada por el consumidor) o con el checkbox
+ * deshabilitado (ej. un registro ya procesado) no es algo que el
+ * usuario pueda marcar por si mismo con un clic individual -- "marcar
+ * todo" no deberia incluirla igual, o una accion masiva terminaria
+ * operando sobre filas que nadie eligio a proposito.
+ */
+function esSeleccionable(fila: HTMLInputElement): boolean {
+  if (fila.disabled || fila.hidden) return false;
+  const tr = fila.closest("tr");
+  if (!tr || tr.hidden) return false;
+  const estilo = getComputedStyle(tr);
+  return estilo.display !== "none" && estilo.visibility !== "hidden";
+}
+
 export function iniciarSeleccionTabla(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLTableElement>("table[data-seleccion]").forEach((tabla) => {
     if (!primeraVez(tabla, "seleccion-tabla")) return;
     const todo = tabla.querySelector<HTMLInputElement>("[data-seleccionar-todo]");
-    const filas = () => Array.from(tabla.querySelectorAll<HTMLInputElement>("[data-seleccionar-fila]"));
+    const filas = () =>
+      Array.from(tabla.querySelectorAll<HTMLInputElement>("[data-seleccionar-fila]")).filter(esSeleccionable);
     const barra = tabla.dataset.seleccionBarra
       ? document.querySelector<HTMLElement>(tabla.dataset.seleccionBarra)
       : (tabla.parentElement?.querySelector<HTMLElement>(".barra-seleccion") ?? null);

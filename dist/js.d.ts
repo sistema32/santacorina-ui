@@ -12,8 +12,14 @@ declare function rut(valor: string): string;
 /**
  * Repara mojibake: texto que paso por UTF-8 -> Latin-1 -> UTF-8 sin
  * querer (comun en exportaciones de Excel/correo con tildes rotas, ej.
- * "InformaciÃ³n" en vez de "Información"). Si el texto no tiene ese
- * patron, se devuelve intacto.
+ * "InformaciÃ³n" en vez de "Información"). Repara cada fragmento roto
+ * por separado -- no exige que TODO el string sea Latin-1, asi que un
+ * texto mixto como "InformaciÃ³n — prueba" tambien se corrige (el
+ * guion largo, que ya es Unicode real, queda intacto). Lo que NO
+ * cubre: mojibake que paso por Windows-1252 en vez de Latin-1 (ej.
+ * "â€™" en vez de apostrofe) -- ahi los bytes 0x80-0x9F
+ * mapean a simbolos distintos (euro, comillas, etc.) y hace falta otra
+ * tabla de conversion.
  */
 declare function limpiarMojibake(texto: string): string;
 

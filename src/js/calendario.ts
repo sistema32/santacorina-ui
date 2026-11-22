@@ -4,7 +4,7 @@
  * (sin uso real hoy en sgp), pedido explicitamente por el usuario.
  */
 import { fechaCorta } from "./formato.js";
-import { primeraVez, registrarDestructor } from "./una-vez.js";
+import { activar, desactivar, primeraVez, registrarDestructor } from "./una-vez.js";
 
 const DOW = ["L", "M", "M", "J", "V", "S", "D"];
 const MESES = [
@@ -90,50 +90,62 @@ function construirGrilla(
   });
 }
 
+const cerrarDe = new WeakMap<HTMLElement, () => void>();
+
 export function iniciarCalendario(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>("[data-calendario]").forEach((contenedor) => {
-    if (!primeraVez(contenedor, "calendario")) return;
-    const input = contenedor.querySelector<HTMLInputElement>("input");
-    const panel = contenedor.querySelector<HTMLElement>(".calendario-panel");
-    if (!input || !panel) return;
+    if (primeraVez(contenedor, "calendario")) {
+      const input = contenedor.querySelector<HTMLInputElement>("input");
+      const panel = contenedor.querySelector<HTMLElement>(".calendario-panel");
+      if (!input || !panel) return;
 
-    let seleccionada: Date | null = null;
-    let mesVisible = primerDiaDe(new Date());
+      let seleccionada: Date | null = null;
+      let mesVisible = primerDiaDe(new Date());
 
-    const redibujar = () => {
-      construirGrilla(
-        panel,
-        mesVisible,
-        seleccionada,
-        (dia) => {
-          seleccionada = dia;
-          mesVisible = primerDiaDe(dia);
-          input.value = fechaCorta(dia);
-          input.dispatchEvent(new Event("input", { bubbles: true }));
-          input.dispatchEvent(new Event("change", { bubbles: true }));
-          cerrar();
-        },
-        (mes) => {
-          mesVisible = mes;
-          redibujar();
-        },
-      );
-    };
-    const abrir = () => {
-      redibujar();
-      panel.classList.add("visible");
-      contenedor.dispatchEvent(new CustomEvent("santacorina:calendario-abrir", { bubbles: true }));
-    };
-    const cerrar = () => {
-      if (!panel.classList.contains("visible")) return;
-      panel.classList.remove("visible");
-      contenedor.dispatchEvent(new CustomEvent("santacorina:calendario-cerrar", { bubbles: true }));
-    };
+      const redibujar = () => {
+        construirGrilla(
+          panel,
+          mesVisible,
+          seleccionada,
+          (dia) => {
+            seleccionada = dia;
+            mesVisible = primerDiaDe(dia);
+            input.value = fechaCorta(dia);
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+            cerrar();
+          },
+          (mes) => {
+            mesVisible = mes;
+            redibujar();
+          },
+        );
+      };
+      const abrir = () => {
+        redibujar();
+        panel.classList.add("visible");
+        contenedor.dispatchEvent(new CustomEvent("santacorina:calendario-abrir", { bubbles: true }));
+      };
+      const cerrar = () => {
+        if (!panel.classList.contains("visible")) return;
+        panel.classList.remove("visible");
+        contenedor.dispatchEvent(new CustomEvent("santacorina:calendario-cerrar", { bubbles: true }));
+      };
 
-    input.addEventListener("click", (e) => {
-      e.stopPropagation();
-      abrir();
-    });
+      input.addEventListener("click", (e) => {
+        e.stopPropagation();
+        abrir();
+      });
+      cerrarDe.set(contenedor, cerrar);
+    }
+
+    // Separado del bloque de arriba (que corre una sola vez por
+    // elemento): `destruirTodo(raiz)` puede apagar este listener sin
+    // que `raiz` se reemplace, y una llamada posterior a
+    // `iniciarTodo(raiz)` sobre el MISMO nodo debe poder reactivarlo --
+    // `activar`/`desactivar` llevan su propio estado para eso.
+    const cerrar = cerrarDe.get(contenedor);
+    if (!cerrar || !activar(contenedor, "calendario-doc")) return;
     const alClicAfuera = (e: Event) => {
       if (!contenedor.contains(e.target as Node)) cerrar();
     };
@@ -145,6 +157,7 @@ export function iniciarCalendario(raiz: ParentNode = document): void {
     registrarDestructor(raiz, () => {
       document.removeEventListener("click", alClicAfuera);
       document.removeEventListener("keydown", alTeclado);
+      desactivar(contenedor, "calendario-doc");
     });
   });
 }

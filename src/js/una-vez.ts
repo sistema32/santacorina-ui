@@ -53,3 +53,37 @@ export function destruirTodo(raiz: ParentNode = document): void {
   lista.forEach((fn) => fn());
   destructores.delete(raiz);
 }
+
+/**
+ * Como `primeraVez`, pero reversible -- para el listener de `document`
+ * que popover/toggletip/calendario/combobox activan POR INSTANCIA.
+ * `primeraVez` marca un elemento para siempre (correcto para no volver
+ * a crear el panel ni duplicar los listeners de ELEMENTO), pero eso
+ * mismo impedia reactivar el listener de `document` tras un
+ * `destruirTodo(raiz)` sobre un `raiz` que NO se reemplaza: al llamar
+ * `iniciarTodo(raiz)` de nuevo, `primeraVez` ya estaba marcado y todo
+ * el bloque -- incluida la re-registracion del listener de document --
+ * se saltaba entero, dejando el popover/calendario abrible pero sin
+ * forma de cerrarlo con clic-afuera o Escape (se vio exactamente eso
+ * al verificar). `activar`/`desactivar` llevan su propio estado,
+ * independiente del de `primeraVez`, para que el destructor pueda
+ * "apagarlo" y una llamada posterior a `iniciarTodo()` pueda volver a
+ * "encenderlo" sin tocar la parte de la inicializacion que si debe
+ * ocurrir una sola vez.
+ */
+const activos = new WeakMap<Element, Set<string>>();
+
+export function activar(el: Element, nombre: string): boolean {
+  let claves = activos.get(el);
+  if (!claves) {
+    claves = new Set();
+    activos.set(el, claves);
+  }
+  if (claves.has(nombre)) return false;
+  claves.add(nombre);
+  return true;
+}
+
+export function desactivar(el: Element, nombre: string): void {
+  activos.get(el)?.delete(nombre);
+}

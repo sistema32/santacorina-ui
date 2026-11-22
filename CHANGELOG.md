@@ -1,5 +1,64 @@
 # Changelog
 
+## 0.24.0 — sin publicar — 4 hallazgos reales de una revisión externa a 0.23.0
+
+Revisión externa del JS en el commit `817278d`. Confirmé cada hallazgo
+contra el código real antes de tocar nada; los 4 eran reales:
+
+- **Alta — el combobox podía enviar el valor anterior.** La
+  reconciliación (`select.value` vs. lo que el usuario escribió) solo
+  corría en `blur` — si un botón disparaba `form.requestSubmit()` sin
+  que el input perdiera el foco, se enviaba el valor viejo. Se agregó
+  un listener de `submit` en fase de captura sobre `document` (mismo
+  mecanismo que ya usa `iniciarFormularios`) que reconcilia *antes* del
+  envío, sin importar el foco.
+- **Alta — "seleccionar todo" incluía filas ocultas y deshabilitadas.**
+  `iniciarSeleccionTabla` solo filtraba por `[data-seleccionar-fila]`,
+  sin mirar si la fila era visible o si el checkbox estaba
+  deshabilitado. Ahora `esSeleccionable()` excluye ambos casos de
+  `filas()` — fuente única para el conteo, el evento y lo que marca
+  "seleccionar todo".
+- **Media — el formulario conservaba errores después de corregirlos.**
+  `validarYMostrar` solo removía el `.resumen-errores` viejo cuando el
+  formulario SEGUÍA siendo inválido (como parte de reconstruirlo); si
+  el usuario corregía todo y reenviaba, la rama "ya es válido" volvía
+  sin limpiar el resumen anterior. También se encontró que
+  `marcarInvalido` pisaba el `aria-describedby` original del campo
+  (ej. apuntando a un texto de ayuda) con el id del `.campo-error`, y
+  `limpiarCampo` nunca lo restauraba. Ambos corregidos: el resumen se
+  limpia antes de decidir si hay que reconstruirlo, y el
+  `aria-describedby` original se guarda y se restaura al corregir el
+  campo.
+- **Media — `destruirTodo()` + `iniciarTodo()` sobre el MISMO nodo (sin
+  reemplazarlo) dejaba el calendario sin forma de cerrarse con
+  clic-afuera/Escape.** Causa real: en popover/toggletip/calendario/
+  combobox, el listener de `document` se registraba DENTRO del mismo
+  bloque que `primeraVez` guarda para siempre — así que una segunda
+  llamada a `iniciarTodo()` sobre un nodo ya inicializado se saltaba
+  ese bloque entero (correcto para no duplicar los listeners de
+  ELEMENTO), pero con eso también se saltaba la re-registración del
+  listener de `document` que `destruirTodo()` acababa de sacar. `modal.ts`/
+  `cajon.ts` ya resolvían esto bien con un flag de módulo separado de
+  `primeraVez`; se generalizó ese mismo criterio a una función
+  compartida nueva en `una-vez.ts` (`activar`/`desactivar` — como
+  `primeraVez`, pero reversible) y se aplicó a los 4 módulos que tenían
+  el mismo problema (no solo al que encontró la revisión).
+- **Baja — `limpiarMojibake()` tenía un alcance más angosto que su
+  nombre.** Exigía que TODO el string fuera Latin-1, así que un texto
+  mixto como `"InformaciÃ³n — prueba"` quedaba intacto. Se cambió a
+  reparar cada fragmento roto por separado (`texto.replace(regex, ...)`
+  en vez de decodificar el string entero), que corrige ese caso sin
+  tocar el resto del texto. Mojibake que pasó por Windows-1252 en vez
+  de Latin-1 (ej. `"â€™"`) sigue fuera de alcance — requiere otra tabla
+  de conversión — y ahora está documentado en el comentario de la
+  función.
+
+Verificado con Playwright, reproduciendo cada escenario tal como lo
+describió la revisión (incluido `requestSubmit()` con el campo
+enfocado, una fila oculta + una deshabilitada en la misma tabla, y
+`destruirTodo()`+`iniciarTodo()` sin reemplazar el nodo) — los 4 fallan
+contra el código de 0.23.0 y pasan contra este.
+
 ## 0.23.0 — sin publicar — rut() y limpiarMojibake()
 
 Dos agregados puntuales a `formato` (mismo módulo de `pesos`/`conSigno`/`pct`/`fechaCorta`):

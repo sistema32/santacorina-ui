@@ -8,11 +8,17 @@
  * `role="option"` + `aria-selected`.
  */
 import { idDe } from "./foco.js";
-import { primeraVez, registrarDestructor } from "./una-vez.js";
+import { activar, desactivar, primeraVez, registrarDestructor } from "./una-vez.js";
+
+const instancias = new WeakMap<HTMLElement, { reconciliar: () => void; cerrar: () => void }>();
 
 export function iniciarCombobox(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>(".combobox").forEach((caja) => {
-    if (!primeraVez(caja, "combobox")) return;
+    if (!primeraVez(caja, "combobox")) {
+      const instancia = instancias.get(caja);
+      if (instancia) activarListenersGlobales(caja, instancia, raiz);
+      return;
+    }
     const input = caja.querySelector<HTMLInputElement>("input[type=text]");
     const select = caja.querySelector<HTMLSelectElement>("select");
     const lista = caja.querySelector<HTMLUListElement>(".combobox-opciones");
@@ -93,15 +99,19 @@ export function iniciarCombobox(raiz: ParentNode = document): void {
      * Si el usuario escribe texto libre y nunca elige una opcion (clic o
      * Enter), `select.value` se queda en la ultima opcion realmente
      * elegida mientras el input muestra otro texto -- el value que viaja
-     * en un submit normal no es el que se ve en pantalla. Al perder el
-     * foco sin haber elegido, se resuelve una de dos formas: si lo
-     * escrito coincide exactamente (sin tildes) con una opcion, se elige
-     * esa; si no, el input vuelve al texto de la opcion que sigue
-     * seleccionada en el `<select>` real (o se vacia si no habia
-     * ninguna) -- nunca queda un texto en pantalla que no corresponda al
-     * value que se envia.
+     * en un submit normal no es el que se ve en pantalla. Se reconcilia
+     * de una de dos formas: si lo escrito coincide exactamente (sin
+     * tildes) con una opcion, se elige esa; si no, el input vuelve al
+     * texto de la opcion que sigue seleccionada en el `<select>` real (o
+     * se vacia si no habia ninguna) -- nunca queda un texto en pantalla
+     * que no corresponda al value que se envia.
+     *
+     * Se llama al perder el foco (`blur`) Y ANTES de cada `submit` del
+     * form que contiene la caja: si el usuario nunca sale del campo (ej.
+     * un boton dispara `form.requestSubmit()` sin mover el foco), `blur`
+     * no llega a dispararse y el valor viejo se habria enviado igual.
      */
-    input.addEventListener("blur", () => {
+    const reconciliar = () => {
       const texto = normalizar(input.value.trim());
       const coincide = opciones.find((o) => normalizar(o.textContent ?? "") === texto);
       if (coincide) {
@@ -112,7 +122,8 @@ export function iniciarCombobox(raiz: ParentNode = document): void {
       }
       const actual = opciones.find((o) => o.value === select.value);
       input.value = actual?.textContent ?? "";
-    });
+    };
+    input.addEventListener("blur", reconciliar);
 
     input.addEventListener("input", () => abrir());
     input.addEventListener("focus", () => abrir());
@@ -137,17 +148,39 @@ export function iniciarCombobox(raiz: ParentNode = document): void {
         cerrar();
       }
     });
-    const alClicAfuera = (e: Event) => {
-      if (!caja.contains(e.target as Node)) cerrar();
-    };
-    document.addEventListener("click", alClicAfuera);
-    registrarDestructor(raiz, () => {
-      document.removeEventListener("click", alClicAfuera);
-    });
-
     if (select.value) {
       const actual = opciones.find((o) => o.value === select.value);
       if (actual) input.value = actual.textContent ?? "";
     }
+
+    const instancia = { reconciliar, cerrar };
+    instancias.set(caja, instancia);
+    activarListenersGlobales(caja, instancia, raiz);
+  });
+}
+
+// Separado del bloque de arriba (que corre una sola vez por elemento):
+// `destruirTodo(raiz)` puede apagar estos listeners sin que `raiz` se
+// reemplace, y una llamada posterior a `iniciarTodo(raiz)` sobre el
+// MISMO nodo debe poder reactivarlos.
+function activarListenersGlobales(
+  caja: HTMLElement,
+  instancia: { reconciliar: () => void; cerrar: () => void },
+  raiz: ParentNode,
+): void {
+  if (!activar(caja, "combobox-doc")) return;
+  const alClicAfuera = (e: Event) => {
+    if (!caja.contains(e.target as Node)) instancia.cerrar();
+  };
+  const alEnviar = (e: Event) => {
+    const form = e.target;
+    if (form instanceof HTMLFormElement && form.contains(caja)) instancia.reconciliar();
+  };
+  document.addEventListener("click", alClicAfuera);
+  document.addEventListener("submit", alEnviar, true);
+  registrarDestructor(raiz, () => {
+    document.removeEventListener("click", alClicAfuera);
+    document.removeEventListener("submit", alEnviar, true);
+    desactivar(caja, "combobox-doc");
   });
 }
