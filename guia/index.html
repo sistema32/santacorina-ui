@@ -119,6 +119,12 @@
     <a href="#validacion">Validación</a>
     <a href="#total-caja">Total</a>
     <a href="#col-ancha">Columna ancha</a>
+    <a href="#insignia-icono">Insignia de ícono</a>
+    <a href="#tarjeta-accion">Tarjeta de acción</a>
+    <a href="#pildora-archivo">Píldora de archivo</a>
+    <a href="#zona-arrastre">Zona de arrastre</a>
+    <a href="#calendario-estado">Calendario de estado</a>
+    <a href="#celda-doble">Celda de dos líneas</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -1007,6 +1013,94 @@
           </div>
         </div>
         <pre class="codigo">&lt;div class="columnas"&gt;...&lt;div class="tarjeta col-ancha"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="insignia-icono">
+      <h2>Insignia de ícono</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>IconBadge.vue</code>, 23 usos). El propio componente reemplazó "~6 variantes casi idénticas" que había antes de empaquetarlo una vez.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span class="insignia-icono chica azul">⚙</span>
+          <span class="insignia-icono verde">✓</span>
+          <span class="insignia-icono grande rojo">!</span>
+        </div>
+        <pre class="codigo">&lt;span class="insignia-icono verde"&gt;✓&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="tarjeta-accion">
+      <h2>Tarjeta de acción</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>.home-section-card</code>/<code>.process-card</code>) — ícono + título + descripción, clicable, para grillas de acceso rápido de un dashboard.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <a href="#" class="tarjeta-accion"><span class="insignia-icono azul">⚙</span><strong>Procesos</strong><small>Lanzar un proceso de scraping manual.</small></a>
+        </div>
+        <pre class="codigo">&lt;a class="tarjeta-accion"&gt;&lt;span class="insignia-icono azul"&gt;...&lt;/span&gt;&lt;strong&gt;Procesos&lt;/strong&gt;&lt;small&gt;...&lt;/small&gt;&lt;/a&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="pildora-archivo">
+      <h2>Píldora de archivo</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>.file-pill</code>, 21 usos) — link/botón outline para "descargar/ver documento", distinto de <code>.pastilla</code> (fondo sólido, para una decisión).</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <a href="#" class="pildora-archivo">XML</a>
+          <a href="#" class="pildora-archivo">PDF</a>
+          <button class="pildora-archivo tenue">Quitar</button>
+        </div>
+        <pre class="codigo">&lt;a class="pildora-archivo"&gt;XML&lt;/a&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="zona-arrastre">
+      <h2>Zona de arrastre</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>EdicionFacturasView</code>, patrón de carga de XML/PDF/recepción conforme). <code>iniciarZonasArrastre</code> solo alterna <code>.activa</code> en dragover/dragleave/drop — la subida real sigue siendo de cada pantalla.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="zona-arrastre">
+            <label class="boton secundario">Examinar<input type="file" hidden></label>
+            <span class="pista">o arrastra el archivo aquí</span>
+          </div>
+          <div class="lista-documentos" style="margin-top:14px">
+            <div class="documento-fila">
+              <span class="documento-tipo">XML</span>
+              <span class="documento-nombre">factura_77585867-2_171.xml</span>
+              <a href="#" class="pildora-archivo">Ver</a>
+              <button class="pildora-archivo tenue">Quitar</button>
+            </div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="zona-arrastre"&gt;...&lt;/div&gt;&lt;div class="lista-documentos"&gt;&lt;div class="documento-fila"&gt;&lt;span class="documento-tipo"&gt;XML&lt;/span&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="calendario-estado">
+      <h2>Calendario de estado</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>CalendarioScrapingView.vue</code>) — grilla mensual tipo heatmap, <strong>no</strong> un selector de fecha (eso es <code>.calendario</code>/<code>iniciarCalendario</code>, propósito distinto). Solo CSS: el consumidor arma la grilla con sus propios datos.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="calendario-estado">
+            <button class="calendario-estado-dia"><span>1</span><span class="punto-estado hecho"></span></button>
+            <button class="calendario-estado-dia"><span>2</span><span class="punto-estado en-curso"></span></button>
+            <button class="calendario-estado-dia"><span>3</span><span class="punto-estado fallido"></span></button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;button class="calendario-estado-dia"&gt;&lt;span&gt;1&lt;/span&gt;&lt;span class="punto-estado hecho"&gt;&lt;/span&gt;&lt;/button&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="celda-doble">
+      <h2>Celda de dos líneas</h2>
+      <p class="uso">De <code>acepta/frontend</code> (41 ocurrencias: "Factura N° / fecha·tipo DTE", "Proveedor / RUT"). No es una clase nueva — es una regla que faltaba en el bloque de tabla ya existente.</p>
+      <div class="demo-wrap">
+        <div class="demo tabla-scroll">
+          <table>
+            <thead><tr><th>Factura</th><th>Proveedor</th></tr></thead>
+            <tbody><tr><td><strong>171</strong><small>14-10-2026 · Factura electrónica</small></td><td><strong>CONSTRUCCIONES M&amp;A</strong><small>77585867-2</small></td></tr></tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;td&gt;&lt;strong&gt;171&lt;/strong&gt;&lt;small&gt;14-10-2026 · Factura electrónica&lt;/small&gt;&lt;/td&gt;</pre>
       </div>
     </section>
   </main>

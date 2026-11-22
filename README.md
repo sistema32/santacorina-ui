@@ -74,6 +74,7 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | `iniciarMedidorClave` | Actualiza `.medidor-clave` junto a `input[data-medidor-clave]` | ✓ |
 | `irAPaso(asistente, n)` | Muestra el `[data-paso]` n-ésimo y marca los `[data-chip]` — la llama cada pantalla después de su propia validación | — |
 | `iniciarAsistentes` | Conecta el clic en un chip ya completado/activo para volver a ese paso (no deja saltar a uno no alcanzado) | ✓ |
+| `iniciarZonasArrastre` | Alterna `.activa` en `.zona-arrastre` con dragover/dragleave/drop — la subida real sigue siendo de cada pantalla | ✓ |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
 
@@ -197,6 +198,12 @@ plataforma queda en una sola tipografía, consistente.
 | `.detalle-tecnico` (sobre `<details>`) | Información técnica opcional dentro de `.validacion-txt` |
 | `.total-caja` | Caja de total (parecida a `.hero`, pero chica, para un formulario) |
 | `.col-ancha` | Para usar dentro de `.columnas`/`.fila`/`.masonry`: el ítem ocupa todo el ancho de la grilla |
+| `.insignia-icono` (`.chica`/`.grande`, mismos 5 colores) | Caja con ícono — de `acepta/frontend` (`IconBadge.vue`, 23 usos) |
+| `.tarjeta-accion` | Ícono + título + descripción, clicable — de `acepta/frontend` (`.home-section-card`) |
+| `.pildora-archivo` (`.tenue`) | Link/botón outline para documentos — de `acepta/frontend` (`.file-pill`, 21 usos) |
+| `.zona-arrastre` (`.activa`) + `.lista-documentos`/`.documento-fila` | Drag & drop + fila de documento — de `acepta/frontend`; JS en `/js` |
+| `.calendario-estado` + `.calendario-estado-dia` + `.punto-estado` (`.hecho`/`.en-curso`/`.fallido`) | Heatmap mensual de actividad — de `acepta/frontend`, distinto de `.calendario` (ese es un selector de fecha) |
+| `td strong, td small` (en el bloque de tabla existente) | Celda de dos líneas — de `acepta/frontend` (41 ocurrencias) |
 
 Dos ajustes responsivos nuevos, sin clase nueva, bajo 600px (teléfono —
 el 900px del resto del paquete es muy ancho para esto): `.breadcrumb`

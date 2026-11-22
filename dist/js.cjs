@@ -39,6 +39,7 @@ __export(js_exports, {
   iniciarRangoFechas: () => iniciarRangoFechas,
   iniciarTabs: () => iniciarTabs,
   iniciarTodo: () => iniciarTodo,
+  iniciarZonasArrastre: () => iniciarZonasArrastre,
   irAPaso: () => irAPaso,
   mostrarToast: () => mostrarToast
 });
@@ -663,6 +664,21 @@ function iniciarAsistentes(raiz = document) {
   });
 }
 
+// src/js/arrastre.ts
+function iniciarZonasArrastre(raiz = document) {
+  raiz.querySelectorAll(".zona-arrastre").forEach((zona) => {
+    zona.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      zona.classList.add("activa");
+    });
+    zona.addEventListener("dragleave", () => zona.classList.remove("activa"));
+    zona.addEventListener("drop", (e) => {
+      e.preventDefault();
+      zona.classList.remove("activa");
+    });
+  });
+}
+
 // src/js/index.ts
 function iniciarTodo(raiz = document) {
   iniciarModales(raiz);
@@ -678,6 +694,7 @@ function iniciarTodo(raiz = document) {
   iniciarCombobox(raiz);
   iniciarMedidorClave(raiz);
   iniciarAsistentes(raiz);
+  iniciarZonasArrastre(raiz);
 }
 if (typeof document !== "undefined") {
   if (document.readyState === "loading") {
@@ -707,6 +724,7 @@ if (typeof document !== "undefined") {
   iniciarRangoFechas,
   iniciarTabs,
   iniciarTodo,
+  iniciarZonasArrastre,
   irAPaso,
   mostrarToast
 });

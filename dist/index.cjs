@@ -609,6 +609,11 @@ function buildComponents() {
     "td.peso": { fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" },
     "th.cen, td.cen": { textAlign: "center" },
     "td.codigo": { fontFamily: "ui-monospace, Consolas, monospace", fontSize: "12.5px" },
+    /* Celda de dos lineas -- de acepta/frontend (41 ocurrencias reales:
+       "Factura N / fecha-tipo DTE", "Proveedor / RUT", "OC / nombre
+       OC"). No es una clase nueva, era una regla que faltaba aca. */
+    "td strong, td small": { display: "block" },
+    "td small": { color: "var(--color-tenue)", marginTop: "4px", fontSize: "12px", lineHeight: "1.35" },
     /* ---------------------------------------------------------------
      * Dato -- par etiqueta/valor, la unidad minima de cualquier resumen.
      * ------------------------------------------------------------- */
@@ -731,7 +736,9 @@ function buildComponents() {
     ".masonry": { columnCount: "3", columnGap: "18px" },
     ".masonry > *": { breakInside: "avoid", marginBottom: "18px" },
     "@media (max-width: 560px)": {
-      ".masonry": { columnCount: "1" }
+      ".masonry": { columnCount: "1" },
+      ".documento-fila": { gridTemplateColumns: "1fr auto" },
+      ".documento-nombre": { gridColumn: "1 / -1" }
     },
     /* ---------------------------------------------------------------
      * Hero -- banner de introduccion para un dashboard o pantalla de
@@ -749,6 +756,32 @@ function buildComponents() {
     ".hero .acciones": { display: "flex", gap: "10px", flexWrap: "wrap" },
     ".hero .boton.secundario": { backgroundColor: "rgba(255,255,255,0.12)", color: "#fff", border: "0" },
     ".hero .boton.secundario:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
+    /* ---------------------------------------------------------------
+     * Tarjeta de accion -- de acepta/frontend/src/styles.css
+     * (`.home-section-card`/`.process-card`), para grillas de acceso
+     * rapido de un dashboard: icono + titulo + descripcion, clicable.
+     * ------------------------------------------------------------- */
+    ".tarjeta-accion": {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      minHeight: "154px",
+      padding: "20px",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "11px",
+      backgroundColor: "#fff",
+      color: "var(--color-texto)",
+      textDecoration: "none",
+      transition: "border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease"
+    },
+    ".tarjeta-accion:hover": {
+      borderColor: "var(--color-azul)",
+      boxShadow: "0 4px 14px rgba(42,120,214,0.15)",
+      transform: "translateY(-1px)"
+    },
+    ".tarjeta-accion .insignia-icono": { marginBottom: "14px" },
+    ".tarjeta-accion strong": { fontSize: "14px", fontWeight: "600" },
+    ".tarjeta-accion small": { maxWidth: "260px", marginTop: "7px", color: "var(--color-tenue)", fontSize: "12.5px", lineHeight: "1.5" },
     /* ---------------------------------------------------------------
      * Modal -- superpuesto de pantalla completa + panel centrado.
      * Nuevo: generaliza los dos modales que ya existian cada uno a mano
@@ -1214,6 +1247,30 @@ function buildComponents() {
     ".avatar.naranjo": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
     ".avatar.rojo": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
     /* ---------------------------------------------------------------
+     * Insignia de icono -- de acepta/frontend/src/components/IconBadge.vue
+     * (23 usos en ConfiguracionView/DashboardView/ProcesosView). El
+     * propio comentario del componente dice que reemplazo "~6 variantes
+     * casi identicas" que habia antes -- se empaqueta una vez para que
+     * ningun otro sistema la reinvente una septima vez. Mismos 5 tonos
+     * que `.etiqueta`/`.chip`/`.avatar` (no una sexta paleta aparte).
+     * ------------------------------------------------------------- */
+    ".insignia-icono": {
+      display: "inline-grid",
+      placeItems: "center",
+      flex: "none",
+      width: "36px",
+      height: "36px",
+      borderRadius: "8px",
+      backgroundColor: "var(--color-gris-fondo)",
+      color: "var(--color-tenue)"
+    },
+    ".insignia-icono.chica": { width: "28px", height: "28px", borderRadius: "6px" },
+    ".insignia-icono.grande": { width: "44px", height: "44px", borderRadius: "10px" },
+    ".insignia-icono.azul": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
+    ".insignia-icono.verde": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
+    ".insignia-icono.naranjo": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
+    ".insignia-icono.rojo": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    /* ---------------------------------------------------------------
      * Divisor -- separa dos bloques, con o sin texto en medio.
      * ------------------------------------------------------------- */
     ".divisor": {
@@ -1678,7 +1735,92 @@ function buildComponents() {
     },
     ".icono-info": {
       "--icono-svg": `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cline x1='12' y1='11' x2='12' y2='16'/%3E%3Cline x1='12' y1='7' x2='12' y2='7.01'/%3E%3C/svg%3E")`
-    }
+    },
+    /* ---------------------------------------------------------------
+     * Pildora de archivo -- de acepta/frontend/src/styles.css (21 usos:
+     * EdicionFacturasView, FacturasView, CorreosView,
+     * RecepcionesSeView). Link/boton outline para "descargar/ver
+     * documento" (XML, PDF, OC, CDP) -- distinto de `.pastilla` (fondo
+     * solido, para una decision) y de `.btn-chico`.
+     * ------------------------------------------------------------- */
+    ".pildora-archivo": {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "5px",
+      width: "fit-content",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "6px",
+      padding: "5px 9px",
+      backgroundColor: "#fff",
+      color: "var(--color-azul-oscuro)",
+      textDecoration: "none",
+      cursor: "pointer",
+      fontSize: "12px",
+      lineHeight: "1.2",
+      fontFamily: "inherit"
+    },
+    ".pildora-archivo:hover": { borderColor: "var(--color-azul)", backgroundColor: "#f6faff" },
+    ".pildora-archivo.tenue": { color: "var(--color-tenue)", backgroundColor: "var(--color-gris-fondo)" },
+    /* ---------------------------------------------------------------
+     * Zona de arrastre + lista de documentos -- de acepta/frontend
+     * (EdicionFacturasView, v2/views/FacturasView): subir XML/PDF/
+     * recepcion conforme firmada. El JS vive en `/js`
+     * (`iniciarZonasArrastre`): solo alterna `.activa` en
+     * dragover/dragleave/drop -- la subida real (FormData, endpoint)
+     * sigue siendo de cada pantalla, igual criterio que `.buscador`.
+     * ------------------------------------------------------------- */
+    ".zona-arrastre": {
+      display: "flex",
+      alignItems: "center",
+      gap: "10px",
+      padding: "10px 14px",
+      border: "1px dashed var(--color-borde)",
+      borderRadius: "8px"
+    },
+    ".zona-arrastre.activa": { borderColor: "var(--color-azul)", backgroundColor: "#eaf2fc" },
+    ".zona-arrastre .pista": { fontSize: "13px", color: "var(--color-tenue)" },
+    ".lista-documentos": { display: "flex", flexDirection: "column", gap: "8px" },
+    ".documento-fila": {
+      display: "grid",
+      gridTemplateColumns: "90px minmax(0, 1fr) auto auto",
+      alignItems: "center",
+      gap: "8px",
+      padding: "8px",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "7px",
+      backgroundColor: "#fff"
+    },
+    ".documento-tipo": { color: "var(--color-tenue)", fontSize: "11px", fontWeight: "800" },
+    ".documento-nombre": { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--color-texto)", fontSize: "13px" },
+    /* ---------------------------------------------------------------
+     * Calendario de estado -- de acepta/frontend
+     * (CalendarioScrapingView.vue): grilla mensual tipo heatmap con un
+     * punto de color por dia (hecho/en-curso/fallido). Proposito
+     * distinto de `.calendario`/`iniciarCalendario` (ese es un selector
+     * de fecha para un input) -- nombre propio para no confundirlos.
+     * Solo CSS: el consumidor arma la grilla con sus propios datos.
+     * ------------------------------------------------------------- */
+    ".calendario-estado": { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "2px", fontSize: "12.5px" },
+    ".calendario-estado-dia": {
+      display: "grid",
+      gridTemplateColumns: "1fr auto",
+      alignContent: "space-between",
+      gap: "8px",
+      minHeight: "64px",
+      padding: "8px",
+      border: "0",
+      borderRadius: "7px",
+      backgroundColor: "transparent",
+      color: "var(--color-texto)",
+      textAlign: "left"
+    },
+    "button.calendario-estado-dia": { cursor: "pointer" },
+    "button.calendario-estado-dia:hover": { backgroundColor: "var(--color-gris-fondo)" },
+    ".calendario-estado-dia small": { gridColumn: "1 / -1", color: "var(--color-tenue)", fontSize: "11px" },
+    ".punto-estado": { display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--color-gris)" },
+    ".punto-estado.hecho": { backgroundColor: "var(--color-verde)" },
+    ".punto-estado.en-curso": { backgroundColor: "var(--color-naranjo)" },
+    ".punto-estado.fallido": { backgroundColor: "var(--color-rojo)" }
   };
 }
 

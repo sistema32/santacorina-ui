@@ -101,7 +101,16 @@ declare function irAPaso(asistente: HTMLElement, n: number): void;
  */
 declare function iniciarAsistentes(raiz?: ParentNode): void;
 
+/**
+ * Zona de arrastrar-y-soltar: solo alterna `.activa` en
+ * dragover/dragleave/drop -- la subida real del archivo (FormData,
+ * endpoint) sigue siendo de cada pantalla, igual criterio que
+ * `.buscador`/`.combobox`: el paquete resuelve la interaccion visual,
+ * no la logica de negocio.
+ */
+declare function iniciarZonasArrastre(raiz?: ParentNode): void;
+
 /** Conecta todo lo auto-iniciable. */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarTabs, iniciarTodo, irAPaso, mostrarToast };
+export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarTabs, iniciarTodo, iniciarZonasArrastre, irAPaso, mostrarToast };

@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.14.0 — sin publicar
+
+Primera vez que se revisa `acepta/frontend` (la app principal del repo,
+no `sgp`) en vez de `sgp/web`. Un agente de exploración encontró que
+varios patrones ya existían con otro nombre (`.status-tag`/`Pill.vue` ↔
+`.pastilla`, `.metric-card` ↔ `.kpi`, `DetailGrid.vue` ↔ `.ficha`) — esos
+no se tocaron. Seis sí eran nuevos, confirmados con archivo/línea real:
+
+- `.insignia-icono` — de `IconBadge.vue` (23 usos). El propio componente
+  ya documentaba que reemplazó "~6 variantes casi idénticas".
+- `.tarjeta-accion` — de `.home-section-card`/`.process-card`.
+- `.pildora-archivo` — de `.file-pill` (21 usos).
+- `.zona-arrastre` + `.lista-documentos`/`.documento-fila` +
+  `iniciarZonasArrastre` — de `EdicionFacturasView`/
+  `v2/views/FacturasView`. El JS solo alterna `.activa`; la subida real
+  sigue siendo de cada pantalla.
+- `.calendario-estado` + `.punto-estado` — de `CalendarioScrapingView.vue`,
+  un heatmap de actividad, **no** una variante de `.calendario` (ese es
+  explícitamente un selector de fecha, propósito distinto).
+- `td strong, td small` en el bloque de tabla existente — 41
+  ocurrencias reales, no era una clase nueva sino una regla faltante.
+
 ## 0.13.0 — sin publicar
 
 Migración pendiente del mismo tipo que `.cabecera`/`.lateral` en su

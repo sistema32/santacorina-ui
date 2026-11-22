@@ -15,6 +15,7 @@ export { iniciarCajones } from "./cajon.js";
 export { iniciarCombobox } from "./combobox.js";
 export { iniciarMedidorClave } from "./medidor-clave.js";
 export { irAPaso, iniciarAsistentes } from "./asistente.js";
+export { iniciarZonasArrastre } from "./arrastre.js";
 
 import { iniciarModales } from "./modal.js";
 import { iniciarLateral } from "./lateral.js";
@@ -29,6 +30,7 @@ import { iniciarCajones } from "./cajon.js";
 import { iniciarCombobox } from "./combobox.js";
 import { iniciarMedidorClave } from "./medidor-clave.js";
 import { iniciarAsistentes } from "./asistente.js";
+import { iniciarZonasArrastre } from "./arrastre.js";
 
 /** Conecta todo lo auto-iniciable. */
 export function iniciarTodo(raiz: ParentNode = document): void {
@@ -45,6 +47,7 @@ export function iniciarTodo(raiz: ParentNode = document): void {
   iniciarCombobox(raiz);
   iniciarMedidorClave(raiz);
   iniciarAsistentes(raiz);
+  iniciarZonasArrastre(raiz);
 }
 
 if (typeof document !== "undefined") {
