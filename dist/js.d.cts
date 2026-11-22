@@ -38,43 +38,16 @@ declare function iniciarModales(raiz?: ParentNode): void;
 type TipoToast = "ok" | "alerta" | "error" | undefined;
 declare function mostrarToast(mensaje: string, tipo?: TipoToast, duracionMs?: number): HTMLElement;
 
-/**
- * Conecta `.lateral-toggle` con `.lateral`/`.lateral-fondo` -- el README
- * de 0.5.0 decia que el consumidor debia agregar "un click handler de
- * unas lineas"; con esto ya no hace falta escribir nada.
- */
 declare function iniciarLateral(raiz?: ParentNode): void;
 
-/**
- * Alterna `.activo` al hacer clic dentro de `.tabs`. Si el boton tiene
- * `data-tab="x"`, tambien muestra `[data-tab-panel="x"]` y oculta el
- * resto -- retrocompatible: un `.tabs` sin `data-tab` sigue siendo solo
- * un segmented control, como hasta 0.9.0. `.tabs` recibe `role="tablist"`,
- * cada boton `role="tab"` + `aria-selected`, y cada panel `role="tabpanel"`
- * + `aria-hidden` en espejo con `.activo`.
- */
 declare function iniciarTabs(raiz?: ParentNode): void;
 
-/**
- * Sincroniza min/max entre dos `input[type=date]` (desde/hasta) dentro de
- * un `[data-rango-fechas]` -- no se puede elegir un "hasta" anterior al
- * "desde". Sobre inputs nativos, cero CSS nuevo.
- */
 declare function iniciarRangoFechas(raiz?: ParentNode): void;
 
 declare function iniciarCalendario(raiz?: ParentNode): void;
 
-/**
- * Muestra/oculta el boton `.limpiar` de `.buscador` segun si el input
- * tiene texto, y lo conecta para vaciarlo (dispara `input` para que
- * cualquier `debounce`/v-model enganchado lo reciba).
- */
 declare function iniciarBuscadores(raiz?: ParentNode): void;
 
-/**
- * Actualiza un `.contador-caracteres` junto a un `textarea[data-contador]`
- * con `maxlength`, marcando `.cerca` (90%) y `.lleno` (100%).
- */
 declare function iniciarContadores(raiz?: ParentNode): void;
 
 declare function iniciarPopovers(raiz?: ParentNode): void;
@@ -95,43 +68,14 @@ declare function iniciarMedidorClave(raiz?: ParentNode): void;
  * al paso 2), el paquete no auto-avanza un boton "Continuar".
  */
 declare function irAPaso(asistente: HTMLElement, n: number): void;
-/**
- * Conecta el clic en un chip ya completado o activo para volver a ese
- * paso -- no deja saltar a uno todavia no alcanzado.
- */
 declare function iniciarAsistentes(raiz?: ParentNode): void;
 
-/**
- * Zona de arrastrar-y-soltar: solo alterna `.activa` en
- * dragover/dragleave/drop -- la subida real del archivo (FormData,
- * endpoint) sigue siendo de cada pantalla, igual criterio que
- * `.buscador`/`.combobox`: el paquete resuelve la interaccion visual,
- * no la logica de negocio.
- */
 declare function iniciarZonasArrastre(raiz?: ParentNode): void;
 
 declare function iniciarToggletips(raiz?: ParentNode): void;
 
-/**
- * Resumen de errores -- patron de accesibilidad de GOV.UK Design
- * System (design-system.service.gov.uk/components/error-summary): una
- * caja al inicio del formulario que lista cada error con un link al
- * campo correspondiente. Al existir (tiene al menos un link), recibe
- * el foco apenas se renderiza, para que un lector de pantalla lo
- * anuncie antes de llegar al formulario -- el consumidor decide
- * cuando renderizarla (tras un intento de envio fallido), este modulo
- * solo maneja el foco y la navegacion a cada campo.
- */
 declare function iniciarResumenErrores(raiz?: ParentNode): void;
 
-/**
- * Encabezado de tabla ordenable -- de Carbon Design System (tabla de
- * datos). Solo la piel y el estado: al hacer clic alterna
- * `aria-sort` entre "ascending"/"descending"/ninguno y dispara un
- * evento para que el consumidor reordene sus propias filas, mismo
- * criterio que `.buscador`/`.combobox`/`.zona-arrastre` (visual si,
- * logica de negocio no).
- */
 declare function iniciarTablasOrdenables(raiz?: ParentNode): void;
 
 declare function iniciarCarruseles(raiz?: ParentNode): void;

@@ -2036,7 +2036,7 @@ function resolveColors(options) {
 function resolveFonts(options) {
   return { ...defaultTheme.fonts, ...options.fonts };
 }
-var plugin_default = import_plugin.default.withOptions(
+var santacorinaUI = import_plugin.default.withOptions(
   (options = {}) => {
     return ({ addBase }) => {
       const colors = resolveColors(options);
@@ -2083,6 +2083,7 @@ var plugin_default = import_plugin.default.withOptions(
     return { theme: { extend: { colors: resolveColors(options) } } };
   }
 );
+var plugin_default = santacorinaUI;
 
 // src/index.cts
 module.exports = plugin_default;

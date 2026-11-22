@@ -1992,13 +1992,13 @@ function resolveColors(options) {
 function resolveFonts(options) {
   return { ...defaultTheme.fonts, ...options.fonts };
 }
-var plugin_default;
+var santacorinaUI, plugin_default;
 var init_plugin = __esm({
   "src/plugin.ts"() {
     "use strict";
     init_theme();
     init_components();
-    plugin_default = plugin.withOptions(
+    santacorinaUI = plugin.withOptions(
       (options = {}) => {
         return ({ addBase }) => {
           const colors = resolveColors(options);
@@ -2045,6 +2045,7 @@ var init_plugin = __esm({
         return { theme: { extend: { colors: resolveColors(options) } } };
       }
     );
+    plugin_default = santacorinaUI;
   }
 });
 

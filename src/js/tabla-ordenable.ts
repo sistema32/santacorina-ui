@@ -6,8 +6,11 @@
  * criterio que `.buscador`/`.combobox`/`.zona-arrastre` (visual si,
  * logica de negocio no).
  */
+import { primeraVez } from "./una-vez.js";
+
 export function iniciarTablasOrdenables(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLTableCellElement>("th[data-ordenable]").forEach((th) => {
+    if (!primeraVez(th, "tabla-ordenable")) return;
     th.setAttribute("role", "columnheader");
     th.setAttribute("tabindex", "0");
     if (!th.hasAttribute("aria-sort")) th.setAttribute("aria-sort", "none");

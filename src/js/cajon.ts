@@ -5,6 +5,7 @@
  * de capa modal/deslizante.
  */
 import { atraparFoco } from "./foco.js";
+import { primeraVez } from "./una-vez.js";
 
 const liberadores = new WeakMap<HTMLElement, () => void>();
 
@@ -25,6 +26,7 @@ function cerrar(cajon: HTMLElement, fondo: HTMLElement | null | undefined): void
 
 export function iniciarCajones(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>("[data-cajon-toggle]").forEach((boton) => {
+    if (!primeraVez(boton, "cajon-toggle")) return;
     boton.addEventListener("click", () => {
       const destino = boton.dataset.cajonToggle;
       if (!destino) return;
@@ -37,6 +39,7 @@ export function iniciarCajones(raiz: ParentNode = document): void {
   });
 
   raiz.querySelectorAll<HTMLElement>("[data-cajon-fondo]").forEach((fondo) => {
+    if (!primeraVez(fondo, "cajon-fondo")) return;
     fondo.addEventListener("click", () => {
       const destino = fondo.dataset.cajonFondo;
       if (!destino) return;
@@ -45,12 +48,14 @@ export function iniciarCajones(raiz: ParentNode = document): void {
     });
   });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    raiz.querySelectorAll<HTMLElement>(".cajon.abierto").forEach((cajon) => {
-      const destino = cajon.dataset.cajon;
-      const fondo = cajon.querySelector<HTMLElement>(".cajon-fondo") ?? (destino ? document.querySelector<HTMLElement>(`[data-cajon-fondo="${destino}"]`) : null);
-      cerrar(cajon, fondo);
+  if (primeraVez(document.documentElement, "cajon-escape-global")) {
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      document.querySelectorAll<HTMLElement>(".cajon.abierto").forEach((cajon) => {
+        const destino = cajon.dataset.cajon;
+        const fondo = cajon.querySelector<HTMLElement>(".cajon-fondo") ?? (destino ? document.querySelector<HTMLElement>(`[data-cajon-fondo="${destino}"]`) : null);
+        cerrar(cajon, fondo);
+      });
     });
-  });
+  }
 }

@@ -4,6 +4,7 @@
  * esta abierto y lo devuelve al cerrar (ver foco.ts).
  */
 import { atraparFoco } from "./foco.js";
+import { primeraVez } from "./una-vez.js";
 
 const liberadores = new WeakMap<HTMLElement, () => void>();
 
@@ -30,10 +31,13 @@ function cerrarSiCorresponde(modal: HTMLElement, objetivo: EventTarget | null): 
 /** Conecta clic en el backdrop, `[data-cerrar-modal]` y Escape para cada `.modal`. */
 export function iniciarModales(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>(".modal").forEach((modal) => {
+    if (!primeraVez(modal, "modal")) return;
     modal.addEventListener("click", (e) => cerrarSiCorresponde(modal, e.target));
   });
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    raiz.querySelectorAll<HTMLElement>(".modal.visible").forEach((modal) => cerrarModal(modal));
-  });
+  if (primeraVez(document.documentElement, "modal-escape-global")) {
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      document.querySelectorAll<HTMLElement>(".modal.visible").forEach((modal) => cerrarModal(modal));
+    });
+  }
 }

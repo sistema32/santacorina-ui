@@ -87,6 +87,12 @@ Las marcadas "✓" las conecta `iniciarTodo()` solo con cargar el script
 resto se llama a mano desde el código de cada pantalla, porque dependen de
 cuándo esa pantalla decide mostrar un modal, un toast, etc.
 
+`iniciarTodo()` (y cada `iniciar*` individual) es seguro de llamar más de
+una vez sobre el mismo DOM — útil si una pantalla la llama a mano además
+del auto-run, o en un framework con remontaje/HMR. Cada módulo marca los
+elementos que ya inicializó (`src/js/una-vez.ts`), así que no se
+duplican listeners ni se repiten eventos por un mismo clic.
+
 `formato` viene de duplicación real: `peso()`/`conSigno()`/`pct()` estaban
 copiados idénticos en `FinanzasPresupuestoView.vue` y
 `FinanzasMatrizView.vue`. El resto son agregados preventivos (sin uso
@@ -317,6 +323,27 @@ para no repetir la investigación:
    `width:260px` pese a la media query. Se corrigió moviendo el bloque
    `600px` a después de las tres reglas base (`.menu-panel`,
    `.calendario-panel`, `.popover-panel`) que modifica.
+6. **`tailwindcss/types/config` no existe en Tailwind v4 — es un path
+   de v3.** `CSSRuleObject` se importaba de ahí para tipar
+   `buildComponents()`; con el `tailwindcss` real instalado, `tsc`
+   tira `TS2307`. Peor: el `.d.ts` que generaba tsup para ESTE paquete
+   igual compilaba (el bundler de tipos resolvía el import por algún
+   lado), pero el resultado importaba un chunk
+   (`resolve-config-*.mjs`) que nunca se emitía al `dist/` real —
+   cualquier consumidor que instalara el paquete y corriera `tsc`
+   recibía el mismo `TS2307` por un archivo que no existía. Se
+   reemplazó por un tipo local mínimo (`CssEnJs`, la forma real que
+   espera `addBase` en v4). Verificado con el método que debería
+   usarse siempre para esto: `npm pack` + instalar el tarball en un
+   proyecto aparte + `tsc --noEmit` sobre un `import` real, no solo
+   `tsc` dentro del propio repo.
+7. **Un `WeakMap` como guardia de "ya inicializado" no sirve si la
+   clave puede ser `undefined`.** `document.documentElement` es
+   siempre un `Element` real en un navegador real, pero cualquier stub
+   de `document` en Node (para probar el bundle fuera del navegador)
+   que no lo defina revienta con "Invalid value used as weak map key"
+   — si alguna vez se prueba el paquete fuera de un navegador de
+   verdad, hay que stubear `documentElement` también.
 
 ## Desarrollo
 

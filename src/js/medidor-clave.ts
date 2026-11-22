@@ -17,8 +17,11 @@ function puntaje(clave: string): number {
 const ETIQUETAS = ["", "Débil", "Regular", "Buena", "Fuerte"];
 const NIVELES = ["", "debil", "regular", "buena", "fuerte"];
 
+import { primeraVez } from "./una-vez.js";
+
 export function iniciarMedidorClave(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLInputElement>("input[data-medidor-clave]").forEach((input) => {
+    if (!primeraVez(input, "medidor-clave")) return;
     const medidor = document.createElement("div");
     medidor.className = "medidor-clave";
     medidor.innerHTML = '<div class="segmentos"><span></span><span></span><span></span><span></span></div><span class="etiqueta"></span>';

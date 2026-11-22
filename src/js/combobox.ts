@@ -8,9 +8,11 @@
  * `role="option"` + `aria-selected`.
  */
 import { idDe } from "./foco.js";
+import { primeraVez } from "./una-vez.js";
 
 export function iniciarCombobox(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>(".combobox").forEach((caja) => {
+    if (!primeraVez(caja, "combobox")) return;
     const input = caja.querySelector<HTMLInputElement>("input[type=text]");
     const select = caja.querySelector<HTMLSelectElement>("select");
     const lista = caja.querySelector<HTMLUListElement>(".combobox-opciones");
@@ -80,6 +82,31 @@ export function iniciarCombobox(raiz: ParentNode = document): void {
         input.removeAttribute("aria-activedescendant");
       }
     };
+
+    /**
+     * Si el usuario escribe texto libre y nunca elige una opcion (clic o
+     * Enter), `select.value` se queda en la ultima opcion realmente
+     * elegida mientras el input muestra otro texto -- el value que viaja
+     * en un submit normal no es el que se ve en pantalla. Al perder el
+     * foco sin haber elegido, se resuelve una de dos formas: si lo
+     * escrito coincide exactamente (sin tildes) con una opcion, se elige
+     * esa; si no, el input vuelve al texto de la opcion que sigue
+     * seleccionada en el `<select>` real (o se vacia si no habia
+     * ninguna) -- nunca queda un texto en pantalla que no corresponda al
+     * value que se envia.
+     */
+    input.addEventListener("blur", () => {
+      const texto = normalizar(input.value.trim());
+      const coincide = opciones.find((o) => normalizar(o.textContent ?? "") === texto);
+      if (coincide) {
+        select.value = coincide.value;
+        input.value = coincide.textContent ?? "";
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        return;
+      }
+      const actual = opciones.find((o) => o.value === select.value);
+      input.value = actual?.textContent ?? "";
+    });
 
     input.addEventListener("input", () => abrir());
     input.addEventListener("focus", () => abrir());

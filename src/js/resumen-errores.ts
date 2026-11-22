@@ -8,8 +8,11 @@
  * cuando renderizarla (tras un intento de envio fallido), este modulo
  * solo maneja el foco y la navegacion a cada campo.
  */
+import { primeraVez } from "./una-vez.js";
+
 export function iniciarResumenErrores(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>(".resumen-errores").forEach((caja) => {
+    if (!primeraVez(caja, "resumen-errores")) return;
     const links = caja.querySelectorAll<HTMLAnchorElement>("a[href^='#']");
     if (links.length === 0) return;
 

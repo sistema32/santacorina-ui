@@ -1,5 +1,61 @@
 # Changelog
 
+## 0.19.0 — sin publicar — fixes de una revisión externa
+
+Alguien revisó `main` en el commit `2162f31` (v0.18.0) y reportó 6
+hallazgos con evidencia reproducible. Verifiqué cada uno contra el
+código real antes de tocar nada — los 6 eran reales:
+
+1. **Tipos rotos (alta).** `import type { CSSRuleObject } from
+   "tailwindcss/types/config"` — ese path es de Tailwind v3 y no
+   existe en v4 (confirmado: `tsc` tira `TS2307` contra el
+   `tailwindcss` instalado de verdad). Además el propio `dist/index.d.ts`
+   importaba un chunk (`resolve-config-*.mjs`) que el bundler de tipos
+   de tsup nunca emitía, rompiendo `tsc` en cualquier proyecto que
+   instalara el paquete. Arreglado con un tipo local mínimo
+   (`CssEnJs`) en vez de depender de tipos internos/no públicos de
+   Tailwind; `src/plugin.ts` necesitó además una anotación explícita
+   del tipo exportado para evitar un `TS2742` relacionado. Verificado
+   de punta a punta: `npm pack` real + instalar el tarball en un
+   proyecto limpio + `tsc --noEmit` sobre un `import` real — pasa sin
+   errores.
+2. **Combobox podía enviar un valor distinto al mostrado (alta).**
+   Si se escribía texto libre sin elegir una opción, `select.value`
+   quedaba en la última opción elegida mientras el input mostraba otro
+   texto. Se agregó un handler de `blur`: si el texto coincide
+   exactamente con una opción, la elige; si no, el input vuelve al
+   texto de la opción que sigue seleccionada — nunca queda un texto en
+   pantalla que no corresponda al value real.
+3. **Dos grupos de `.tabs` interferían entre sí (media).** La
+   búsqueda de paneles al hacer clic abarcaba todo el documento, así
+   que cambiar de pestaña en un grupo podía quitarle `.activo` al
+   panel de otro grupo completamente distinto. Se acotó la búsqueda a
+   los `data-tab` que declara ese mismo grupo.
+4. **El calendario podía saltarse un mes (media).** `mesVisible` se
+   guardaba con el día real (ej. 31); `setMonth()` sobre un día 31
+   desde marzo cae en mayo (abril no tiene 31 días). Se normaliza a
+   guardar siempre el día 1 del mes visible.
+5. **`iniciarTodo()` registraba listeners duplicados si se llamaba
+   más de una vez (media).** Nuevo módulo compartido
+   `src/js/una-vez.ts` (`primeraVez(el, nombre)`) aplicado a los 18
+   `iniciar*`: cada uno ahora es idempotente, un clic dispara su
+   handler una sola vez sin importar cuántas veces se haya llamado
+   `iniciarTodo()`/la función individual sobre el mismo DOM.
+6. **`npm run dev:guia` servía sin el CSS/JS del paquete (media).**
+   `npx serve guia` fijaba la raíz del servidor en `guia/`, y las
+   páginas referencian `../dist/...` — fuera de los límites de esa
+   raíz, 404 real. Se cambió a servir desde la raíz del repo
+   (`npx serve .`), igual que ya funcionaba abriendo los archivos
+   directo con `file://`.
+
+Verificado todo con Playwright real (no solo revisión de código):
+blur revierte/adopta el value del combobox correctamente, un grupo de
+tabs no le quita `.activo` al panel de otro grupo, elegir el día 31 y
+avanzar de mes dos veces da meses secuenciales sin salto, y llamar
+`iniciarTodo()` dos veces seguido de un clic en un encabezado
+ordenable dispara exactamente un evento `santacorina:ordenar` (antes
+disparaba dos, uno ascendente y uno descendente, en la misma pasada).
+
 ## 0.18.0 — sin publicar
 
 Feedback sobre la guía: faltaban referencias (ej. `.avatar` existe

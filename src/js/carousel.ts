@@ -10,6 +10,8 @@
  * piel y la interaccion visual son del paquete, la decision de
  * negocio de cada pantalla).
  */
+import { primeraVez } from "./una-vez.js";
+
 interface ControlCarousel {
   ir: (indice: number) => void;
   siguiente: () => void;
@@ -20,6 +22,7 @@ const controles = new WeakMap<HTMLElement, ControlCarousel>();
 
 export function iniciarCarruseles(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>(".carousel").forEach((carousel) => {
+    if (!primeraVez(carousel, "carousel")) return;
     const pista = carousel.querySelector<HTMLElement>(".carousel-pista");
     const slides = Array.from(carousel.querySelectorAll<HTMLElement>(".carousel-slide"));
     if (!pista || slides.length === 0) return;

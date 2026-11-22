@@ -6,9 +6,11 @@
  * recibe `aria-expanded`/`aria-controls` apuntando al panel.
  */
 import { idDe } from "./foco.js";
+import { primeraVez } from "./una-vez.js";
 
 export function iniciarColapsables(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>("[data-colapsar]").forEach((boton) => {
+    if (!primeraVez(boton, "colapsar")) return;
     const destino = boton.dataset.colapsar;
     if (!destino) return;
     const paneles = Array.from(document.querySelectorAll<HTMLElement>(`[data-colapsable="${destino}"]`));

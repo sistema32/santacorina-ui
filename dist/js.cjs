@@ -140,6 +140,19 @@ function idDe(el, prefijo) {
   return el.id;
 }
 
+// src/js/una-vez.ts
+var marcas = /* @__PURE__ */ new WeakMap();
+function primeraVez(el, nombre) {
+  let claves = marcas.get(el);
+  if (!claves) {
+    claves = /* @__PURE__ */ new Set();
+    marcas.set(el, claves);
+  }
+  if (claves.has(nombre)) return false;
+  claves.add(nombre);
+  return true;
+}
+
 // src/js/modal.ts
 var liberadores = /* @__PURE__ */ new WeakMap();
 function abrirModal(el) {
@@ -161,12 +174,15 @@ function cerrarSiCorresponde(modal, objetivo) {
 }
 function iniciarModales(raiz = document) {
   raiz.querySelectorAll(".modal").forEach((modal) => {
+    if (!primeraVez(modal, "modal")) return;
     modal.addEventListener("click", (e) => cerrarSiCorresponde(modal, e.target));
   });
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    raiz.querySelectorAll(".modal.visible").forEach((modal) => cerrarModal(modal));
-  });
+  if (primeraVez(document.documentElement, "modal-escape-global")) {
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      document.querySelectorAll(".modal.visible").forEach((modal) => cerrarModal(modal));
+    });
+  }
 }
 
 // src/js/toast.ts
@@ -202,6 +218,7 @@ function iniciarLateral(raiz = document) {
   const lateral = raiz.querySelector(".lateral");
   const fondo = raiz.querySelector(".lateral-fondo");
   if (!toggle || !lateral) return;
+  if (!primeraVez(toggle, "lateral")) return;
   const cerrar2 = () => {
     lateral.classList.remove("abierta");
     fondo?.classList.remove("visible");
@@ -217,8 +234,12 @@ function iniciarLateral(raiz = document) {
 // src/js/tabs.ts
 function iniciarTabs(raiz = document) {
   raiz.querySelectorAll(".tabs").forEach((tabs) => {
+    if (!primeraVez(tabs, "tabs")) return;
     if (!tabs.getAttribute("role")) tabs.setAttribute("role", "tablist");
     const botones = tabs.querySelectorAll("a, button");
+    const destinosDeEsteGrupo = new Set(
+      Array.from(botones).map((b) => b.dataset.tab).filter((d) => Boolean(d))
+    );
     botones.forEach((boton) => {
       if (!boton.getAttribute("role")) boton.setAttribute("role", "tab");
       boton.setAttribute("aria-selected", boton.classList.contains("activo") ? "true" : "false");
@@ -235,7 +256,9 @@ function iniciarTabs(raiz = document) {
       const destino = el.dataset.tab;
       if (!destino) return;
       document.querySelectorAll("[data-tab-panel]").forEach((panel) => {
-        const activo = panel.dataset.tabPanel === destino;
+        const panelId = panel.dataset.tabPanel;
+        if (!panelId || !destinosDeEsteGrupo.has(panelId)) return;
+        const activo = panelId === destino;
         panel.classList.toggle("activo", activo);
         if (!panel.getAttribute("role")) panel.setAttribute("role", "tabpanel");
         panel.setAttribute("aria-hidden", activo ? "false" : "true");
@@ -247,6 +270,7 @@ function iniciarTabs(raiz = document) {
 // src/js/rango-fechas.ts
 function iniciarRangoFechas(raiz = document) {
   raiz.querySelectorAll("[data-rango-fechas]").forEach((contenedor2) => {
+    if (!primeraVez(contenedor2, "rango-fechas")) return;
     const [desde, hasta] = contenedor2.querySelectorAll("input[type=date]");
     if (!desde || !hasta) return;
     const sincronizar = () => {
@@ -279,6 +303,9 @@ var MESES = [
 ];
 function mismaFecha(a, b) {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+function primerDiaDe(fecha) {
+  return new Date(fecha.getFullYear(), fecha.getMonth(), 1);
 }
 function construirGrilla(panel, mesVisible, seleccionada, onElegir, onCambiarMes) {
   panel.innerHTML = "";
@@ -324,24 +351,21 @@ function construirGrilla(panel, mesVisible, seleccionada, onElegir, onCambiarMes
   panel.appendChild(grilla);
   btnAnt.addEventListener("click", (e) => {
     e.stopPropagation();
-    const m = new Date(mesVisible);
-    m.setMonth(m.getMonth() - 1);
-    onCambiarMes(m);
+    onCambiarMes(new Date(mesVisible.getFullYear(), mesVisible.getMonth() - 1, 1));
   });
   btnSig.addEventListener("click", (e) => {
     e.stopPropagation();
-    const m = new Date(mesVisible);
-    m.setMonth(m.getMonth() + 1);
-    onCambiarMes(m);
+    onCambiarMes(new Date(mesVisible.getFullYear(), mesVisible.getMonth() + 1, 1));
   });
 }
 function iniciarCalendario(raiz = document) {
   raiz.querySelectorAll("[data-calendario]").forEach((contenedor2) => {
+    if (!primeraVez(contenedor2, "calendario")) return;
     const input = contenedor2.querySelector("input");
     const panel = contenedor2.querySelector(".calendario-panel");
     if (!input || !panel) return;
     let seleccionada = null;
-    let mesVisible = /* @__PURE__ */ new Date();
+    let mesVisible = primerDiaDe(/* @__PURE__ */ new Date());
     const redibujar = () => {
       construirGrilla(
         panel,
@@ -349,7 +373,7 @@ function iniciarCalendario(raiz = document) {
         seleccionada,
         (dia) => {
           seleccionada = dia;
-          mesVisible = dia;
+          mesVisible = primerDiaDe(dia);
           input.value = fechaCorta(dia);
           input.dispatchEvent(new Event("input", { bubbles: true }));
           input.dispatchEvent(new Event("change", { bubbles: true }));
@@ -382,6 +406,7 @@ function iniciarCalendario(raiz = document) {
 // src/js/buscador.ts
 function iniciarBuscadores(raiz = document) {
   raiz.querySelectorAll(".buscador").forEach((caja) => {
+    if (!primeraVez(caja, "buscador")) return;
     const input = caja.querySelector("input");
     const limpiar = caja.querySelector(".limpiar");
     if (!input || !limpiar) return;
@@ -400,6 +425,7 @@ function iniciarBuscadores(raiz = document) {
 // src/js/contador.ts
 function iniciarContadores(raiz = document) {
   raiz.querySelectorAll("textarea[data-contador]").forEach((textarea) => {
+    if (!primeraVez(textarea, "contador")) return;
     const max = textarea.maxLength;
     if (!max || max < 0) return;
     const contador = textarea.parentElement?.querySelector(".contador-caracteres");
@@ -418,6 +444,7 @@ function iniciarContadores(raiz = document) {
 // src/js/popover.ts
 function iniciarPopovers(raiz = document) {
   raiz.querySelectorAll("[data-popover]").forEach((contenedor2) => {
+    if (!primeraVez(contenedor2, "popover")) return;
     const trigger = contenedor2.querySelector("[data-popover-trigger]") ?? contenedor2.firstElementChild;
     const fuente = contenedor2.querySelector("[data-popover-contenido]");
     if (!trigger || !fuente) return;
@@ -453,6 +480,7 @@ function iniciarPopovers(raiz = document) {
 // src/js/colapsar.ts
 function iniciarColapsables(raiz = document) {
   raiz.querySelectorAll("[data-colapsar]").forEach((boton) => {
+    if (!primeraVez(boton, "colapsar")) return;
     const destino = boton.dataset.colapsar;
     if (!destino) return;
     const paneles = Array.from(document.querySelectorAll(`[data-colapsable="${destino}"]`));
@@ -488,6 +516,7 @@ function cerrar(cajon, fondo) {
 }
 function iniciarCajones(raiz = document) {
   raiz.querySelectorAll("[data-cajon-toggle]").forEach((boton) => {
+    if (!primeraVez(boton, "cajon-toggle")) return;
     boton.addEventListener("click", () => {
       const destino = boton.dataset.cajonToggle;
       if (!destino) return;
@@ -499,6 +528,7 @@ function iniciarCajones(raiz = document) {
     });
   });
   raiz.querySelectorAll("[data-cajon-fondo]").forEach((fondo) => {
+    if (!primeraVez(fondo, "cajon-fondo")) return;
     fondo.addEventListener("click", () => {
       const destino = fondo.dataset.cajonFondo;
       if (!destino) return;
@@ -506,19 +536,22 @@ function iniciarCajones(raiz = document) {
       if (cajon) cerrar(cajon, fondo);
     });
   });
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    raiz.querySelectorAll(".cajon.abierto").forEach((cajon) => {
-      const destino = cajon.dataset.cajon;
-      const fondo = cajon.querySelector(".cajon-fondo") ?? (destino ? document.querySelector(`[data-cajon-fondo="${destino}"]`) : null);
-      cerrar(cajon, fondo);
+  if (primeraVez(document.documentElement, "cajon-escape-global")) {
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      document.querySelectorAll(".cajon.abierto").forEach((cajon) => {
+        const destino = cajon.dataset.cajon;
+        const fondo = cajon.querySelector(".cajon-fondo") ?? (destino ? document.querySelector(`[data-cajon-fondo="${destino}"]`) : null);
+        cerrar(cajon, fondo);
+      });
     });
-  });
+  }
 }
 
 // src/js/combobox.ts
 function iniciarCombobox(raiz = document) {
   raiz.querySelectorAll(".combobox").forEach((caja) => {
+    if (!primeraVez(caja, "combobox")) return;
     const input = caja.querySelector("input[type=text]");
     const select = caja.querySelector("select");
     const lista = caja.querySelector(".combobox-opciones");
@@ -581,6 +614,18 @@ function iniciarCombobox(raiz = document) {
         input.removeAttribute("aria-activedescendant");
       }
     };
+    input.addEventListener("blur", () => {
+      const texto = normalizar(input.value.trim());
+      const coincide = opciones.find((o) => normalizar(o.textContent ?? "") === texto);
+      if (coincide) {
+        select.value = coincide.value;
+        input.value = coincide.textContent ?? "";
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        return;
+      }
+      const actual = opciones.find((o) => o.value === select.value);
+      input.value = actual?.textContent ?? "";
+    });
     input.addEventListener("input", () => abrir2());
     input.addEventListener("focus", () => abrir2());
     input.addEventListener("keydown", (e) => {
@@ -629,6 +674,7 @@ var ETIQUETAS = ["", "D\xE9bil", "Regular", "Buena", "Fuerte"];
 var NIVELES = ["", "debil", "regular", "buena", "fuerte"];
 function iniciarMedidorClave(raiz = document) {
   raiz.querySelectorAll("input[data-medidor-clave]").forEach((input) => {
+    if (!primeraVez(input, "medidor-clave")) return;
     const medidor = document.createElement("div");
     medidor.className = "medidor-clave";
     medidor.innerHTML = '<div class="segmentos"><span></span><span></span><span></span><span></span></div><span class="etiqueta"></span>';
@@ -660,6 +706,7 @@ function irAPaso(asistente, n) {
 }
 function iniciarAsistentes(raiz = document) {
   raiz.querySelectorAll("[data-asistente]").forEach((asistente) => {
+    if (!primeraVez(asistente, "asistente")) return;
     asistente.addEventListener("click", (e) => {
       const chip = e.target.closest("[data-chip]");
       if (!chip || !asistente.contains(chip)) return;
@@ -672,6 +719,7 @@ function iniciarAsistentes(raiz = document) {
 // src/js/arrastre.ts
 function iniciarZonasArrastre(raiz = document) {
   raiz.querySelectorAll(".zona-arrastre").forEach((zona) => {
+    if (!primeraVez(zona, "arrastre")) return;
     zona.addEventListener("dragover", (e) => {
       e.preventDefault();
       zona.classList.add("activa");
@@ -687,6 +735,7 @@ function iniciarZonasArrastre(raiz = document) {
 // src/js/toggletip.ts
 function iniciarToggletips(raiz = document) {
   raiz.querySelectorAll("[data-toggletip]").forEach((contenedor2) => {
+    if (!primeraVez(contenedor2, "toggletip")) return;
     const trigger = contenedor2.querySelector("[data-toggletip-trigger]") ?? contenedor2.firstElementChild;
     const fuente = contenedor2.querySelector("[data-toggletip-contenido]");
     if (!trigger || !fuente) return;
@@ -721,6 +770,7 @@ function iniciarToggletips(raiz = document) {
 // src/js/resumen-errores.ts
 function iniciarResumenErrores(raiz = document) {
   raiz.querySelectorAll(".resumen-errores").forEach((caja) => {
+    if (!primeraVez(caja, "resumen-errores")) return;
     const links = caja.querySelectorAll("a[href^='#']");
     if (links.length === 0) return;
     if (!caja.hasAttribute("tabindex")) caja.setAttribute("tabindex", "-1");
@@ -740,6 +790,7 @@ function iniciarResumenErrores(raiz = document) {
 // src/js/tabla-ordenable.ts
 function iniciarTablasOrdenables(raiz = document) {
   raiz.querySelectorAll("th[data-ordenable]").forEach((th) => {
+    if (!primeraVez(th, "tabla-ordenable")) return;
     th.setAttribute("role", "columnheader");
     th.setAttribute("tabindex", "0");
     if (!th.hasAttribute("aria-sort")) th.setAttribute("aria-sort", "none");
@@ -772,6 +823,7 @@ function iniciarTablasOrdenables(raiz = document) {
 var controles = /* @__PURE__ */ new WeakMap();
 function iniciarCarruseles(raiz = document) {
   raiz.querySelectorAll(".carousel").forEach((carousel) => {
+    if (!primeraVez(carousel, "carousel")) return;
     const pista = carousel.querySelector(".carousel-pista");
     const slides = Array.from(carousel.querySelectorAll(".carousel-slide"));
     if (!pista || slides.length === 0) return;

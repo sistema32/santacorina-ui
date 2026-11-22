@@ -3,8 +3,11 @@
  * tiene texto, y lo conecta para vaciarlo (dispara `input` para que
  * cualquier `debounce`/v-model enganchado lo reciba).
  */
+import { primeraVez } from "./una-vez.js";
+
 export function iniciarBuscadores(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>(".buscador").forEach((caja) => {
+    if (!primeraVez(caja, "buscador")) return;
     const input = caja.querySelector<HTMLInputElement>("input");
     const limpiar = caja.querySelector<HTMLButtonElement>(".limpiar");
     if (!input || !limpiar) return;

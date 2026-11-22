@@ -14,9 +14,25 @@
  * estos son nuevos, generalizando lo que ya habia disperso, para que la
  * proxima pantalla que necesite uno no vuelva a reinventarlo.
  */
-import type { CSSRuleObject } from "tailwindcss/types/config";
+/**
+ * Forma real que espera `addBase` en Tailwind v4 (`CssInJs`, interna en
+ * `tailwindcss/dist/types-*.d.mts`, sin exportar como API publica). Antes
+ * este tipo se importaba de `tailwindcss/types/config` -- un path de
+ * Tailwind v3 que ya no existe en v4 (confirmado: `tsc` tira
+ * `TS2307: Cannot find module` con el tailwindcss instalado de verdad).
+ * El propio build igual generaba un `dist/index.d.ts` roto: el bundler de
+ * tipos de tsup partia los tipos profundos de ese import (PluginAPI,
+ * UserConfig, etc. -- nada de lo cual usa este paquete) en un chunk
+ * (`resolve-config-*.mjs`) que nunca se emitia al dist real, asi que
+ * cualquier consumidor que hiciera `tsc` sobre el paquete instalado
+ * recibia el mismo `TS2307` por la importacion ausente. Un tipo local
+ * minimo evita las dos roturas a la vez.
+ */
+type CssEnJs = {
+  [clave: string]: string | string[] | CssEnJs | CssEnJs[];
+};
 
-export function buildComponents(): CSSRuleObject {
+export function buildComponents(): CssEnJs {
   return {
     /* ---------------------------------------------------------------
      * Armazon de pagina -- trasladado de portal.css, que lo dejaba fuera

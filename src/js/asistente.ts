@@ -20,8 +20,11 @@ export function irAPaso(asistente: HTMLElement, n: number): void {
  * Conecta el clic en un chip ya completado o activo para volver a ese
  * paso -- no deja saltar a uno todavia no alcanzado.
  */
+import { primeraVez } from "./una-vez.js";
+
 export function iniciarAsistentes(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>("[data-asistente]").forEach((asistente) => {
+    if (!primeraVez(asistente, "asistente")) return;
     asistente.addEventListener("click", (e) => {
       const chip = (e.target as Element).closest<HTMLElement>("[data-chip]");
       if (!chip || !asistente.contains(chip)) return;

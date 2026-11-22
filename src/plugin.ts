@@ -49,7 +49,22 @@ function resolveFonts(options: SantacorinaUIOptions): SantacorinaTheme["fonts"] 
   return { ...defaultTheme.fonts, ...options.fonts };
 }
 
-export default plugin.withOptions<SantacorinaUIOptions>(
+/**
+ * Forma minima que necesita quien invoca el plugin desde JS/TS
+ * directamente (ver `colors`/`fonts` arriba). Sin esta anotacion
+ * explicita, el tipo real de `plugin.withOptions(...)` obliga a TS a
+ * nombrar un tipo interno y no exportado de `tailwindcss` para generar
+ * el `.d.ts` -- confirmado: produce `TS2742 (cannot be named)` al
+ * compilar el paquete, y antes de 0.19.0 el `CSSRuleObject` importado
+ * de `tailwindcss/types/config` (un path de Tailwind v3 que ya no
+ * existe en v4) causaba el mismo problema de otra forma: un
+ * `dist/index.d.ts` que importaba un chunk nunca emitido
+ * (`resolve-config-*.mjs`), rompiendo `tsc` para cualquier consumidor
+ * del paquete instalado con `TS2307`.
+ */
+type SantacorinaPlugin = (options?: SantacorinaUIOptions) => unknown;
+
+const santacorinaUI: SantacorinaPlugin = plugin.withOptions<SantacorinaUIOptions>(
   (options = {}) => {
     return ({ addBase }) => {
       const colors = resolveColors(options);
@@ -108,3 +123,5 @@ export default plugin.withOptions<SantacorinaUIOptions>(
     return { theme: { extend: { colors: resolveColors(options) } } };
   }
 );
+
+export default santacorinaUI;

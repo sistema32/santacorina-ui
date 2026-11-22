@@ -6,9 +6,11 @@
  * es modal, solo recibe el foco inicial al abrir.
  */
 import { idDe } from "./foco.js";
+import { primeraVez } from "./una-vez.js";
 
 export function iniciarToggletips(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>("[data-toggletip]").forEach((contenedor) => {
+    if (!primeraVez(contenedor, "toggletip")) return;
     const trigger = contenedor.querySelector<HTMLElement>("[data-toggletip-trigger]") ?? (contenedor.firstElementChild as HTMLElement);
     const fuente = contenedor.querySelector<HTMLElement>("[data-toggletip-contenido]");
     if (!trigger || !fuente) return;

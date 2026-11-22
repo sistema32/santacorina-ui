@@ -6,9 +6,11 @@
  * `role="dialog"`; al cerrar con Escape el foco vuelve al trigger.
  */
 import { idDe } from "./foco.js";
+import { primeraVez } from "./una-vez.js";
 
 export function iniciarPopovers(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>("[data-popover]").forEach((contenedor) => {
+    if (!primeraVez(contenedor, "popover")) return;
     const trigger = contenedor.querySelector<HTMLElement>("[data-popover-trigger]") ?? contenedor.firstElementChild as HTMLElement;
     const fuente = contenedor.querySelector<HTMLElement>("[data-popover-contenido]");
     if (!trigger || !fuente) return;

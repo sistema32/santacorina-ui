@@ -5,8 +5,11 @@
  * `.buscador`/`.combobox`: el paquete resuelve la interaccion visual,
  * no la logica de negocio.
  */
+import { primeraVez } from "./una-vez.js";
+
 export function iniciarZonasArrastre(raiz: ParentNode = document): void {
   raiz.querySelectorAll<HTMLElement>(".zona-arrastre").forEach((zona) => {
+    if (!primeraVez(zona, "arrastre")) return;
     zona.addEventListener("dragover", (e) => {
       e.preventDefault();
       zona.classList.add("activa");
