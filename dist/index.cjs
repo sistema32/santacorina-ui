@@ -338,7 +338,7 @@ function buildComponents() {
      * Grupo de botones -- botones de accion visualmente unidos (ej.
      * "Aprobar / Rechazar / Revisar" en una fila de bandeja).
      * ------------------------------------------------------------- */
-    ".grupo-botones": { display: "inline-flex" },
+    ".grupo-botones": { display: "inline-flex", maxWidth: "100%", overflowX: "auto" },
     ".grupo-botones .boton": { borderRadius: "0", marginLeft: "-1px" },
     ".grupo-botones .boton:first-child": { borderRadius: "8px 0 0 8px", marginLeft: "0" },
     ".grupo-botones .boton:last-child": { borderRadius: "0 8px 8px 0" },
@@ -738,7 +738,9 @@ function buildComponents() {
     "@media (max-width: 560px)": {
       ".masonry": { columnCount: "1" },
       ".documento-fila": { gridTemplateColumns: "1fr auto" },
-      ".documento-nombre": { gridColumn: "1 / -1" }
+      ".documento-nombre": { gridColumn: "1 / -1" },
+      ".hero": { padding: "24px 20px" },
+      ".hero h1": { fontSize: "21px" }
     },
     /* ---------------------------------------------------------------
      * Hero -- banner de introduccion para un dashboard o pantalla de
@@ -1396,30 +1398,6 @@ function buildComponents() {
     ".menu-panel a:hover, .menu-panel button:hover": { backgroundColor: "var(--color-gris-fondo)" },
     ".menu-panel button.peligro, .menu-panel a.peligro": { color: "var(--color-rojo)" },
     ".menu-panel hr": { border: "0", borderTop: "1px solid var(--color-borde)", margin: "6px 0" },
-    /* Bajo 600px (telefono, no tablet -- el 900px del resto del paquete
-       es muy ancho para esto): el breadcrumb trunca cada tramo en vez de
-       desbordar o partirse a media palabra, y el menu desplegable pasa
-       de panel flotante anclado al trigger a una hoja fija abajo (si
-       quedara anclado a la derecha del trigger, en una pantalla angosta
-       se sale del viewport -- se vio justo eso al verificar). */
-    "@media (max-width: 600px)": {
-      ".breadcrumb a, .breadcrumb .actual": {
-        display: "inline-block",
-        maxWidth: "40vw",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
-        verticalAlign: "bottom"
-      },
-      ".menu-panel": {
-        position: "fixed",
-        top: "auto",
-        left: "16px",
-        right: "16px",
-        bottom: "16px",
-        width: "auto"
-      }
-    },
     /* ---------------------------------------------------------------
      * Calendario -- selector de fecha en grilla visual, mismo patron de
      * capa flotante que `.menu`. El JS vive en `@sistema32/santacorina-ui/js`
@@ -1506,6 +1484,43 @@ function buildComponents() {
     },
     ".popover-panel.visible": { display: "block" },
     ".popover-panel .titulo": { display: "block", fontWeight: "700", color: "var(--color-navy)", marginBottom: "4px" },
+    /* Bajo 600px (telefono, no tablet -- el 900px del resto del paquete
+       es muy ancho para esto): el breadcrumb trunca cada tramo en vez de
+       desbordar o partirse a media palabra, y los tres paneles flotantes
+       anclados con ancho fijo (`.menu-panel`, `.calendario-panel` con
+       `left:0`, `.popover-panel` con `left:50%; transform:translateX(-50%)`)
+       pasan de panel anclado al trigger a una hoja fija abajo -- anclados,
+       en una pantalla angosta se salen del viewport (se vio justo eso al
+       verificar). Esta clave va DESPUES de las reglas base de los tres
+       paneles (mismo layer/especificidad -- si fuera antes, la regla base
+       sin media gana por venir despues en el CSS generado). */
+    "@media (max-width: 600px)": {
+      ".breadcrumb a, .breadcrumb .actual": {
+        display: "inline-block",
+        maxWidth: "40vw",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        verticalAlign: "bottom"
+      },
+      ".menu-panel, .calendario-panel": {
+        position: "fixed",
+        top: "auto",
+        left: "16px",
+        right: "16px",
+        bottom: "16px",
+        width: "auto"
+      },
+      ".popover-panel": {
+        position: "fixed",
+        top: "auto",
+        left: "16px",
+        right: "16px",
+        bottom: "16px",
+        width: "auto",
+        transform: "none"
+      }
+    },
     /* ---------------------------------------------------------------
      * Colapsar (generico) -- a diferencia de `.acordeon` (auto-contenido
      * en `<details>`), el boton y el panel pueden vivir en cualquier

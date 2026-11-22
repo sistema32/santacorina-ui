@@ -273,6 +273,22 @@ para no repetir la investigación:
    anti-detección). Arreglado: el handler de Escape de cada componente
    primero comprueba que *su propio* panel/modal/cajón esté abierto antes
    de actuar.
+5. **Dentro de un mismo `addBase` (un solo layer, igual especificidad),
+   la regla que aparece más abajo en el CSS generado gana, exista o no
+   una media query de por medio.** Una regla sin media (`.popover-panel
+   { width: 260px }`) que aparece después de un `@media (max-width:
+   600px) { .popover-panel { width: auto } }` en el objeto le gana a esa
+   media query incluso bajo 600px, porque la cascada no mira "¿aplica la
+   condición?" para decidir el empate, mira el orden de aparición. Se
+   vio al arreglar que `.calendario-panel`/`.popover-panel` se salieran
+   del viewport en móvil: la primera versión del fix fusionaba la regla
+   dentro del bloque `600px` que ya existía (para no repetir el bug de
+   claves `"@media"` duplicadas), pero ese bloque estaba *antes* de las
+   reglas base de esos dos paneles en el archivo — medido con
+   Playwright (`bounding_box()` a 360px de ancho), el panel seguía con
+   `width:260px` pese a la media query. Se corrigió moviendo el bloque
+   `600px` a después de las tres reglas base (`.menu-panel`,
+   `.calendario-panel`, `.popover-panel`) que modifica.
 
 ## Desarrollo
 

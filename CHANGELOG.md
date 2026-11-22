@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.15.0 — sin publicar
+
+Auditoría de responsividad: no se agregó ningún componente, se revisó
+el inventario de breakpoints ya existente (`900px`/`1150px`/`560px`/
+`600px`) buscando el mismo tipo de bug que ya se había encontrado y
+arreglado una vez para `.menu-panel` (panel flotante anclado con ancho
+fijo que se sale del viewport en móvil), para ver si quedó aplicado en
+sus hermanos.
+
+- `.calendario-panel` y `.popover-panel` se salían del viewport bajo
+  600px — exactamente el mismo bug que `.menu-panel` ya tenía
+  documentado y arreglado, nunca replicado en estos dos (agregados
+  después). Ahora los tres comparten la misma hoja fija
+  (`position:fixed; inset:auto 16px 16px; width:auto`) bajo 600px.
+  Importante para el propio código del paquete: la regla de media
+  query tuvo que moverse a **después** de las reglas base de los tres
+  paneles en `src/components.ts` — como todas viven en el mismo layer
+  (`addBase`) con igual especificidad, una regla sin media que aparece
+  más abajo en el CSS generado le gana a una regla con media que
+  aparece más arriba, aunque la media sí aplique.
+- `.grupo-botones` no tenía manejo de desborde — con 4+ botones en un
+  contenedor angosto se salía sin ninguna señal visual. Ahora usa
+  `overflowX:auto` (mismo criterio que `.tabla-scroll`), para no romper
+  el borde unido de "pastilla" que tendría con `flexWrap:wrap`.
+- `.hero` usaba relleno pensado para escritorio (`38px 36px`, h1 a
+  26px) — bajo 560px (breakpoint ya existente, fusionado, no uno
+  nuevo) baja a `24px 20px` / 21px.
+
+Verificado con Playwright a 360px de ancho: `bounding_box()` de los
+tres paneles flotantes dentro de los límites del viewport,
+`scrollWidth > clientWidth` en `.grupo-botones` confirmando el scroll
+horizontal en vez de desborde.
+
 ## 0.14.0 — sin publicar
 
 Primera vez que se revisa `acepta/frontend` (la app principal del repo,
