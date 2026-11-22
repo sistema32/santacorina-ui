@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>santacorina/ui — JS / Utilidades</title>
+<link rel="stylesheet" href="../dist/ui.css">
+<link rel="stylesheet" href="guia.css">
+</head>
+<body>
+<script>
+  // Aplica el tema guardado antes de pintar, para evitar parpadeo.
+  (function () {
+    var guardado = localStorage.getItem("santacorina-guia-tema");
+    if (guardado === "light" || guardado === "dark") {
+      document.documentElement.setAttribute("data-theme", guardado);
+    }
+  })();
+</script>
+<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<div class="doc-shell">
+  <nav class="doc-nav" id="doc-nav">
+    <p class="marca">@sistema32/santacorina-ui</p>
+    <p class="sub">Guía de componentes</p>
+    <div class="tema-selector" role="group" aria-label="Tema">
+      <button type="button" data-tema="light">Claro</button>
+      <button type="button" data-tema="system">Sistema</button>
+      <button type="button" data-tema="dark">Oscuro</button>
+    </div>
+    <a href="index.html" class="nav-inicio">&larr; Portada / índice completo</a>
+    <div class="grupo">Fundamentos</div>
+    <a href="index.html#tokens">Tokens</a>
+    <a href="index.html#tipografia">Tipografía</a>
+    <a href="index.html#iconos">Íconos</a>
+    <div class="grupo">Layout</div>
+    <a href="layout.html#armazon">Armazón de página</a>
+    <a href="layout.html#lateral">Menú lateral</a>
+    <a href="layout.html#variantes-cabecera">Variantes de cabecera/pie</a>
+    <a href="layout.html#contenedor">Contenedor</a>
+    <a href="layout.html#columnas-variantes">Columnas (2/4)</a>
+    <a href="layout.html#masonry">Masonry</a>
+    <a href="layout.html#hero">Hero</a>
+    <a href="layout.html#col-ancha">Columna ancha</a>
+    <a href="layout.html#z-index">Z-index</a>
+    <div class="grupo">Formularios</div>
+    <a href="formularios.html#campo">Campo</a>
+    <a href="formularios.html#check">Checkbox / radio</a>
+    <a href="formularios.html#interruptor">Interruptor</a>
+    <a href="formularios.html#rango">Rango</a>
+    <a href="formularios.html#archivo">Archivo</a>
+    <a href="formularios.html#buscador">Buscador</a>
+    <a href="formularios.html#contador">Contador de caracteres</a>
+    <a href="formularios.html#grupo-campo">Grupo de campo</a>
+    <a href="formularios.html#campo-grupo">Fieldset / leyenda</a>
+    <a href="formularios.html#combobox">Combobox</a>
+    <a href="formularios.html#medidor-clave">Medidor de contraseña</a>
+    <a href="formularios.html#formulario-seccion">Secciones de formulario</a>
+    <a href="formularios.html#formulario-largo">Formulario largo (ejemplo)</a>
+    <a href="formularios.html#resumen-revision">Resumen de revisión</a>
+    <a href="formularios.html#resumen-errores">Resumen de errores</a>
+    <div class="grupo">Componentes</div>
+    <a href="componentes.html#tarjeta">Tarjeta</a>
+    <a href="componentes.html#kpi">KPI</a>
+    <a href="componentes.html#etiqueta">Etiqueta</a>
+    <a href="componentes.html#boton">Botón</a>
+    <a href="componentes.html#pastilla">Pastilla</a>
+    <a href="componentes.html#aviso">Aviso</a>
+    <a href="componentes.html#aviso-pagina">Aviso de página</a>
+    <a href="componentes.html#tabla">Tabla</a>
+    <a href="componentes.html#tabla-ordenable">Tabla ordenable</a>
+    <a href="componentes.html#dato">Dato</a>
+    <a href="componentes.html#luz">Semáforo</a>
+    <a href="componentes.html#tiempo">Línea de tiempo</a>
+    <a href="componentes.html#vacio">Estado vacío</a>
+    <a href="componentes.html#stepper">Stepper</a>
+    <a href="componentes.html#asistente">Asistente</a>
+    <a href="componentes.html#rastreador">Rastreador de proceso</a>
+    <a href="componentes.html#validacion">Validación</a>
+    <a href="componentes.html#total-caja">Total</a>
+    <a href="componentes.html#progreso">Barra de progreso</a>
+    <a href="componentes.html#tabs">Tabs</a>
+    <a href="componentes.html#tab-panel">Pestañas con panel</a>
+    <a href="componentes.html#tooltip">Tooltip</a>
+    <a href="componentes.html#toggletip">Toggletip</a>
+    <a href="componentes.html#breadcrumb">Breadcrumb</a>
+    <a href="componentes.html#skeleton">Skeleton</a>
+    <a href="componentes.html#chip">Chip</a>
+    <a href="componentes.html#avatar">Avatar</a>
+    <a href="componentes.html#divisor">Divisor</a>
+    <a href="componentes.html#acordeon">Acordeón</a>
+    <a href="componentes.html#paginacion">Paginación</a>
+    <a href="componentes.html#menu">Menú</a>
+    <a href="componentes.html#insignia">Insignia</a>
+    <a href="componentes.html#insignia-icono">Insignia de ícono</a>
+    <a href="componentes.html#tarjeta-accion">Tarjeta de acción</a>
+    <a href="componentes.html#cargando">Spinner</a>
+    <a href="componentes.html#grupo-botones">Grupo de botones</a>
+    <a href="componentes.html#lista-grupo">Lista de grupo</a>
+    <a href="componentes.html#popover">Popover</a>
+    <a href="componentes.html#colapsar">Colapsar genérico</a>
+    <a href="componentes.html#cajon">Cajón</a>
+    <a href="componentes.html#carousel">Carousel</a>
+    <a href="componentes.html#pildora-archivo">Píldora de archivo</a>
+    <a href="componentes.html#zona-arrastre">Zona de arrastre</a>
+    <a href="componentes.html#calendario-estado">Calendario de estado</a>
+    <a href="componentes.html#celda-doble">Celda de dos líneas</a>
+    <div class="grupo">JS / Utilidades</div>
+    <a href="#utils-js">Utilidades JS</a>
+  </nav>
+  <main class="doc-main">
+    <header class="doc-header">
+      <p class="eyebrow">SLEP Santa Corina</p>
+      <h1>JS / Utilidades</h1>
+      <p>Lo que no es CSS: formato de moneda/fecha, portapapeles, toasts y el resto de funciones JS que exporta el paquete.</p>
+    </header>
+
+<section class="doc-sec" id="utils-js">
+      <h2>Utilidades JS</h2>
+      <p class="uso">Primera vez que el paquete incluye JS, no solo CSS. Dos modos de consumo:</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <p style="margin:0 0 6px;font-weight:600;color:var(--color-navy)">Sin bundler (plantillas Jinja de <code>sgp/web</code>)</p>
+          <pre class="codigo">&lt;script src="node_modules/@sistema32/santacorina-ui/dist/js.global.js"&gt;&lt;/script&gt;
+&lt;!-- Santacorina.formato.conSigno(-6014510) -- "-$6.014.510" --&gt;
+&lt;!-- .lateral-toggle, .tabs, data-rango-fechas y data-calendario ya funcionan solos --&gt;</pre>
+          <p style="margin:14px 0 6px;font-weight:600;color:var(--color-navy)">Con bundler (Vue de <code>sgp/frontend</code>)</p>
+          <pre class="codigo">import { formato, mostrarToast } from "@sistema32/santacorina-ui/js"</pre>
+        </div>
+      </div>
+      <table style="margin-bottom:10px">
+        <thead><tr><th>Utilidad</th><th>Qué hace</th><th>Se auto-inicia</th></tr></thead>
+        <tbody>
+          <tr><td class="codigo">formato</td><td>pesos/conSigno/pct/fechaCorta</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">abrirModal/cerrarModal</td><td>Abre/cierra un <code>.modal</code>; backdrop, Escape y <code>[data-cerrar-modal]</code> ya cierran solos</td><td class="cen">✓ (cierre)</td></tr>
+          <tr><td class="codigo">mostrarToast(msg, tipo)</td><td>Crea y descarta un <code>.toast</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarLateral</td><td>Conecta <code>.lateral-toggle</code> con <code>.abierta</code>/<code>.visible</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarTabs</td><td>Mueve <code>.activo</code> al hacer clic en <code>.tabs</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarRangoFechas</td><td>Sincroniza min/max entre dos <code>input[type=date]</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarCalendario</td><td>Panel de calendario sobre <code>[data-calendario]</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">debounce(fn, ms)</td><td>Retrasa una función hasta que pasan <code>ms</code> sin llamarla</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">copiarAlPortapapeles(txt)</td><td>Con fallback para contextos sin HTTPS</td><td class="cen">—</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<script src="../dist/js.global.js"></script>
+<script>
+  // Solo para esta pagina de documentacion -- no es parte del paquete.
+  var botonesTema = document.querySelectorAll(".tema-selector button");
+  function marcarTemaActivo() {
+    var actual = localStorage.getItem("santacorina-guia-tema") || "system";
+    botonesTema.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.tema === actual));
+    });
+  }
+  botonesTema.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      var tema = boton.dataset.tema;
+      if (tema === "system") {
+        localStorage.removeItem("santacorina-guia-tema");
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        localStorage.setItem("santacorina-guia-tema", tema);
+        document.documentElement.setAttribute("data-theme", tema);
+      }
+      marcarTemaActivo();
+    });
+  });
+  marcarTemaActivo();
+
+  var navToggle = document.getElementById("doc-nav-toggle");
+  var nav = document.getElementById("doc-nav");
+  navToggle.addEventListener("click", function () {
+    nav.classList.toggle("abierta");
+  });
+  nav.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { nav.classList.remove("abierta"); });
+  });
+
+  var simularError = document.getElementById("simular-error");
+  if (simularError) {
+    simularError.addEventListener("click", function () {
+      var caja = document.querySelector("#demo-resumen-errores .resumen-errores");
+      caja.hidden = false;
+      simularError.hidden = true;
+      Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
+    });
+  }
+
+  document.querySelectorAll("pre.codigo").forEach(function (pre) {
+    var texto = pre.textContent;
+    var boton = document.createElement("button");
+    boton.className = "copiar-boton";
+    boton.type = "button";
+    boton.textContent = "Copiar";
+    boton.addEventListener("click", function () {
+      Santacorina.copiarAlPortapapeles(texto);
+      Santacorina.mostrarToast("Código copiado", "ok");
+    });
+    pre.appendChild(boton);
+  });
+</script>
+</body>
+</html>

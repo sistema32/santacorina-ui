@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>santacorina/ui — Layout</title>
+<link rel="stylesheet" href="../dist/ui.css">
+<link rel="stylesheet" href="guia.css">
+</head>
+<body>
+<script>
+  // Aplica el tema guardado antes de pintar, para evitar parpadeo.
+  (function () {
+    var guardado = localStorage.getItem("santacorina-guia-tema");
+    if (guardado === "light" || guardado === "dark") {
+      document.documentElement.setAttribute("data-theme", guardado);
+    }
+  })();
+</script>
+<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<div class="doc-shell">
+  <nav class="doc-nav" id="doc-nav">
+    <p class="marca">@sistema32/santacorina-ui</p>
+    <p class="sub">Guía de componentes</p>
+    <div class="tema-selector" role="group" aria-label="Tema">
+      <button type="button" data-tema="light">Claro</button>
+      <button type="button" data-tema="system">Sistema</button>
+      <button type="button" data-tema="dark">Oscuro</button>
+    </div>
+    <a href="index.html" class="nav-inicio">&larr; Portada / índice completo</a>
+    <div class="grupo">Fundamentos</div>
+    <a href="index.html#tokens">Tokens</a>
+    <a href="index.html#tipografia">Tipografía</a>
+    <a href="index.html#iconos">Íconos</a>
+    <div class="grupo">Layout</div>
+    <a href="#armazon">Armazón de página</a>
+    <a href="#lateral">Menú lateral</a>
+    <a href="#variantes-cabecera">Variantes de cabecera/pie</a>
+    <a href="#contenedor">Contenedor</a>
+    <a href="#columnas-variantes">Columnas (2/4)</a>
+    <a href="#masonry">Masonry</a>
+    <a href="#hero">Hero</a>
+    <a href="#col-ancha">Columna ancha</a>
+    <a href="#z-index">Z-index</a>
+    <div class="grupo">Formularios</div>
+    <a href="formularios.html#campo">Campo</a>
+    <a href="formularios.html#check">Checkbox / radio</a>
+    <a href="formularios.html#interruptor">Interruptor</a>
+    <a href="formularios.html#rango">Rango</a>
+    <a href="formularios.html#archivo">Archivo</a>
+    <a href="formularios.html#buscador">Buscador</a>
+    <a href="formularios.html#contador">Contador de caracteres</a>
+    <a href="formularios.html#grupo-campo">Grupo de campo</a>
+    <a href="formularios.html#campo-grupo">Fieldset / leyenda</a>
+    <a href="formularios.html#combobox">Combobox</a>
+    <a href="formularios.html#medidor-clave">Medidor de contraseña</a>
+    <a href="formularios.html#formulario-seccion">Secciones de formulario</a>
+    <a href="formularios.html#formulario-largo">Formulario largo (ejemplo)</a>
+    <a href="formularios.html#resumen-revision">Resumen de revisión</a>
+    <a href="formularios.html#resumen-errores">Resumen de errores</a>
+    <div class="grupo">Componentes</div>
+    <a href="componentes.html#tarjeta">Tarjeta</a>
+    <a href="componentes.html#kpi">KPI</a>
+    <a href="componentes.html#etiqueta">Etiqueta</a>
+    <a href="componentes.html#boton">Botón</a>
+    <a href="componentes.html#pastilla">Pastilla</a>
+    <a href="componentes.html#aviso">Aviso</a>
+    <a href="componentes.html#aviso-pagina">Aviso de página</a>
+    <a href="componentes.html#tabla">Tabla</a>
+    <a href="componentes.html#tabla-ordenable">Tabla ordenable</a>
+    <a href="componentes.html#dato">Dato</a>
+    <a href="componentes.html#luz">Semáforo</a>
+    <a href="componentes.html#tiempo">Línea de tiempo</a>
+    <a href="componentes.html#vacio">Estado vacío</a>
+    <a href="componentes.html#stepper">Stepper</a>
+    <a href="componentes.html#asistente">Asistente</a>
+    <a href="componentes.html#rastreador">Rastreador de proceso</a>
+    <a href="componentes.html#validacion">Validación</a>
+    <a href="componentes.html#total-caja">Total</a>
+    <a href="componentes.html#progreso">Barra de progreso</a>
+    <a href="componentes.html#tabs">Tabs</a>
+    <a href="componentes.html#tab-panel">Pestañas con panel</a>
+    <a href="componentes.html#tooltip">Tooltip</a>
+    <a href="componentes.html#toggletip">Toggletip</a>
+    <a href="componentes.html#breadcrumb">Breadcrumb</a>
+    <a href="componentes.html#skeleton">Skeleton</a>
+    <a href="componentes.html#chip">Chip</a>
+    <a href="componentes.html#avatar">Avatar</a>
+    <a href="componentes.html#divisor">Divisor</a>
+    <a href="componentes.html#acordeon">Acordeón</a>
+    <a href="componentes.html#paginacion">Paginación</a>
+    <a href="componentes.html#menu">Menú</a>
+    <a href="componentes.html#insignia">Insignia</a>
+    <a href="componentes.html#insignia-icono">Insignia de ícono</a>
+    <a href="componentes.html#tarjeta-accion">Tarjeta de acción</a>
+    <a href="componentes.html#cargando">Spinner</a>
+    <a href="componentes.html#grupo-botones">Grupo de botones</a>
+    <a href="componentes.html#lista-grupo">Lista de grupo</a>
+    <a href="componentes.html#popover">Popover</a>
+    <a href="componentes.html#colapsar">Colapsar genérico</a>
+    <a href="componentes.html#cajon">Cajón</a>
+    <a href="componentes.html#carousel">Carousel</a>
+    <a href="componentes.html#pildora-archivo">Píldora de archivo</a>
+    <a href="componentes.html#zona-arrastre">Zona de arrastre</a>
+    <a href="componentes.html#calendario-estado">Calendario de estado</a>
+    <a href="componentes.html#celda-doble">Celda de dos líneas</a>
+    <div class="grupo">JS / Utilidades</div>
+    <a href="js-utilidades.html#utils-js">Utilidades JS</a>
+  </nav>
+  <main class="doc-main">
+    <header class="doc-header">
+      <p class="eyebrow">SLEP Santa Corina</p>
+      <h1>Layout</h1>
+      <p>Armazón de página, contenedores, grillas y z-index -- las piezas estructurales que no son un componente visual puntual.</p>
+    </header>
+
+    <section class="doc-sec" id="contenedor">
+      <h2>Container / container-fluid</h2>
+      <p class="uso">De Bootstrap (Layout): un contenedor centrado reusable <em>fuera</em> del armazón <code>.app</code>/<code>.principal</code> (ese ya tiene <code>.contenido</code>/<code>.contenido.ancho</code>, que sigue siendo lo correcto dentro del armazón). Pensado para una pantalla standalone (ej. un login). Se llama <code>.contenedor</code>/<code>.contenedor-fluido</code> en vez de <code>.container</code>: Tailwind v4 ya genera su propia utilidad <code>.container</code> en <code>@layer utilities</code>, que le ganaría a la nuestra (confirmado — el nombre en inglés chocaba de verdad).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="contenedor" style="background:var(--color-gris-fondo);padding:10px">.contenedor (max-width por breakpoint)</div>
+          <div class="contenedor-fluido" style="background:var(--color-gris-fondo);padding:10px;margin-top:8px">.contenedor-fluido (100% siempre)</div>
+        </div>
+        <pre class="codigo">&lt;div class="contenedor"&gt;...&lt;/div&gt;&lt;div class="contenedor-fluido"&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="armazon">
+      <h2>Armazón de página</h2>
+      <p class="uso"><code>.app</code> (layout completo) → <code>.lateral</code> + <code>.principal</code> (<code>.cabecera</code> + <code>.contenido</code> + <code>.pie</code>). Es el mismo armazón que ya corre en cada pantalla de <code>sgp</code>, solo que ahora viene del paquete en vez de duplicado en cada deploy.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0;overflow:hidden">
+          <div class="cabecera" style="padding:14px 20px">
+            <div><h1 style="font-size:16px">COLEGIO ALCÁZAR</h1><p class="cabecera-datos">RBD 12255-6 <span class="punto">·</span> Año 2026</p></div>
+            <div class="cabecera-usuario"><span class="usuario-nombre">arodriguez</span><span class="usuario-rol">Encargado de Compras</span></div>
+          </div>
+          <div style="padding:14px 20px;background:var(--color-fondo)"><div class="tarjeta" style="margin:0"><h3>Contenido de la página</h3></div></div>
+          <div class="pie" style="padding:10px 20px">EMISA · SLEP Santa Corina</div>
+        </div>
+        <pre class="codigo">&lt;div class="app"&gt;&lt;aside class="lateral"&gt;...&lt;/aside&gt;&lt;div class="principal"&gt;&lt;header class="cabecera"&gt;...&lt;/header&gt;&lt;main class="contenido"&gt;...&lt;/main&gt;&lt;footer class="pie"&gt;...&lt;/footer&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="lateral">
+      <h2>Menú lateral</h2>
+      <p class="uso">Incluye el patrón responsivo completo (hamburguesa + overlay + panel deslizante bajo 900px). El toggle móvil necesita que el consumidor agregue un <em>click handler</em> de unas líneas que alterne <code>.abierta</code> en <code>.lateral</code> y <code>.visible</code> en <code>.lateral-fondo</code> — el CSS deja listas las tres clases, pero no es solo-CSS como <code>.acordeon</code>/<code>.menu</code> porque el estado tiene que sobrevivir a cambios de página en una app multi-página.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <aside class="lateral" style="height:auto;position:static">
+            <div class="lateral-marca"><strong style="font-size:15px">EMISA</strong><span class="lateral-sub">SLEP Santa Corina</span></div>
+            <nav>
+              <div class="grupo">Compras</div>
+              <a class="item activo" href="#">Solicitudes <span class="contador">4</span></a>
+              <a class="item" href="#">Recepción conforme</a>
+            </nav>
+          </aside>
+        </div>
+        <pre class="codigo">&lt;aside class="lateral"&gt;&lt;nav&gt;&lt;a class="item activo"&gt;Solicitudes &lt;span class="contador"&gt;4&lt;/span&gt;&lt;/a&gt;&lt;/nav&gt;&lt;/aside&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="variantes-cabecera">
+      <h2>Variantes de cabecera/pie</h2>
+      <p class="uso"><code>.cabecera</code>/<code>.pie</code> siguen siendo las de producción. Estas son preventivas — hoy <code>sgp</code> usa deliberadamente un solo tipo de cabecera (confirmado en código: <code>unidad_base.html</code>/<code>portal_base.html</code> son casi idénticas).</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <header class="cabecera cabecera-compacta">
+            <div><h1>Confirmar envío</h1></div>
+            <div class="cabecera-usuario"><span class="usuario-nombre">arodriguez</span></div>
+          </header>
+        </div>
+        <pre class="codigo">&lt;header class="cabecera cabecera-compacta"&gt;...&lt;/header&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <header class="cabecera cabecera-centrada">
+            <div><h1>Acceso a la plataforma</h1><p class="cabecera-datos">SLEP Santa Corina</p></div>
+          </header>
+        </div>
+        <pre class="codigo">&lt;header class="cabecera cabecera-centrada"&gt;...&lt;/header&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <header class="cabecera cabecera-con-buscador">
+            <div><h1>Solicitudes de Compra</h1></div>
+            <div class="buscador"><input type="search" placeholder="Buscar solicitud..."><button type="button" class="limpiar">×</button></div>
+          </header>
+        </div>
+        <pre class="codigo">&lt;header class="cabecera cabecera-con-buscador"&gt;...&lt;div class="buscador"&gt;...&lt;/div&gt;&lt;/header&gt;</pre>
+      </div>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <footer class="pie pie-compacto">EMISA · SLEP Santa Corina</footer>
+        </div>
+        <pre class="codigo">&lt;footer class="pie pie-compacto"&gt;...&lt;/footer&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="z-index">
+      <h2>Z-index</h2>
+      <p class="uso">Antes de 0.18.0 había 9 valores de z-index sueltos sin ninguna relación documentada entre sí. Ahora son variables CSS (<code>--z-*</code>, declaradas junto a <code>--color-*</code>) que ya usan <code>.menu-panel</code>/<code>.cajon</code>/<code>.modal</code>/<code>.toast</code>/etc., más 5 utilidades públicas para que tu propio HTML se apile sin adivinar un número.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <table>
+            <thead><tr><th>Utilidad</th><th>Variable</th><th>Valor</th><th>Uso real</th></tr></thead>
+            <tbody>
+              <tr><td class="codigo">.z-flotante</td><td class="codigo">--z-flotante</td><td class="peso">100</td><td>menú, calendario, combobox</td></tr>
+              <tr><td class="codigo">.z-flotante-alto</td><td class="codigo">--z-flotante-alto</td><td class="peso">200</td><td>popover, toggletip</td></tr>
+              <tr><td class="codigo">.z-cajon</td><td class="codigo">--z-cajon</td><td class="peso">1200</td><td>cajón, lateral móvil</td></tr>
+              <tr><td class="codigo">.z-modal</td><td class="codigo">--z-modal</td><td class="peso">9000</td><td>modal</td></tr>
+              <tr><td class="codigo">.z-toast</td><td class="codigo">--z-toast</td><td class="peso">9500</td><td>toast</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;div class="mi-elemento z-flotante"&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="columnas-variantes">
+      <h2>Columnas (2 / 4) + gutters</h2>
+      <p class="uso"><code>.columnas-2</code>/<code>.columnas-4</code> sobre <code>.columnas</code> existente — mismo breakpoint de 1150px que ya colapsa a 1 columna. <code>.gutters-0</code>/<code>.gutters-chico</code>/<code>.gutters-grande</code> controlan el espaciado (gutters de Bootstrap), sin crear un segundo sistema de grid — son modificadores del mismo <code>.columnas</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="columnas columnas-4 gutters-chico">
+            <div class="kpi" data-tono="azul"><div class="n">4</div><div class="t">Pendientes</div></div>
+            <div class="kpi" data-tono="verde"><div class="n">12</div><div class="t">Aprobadas</div></div>
+            <div class="kpi" data-tono="naranjo"><div class="n">2</div><div class="t">En revisión</div></div>
+            <div class="kpi" data-tono="rojo"><div class="n">1</div><div class="t">Rechazada</div></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="columnas columnas-4 gutters-chico"&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="masonry">
+      <h2>Masonry</h2>
+      <p class="uso">Empaquetado tipo Pinterest vía <code>columns</code> CSS — soporte universal, sin JS (<code>grid-template-rows: masonry</code> hoy solo lo tiene Firefox tras flag).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="masonry">
+            <div class="tarjeta" style="margin-bottom:0"><p style="margin:0">Corta.</p></div>
+            <div class="tarjeta" style="margin-bottom:0"><p style="margin:0">Con bastante más texto, para que la altura sea claramente distinta a las demás.</p></div>
+            <div class="tarjeta" style="margin-bottom:0"><p style="margin:0">Mediana, un poco más larga.</p></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="masonry"&gt;&lt;div class="tarjeta"&gt;...&lt;/div&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="hero">
+      <h2>Hero</h2>
+      <p class="uso">Banner de introducción para un dashboard o pantalla de bienvenida.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <div class="hero" style="margin:0;border-radius:0">
+            <h1>Bienvenido, Alejandro</h1>
+            <p>Tiene 4 solicitudes pendientes de revisión esta semana.</p>
+            <div class="acciones"><button class="boton">Ver pendientes</button><button class="boton secundario">Ir al tablero</button></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="hero"&gt;&lt;h1&gt;...&lt;/h1&gt;&lt;p&gt;...&lt;/p&gt;&lt;div class="acciones"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="col-ancha">
+      <h2>Columna ancha</h2>
+      <p class="uso">Para usar dentro de <code>.columnas</code>/<code>.fila</code>/<code>.masonry</code> cuando un ítem debe ocupar todo el ancho de la grilla, en vez de un <code>style</code> inline por pantalla.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="columnas" style="margin:0">
+            <div class="kpi" data-tono="azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
+            <div class="kpi" data-tono="verde"><div class="n">99%</div><div class="t">Ejecución</div></div>
+            <div class="tarjeta col-ancha" style="margin:0"><p style="margin:0">Esta tarjeta ocupa las 3 columnas.</p></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="columnas"&gt;...&lt;div class="tarjeta col-ancha"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="../dist/js.global.js"></script>
+<script>
+  // Solo para esta pagina de documentacion -- no es parte del paquete.
+  var botonesTema = document.querySelectorAll(".tema-selector button");
+  function marcarTemaActivo() {
+    var actual = localStorage.getItem("santacorina-guia-tema") || "system";
+    botonesTema.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.tema === actual));
+    });
+  }
+  botonesTema.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      var tema = boton.dataset.tema;
+      if (tema === "system") {
+        localStorage.removeItem("santacorina-guia-tema");
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        localStorage.setItem("santacorina-guia-tema", tema);
+        document.documentElement.setAttribute("data-theme", tema);
+      }
+      marcarTemaActivo();
+    });
+  });
+  marcarTemaActivo();
+
+  var navToggle = document.getElementById("doc-nav-toggle");
+  var nav = document.getElementById("doc-nav");
+  navToggle.addEventListener("click", function () {
+    nav.classList.toggle("abierta");
+  });
+  nav.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { nav.classList.remove("abierta"); });
+  });
+
+  var simularError = document.getElementById("simular-error");
+  if (simularError) {
+    simularError.addEventListener("click", function () {
+      var caja = document.querySelector("#demo-resumen-errores .resumen-errores");
+      caja.hidden = false;
+      simularError.hidden = true;
+      Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
+    });
+  }
+
+  document.querySelectorAll("pre.codigo").forEach(function (pre) {
+    var texto = pre.textContent;
+    var boton = document.createElement("button");
+    boton.className = "copiar-boton";
+    boton.type = "button";
+    boton.textContent = "Copiar";
+    boton.addEventListener("click", function () {
+      Santacorina.copiarAlPortapapeles(texto);
+      Santacorina.mostrarToast("Código copiado", "ok");
+    });
+    pre.appendChild(boton);
+  });
+</script>
+</body>
+</html>

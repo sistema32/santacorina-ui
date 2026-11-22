@@ -78,6 +78,7 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | `iniciarToggletips` | Abre/cierra `.toggletip-panel` al hacer clic en `[data-toggletip]` — alternativa a `[data-tooltip]` con soporte táctil | ✓ |
 | `iniciarResumenErrores` | Enfoca `.resumen-errores` al aparecer y mueve el foco al campo destino al hacer clic en un link — de GOV.UK Design System ([error summary](https://design-system.service.gov.uk/components/error-summary/)) | ✓ |
 | `iniciarTablasOrdenables` | Alterna `aria-sort` en `th[data-ordenable]` y dispara `santacorina:ordenar` — el consumidor reordena sus propias filas | ✓ |
+| `iniciarCarruseles` / `avanzarCarrusel(el, dir)` | Cambia la slide activa de `.carousel` por clic/indicador/flechas de teclado; `avanzarCarrusel` queda exportado para quien quiera autoplay con su propio `setInterval` | ✓ (`iniciarCarruseles`) |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
 
@@ -205,8 +206,12 @@ los mismos de antes, solo cambió el mecanismo.
 | `.formulario-seccion` + `.formulario-seccion-titulo`/`.formulario-seccion-nota` | Agrupa los `.campo` de un formulario largo |
 | `.tab-panel` (sobre `[data-tab-panel]`) | Panel real para `.tabs` con `data-tab` |
 | `.columnas-2` / `.columnas-4` | Variantes de `.columnas` |
+| `.gutters-0` / `.gutters-chico` / `.gutters-grande` (sobre `.columnas`) | Espaciado — "gutters" de Bootstrap, modificadores del mismo `.columnas`, no un segundo sistema de grid |
+| `.contenedor` / `.contenedor-fluido` | De Bootstrap — contenedor centrado reusable *fuera* del armazón `.app`. Se llama `.contenedor`, no `.container`: Tailwind v4 ya genera su propia utilidad `.container` en `@layer utilities` que le ganaba a la nuestra (confirmado) |
+| `.z-flotante` / `.z-flotante-alto` / `.z-cajon` / `.z-modal` / `.z-toast` | Utilidades de la escala de z-index (`--z-*`) que ya usan `.menu-panel`/`.cajon`/`.modal`/`.toast` — para apilar tu propio HTML sin adivinar un número |
 | `.masonry` | Empaquetado tipo Pinterest, vía `columns` CSS |
 | `.hero` | Banner de introducción (dashboard/bienvenida) |
+| `.carousel` + `.carousel-pista`/`.carousel-slide` + `.carousel-controles`/`.carousel-indicadores` | De Bootstrap — en 0.11.0 se dejó fuera por falta de caso de uso real, se agrega ahora como paridad de framework (preventivo, mismo criterio que `.hero`). Sin autoplay por defecto; JS en `/js` (`iniciarCarruseles`, `avanzarCarrusel`) |
 | `.grupo-botones` | Botones de acción visualmente unidos |
 | `.lista-grupo` + `.lista-grupo-item` (`.activo`) | Lista vertical de ítems clicables |
 | `.grupo-campo` + `.prefijo`/`.sufijo` | Prefijo/sufijo pegado a un input (ej. montos en pesos) |
@@ -318,8 +323,17 @@ para no repetir la investigación:
 ```bash
 npm install
 npm run build       # tsup (plugin JS/TS) + scripts/build-css.mjs (dist/ui.css)
-npm run dev:guia     # sirve guia/index.html contra el CSS recien compilado
+npm run dev:guia     # sirve guia/ contra el CSS recien compilado
 ```
+
+Desde 0.18.0 `guia/` ya no es un solo archivo de 1300 líneas: está
+dividida en `index.html` (portada + tokens/tipografía/íconos + índice
+de referencia completo con las ~75 clases/funciones del paquete),
+`layout.html`, `formularios.html`, `componentes.html` y
+`js-utilidades.html`, con el CSS de la guía compartido en `guia/guia.css`
+(antes duplicado en un `<style>` inline). El nav de la izquierda es el
+mismo en las 5 páginas (agrupado por tema), así que se navega entre
+ellas sin perder contexto.
 
 Cualquier cambio en `src/components.ts` o `src/theme.ts` necesita
 `npm run build` y un release nuevo — `dist/` se commitea porque hay

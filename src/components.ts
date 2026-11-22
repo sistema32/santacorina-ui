@@ -95,7 +95,7 @@ export function buildComponents(): CSSRuleObject {
     ".lateral::-webkit-scrollbar-track": { backgroundColor: "transparent" },
     ".lateral::-webkit-scrollbar-thumb": { backgroundColor: "rgba(255,255,255,0.3)", borderRadius: "4px" },
     ".lateral::-webkit-scrollbar-thumb:hover": { backgroundColor: "rgba(255,255,255,0.5)" },
-    ".lateral.lateral-fija": { position: "fixed", left: "0", top: "0", zIndex: "1000" },
+    ".lateral.lateral-fija": { position: "fixed", left: "0", top: "0", zIndex: "var(--z-lateral)" },
     ".lateral *": { boxSizing: "border-box" },
     ".lateral a": { color: "inherit", textDecoration: "none" },
     ".lateral .lateral-marca": {
@@ -162,7 +162,7 @@ export function buildComponents(): CSSRuleObject {
       position: "fixed",
       top: "12px",
       left: "12px",
-      zIndex: "1300",
+      zIndex: "var(--z-cajon-control)",
       width: "40px",
       height: "40px",
       borderRadius: "8px",
@@ -181,7 +181,7 @@ export function buildComponents(): CSSRuleObject {
       position: "fixed",
       inset: "0",
       backgroundColor: "rgba(8,20,34,0.5)",
-      zIndex: "1150",
+      zIndex: "var(--z-cajon-fondo)",
     },
     "@media (max-width: 900px)": {
       ".app": { flexDirection: "column" },
@@ -195,7 +195,7 @@ export function buildComponents(): CSSRuleObject {
         flex: "none",
         height: "100vh",
         maxHeight: "100vh",
-        zIndex: "1200",
+        zIndex: "var(--z-cajon)",
         transform: "translateX(-100%)",
         transition: "transform 0.22s ease",
       },
@@ -804,9 +804,29 @@ export function buildComponents(): CSSRuleObject {
     },
     ".columnas.columnas-2": { gridTemplateColumns: "repeat(2, minmax(0, 1fr))" },
     ".columnas.columnas-4": { gridTemplateColumns: "repeat(4, minmax(0, 1fr))" },
+    /* Gutters -- control de espaciado de Bootstrap ("gutters"), sin
+       crear un segundo sistema de grid: son modificadores del mismo
+       `.columnas` de siempre (default sin clase extra: 18px). */
+    ".columnas.gutters-0": { gap: "0" },
+    ".columnas.gutters-chico": { gap: "8px" },
+    ".columnas.gutters-grande": { gap: "28px" },
     "@media (max-width: 1150px)": {
       ".columnas, .columnas.columnas-2, .columnas.columnas-4": { gridTemplateColumns: "1fr" },
     },
+
+    /* ---------------------------------------------------------------
+     * Container / container-fluid -- de Bootstrap (Layout): un
+     * contenedor centrado reusable *fuera* del armazon `.app`/
+     * `.principal` (ese ya tiene `.contenido`/`.contenido.ancho`, que
+     * sigue siendo lo correcto dentro del armazon). Pensado para una
+     * pantalla standalone (ej. un login) que no vive dentro de
+     * `.app`.
+     * ------------------------------------------------------------- */
+    ".contenedor": { width: "100%", marginInline: "auto", paddingInline: "20px" },
+    ".contenedor-fluido": { width: "100%", paddingInline: "20px" },
+    "@media (min-width: 600px)": { ".contenedor": { maxWidth: "600px" } },
+    "@media (min-width: 900px)": { ".contenedor": { maxWidth: "900px" } },
+    "@media (min-width: 1150px)": { ".contenedor": { maxWidth: "1150px" } },
 
     /* ---------------------------------------------------------------
      * Masonry -- empaquetado tipo Pinterest via `columns` CSS, no
@@ -880,7 +900,7 @@ export function buildComponents(): CSSRuleObject {
       display: "none",
       alignItems: "center",
       justifyContent: "center",
-      zIndex: "9000",
+      zIndex: "var(--z-modal)",
       padding: "20px",
     },
     ".modal.visible": { display: "flex" },
@@ -918,7 +938,7 @@ export function buildComponents(): CSSRuleObject {
       display: "flex",
       flexDirection: "column",
       gap: "10px",
-      zIndex: "9500",
+      zIndex: "var(--z-toast)",
       maxWidth: "360px",
     },
     ".toast": {
@@ -1184,6 +1204,56 @@ export function buildComponents(): CSSRuleObject {
     ".tab-panel.activo": { display: "block" },
 
     /* ---------------------------------------------------------------
+     * Carousel -- de Bootstrap (Components). En 0.11.0 se dejo fuera a
+     * proposito ("sin caso de uso en un portal de compras publicas");
+     * se agrega ahora como paridad de framework, mismo criterio
+     * preventivo que `.hero`. Mismo patron de "una sola cosa visible a
+     * la vez" que `.tab-panel.activo`. El JS vive en `/js`
+     * (`iniciarCarruseles`) -- sin autoplay por defecto, ver README.
+     * ------------------------------------------------------------- */
+    ".carousel": { position: "relative", overflow: "hidden", borderRadius: "11px" },
+    ".carousel-pista": { display: "flex", transition: "transform 0.25s ease" },
+    ".carousel-slide": { flex: "0 0 100%", minWidth: "0" },
+    ".carousel-controles button": {
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)",
+      zIndex: "var(--z-flotante)",
+      width: "34px",
+      height: "34px",
+      borderRadius: "50%",
+      border: "0",
+      backgroundColor: "rgba(12,45,74,0.55)",
+      color: "#fff",
+      cursor: "pointer",
+      display: "grid",
+      placeItems: "center",
+      fontSize: "16px",
+    },
+    ".carousel-controles button:hover": { backgroundColor: "rgba(12,45,74,0.75)" },
+    ".carousel-anterior": { left: "10px" },
+    ".carousel-siguiente": { right: "10px" },
+    ".carousel-indicadores": {
+      position: "absolute",
+      bottom: "12px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      zIndex: "var(--z-flotante)",
+      display: "flex",
+      gap: "6px",
+    },
+    ".carousel-indicadores button": {
+      width: "8px",
+      height: "8px",
+      borderRadius: "50%",
+      border: "0",
+      padding: "0",
+      backgroundColor: "rgba(255,255,255,0.55)",
+      cursor: "pointer",
+    },
+    ".carousel-indicadores button.activo": { backgroundColor: "#fff" },
+
+    /* ---------------------------------------------------------------
      * Tooltip -- nuevo, no existia nada (solo `title=""` nativo, sin
      * estilo y que se corta en movil). Solo CSS, via `data-tooltip`.
      * ------------------------------------------------------------- */
@@ -1205,7 +1275,7 @@ export function buildComponents(): CSSRuleObject {
       opacity: "0",
       pointerEvents: "none",
       transition: "opacity 0.12s ease",
-      zIndex: "9999",
+      zIndex: "var(--z-tooltip)",
     },
     "[data-tooltip]::before": {
       content: "''",
@@ -1479,7 +1549,7 @@ export function buildComponents(): CSSRuleObject {
       position: "absolute",
       top: "calc(100% + 4px)",
       right: "0",
-      zIndex: "100",
+      zIndex: "var(--z-flotante)",
       minWidth: "180px",
       backgroundColor: "#fff",
       border: "1px solid var(--color-borde)",
@@ -1517,7 +1587,7 @@ export function buildComponents(): CSSRuleObject {
       position: "absolute",
       top: "calc(100% + 4px)",
       left: "0",
-      zIndex: "100",
+      zIndex: "var(--z-flotante)",
       width: "260px",
       backgroundColor: "#fff",
       border: "1px solid var(--color-borde)",
@@ -1580,7 +1650,7 @@ export function buildComponents(): CSSRuleObject {
       top: "calc(100% + 8px)",
       left: "50%",
       transform: "translateX(-50%)",
-      zIndex: "200",
+      zIndex: "var(--z-flotante-alto)",
       width: "260px",
       backgroundColor: "#fff",
       border: "1px solid var(--color-borde)",
@@ -1607,7 +1677,7 @@ export function buildComponents(): CSSRuleObject {
       top: "calc(100% + 8px)",
       left: "50%",
       transform: "translateX(-50%)",
-      zIndex: "200",
+      zIndex: "var(--z-flotante-alto)",
       width: "220px",
       backgroundColor: "var(--color-navy)",
       color: "#fff",
@@ -1680,7 +1750,7 @@ export function buildComponents(): CSSRuleObject {
       width: "min(380px, 90vw)",
       backgroundColor: "#fff",
       boxShadow: "-8px 0 30px rgba(12,45,74,0.18)",
-      zIndex: "1200",
+      zIndex: "var(--z-cajon)",
       transform: "translateX(100%)",
       transition: "transform 0.22s ease",
       overflowY: "auto",
@@ -1692,7 +1762,7 @@ export function buildComponents(): CSSRuleObject {
       position: "fixed",
       inset: "0",
       backgroundColor: "rgba(8,20,34,0.5)",
-      zIndex: "1150",
+      zIndex: "var(--z-cajon-fondo)",
     },
     ".cajon-fondo.visible": { display: "block" },
     ".cajon-cabecera": {
@@ -1717,7 +1787,7 @@ export function buildComponents(): CSSRuleObject {
       top: "calc(100% + 4px)",
       left: "0",
       right: "0",
-      zIndex: "100",
+      zIndex: "var(--z-flotante)",
       maxHeight: "220px",
       overflowY: "auto",
       backgroundColor: "#fff",
@@ -1811,6 +1881,20 @@ export function buildComponents(): CSSRuleObject {
      * `:focus` por componente (antes solo cubria input/select/textarea).
      * ------------------------------------------------------------- */
     ":focus-visible": { outline: "2px solid var(--color-azul)", outlineOffset: "2px" },
+
+    /* ---------------------------------------------------------------
+     * Utilidades de z-index -- misma escala que ya usan `.menu-panel`,
+     * `.cajon`, `.modal`, `.toast`, etc. (ver `--z-*` en `src/plugin.ts`),
+     * expuesta para que el consumidor apile sus propios elementos sin
+     * adivinar un numero. No se exponen los pasos internos del grupo
+     * cajon/lateral (`--z-lateral`/`--z-cajon-fondo`/`--z-cajon-control`)
+     * por ser demasiado especificos del propio componente.
+     * ------------------------------------------------------------- */
+    ".z-flotante": { zIndex: "var(--z-flotante)" },
+    ".z-flotante-alto": { zIndex: "var(--z-flotante-alto)" },
+    ".z-cajon": { zIndex: "var(--z-cajon)" },
+    ".z-modal": { zIndex: "var(--z-modal)" },
+    ".z-toast": { zIndex: "var(--z-toast)" },
 
     /* ---------------------------------------------------------------
      * Pack de iconos -- glifos sueltos (check, x, flechas) estaban

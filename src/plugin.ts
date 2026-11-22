@@ -66,6 +66,23 @@ export default plugin.withOptions<SantacorinaUIOptions>(
             Object.entries(colors).map(([nombre, valor]) => [`--color-${nombre}`, valor])
           ),
           "--font-sans": fonts.sans,
+          // Escala de z-index -- antes de 0.18.0 habia 9 literales
+          // (100/200/1000/1150/1200/1300/9000/9500/9999) repartidos sin
+          // ninguna relacion documentada entre si. Misma idea que
+          // --color-*: una sola fuente de verdad, consumida por los
+          // componentes del paquete y por las utilidades .z-* publicas
+          // para que el consumidor apile sus propios elementos sin
+          // adivinar un numero.
+          "--z-fondo": "0",
+          "--z-flotante": "100",
+          "--z-flotante-alto": "200",
+          "--z-lateral": "1000",
+          "--z-cajon-fondo": "1150",
+          "--z-cajon": "1200",
+          "--z-cajon-control": "1300",
+          "--z-modal": "9000",
+          "--z-toast": "9500",
+          "--z-tooltip": "9999",
         },
       });
 

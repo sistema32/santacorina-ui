@@ -134,7 +134,11 @@ declare function iniciarResumenErrores(raiz?: ParentNode): void;
  */
 declare function iniciarTablasOrdenables(raiz?: ParentNode): void;
 
+declare function iniciarCarruseles(raiz?: ParentNode): void;
+/** Avanza (o retrocede) un carousel ya iniciado -- para autoplay manual. */
+declare function avanzarCarrusel(carousel: HTMLElement, direccion?: 1 | -1): void;
+
 /** Conecta todo lo auto-iniciable. */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarResumenErrores, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarZonasArrastre, irAPaso, mostrarToast };
+export { abrirModal, avanzarCarrusel, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarCarruseles, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarResumenErrores, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarZonasArrastre, irAPaso, mostrarToast };

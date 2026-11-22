@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>santacorina/ui — Formularios</title>
+<link rel="stylesheet" href="../dist/ui.css">
+<link rel="stylesheet" href="guia.css">
+</head>
+<body>
+<script>
+  // Aplica el tema guardado antes de pintar, para evitar parpadeo.
+  (function () {
+    var guardado = localStorage.getItem("santacorina-guia-tema");
+    if (guardado === "light" || guardado === "dark") {
+      document.documentElement.setAttribute("data-theme", guardado);
+    }
+  })();
+</script>
+<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<div class="doc-shell">
+  <nav class="doc-nav" id="doc-nav">
+    <p class="marca">@sistema32/santacorina-ui</p>
+    <p class="sub">Guía de componentes</p>
+    <div class="tema-selector" role="group" aria-label="Tema">
+      <button type="button" data-tema="light">Claro</button>
+      <button type="button" data-tema="system">Sistema</button>
+      <button type="button" data-tema="dark">Oscuro</button>
+    </div>
+    <a href="index.html" class="nav-inicio">&larr; Portada / índice completo</a>
+    <div class="grupo">Fundamentos</div>
+    <a href="index.html#tokens">Tokens</a>
+    <a href="index.html#tipografia">Tipografía</a>
+    <a href="index.html#iconos">Íconos</a>
+    <div class="grupo">Layout</div>
+    <a href="layout.html#armazon">Armazón de página</a>
+    <a href="layout.html#lateral">Menú lateral</a>
+    <a href="layout.html#variantes-cabecera">Variantes de cabecera/pie</a>
+    <a href="layout.html#contenedor">Contenedor</a>
+    <a href="layout.html#columnas-variantes">Columnas (2/4)</a>
+    <a href="layout.html#masonry">Masonry</a>
+    <a href="layout.html#hero">Hero</a>
+    <a href="layout.html#col-ancha">Columna ancha</a>
+    <a href="layout.html#z-index">Z-index</a>
+    <div class="grupo">Formularios</div>
+    <a href="#campo">Campo</a>
+    <a href="#check">Checkbox / radio</a>
+    <a href="#interruptor">Interruptor</a>
+    <a href="#rango">Rango</a>
+    <a href="#archivo">Archivo</a>
+    <a href="#buscador">Buscador</a>
+    <a href="#contador">Contador de caracteres</a>
+    <a href="#grupo-campo">Grupo de campo</a>
+    <a href="#campo-grupo">Fieldset / leyenda</a>
+    <a href="#combobox">Combobox</a>
+    <a href="#medidor-clave">Medidor de contraseña</a>
+    <a href="#formulario-seccion">Secciones de formulario</a>
+    <a href="#formulario-largo">Formulario largo (ejemplo)</a>
+    <a href="#resumen-revision">Resumen de revisión</a>
+    <a href="#resumen-errores">Resumen de errores</a>
+    <div class="grupo">Componentes</div>
+    <a href="componentes.html#tarjeta">Tarjeta</a>
+    <a href="componentes.html#kpi">KPI</a>
+    <a href="componentes.html#etiqueta">Etiqueta</a>
+    <a href="componentes.html#boton">Botón</a>
+    <a href="componentes.html#pastilla">Pastilla</a>
+    <a href="componentes.html#aviso">Aviso</a>
+    <a href="componentes.html#aviso-pagina">Aviso de página</a>
+    <a href="componentes.html#tabla">Tabla</a>
+    <a href="componentes.html#tabla-ordenable">Tabla ordenable</a>
+    <a href="componentes.html#dato">Dato</a>
+    <a href="componentes.html#luz">Semáforo</a>
+    <a href="componentes.html#tiempo">Línea de tiempo</a>
+    <a href="componentes.html#vacio">Estado vacío</a>
+    <a href="componentes.html#stepper">Stepper</a>
+    <a href="componentes.html#asistente">Asistente</a>
+    <a href="componentes.html#rastreador">Rastreador de proceso</a>
+    <a href="componentes.html#validacion">Validación</a>
+    <a href="componentes.html#total-caja">Total</a>
+    <a href="componentes.html#progreso">Barra de progreso</a>
+    <a href="componentes.html#tabs">Tabs</a>
+    <a href="componentes.html#tab-panel">Pestañas con panel</a>
+    <a href="componentes.html#tooltip">Tooltip</a>
+    <a href="componentes.html#toggletip">Toggletip</a>
+    <a href="componentes.html#breadcrumb">Breadcrumb</a>
+    <a href="componentes.html#skeleton">Skeleton</a>
+    <a href="componentes.html#chip">Chip</a>
+    <a href="componentes.html#avatar">Avatar</a>
+    <a href="componentes.html#divisor">Divisor</a>
+    <a href="componentes.html#acordeon">Acordeón</a>
+    <a href="componentes.html#paginacion">Paginación</a>
+    <a href="componentes.html#menu">Menú</a>
+    <a href="componentes.html#insignia">Insignia</a>
+    <a href="componentes.html#insignia-icono">Insignia de ícono</a>
+    <a href="componentes.html#tarjeta-accion">Tarjeta de acción</a>
+    <a href="componentes.html#cargando">Spinner</a>
+    <a href="componentes.html#grupo-botones">Grupo de botones</a>
+    <a href="componentes.html#lista-grupo">Lista de grupo</a>
+    <a href="componentes.html#popover">Popover</a>
+    <a href="componentes.html#colapsar">Colapsar genérico</a>
+    <a href="componentes.html#cajon">Cajón</a>
+    <a href="componentes.html#carousel">Carousel</a>
+    <a href="componentes.html#pildora-archivo">Píldora de archivo</a>
+    <a href="componentes.html#zona-arrastre">Zona de arrastre</a>
+    <a href="componentes.html#calendario-estado">Calendario de estado</a>
+    <a href="componentes.html#celda-doble">Celda de dos líneas</a>
+    <div class="grupo">JS / Utilidades</div>
+    <a href="js-utilidades.html#utils-js">Utilidades JS</a>
+  </nav>
+  <main class="doc-main">
+    <header class="doc-header">
+      <p class="eyebrow">SLEP Santa Corina</p>
+      <h1>Formularios</h1>
+      <p>Campos, grupos, validación y los patrones de accesibilidad de GOV.UK Design System para formularios largos.</p>
+    </header>
+
+<section class="doc-sec" id="campo">
+      <h2>Campo</h2>
+      <p class="uso">Un control de formulario con su etiqueta y texto de ayuda.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="campo" style="max-width:320px">
+          <label for="rbd">RBD del establecimiento</label>
+          <input id="rbd" type="text" value="12255-6">
+          <p class="ayuda">Se usa para vincular la solicitud al presupuesto correcto.</p>
+        </div></div>
+        <pre class="codigo">&lt;div class="campo"&gt;&lt;label&gt;RBD&lt;/label&gt;&lt;input type="text"&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="check">
+      <h2>Checkbox / radio</h2>
+      <p class="uso">Nativos, solo con <code>accent-color</code> de marca — no un input oculto + div decorado.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="campo-check"><input type="checkbox" id="g-c1" checked><label for="g-c1">Recepción conforme</label></div>
+          <div class="campo-check"><input type="radio" name="g-r" id="g-r1" checked><label for="g-r1">SEP</label></div>
+        </div>
+        <pre class="codigo">&lt;div class="campo-check"&gt;&lt;input type="checkbox" id="c1"&gt;&lt;label for="c1"&gt;Recepción conforme&lt;/label&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="interruptor">
+      <h2>Interruptor</h2>
+      <p class="uso">On/off — activar o desactivar algo (ej. un destino de Finanzas).</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <label class="interruptor"><input type="checkbox" checked><span class="pista"></span></label>
+          <label class="interruptor"><input type="checkbox"><span class="pista"></span></label>
+        </div>
+        <pre class="codigo">&lt;label class="interruptor"&gt;&lt;input type="checkbox"&gt;&lt;span class="pista"&gt;&lt;/span&gt;&lt;/label&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="rango">
+      <h2>Rango</h2>
+      <p class="uso">Mismos colores que <code>.barra-progreso</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo"><input type="range" min="0" max="100" value="65"></div>
+        <pre class="codigo">&lt;input type="range" min="0" max="100" value="65"&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="archivo">
+      <h2>Archivo</h2>
+      <p class="uso">Marca solo sobre el botón "Elegir archivo" — el cuadro de diálogo del sistema operativo no se toca.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="campo" style="margin-bottom:0">
+          <label for="g-f1">Agregar antecedente</label>
+          <input type="file" id="g-f1">
+        </div></div>
+        <pre class="codigo">&lt;input type="file"&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="buscador">
+      <h2>Buscador</h2>
+      <p class="uso"><code>input[type=search]</code> ya trae un botón nativo de limpiar, pero depende del navegador y no tiene ícono — se oculta y se reemplaza por uno de marca (<code>iniciarBuscadores</code>).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="buscador">
+            <input type="search" placeholder="Buscar establecimiento...">
+            <button type="button" class="limpiar" aria-label="Limpiar">×</button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="buscador"&gt;&lt;input type="search"&gt;&lt;button class="limpiar"&gt;×&lt;/button&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="contador">
+      <h2>Contador de caracteres</h2>
+      <p class="uso">Sobre un <code>textarea</code> con <code>maxlength</code> — marca <code>.cerca</code> al 90% y <code>.lleno</code> al límite (<code>iniciarContadores</code>).</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="campo" style="margin-bottom:0">
+          <label for="g-ta1">Motivo del rechazo</label>
+          <textarea id="g-ta1" data-contador maxlength="120"></textarea>
+          <span class="contador-caracteres">0/120</span>
+        </div></div>
+        <pre class="codigo">&lt;textarea data-contador maxlength="120"&gt;&lt;/textarea&gt;&lt;span class="contador-caracteres"&gt;&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="grupo-campo">
+      <h2>Grupo de campo</h2>
+      <p class="uso">Prefijo/sufijo pegado a un input — esta plataforma maneja montos en pesos en cada tabla.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="grupo-campo" style="max-width:220px">
+            <span class="prefijo">$</span>
+            <input type="text" value="1.422.169">
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="grupo-campo"&gt;&lt;span class="prefijo"&gt;$&lt;/span&gt;&lt;input type="text"&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="campo-grupo">
+      <h2>Fieldset / leyenda</h2>
+      <p class="uso">El HTML nativo correcto para agrupar varios <code>.campo-check</code> bajo una sola pregunta — antes solo existía el estilo del ítem individual.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <fieldset class="campo-grupo">
+            <legend>Tipo de solicitud</legend>
+            <div class="campo-check"><input type="radio" name="tipo-guia" id="tg1" checked><label for="tg1">SEP</label></div>
+            <div class="campo-check"><input type="radio" name="tipo-guia" id="tg2"><label for="tg2">FAEP</label></div>
+          </fieldset>
+        </div>
+        <pre class="codigo">&lt;fieldset class="campo-grupo"&gt;&lt;legend&gt;Tipo de solicitud&lt;/legend&gt;&lt;div class="campo-check"&gt;...&lt;/div&gt;&lt;/fieldset&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="combobox">
+      <h2>Combobox</h2>
+      <p class="uso">Select con autocompletado sobre un <code>&lt;select&gt;</code> oculto — sigue funcionando con un form normal si el JS falla. Filtra sin distinguir tildes.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="combobox">
+            <input type="text" placeholder="Buscar establecimiento...">
+            <select>
+              <option value="">Seleccione...</option>
+              <option value="12255-6">Colegio Alcázar</option>
+              <option value="98765-4">Escuela República de Venezuela</option>
+            </select>
+            <ul class="combobox-opciones"></ul>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="combobox"&gt;&lt;input type="text"&gt;&lt;select&gt;...&lt;/select&gt;&lt;ul class="combobox-opciones"&gt;&lt;/ul&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="medidor-clave">
+      <h2>Medidor de contraseña</h2>
+      <p class="uso">Heurística simple (longitud + variedad de caracteres) para una guía visual — la seguridad real la sigue validando el backend.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <input type="password" data-medidor-clave placeholder="Nueva contraseña">
+        </div>
+        <pre class="codigo">&lt;input type="password" data-medidor-clave&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="formulario-seccion">
+      <h2>Secciones de formulario</h2>
+      <p class="uso">Agrupa los <code>.campo</code> de un formulario largo bajo un título, en vez de dejarlos todos sueltos uno tras otro.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="formulario-seccion" style="margin-bottom:0">
+            <h4 class="formulario-seccion-titulo">Datos del solicitante</h4>
+            <p class="formulario-seccion-nota">Quién pide la compra y para qué establecimiento.</p>
+            <div class="campo" style="margin-bottom:0"><label>Nombre</label><input type="text" value="Alejandro Rodríguez"></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="formulario-seccion"&gt;&lt;h4 class="formulario-seccion-titulo"&gt;...&lt;/h4&gt;&lt;div class="campo"&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="formulario-largo">
+      <h2>Formulario largo (ejemplo)</h2>
+      <p class="uso">Combinando lo de arriba en contexto real: una solicitud de compra con 4 secciones.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="formulario-seccion">
+            <h4 class="formulario-seccion-titulo">Datos del solicitante</h4>
+            <p class="formulario-seccion-nota">Quién pide la compra y para qué establecimiento.</p>
+            <div class="fila">
+              <div class="campo"><label>Nombre</label><input type="text" value="Alejandro Rodríguez"></div>
+              <div class="campo"><label>Establecimiento</label><select><option>Colegio Alcázar</option></select></div>
+            </div>
+          </div>
+          <div class="formulario-seccion">
+            <h4 class="formulario-seccion-titulo">Detalle de la compra</h4>
+            <div class="campo"><label>Producto o servicio</label><input type="text" placeholder="Ej. Material de oficina"></div>
+            <div class="campo-check"><input type="checkbox" id="g-urgente"><label for="g-urgente">Es urgente</label></div>
+          </div>
+          <div class="formulario-seccion">
+            <h4 class="formulario-seccion-titulo">Justificación</h4>
+            <div class="campo" style="margin-bottom:0">
+              <label>Motivo de la solicitud</label>
+              <textarea data-contador maxlength="300" placeholder="Explique por qué se necesita esta compra..."></textarea>
+              <span class="contador-caracteres">0/300</span>
+            </div>
+          </div>
+          <div class="formulario-seccion" style="margin-bottom:0">
+            <h4 class="formulario-seccion-titulo">Antecedentes</h4>
+            <p class="formulario-seccion-nota">Adjunte cotizaciones o documentos de respaldo.</p>
+            <input type="file">
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section class="doc-sec" id="resumen-revision">
+      <h2>Resumen de revisión</h2>
+      <p class="uso">De <a href="https://design-system.service.gov.uk/components/summary-list/">GOV.UK "summary list"</a> — pares clave/valor con acción "Cambiar", para la pantalla de revisión antes de enviar (cierra el flujo de <code>.asistente</code>/<code>.paso</code>). Solo CSS.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="resumen-revision">
+            <div class="resumen-revision-item"><span>Establecimiento</span><strong>Escuela Básica N°1</strong><a href="#" class="cambiar">Cambiar</a></div>
+            <div class="resumen-revision-item"><span>Monto solicitado</span><strong>$1.422.169</strong><a href="#" class="cambiar">Cambiar</a></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="resumen-revision-item"&gt;&lt;span&gt;Establecimiento&lt;/span&gt;&lt;strong&gt;Escuela Básica N°1&lt;/strong&gt;&lt;a class="cambiar"&gt;Cambiar&lt;/a&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="resumen-errores">
+      <h2>Resumen de errores</h2>
+      <p class="uso">De <a href="https://design-system.service.gov.uk/components/error-summary/">GOV.UK "error summary"</a> — el patrón de accesibilidad de formularios mejor documentado que encontré. <code>iniciarResumenErrores</code> enfoca la caja apenas aparece y mueve el foco al campo destino al hacer clic en un link.</p>
+      <div class="demo-wrap">
+        <div class="demo" id="demo-resumen-errores">
+          <button class="boton secundario" id="simular-error">Simular envío fallido</button>
+          <div class="resumen-errores" hidden style="margin-top:14px">
+            <h2>Hay 2 problemas con tu formulario</h2>
+            <ul>
+              <li><a href="#campo-rut-demo">El RUT ingresado no es válido</a></li>
+              <li><a href="#campo-monto-demo">El monto debe ser mayor a 0</a></li>
+            </ul>
+          </div>
+          <div class="campo" style="margin-top:14px"><label for="campo-rut-demo">RUT</label><input id="campo-rut-demo" type="text"></div>
+          <div class="campo"><label for="campo-monto-demo">Monto</label><input id="campo-monto-demo" type="number"></div>
+        </div>
+        <pre class="codigo">&lt;div class="resumen-errores"&gt;&lt;h2&gt;Hay 2 problemas...&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="#campo-rut"&gt;El RUT...&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="../dist/js.global.js"></script>
+<script>
+  // Solo para esta pagina de documentacion -- no es parte del paquete.
+  var botonesTema = document.querySelectorAll(".tema-selector button");
+  function marcarTemaActivo() {
+    var actual = localStorage.getItem("santacorina-guia-tema") || "system";
+    botonesTema.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.tema === actual));
+    });
+  }
+  botonesTema.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      var tema = boton.dataset.tema;
+      if (tema === "system") {
+        localStorage.removeItem("santacorina-guia-tema");
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        localStorage.setItem("santacorina-guia-tema", tema);
+        document.documentElement.setAttribute("data-theme", tema);
+      }
+      marcarTemaActivo();
+    });
+  });
+  marcarTemaActivo();
+
+  var navToggle = document.getElementById("doc-nav-toggle");
+  var nav = document.getElementById("doc-nav");
+  navToggle.addEventListener("click", function () {
+    nav.classList.toggle("abierta");
+  });
+  nav.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { nav.classList.remove("abierta"); });
+  });
+
+  var simularError = document.getElementById("simular-error");
+  if (simularError) {
+    simularError.addEventListener("click", function () {
+      var caja = document.querySelector("#demo-resumen-errores .resumen-errores");
+      caja.hidden = false;
+      simularError.hidden = true;
+      Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
+    });
+  }
+
+  document.querySelectorAll("pre.codigo").forEach(function (pre) {
+    var texto = pre.textContent;
+    var boton = document.createElement("button");
+    boton.className = "copiar-boton";
+    boton.type = "button";
+    boton.textContent = "Copiar";
+    boton.addEventListener("click", function () {
+      Santacorina.copiarAlPortapapeles(texto);
+      Santacorina.mostrarToast("Código copiado", "ok");
+    });
+    pre.appendChild(boton);
+  });
+</script>
+</body>
+</html>

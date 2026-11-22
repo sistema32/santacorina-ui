@@ -21,6 +21,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var js_exports = {};
 __export(js_exports, {
   abrirModal: () => abrirModal,
+  avanzarCarrusel: () => avanzarCarrusel,
   cerrarModal: () => cerrarModal,
   copiarAlPortapapeles: () => copiarAlPortapapeles,
   debounce: () => debounce,
@@ -29,6 +30,7 @@ __export(js_exports, {
   iniciarBuscadores: () => iniciarBuscadores,
   iniciarCajones: () => iniciarCajones,
   iniciarCalendario: () => iniciarCalendario,
+  iniciarCarruseles: () => iniciarCarruseles,
   iniciarColapsables: () => iniciarColapsables,
   iniciarCombobox: () => iniciarCombobox,
   iniciarContadores: () => iniciarContadores,
@@ -766,6 +768,58 @@ function iniciarTablasOrdenables(raiz = document) {
   });
 }
 
+// src/js/carousel.ts
+var controles = /* @__PURE__ */ new WeakMap();
+function iniciarCarruseles(raiz = document) {
+  raiz.querySelectorAll(".carousel").forEach((carousel) => {
+    const pista = carousel.querySelector(".carousel-pista");
+    const slides = Array.from(carousel.querySelectorAll(".carousel-slide"));
+    if (!pista || slides.length === 0) return;
+    let indice = 0;
+    const contenedorIndicadores = carousel.querySelector(".carousel-indicadores");
+    let indicadores = [];
+    if (contenedorIndicadores) {
+      if (contenedorIndicadores.children.length === 0) {
+        indicadores = slides.map((_, i) => {
+          const boton = document.createElement("button");
+          boton.type = "button";
+          boton.setAttribute("aria-label", `Ir a la diapositiva ${i + 1}`);
+          contenedorIndicadores.appendChild(boton);
+          return boton;
+        });
+      } else {
+        indicadores = Array.from(contenedorIndicadores.children);
+      }
+      indicadores.forEach((boton, i) => boton.addEventListener("click", () => ir(i)));
+    }
+    function render() {
+      pista.style.transform = `translateX(-${indice * 100}%)`;
+      indicadores.forEach((boton, i) => boton.classList.toggle("activo", i === indice));
+    }
+    function ir(destino) {
+      indice = (destino + slides.length) % slides.length;
+      render();
+    }
+    const anterior = () => ir(indice - 1);
+    const siguiente = () => ir(indice + 1);
+    carousel.querySelector(".carousel-anterior")?.addEventListener("click", anterior);
+    carousel.querySelector(".carousel-siguiente")?.addEventListener("click", siguiente);
+    carousel.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") anterior();
+      else if (e.key === "ArrowRight") siguiente();
+    });
+    if (!carousel.hasAttribute("tabindex")) carousel.setAttribute("tabindex", "0");
+    render();
+    controles.set(carousel, { ir, siguiente, anterior });
+  });
+}
+function avanzarCarrusel(carousel, direccion = 1) {
+  const control = controles.get(carousel);
+  if (!control) return;
+  if (direccion === 1) control.siguiente();
+  else control.anterior();
+}
+
 // src/js/index.ts
 function iniciarTodo(raiz = document) {
   iniciarModales(raiz);
@@ -785,6 +839,7 @@ function iniciarTodo(raiz = document) {
   iniciarToggletips(raiz);
   iniciarResumenErrores(raiz);
   iniciarTablasOrdenables(raiz);
+  iniciarCarruseles(raiz);
 }
 if (typeof document !== "undefined") {
   if (document.readyState === "loading") {
@@ -796,6 +851,7 @@ if (typeof document !== "undefined") {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   abrirModal,
+  avanzarCarrusel,
   cerrarModal,
   copiarAlPortapapeles,
   debounce,
@@ -804,6 +860,7 @@ if (typeof document !== "undefined") {
   iniciarBuscadores,
   iniciarCajones,
   iniciarCalendario,
+  iniciarCarruseles,
   iniciarColapsables,
   iniciarCombobox,
   iniciarContadores,

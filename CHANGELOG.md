@@ -1,5 +1,51 @@
 # Changelog
 
+## 0.18.0 — sin publicar
+
+Feedback sobre la guía: faltaban referencias (ej. `.avatar` existe
+hace rondas y no se encontró navegando) y el archivo era demasiado
+grande (1306 líneas en uno solo). Se dividió `guia/` en 5 páginas —
+ver nota en el README, sección Desarrollo (sin bump de versión esa
+parte, `guia/` no está en `package.json["files"]`).
+
+Además se pidió verificar componentes de Bootstrap que faltaban:
+carousel, container, album, gutters, grid, z-index, textarea, label,
+form control, avatar. Revisados uno por uno:
+
+**Ya cubiertos, sin CSS nuevo** (solo quedan mejor referenciados en el
+índice nuevo): Avatar (`.avatar`, 0.6.0), Textarea (selector `textarea`),
+Label (`.campo label`), Form control (`input[type=...]/select/textarea`
+ya es el equivalente exacto, con otro nombre de capa), Album (es una
+página de ejemplo de Bootstrap, no un componente — se arma combinando
+`.tarjeta` + `.columnas`/`.fila`, que ya existen).
+
+**Gaps reales, agregados esta ronda:**
+
+- **`.carousel`** + `iniciarCarruseles`/`avanzarCarrusel` — en 0.11.0
+  se dejó fuera a propósito ("sin caso de uso en un portal de compras
+  públicas"). Se revierte esa decisión: ahora se pide como paridad de
+  framework, no por un caso de uso de `sgp`, mismo criterio preventivo
+  que `.hero`. Sin autoplay por defecto.
+- **`.contenedor` / `.contenedor-fluido`** — equivalente de
+  `.container`/`.container-fluid` de Bootstrap. Se llama distinto a
+  propósito: Tailwind v4 ya genera su propia utilidad `.container` en
+  `@layer utilities`, que le ganaba a la nuestra (se encontró al
+  verificar con Playwright — `max-width` nunca se aplicaba, quedaba en
+  1280px en vez de 1150px).
+- **Gutters en `.columnas`** (`.gutters-0`/`.gutters-chico`/`.gutters-grande`)
+  — sin crear un segundo sistema de grid paralelo, son modificadores
+  del mismo `.columnas` que ya existía.
+- **Escala de z-index** — había 9 valores sueltos
+  (100/200/1000/1150/1200/1300/9000/9500/9999) sin ninguna relación
+  documentada; ahora son variables CSS (`--z-*`) + 5 utilidades
+  públicas (`.z-flotante`/`.z-flotante-alto`/`.z-cajon`/`.z-modal`/`.z-toast`).
+
+Verificado con Playwright: `.contenedor` realmente topa en 1150px (no
+en el breakpoint de Tailwind), los 3 gutters dan el gap correcto, el
+carousel responde a clic/indicador/teclado con wrap-around, y las 5
+páginas de la guía cargan sin errores de JS con el nav, el selector de
+tema, el nav móvil y los botones de copiar funcionando en todas.
+
 ## guia/index.html — demos interactivos + copiar código (sin cambio de versión)
 
 No toca `dist/` ni nada en `package.json["files"]` — `guia/` es una

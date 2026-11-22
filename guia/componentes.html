@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>santacorina/ui — Componentes</title>
+<link rel="stylesheet" href="../dist/ui.css">
+<link rel="stylesheet" href="guia.css">
+</head>
+<body>
+<script>
+  // Aplica el tema guardado antes de pintar, para evitar parpadeo.
+  (function () {
+    var guardado = localStorage.getItem("santacorina-guia-tema");
+    if (guardado === "light" || guardado === "dark") {
+      document.documentElement.setAttribute("data-theme", guardado);
+    }
+  })();
+</script>
+<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<div class="doc-shell">
+  <nav class="doc-nav" id="doc-nav">
+    <p class="marca">@sistema32/santacorina-ui</p>
+    <p class="sub">Guía de componentes</p>
+    <div class="tema-selector" role="group" aria-label="Tema">
+      <button type="button" data-tema="light">Claro</button>
+      <button type="button" data-tema="system">Sistema</button>
+      <button type="button" data-tema="dark">Oscuro</button>
+    </div>
+    <a href="index.html" class="nav-inicio">&larr; Portada / índice completo</a>
+    <div class="grupo">Fundamentos</div>
+    <a href="index.html#tokens">Tokens</a>
+    <a href="index.html#tipografia">Tipografía</a>
+    <a href="index.html#iconos">Íconos</a>
+    <div class="grupo">Layout</div>
+    <a href="layout.html#armazon">Armazón de página</a>
+    <a href="layout.html#lateral">Menú lateral</a>
+    <a href="layout.html#variantes-cabecera">Variantes de cabecera/pie</a>
+    <a href="layout.html#contenedor">Contenedor</a>
+    <a href="layout.html#columnas-variantes">Columnas (2/4)</a>
+    <a href="layout.html#masonry">Masonry</a>
+    <a href="layout.html#hero">Hero</a>
+    <a href="layout.html#col-ancha">Columna ancha</a>
+    <a href="layout.html#z-index">Z-index</a>
+    <div class="grupo">Formularios</div>
+    <a href="formularios.html#campo">Campo</a>
+    <a href="formularios.html#check">Checkbox / radio</a>
+    <a href="formularios.html#interruptor">Interruptor</a>
+    <a href="formularios.html#rango">Rango</a>
+    <a href="formularios.html#archivo">Archivo</a>
+    <a href="formularios.html#buscador">Buscador</a>
+    <a href="formularios.html#contador">Contador de caracteres</a>
+    <a href="formularios.html#grupo-campo">Grupo de campo</a>
+    <a href="formularios.html#campo-grupo">Fieldset / leyenda</a>
+    <a href="formularios.html#combobox">Combobox</a>
+    <a href="formularios.html#medidor-clave">Medidor de contraseña</a>
+    <a href="formularios.html#formulario-seccion">Secciones de formulario</a>
+    <a href="formularios.html#formulario-largo">Formulario largo (ejemplo)</a>
+    <a href="formularios.html#resumen-revision">Resumen de revisión</a>
+    <a href="formularios.html#resumen-errores">Resumen de errores</a>
+    <div class="grupo">Componentes</div>
+    <a href="#tarjeta">Tarjeta</a>
+    <a href="#kpi">KPI</a>
+    <a href="#etiqueta">Etiqueta</a>
+    <a href="#boton">Botón</a>
+    <a href="#pastilla">Pastilla</a>
+    <a href="#aviso">Aviso</a>
+    <a href="#aviso-pagina">Aviso de página</a>
+    <a href="#tabla">Tabla</a>
+    <a href="#tabla-ordenable">Tabla ordenable</a>
+    <a href="#dato">Dato</a>
+    <a href="#luz">Semáforo</a>
+    <a href="#tiempo">Línea de tiempo</a>
+    <a href="#vacio">Estado vacío</a>
+    <a href="#stepper">Stepper</a>
+    <a href="#asistente">Asistente</a>
+    <a href="#rastreador">Rastreador de proceso</a>
+    <a href="#validacion">Validación</a>
+    <a href="#total-caja">Total</a>
+    <a href="#progreso">Barra de progreso</a>
+    <a href="#tabs">Tabs</a>
+    <a href="#tab-panel">Pestañas con panel</a>
+    <a href="#tooltip">Tooltip</a>
+    <a href="#toggletip">Toggletip</a>
+    <a href="#breadcrumb">Breadcrumb</a>
+    <a href="#skeleton">Skeleton</a>
+    <a href="#chip">Chip</a>
+    <a href="#avatar">Avatar</a>
+    <a href="#divisor">Divisor</a>
+    <a href="#acordeon">Acordeón</a>
+    <a href="#paginacion">Paginación</a>
+    <a href="#menu">Menú</a>
+    <a href="#insignia">Insignia</a>
+    <a href="#insignia-icono">Insignia de ícono</a>
+    <a href="#tarjeta-accion">Tarjeta de acción</a>
+    <a href="#cargando">Spinner</a>
+    <a href="#grupo-botones">Grupo de botones</a>
+    <a href="#lista-grupo">Lista de grupo</a>
+    <a href="#popover">Popover</a>
+    <a href="#colapsar">Colapsar genérico</a>
+    <a href="#cajon">Cajón</a>
+    <a href="#carousel">Carousel</a>
+    <a href="#pildora-archivo">Píldora de archivo</a>
+    <a href="#zona-arrastre">Zona de arrastre</a>
+    <a href="#calendario-estado">Calendario de estado</a>
+    <a href="#celda-doble">Celda de dos líneas</a>
+    <div class="grupo">JS / Utilidades</div>
+    <a href="js-utilidades.html#utils-js">Utilidades JS</a>
+  </nav>
+  <main class="doc-main">
+    <header class="doc-header">
+      <p class="eyebrow">SLEP Santa Corina</p>
+      <h1>Componentes</h1>
+      <p>Tarjetas, botones, datos, navegación y los paneles flotantes (menú, popover, cajón, carousel) -- la mayor parte del paquete.</p>
+    </header>
+
+<section class="doc-sec" id="tarjeta">
+      <h2>Tarjeta</h2>
+      <p class="uso">Contenedor base de cualquier bloque de contenido.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="tarjeta"><h3>Presupuesto total</h3><p class="tenue">COLEGIO ALCÁZAR · RBD 12255-6 · Año 2026</p></div></div>
+        <pre class="codigo">&lt;div class="tarjeta"&gt;&lt;h3&gt;Presupuesto total&lt;/h3&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="kpi">
+      <h2>KPI</h2>
+      <p class="uso">Cifra destacada con color de estado en el borde izquierdo.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="kpis" style="margin-bottom:0">
+          <div class="kpi" data-tono="azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
+          <div class="kpi" data-tono="verde"><div class="n">99%</div><div class="t">% ejecución</div></div>
+          <div class="kpi" data-tono="naranjo"><div class="n">2</div><div class="t">Pendientes</div></div>
+          <div class="kpi" data-tono="rojo"><div class="n">1</div><div class="t">Sobregirado</div></div>
+        </div></div>
+        <pre class="codigo">&lt;div class="kpi" data-tono="rojo"&gt;&lt;div class="n"&gt;1&lt;/div&gt;&lt;div class="t"&gt;Sobregirado&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="etiqueta">
+      <h2>Etiqueta</h2>
+      <p class="uso">Estado corto en línea con texto. No es clicable — para eso está la pastilla.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span class="etiqueta" data-tono="verde">ACEPTADA</span>
+          <span class="etiqueta" data-tono="rojo">RECHAZADA</span>
+          <span class="etiqueta" data-tono="naranjo">EN REVISIÓN</span>
+          <span class="etiqueta" data-tono="gris">BORRADOR</span>
+        </div>
+        <pre class="codigo">&lt;span class="etiqueta" data-tono="verde"&gt;ACEPTADA&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="boton">
+      <h2>Botón</h2>
+      <p class="uso"><code>.btn-chico</code> es la variante para una fila o celda de tabla.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <button class="boton">Enviar solicitud</button>
+          <button class="boton secundario">Guardar borrador</button>
+          <button class="boton peligro">Rechazar</button>
+          <a class="btn-chico" href="#">Modificar</a>
+          <a class="btn-chico peligro" href="#">Eliminar</a>
+        </div>
+        <pre class="codigo">&lt;button class="boton"&gt;Enviar solicitud&lt;/button&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="pastilla">
+      <h2>Pastilla</h2>
+      <p class="uso">Decisión clicable con forma de botón.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <button class="pastilla" data-tono="celeste">Revisar</button>
+          <button class="pastilla" data-tono="roja">Rechazar</button>
+        </div>
+        <pre class="codigo">&lt;button class="pastilla" data-tono="celeste"&gt;Revisar&lt;/button&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="aviso">
+      <h2>Aviso</h2>
+      <p class="uso">Banner de nivel de pantalla completa.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;flex-direction:column;gap:10px">
+          <div class="aviso" data-tono="info">El año 2027 ya está abierto. Los datos de 2026 quedan de solo lectura.</div>
+          <div class="aviso" data-tono="ok">Backup completado exitosamente.</div>
+          <div class="aviso" data-tono="alerta">El envío de correos no está configurado.</div>
+          <div class="aviso" data-tono="error">El Llano de Maipú tiene 109,8% de ejecución del SEP.</div>
+        </div>
+        <pre class="codigo">&lt;div class="aviso" data-tono="alerta"&gt;El envío de correos no está configurado.&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="aviso-pagina">
+      <h2>Aviso de página</h2>
+      <p class="uso">De <a href="https://design-system.service.gov.uk/components/notification-banner/">GOV.UK "notification banner"</a>/USWDS "site alert" — franja persistente bajo la cabecera, distinta de <code>.aviso</code> (por tarjeta) y <code>.toast</code> (transitorio).</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <div class="aviso-pagina" data-tono="info"><strong>Tienes 3 solicitudes pendientes</strong>Revísalas antes del cierre del mes.</div>
+        </div>
+        <pre class="codigo">&lt;div class="aviso-pagina" data-tono="info"&gt;&lt;strong&gt;Tienes 3 solicitudes pendientes&lt;/strong&gt;Revísalas...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="tabla">
+      <h2>Tabla</h2>
+      <p class="uso">Los montos (<code>.peso</code>) van siempre alineados a la derecha, con cifras de ancho fijo.</p>
+      <div class="demo-wrap">
+        <div class="demo tabla-scroll">
+          <table>
+            <thead><tr><th>SC</th><th>Solicita</th><th class="der">Solicitado</th></tr></thead>
+            <tbody><tr><td>46255</td><td>ADQ. COLACION (DESAYUNO)</td><td class="peso">$1.422.169</td></tr></tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;td class="peso"&gt;$1.422.169&lt;/td&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="tabla-ordenable">
+      <h2>Tabla ordenable</h2>
+      <p class="uso">De <a href="https://carbondesignsystem.com/components/data-table/usage/">Carbon Design System</a> (tabla de datos) — solo la flecha y el estado <code>aria-sort</code>; <code>iniciarTablasOrdenables</code> dispara <code>santacorina:ordenar</code> con la columna y dirección para que el consumidor reordene sus propias filas.</p>
+      <div class="demo-wrap">
+        <div class="demo tabla-scroll">
+          <table>
+            <thead><tr><th data-ordenable="nombre">Nombre</th><th data-ordenable="monto">Monto</th></tr></thead>
+            <tbody><tr><td>Escuela A</td><td>100</td></tr></tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;th data-ordenable="nombre"&gt;Nombre&lt;/th&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="dato">
+      <h2>Dato</h2>
+      <p class="uso">Par etiqueta/valor — la unidad mínima de cualquier resumen.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="max-width:360px">
+          <div class="dato"><span>Presupuesto total</span><strong>$59.894.565</strong></div>
+          <div class="dato"><span>Saldo disponible</span><strong>$718.704</strong></div>
+        </div>
+        <pre class="codigo">&lt;div class="dato"&gt;&lt;span&gt;Saldo disponible&lt;/span&gt;&lt;strong&gt;$718.704&lt;/strong&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="luz">
+      <h2>Semáforo</h2>
+      <p class="uso">Punto de estado para una lista de chequeos.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz" data-tono="verde"></span><span>Presupuesto disponible</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz" data-tono="rojo"></span><span>Fuente sin validar</span></div>
+        </div>
+        <pre class="codigo">&lt;span class="luz" data-tono="verde"&gt;&lt;/span&gt; Presupuesto disponible</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="tiempo">
+      <h2>Línea de tiempo</h2>
+      <p class="uso">Historial de eventos, más reciente abajo.</p>
+      <div class="demo-wrap">
+        <div class="demo"><ul class="linea-tiempo" style="margin:0;padding:0">
+          <li><span class="ts">14-10-2026 14:42</span><br><span class="txt">Solicitud enviada</span></li>
+        </ul></div>
+        <pre class="codigo">&lt;ul class="linea-tiempo"&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="vacio">
+      <h2>Estado vacío</h2>
+      <p class="uso">Cuando un listado no tiene filas que mostrar.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="vacio"><p>Sin solicitudes pendientes.</p></div></div>
+        <pre class="codigo">&lt;div class="vacio"&gt;&lt;p&gt;Sin solicitudes pendientes.&lt;/p&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="stepper">
+      <h2>Stepper</h2>
+      <p class="uso">Progreso de un flujo de varios pasos, con sus estados posibles.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <ol class="stepper" style="list-style:none;margin:0;padding:0">
+            <li class="stepper-paso completado"><span class="num">✓</span> Datos</li>
+            <li class="stepper-paso activo"><span class="num">2</span> Productos</li>
+            <li class="stepper-paso"><span class="num">3</span> Revisión</li>
+            <li class="stepper-paso rechazado"><span class="num">✕</span> Rechazado</li>
+            <li class="stepper-paso omitido"><span class="num">5</span> Omitido</li>
+          </ol>
+        </div>
+        <pre class="codigo">&lt;li class="stepper-paso activo"&gt;&lt;span class="num"&gt;2&lt;/span&gt; Productos&lt;/li&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="asistente">
+      <h2>Asistente</h2>
+      <p class="uso">Trasladado tal cual de <code>portal.css</code> (wizard horizontal, usado en 5 pantallas reales: <code>compras_dashboard</code>, <code>compras_solicitud</code>, <code>solicitud_form</code>, <code>tesoreria_dashboard</code>, <code>tesoreria_solicitud</code>). La fila de chips reutiliza <code>.stepper</code>/<code>.stepper-paso</code> ya existente — <code>.stepper-paso.completado</code> es el equivalente de lo que esas pantallas llaman <code>.paso-chip.listo</code>. Avanzar sigue siendo decisión de cada pantalla: valida antes de llamar <code>irAPaso</code> (el paquete no auto-avanza un botón "Continuar").</p>
+      <div class="demo-wrap">
+        <div class="demo" data-asistente>
+          <ol class="stepper" style="list-style:none;margin:0 0 14px;padding:0">
+            <li class="stepper-paso completado" data-chip="1"><span class="num">✓</span> Datos</li>
+            <li class="stepper-paso activo" data-chip="2"><span class="num">2</span> Productos</li>
+            <li class="stepper-paso" data-chip="3"><span class="num">3</span> Resumen</li>
+          </ol>
+          <section data-paso="2" class="paso visible"><p style="margin:0">Contenido del paso 2.</p></section>
+
+<section class="doc-sec" id="rastreador">
+      <h2>Rastreador de proceso</h2>
+      <p class="uso">Trasladado tal cual de <code>portal.css</code> (<code>.pasos-compra</code>, usado en <code>compras_dashboard</code>/<code>compras_solicitud</code>), con nombre genérico — no "-compra" — porque sirve para cualquier proceso de varias etapas. Distinto de <code>.linea-tiempo</code> (solo un log) y de <code>.stepper</code> (horizontal, sin descripción).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <ul class="rastreador">
+            <li class="rastreador-item hecho"><span class="n">1</span><span class="titulo">Solicitud enviada</span><span class="descripcion">Registrada en el sistema.</span><span class="responsable">Comprador</span></li>
+            <li class="rastreador-item actual"><span class="n">2</span><span class="titulo">En revisión</span><span class="descripcion">Esperando aprobación de presupuesto.</span><span class="responsable">Encargado</span></li>
+            <li class="rastreador-item pendiente"><span class="n">3</span><span class="titulo">Publicación</span><span class="descripcion">Se publica en Mercado Público.</span><span class="responsable">Comprador</span></li>
+          </ul>
+        </div>
+        <pre class="codigo">&lt;ul class="rastreador"&gt;&lt;li class="rastreador-item hecho"&gt;&lt;span class="n"&gt;1&lt;/span&gt;...&lt;/li&gt;&lt;/ul&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="validacion">
+      <h2>Validación</h2>
+      <p class="uso">Trasladado tal cual de <code>portal.css</code> (usado en 6 pantallas). Siempre va junto a <code>.luz</code>. <code>.detalle-tecnico</code> (sobre <code>&lt;details&gt;</code> nativo, igual criterio que <code>.acordeon</code>) va dentro de <code>.validacion-txt</code> para información técnica opcional.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="validacion">
+            <div class="luz" data-tono="verde"></div>
+            <div class="validacion-txt">
+              <h4>Presupuesto disponible</h4>
+              <p>El establecimiento tiene saldo suficiente en la fuente SEP.</p>
+            </div>
+          </div>
+          <div class="validacion" style="border-bottom:0">
+            <div class="luz" data-tono="rojo"></div>
+            <div class="validacion-txt">
+              <h4>Fuente de financiamiento</h4>
+              <p>No se pudo validar automáticamente.</p>
+              <details class="detalle-tecnico">
+                <summary>Ver detalle técnico</summary>
+                <pre>fuente_financiamiento: regla "FAEP-22" sin match (preliminar)</pre>
+              </details>
+            </div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="validacion"&gt;&lt;div class="luz" data-tono="rojo"&gt;&lt;/div&gt;&lt;div class="validacion-txt"&gt;...&lt;details class="detalle-tecnico"&gt;...&lt;/details&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="total-caja">
+      <h2>Total</h2>
+      <p class="uso">Trasladado tal cual de <code>portal.css</code> (<code>solicitud_form.html</code>). Parecido a <code>.hero</code>, pero chico y pensado para ir dentro de un formulario.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="total-caja" style="margin:0">
+            <span>VALOR TOTAL (se calcula automáticamente)</span>
+            <strong>$1.422.169</strong>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="total-caja"&gt;&lt;span&gt;VALOR TOTAL&lt;/span&gt;&lt;strong&gt;$1.422.169&lt;/strong&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="progreso">
+      <h2>Barra de progreso</h2>
+      <p class="uso">Mismos tres colores semánticos que el resto de la librería: azul en curso, naranjo alerta, rojo pasado.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;flex-direction:column;gap:10px">
+          <div class="barra-progreso"><div class="relleno" style="width:60%"></div></div>
+          <div class="barra-progreso"><div class="relleno alerta" style="width:85%"></div></div>
+          <div class="barra-progreso"><div class="relleno pasada" style="width:100%"></div></div>
+        </div>
+        <pre class="codigo">&lt;div class="barra-progreso"&gt;&lt;div class="relleno alerta" style="width:85%"&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="tabs">
+      <h2>Tabs</h2>
+      <p class="uso">Mismo nombre de estado que el stepper: <code>.activo</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="tabs">
+            <button class="activo">Los 105</button>
+            <button>Les falta algo (103)</button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="tabs"&gt;&lt;button class="activo"&gt;Los 105&lt;/button&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="tab-panel">
+      <h2>Pestañas con panel real</h2>
+      <p class="uso">Con <code>data-tab</code>/<code>data-tab-panel</code>, <code>iniciarTabs()</code> muestra/oculta el panel correspondiente — sin esos atributos, <code>.tabs</code> sigue siendo solo un segmented control, igual que hasta 0.9.0.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="tabs"><button class="activo" data-tab="g-a">Activas (105)</button><button data-tab="g-b">Cerradas (12)</button></div>
+          <div data-tab-panel="g-a" class="tab-panel activo" style="margin-top:14px"><div class="dato" style="border-bottom:0"><span>Colegio Alcázar</span><strong>En revisión</strong></div></div>
+          <div data-tab-panel="g-b" class="tab-panel" style="margin-top:14px"><div class="dato" style="border-bottom:0"><span>Escuela República</span><strong>Aprobada</strong></div></div>
+        </div>
+        <pre class="codigo">&lt;button data-tab="g-a" class="activo"&gt;...&lt;/button&gt;&lt;div data-tab-panel="g-a" class="tab-panel activo"&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="tooltip">
+      <h2>Tooltip</h2>
+      <p class="uso">Solo CSS, vía <code>data-tooltip</code> — no requiere JS.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <span data-tooltip="Precio de mercado sin fuente conectada todavía" style="text-decoration:underline;cursor:help">Precio de mercado</span>
+        </div>
+        <pre class="codigo">&lt;span data-tooltip="Precio de mercado sin fuente conectada todavía"&gt;Precio de mercado&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="toggletip">
+      <h2>Toggletip</h2>
+      <p class="uso">Alternativa a <code>[data-tooltip]</code> con soporte táctil: <code>[data-tooltip]</code> solo responde a hover/focus-visible, sin equivalente en pantallas táctiles. Se abre con clic y se cierra con clic afuera o Escape — mismo patrón de capa flotante que <code>.popover-panel</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <span data-toggletip style="display:inline-block">
+            <button class="boton secundario">¿Qué es el RUT?</button>
+            <div data-toggletip-contenido style="display:none">El Rol Único Tributario identifica a cada contribuyente en Chile.</div>
+          </span>
+        </div>
+        <pre class="codigo">&lt;span data-toggletip&gt;&lt;button&gt;...&lt;/button&gt;&lt;div data-toggletip-contenido hidden&gt;...&lt;/div&gt;&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="breadcrumb">
+      <h2>Breadcrumb</h2>
+      <p class="uso">Generaliza el «Estás viendo: X → Y» que antes se armaba a mano.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="breadcrumb">
+            <a href="#">COLEGIO ALCÁZAR</a><span class="sep">→</span><span class="actual">Solicitudes de Compras</span>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="breadcrumb"&gt;&lt;a href="#"&gt;COLEGIO ALCÁZAR&lt;/a&gt;&lt;span class="sep"&gt;→&lt;/span&gt;&lt;span class="actual"&gt;Solicitudes de Compras&lt;/span&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="skeleton">
+      <h2>Skeleton</h2>
+      <p class="uso">Estado de carga — antes una pantalla cargando no mostraba nada hasta que llegaba el dato.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;flex-direction:column;gap:8px">
+          <div class="skeleton skeleton-texto"></div>
+          <div class="skeleton skeleton-texto"></div>
+          <div class="skeleton skeleton-texto corto"></div>
+        </div>
+        <pre class="codigo">&lt;div class="skeleton skeleton-texto"&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="chip">
+      <h2>Chip</h2>
+      <p class="uso">Como <code>.etiqueta</code>, pero removible — para filtros seleccionados.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span class="chip" data-tono="azul">SEP <button class="quitar">×</button></span>
+          <span class="chip" data-tono="verde">FAEP <button class="quitar">×</button></span>
+        </div>
+        <pre class="codigo">&lt;span class="chip" data-tono="azul"&gt;SEP &lt;button class="quitar"&gt;×&lt;/button&gt;&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="avatar">
+      <h2>Avatar</h2>
+      <p class="uso">Iniciales en círculo, para listas de usuarios o aprobadores.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span class="avatar" data-tono="azul">AR</span>
+          <span class="avatar" data-tono="verde" data-tamano="chico">MO</span>
+          <span class="avatar" data-tono="naranjo" data-tamano="grande">CL</span>
+        </div>
+        <pre class="codigo">&lt;span class="avatar" data-tono="azul"&gt;AR&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="divisor">
+      <h2>Divisor</h2>
+      <p class="uso">Separa dos bloques, con o sin texto en medio.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <p style="margin:0 0 10px">Bloque uno</p>
+          <div class="divisor">o</div>
+          <p style="margin:10px 0 0">Bloque dos</p>
+        </div>
+        <pre class="codigo">&lt;div class="divisor"&gt;o&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="acordeon">
+      <h2>Acordeón</h2>
+      <p class="uso">Marca sobre <code>&lt;details&gt;/&lt;summary&gt;</code> nativos — el navegador resuelve abrir/cerrar y teclado.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <details class="acordeon" open>
+            <summary>Qué incluye el presupuesto</summary>
+            <div class="cuerpo">Fuente SEP, FAEP y subvención regular.</div>
+          </details>
+        </div>
+        <pre class="codigo">&lt;details class="acordeon"&gt;&lt;summary&gt;Título&lt;/summary&gt;&lt;div class="cuerpo"&gt;...&lt;/div&gt;&lt;/details&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="paginacion">
+      <h2>Paginación</h2>
+      <p class="uso">Mismo estado <code>.activo</code> que tabs y stepper.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <nav class="paginacion">
+            <button>‹</button>
+            <button class="activo">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>›</button>
+          </nav>
+        </div>
+        <pre class="codigo">&lt;nav class="paginacion"&gt;&lt;button class="activo"&gt;1&lt;/button&gt;&lt;/nav&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="menu">
+      <h2>Menú</h2>
+      <p class="uso">Misma técnica que <code>.acordeon</code> (<code>&lt;details&gt;</code> nativo), pero el panel flota anclado en vez de empujar el layout.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:flex;justify-content:flex-end">
+          <details class="menu">
+            <summary>⋮</summary>
+            <div class="menu-panel">
+              <a href="#">Ver detalle</a>
+              <button>Editar</button>
+              <hr>
+              <button class="peligro">Eliminar</button>
+            </div>
+          </details>
+        </div>
+        <pre class="codigo">&lt;details class="menu"&gt;&lt;summary&gt;⋮&lt;/summary&gt;&lt;div class="menu-panel"&gt;...&lt;/div&gt;&lt;/details&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="insignia">
+      <h2>Insignia</h2>
+      <p class="uso">Sobre un padre <code>position:relative</code> — un ícono, una pastilla, un avatar.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span style="position:relative;display:inline-block"><span class="avatar" data-tono="azul">AR</span><span class="insignia punto" data-tono="verde"></span></span>
+          <span style="position:relative;display:inline-block"><button class="pastilla" data-tono="celeste">Notificaciones</button><span class="insignia">3</span></span>
+        </div>
+        <pre class="codigo">&lt;span style="position:relative"&gt;...&lt;span class="insignia"&gt;3&lt;/span&gt;&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="insignia-icono">
+      <h2>Insignia de ícono</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>IconBadge.vue</code>, 23 usos). El propio componente reemplazó "~6 variantes casi idénticas" que había antes de empaquetarlo una vez.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <span class="insignia-icono" data-tono="azul" data-tamano="chica">⚙</span>
+          <span class="insignia-icono" data-tono="verde">✓</span>
+          <span class="insignia-icono" data-tono="rojo" data-tamano="grande">!</span>
+        </div>
+        <pre class="codigo">&lt;span class="insignia-icono" data-tono="verde"&gt;✓&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="tarjeta-accion">
+      <h2>Tarjeta de acción</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>.home-section-card</code>/<code>.process-card</code>) — ícono + título + descripción, clicable, para grillas de acceso rápido de un dashboard.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <a href="#" class="tarjeta-accion"><span class="insignia-icono" data-tono="azul">⚙</span><strong>Procesos</strong><small>Lanzar un proceso de scraping manual.</small></a>
+        </div>
+        <pre class="codigo">&lt;a class="tarjeta-accion"&gt;&lt;span class="insignia-icono" data-tono="azul"&gt;...&lt;/span&gt;&lt;strong&gt;Procesos&lt;/strong&gt;&lt;small&gt;...&lt;/small&gt;&lt;/a&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="cargando">
+      <h2>Spinner</h2>
+      <p class="uso">Para meter dentro de <code>.boton</code> mientras se envía algo.</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <button class="boton" style="display:inline-flex;align-items:center;gap:8px"><span class="cargando"></span> Enviando...</button>
+          <span class="cargando oscuro grande"></span>
+        </div>
+        <pre class="codigo">&lt;button class="boton"&gt;&lt;span class="cargando"&gt;&lt;/span&gt; Enviando...&lt;/button&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="grupo-botones">
+      <h2>Grupo de botones</h2>
+      <p class="uso">Botones de acción visualmente unidos — ej. "Aprobar / Revisar / Rechazar" en una fila de bandeja.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="grupo-botones">
+            <button class="boton secundario">Aprobar</button>
+            <button class="boton secundario">Revisar</button>
+            <button class="boton secundario">Rechazar</button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="grupo-botones"&gt;&lt;button class="boton secundario"&gt;Aprobar&lt;/button&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="lista-grupo">
+      <h2>Lista de grupo</h2>
+      <p class="uso">Lista vertical de ítems clicables/seleccionables con borde — distinta de <code>.lateral .item</code> (solo del menú) y de una tabla.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="lista-grupo">
+            <a href="#" class="lista-grupo-item activo">Colegio Alcázar <span class="etiqueta" data-tono="azul">105</span></a>
+            <a href="#" class="lista-grupo-item">Escuela República <span class="etiqueta" data-tono="gris">12</span></a>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="lista-grupo"&gt;&lt;a class="lista-grupo-item activo"&gt;...&lt;/a&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="popover">
+      <h2>Popover</h2>
+      <p class="uso">Como <code>[data-tooltip]</code>, pero con contenido rico y abierto por clic, no por hover.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div data-popover style="display:inline-block">
+            <button class="boton secundario" data-popover-trigger>Precio de mercado</button>
+            <div data-popover-contenido style="display:none">
+              <span class="titulo">Sin fuente conectada</span>
+              Precio de mercado no tiene fuente conectada todavía.
+            </div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div data-popover&gt;&lt;button data-popover-trigger&gt;...&lt;/button&gt;&lt;div data-popover-contenido&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="colapsar">
+      <h2>Colapsar genérico</h2>
+      <p class="uso">A diferencia de <code>.acordeon</code> (auto-contenido en <code>&lt;details&gt;</code>), el botón y el panel pueden vivir en cualquier parte del DOM, y son independientes entre sí (no mutuamente excluyentes como <code>.tabs</code>).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <button class="boton secundario" data-colapsar="g-det">Mostrar detalle técnico</button>
+          <div data-colapsable="g-det" class="tab-panel" style="margin-top:10px;font-size:13px;color:var(--color-tenue)">Detalle técnico del cálculo.</div>
+        </div>
+        <pre class="codigo">&lt;button data-colapsar="x"&gt;...&lt;/button&gt;&lt;div data-colapsable="x" class="tab-panel"&gt;...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="cajon">
+      <h2>Cajón</h2>
+      <p class="uso">Generaliza el panel deslizante que ya tiene <code>.lateral</code> en móvil, para usarlo en <em>otra</em> cosa (ej. un panel de filtros), no solo el menú.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <button class="boton secundario" data-cajon-toggle="g-filtros">Abrir filtros</button>
+          <div class="cajon" data-cajon="g-filtros">
+            <div class="cajon-cabecera"><h3>Filtros</h3><button class="boton secundario" data-cajon-toggle="g-filtros">×</button></div>
+            <div class="campo"><label>Estado</label><select><option>Todas</option><option>Pendientes</option></select></div>
+          </div>
+          <div class="cajon-fondo" data-cajon-fondo="g-filtros"></div>
+        </div>
+        <pre class="codigo">&lt;button data-cajon-toggle="x"&gt;...&lt;/button&gt;&lt;div class="cajon" data-cajon="x"&gt;...&lt;/div&gt;&lt;div class="cajon-fondo" data-cajon-fondo="x"&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="carousel">
+      <h2>Carousel</h2>
+      <p class="uso">De Bootstrap. En 0.11.0 se dejó fuera a propósito ("sin caso de uso en un portal de compras públicas"); se agrega ahora como paridad de framework, mismo criterio preventivo que <code>.hero</code>. Sin autoplay por defecto -- clic en flechas/indicadores o flechas de teclado con el carrusel enfocado; <code>avanzarCarrusel(el, dir)</code> queda exportado para quien quiera autoplay con su propio <code>setInterval</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="carousel" style="max-width:360px">
+            <div class="carousel-pista">
+              <div class="carousel-slide" style="background:var(--color-azul);color:#fff;height:140px;display:grid;place-items:center">Slide 1</div>
+              <div class="carousel-slide" style="background:var(--color-verde);color:#fff;height:140px;display:grid;place-items:center">Slide 2</div>
+              <div class="carousel-slide" style="background:var(--color-naranjo);color:#fff;height:140px;display:grid;place-items:center">Slide 3</div>
+            </div>
+            <div class="carousel-controles">
+              <button class="carousel-anterior" aria-label="Anterior">&lsaquo;</button>
+              <button class="carousel-siguiente" aria-label="Siguiente">&rsaquo;</button>
+            </div>
+            <div class="carousel-indicadores"></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="carousel"&gt;&lt;div class="carousel-pista"&gt;&lt;div class="carousel-slide"&gt;...&lt;/div&gt;&lt;/div&gt;&lt;div class="carousel-controles"&gt;&lt;button class="carousel-anterior"&gt;&lt;/button&gt;&lt;button class="carousel-siguiente"&gt;&lt;/button&gt;&lt;/div&gt;&lt;div class="carousel-indicadores"&gt;&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="pildora-archivo">
+      <h2>Píldora de archivo</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>.file-pill</code>, 21 usos) — link/botón outline para "descargar/ver documento", distinto de <code>.pastilla</code> (fondo sólido, para una decisión).</p>
+      <div class="demo-wrap">
+        <div class="demo demo-fila">
+          <a href="#" class="pildora-archivo">XML</a>
+          <a href="#" class="pildora-archivo">PDF</a>
+          <button class="pildora-archivo tenue">Quitar</button>
+        </div>
+        <pre class="codigo">&lt;a class="pildora-archivo"&gt;XML&lt;/a&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="zona-arrastre">
+      <h2>Zona de arrastre</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>EdicionFacturasView</code>, patrón de carga de XML/PDF/recepción conforme). <code>iniciarZonasArrastre</code> solo alterna <code>.activa</code> en dragover/dragleave/drop — la subida real sigue siendo de cada pantalla.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="zona-arrastre">
+            <label class="boton secundario">Examinar<input type="file" hidden></label>
+            <span class="pista">o arrastra el archivo aquí</span>
+          </div>
+          <div class="lista-documentos" style="margin-top:14px">
+            <div class="documento-fila">
+              <span class="documento-tipo">XML</span>
+              <span class="documento-nombre">factura_77585867-2_171.xml</span>
+              <a href="#" class="pildora-archivo">Ver</a>
+              <button class="pildora-archivo tenue">Quitar</button>
+            </div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="zona-arrastre"&gt;...&lt;/div&gt;&lt;div class="lista-documentos"&gt;&lt;div class="documento-fila"&gt;&lt;span class="documento-tipo"&gt;XML&lt;/span&gt;...&lt;/div&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="calendario-estado">
+      <h2>Calendario de estado</h2>
+      <p class="uso">De <code>acepta/frontend</code> (<code>CalendarioScrapingView.vue</code>) — grilla mensual tipo heatmap, <strong>no</strong> un selector de fecha (eso es <code>.calendario</code>/<code>iniciarCalendario</code>, propósito distinto). Solo CSS: el consumidor arma la grilla con sus propios datos.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="calendario-estado">
+            <button class="calendario-estado-dia"><span>1</span><span class="punto-estado hecho"></span></button>
+            <button class="calendario-estado-dia"><span>2</span><span class="punto-estado en-curso"></span></button>
+            <button class="calendario-estado-dia"><span>3</span><span class="punto-estado fallido"></span></button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;button class="calendario-estado-dia"&gt;&lt;span&gt;1&lt;/span&gt;&lt;span class="punto-estado hecho"&gt;&lt;/span&gt;&lt;/button&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="celda-doble">
+      <h2>Celda de dos líneas</h2>
+      <p class="uso">De <code>acepta/frontend</code> (41 ocurrencias: "Factura N° / fecha·tipo DTE", "Proveedor / RUT"). No es una clase nueva — es una regla que faltaba en el bloque de tabla ya existente.</p>
+      <div class="demo-wrap">
+        <div class="demo tabla-scroll">
+          <table>
+            <thead><tr><th>Factura</th><th>Proveedor</th></tr></thead>
+            <tbody><tr><td><strong>171</strong><small>14-10-2026 · Factura electrónica</small></td><td><strong>CONSTRUCCIONES M&amp;A</strong><small>77585867-2</small></td></tr></tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;td&gt;&lt;strong&gt;171&lt;/strong&gt;&lt;small&gt;14-10-2026 · Factura electrónica&lt;/small&gt;&lt;/td&gt;</pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="../dist/js.global.js"></script>
+<script>
+  // Solo para esta pagina de documentacion -- no es parte del paquete.
+  var botonesTema = document.querySelectorAll(".tema-selector button");
+  function marcarTemaActivo() {
+    var actual = localStorage.getItem("santacorina-guia-tema") || "system";
+    botonesTema.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.tema === actual));
+    });
+  }
+  botonesTema.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      var tema = boton.dataset.tema;
+      if (tema === "system") {
+        localStorage.removeItem("santacorina-guia-tema");
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        localStorage.setItem("santacorina-guia-tema", tema);
+        document.documentElement.setAttribute("data-theme", tema);
+      }
+      marcarTemaActivo();
+    });
+  });
+  marcarTemaActivo();
+
+  var navToggle = document.getElementById("doc-nav-toggle");
+  var nav = document.getElementById("doc-nav");
+  navToggle.addEventListener("click", function () {
+    nav.classList.toggle("abierta");
+  });
+  nav.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { nav.classList.remove("abierta"); });
+  });
+
+  var simularError = document.getElementById("simular-error");
+  if (simularError) {
+    simularError.addEventListener("click", function () {
+      var caja = document.querySelector("#demo-resumen-errores .resumen-errores");
+      caja.hidden = false;
+      simularError.hidden = true;
+      Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
+    });
+  }
+
+  document.querySelectorAll("pre.codigo").forEach(function (pre) {
+    var texto = pre.textContent;
+    var boton = document.createElement("button");
+    boton.className = "copiar-boton";
+    boton.type = "button";
+    boton.textContent = "Copiar";
+    boton.addEventListener("click", function () {
+      Santacorina.copiarAlPortapapeles(texto);
+      Santacorina.mostrarToast("Código copiado", "ok");
+    });
+    pre.appendChild(boton);
+  });
+</script>
+</body>
+</html>

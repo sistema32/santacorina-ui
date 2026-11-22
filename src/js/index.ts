@@ -19,6 +19,7 @@ export { iniciarZonasArrastre } from "./arrastre.js";
 export { iniciarToggletips } from "./toggletip.js";
 export { iniciarResumenErrores } from "./resumen-errores.js";
 export { iniciarTablasOrdenables } from "./tabla-ordenable.js";
+export { iniciarCarruseles, avanzarCarrusel } from "./carousel.js";
 
 import { iniciarModales } from "./modal.js";
 import { iniciarLateral } from "./lateral.js";
@@ -37,6 +38,7 @@ import { iniciarZonasArrastre } from "./arrastre.js";
 import { iniciarToggletips } from "./toggletip.js";
 import { iniciarResumenErrores } from "./resumen-errores.js";
 import { iniciarTablasOrdenables } from "./tabla-ordenable.js";
+import { iniciarCarruseles } from "./carousel.js";
 
 /** Conecta todo lo auto-iniciable. */
 export function iniciarTodo(raiz: ParentNode = document): void {
@@ -57,6 +59,7 @@ export function iniciarTodo(raiz: ParentNode = document): void {
   iniciarToggletips(raiz);
   iniciarResumenErrores(raiz);
   iniciarTablasOrdenables(raiz);
+  iniciarCarruseles(raiz);
 }
 
 if (typeof document !== "undefined") {
