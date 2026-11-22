@@ -1,5 +1,49 @@
 # Changelog
 
+## 0.16.0 — sin publicar
+
+Investigué qué componentes faltaban comparando el inventario actual
+contra tres sistemas de diseño de gobierno reales ([GOV.UK Design
+System](https://design-system.service.gov.uk/), [USWDS](https://designsystem.digital.gov/)
+— ya es la fuente de Public Sans — y [Carbon Design System](https://carbondesignsystem.com/)).
+La mayoría de sus componentes ya existían con otro nombre; seis eran
+gaps reales:
+
+- `.resumen-revision` + `.resumen-revision-item` (`.cambiar`) — de
+  GOV.UK "summary list"/"check your answers", para la pantalla de
+  revisión antes de enviar (cierra el flujo de `.asistente`/`.paso`).
+- `.resumen-errores` + `iniciarResumenErrores` — de GOV.UK "error
+  summary", el patrón de accesibilidad de formularios mejor
+  documentado que encontré: caja al inicio del formulario que recibe
+  el foco automáticamente y enlaza cada error a su campo.
+- `fieldset.campo-grupo` + `legend` — faltaba el estilo del HTML
+  nativo para agrupar varios `.campo-check` bajo una pregunta.
+- `.aviso-pagina` — de GOV.UK "notification banner"/USWDS "site
+  alert": franja persistente bajo la cabecera, distinta de `.aviso`
+  (por tarjeta) y `.toast` (transitorio).
+- `[data-toggletip]` + `.toggletip-panel` + `iniciarToggletips` —
+  gap real de accesibilidad: `[data-tooltip]` solo responde a hover,
+  sin soporte en pantallas táctiles. Reutiliza el mismo cuidado de
+  "Escape global" que ya se aprendió con `.popover-panel` (verificado
+  con Playwright: cerrar un modal con Escape no debe afectar un
+  toggletip ya cerrado), y entra en la misma corrección de panel-
+  flotante-angosto de 0.15.0 (`@media (max-width: 600px)`).
+- `th[data-ordenable]` + `iniciarTablasOrdenables` — de Carbon "data
+  table": flecha + `aria-sort`, dispara `santacorina:ordenar` — el
+  consumidor reordena sus propias filas, mismo criterio que
+  `.buscador`/`.combobox`/`.zona-arrastre`.
+
+Fuera de alcance: un selector de chips de multiselección (Carbon
+"Multiselect") — componente interactivo bastante más grande, se
+planifica aparte si se pide.
+
+Verificado con Playwright: foco automático en `.resumen-errores` y
+foco en el campo destino al hacer clic en un error; apertura/cierre
+de toggletip por clic y por clic-afuera; Escape con un modal abierto
+no reabre ni afecta un toggletip ya cerrado; clic en
+`th[data-ordenable]` alterna `aria-sort` y dispara el evento con el
+detalle correcto.
+
 ## 0.15.0 — sin publicar
 
 Auditoría de responsividad: no se agregó ningún componente, se revisó

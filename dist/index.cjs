@@ -406,6 +406,23 @@ function buildComponents() {
     },
     ".aviso.error": { backgroundColor: "var(--color-rojo-fondo)", borderColor: "var(--color-rojo)", color: "#8d241e" },
     /* ---------------------------------------------------------------
+     * Aviso de pagina -- de GOV.UK "notification banner"/USWDS "site
+     * alert": a diferencia de `.aviso` (dentro de una tarjeta) y
+     * `.toast` (transitorio, esquina), esta es una franja fija bajo la
+     * cabecera para algo persistente a nivel de pantalla completa
+     * (ej. "Hay 3 solicitudes pendientes de tu aprobacion").
+     * ------------------------------------------------------------- */
+    ".aviso-pagina": {
+      padding: "14px 30px",
+      fontSize: "14px",
+      borderBottom: "1px solid var(--color-borde)"
+    },
+    ".aviso-pagina strong": { display: "block", marginBottom: "2px" },
+    ".aviso-pagina.info": { backgroundColor: "#eaf2fc", color: "#1a4b8a" },
+    ".aviso-pagina.ok": { backgroundColor: "var(--color-verde-fondo)", color: "#14603c" },
+    ".aviso-pagina.alerta": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
+    ".aviso-pagina.error": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    /* ---------------------------------------------------------------
      * Campo -- un control de formulario con su etiqueta y ayuda.
      * ------------------------------------------------------------- */
     ".campo": { marginBottom: "17px" },
@@ -541,6 +558,12 @@ function buildComponents() {
     },
     ".campo-check": { display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" },
     ".campo-check label": { margin: "0", fontWeight: "400", color: "var(--color-texto)", cursor: "pointer" },
+    /* `fieldset`/`legend` -- el HTML nativo correcto para agrupar un
+       conjunto de `.campo-check` bajo una sola pregunta ("Elige una
+       opcion"). Antes solo existia el estilo del item individual. */
+    "fieldset.campo-grupo": { border: "1px solid var(--color-borde)", borderRadius: "8px", padding: "14px 16px", marginBottom: "17px" },
+    "fieldset.campo-grupo legend": { padding: "0 6px", fontSize: "13px", fontWeight: "600", color: "var(--color-navy)" },
+    "fieldset.campo-grupo .campo-check:last-child": { marginBottom: "0" },
     /* input[type=file] -- solo el boton "Elegir archivo"; el cuadro de
        dialogo del sistema operativo no se toca. */
     "input[type=file]::file-selector-button": {
@@ -614,6 +637,67 @@ function buildComponents() {
        OC"). No es una clase nueva, era una regla que faltaba aca. */
     "td strong, td small": { display: "block" },
     "td small": { color: "var(--color-tenue)", marginTop: "4px", fontSize: "12px", lineHeight: "1.35" },
+    /* Encabezado de tabla ordenable -- de Carbon Design System (tabla
+       de datos). Solo la flecha y el estado `[aria-sort]`; el JS vive
+       en `/js` (`iniciarTablasOrdenables`) y solo dispara un evento --
+       quien reordena las filas es el consumidor. */
+    "th[data-ordenable]": { cursor: "pointer", userSelect: "none", paddingRight: "20px", position: "relative" },
+    "th[data-ordenable]:hover": { color: "var(--color-navy)" },
+    "th[data-ordenable]::after": {
+      content: '""',
+      position: "absolute",
+      right: "6px",
+      top: "50%",
+      width: "0",
+      height: "0",
+      borderLeft: "4px solid transparent",
+      borderRight: "4px solid transparent",
+      opacity: "0.35"
+    },
+    "th[data-ordenable][aria-sort=none]::after": { borderBottom: "5px solid currentColor", transform: "translateY(-6px)" },
+    "th[data-ordenable][aria-sort=ascending]::after": { borderBottom: "5px solid var(--color-azul)", transform: "translateY(-6px)", opacity: "1" },
+    "th[data-ordenable][aria-sort=descending]::after": { borderTop: "5px solid var(--color-azul)", transform: "translateY(1px)", opacity: "1" },
+    /* ---------------------------------------------------------------
+     * Resumen de revision -- de GOV.UK "check your answers": pares
+     * clave/valor con un link "Cambiar" por fila, para la pantalla de
+     * revision antes de enviar un formulario multi-paso (cierra el
+     * flujo de `.asistente`/`.paso`).
+     * ------------------------------------------------------------- */
+    ".resumen-revision": { border: "1px solid var(--color-borde)", borderRadius: "11px", overflow: "hidden" },
+    ".resumen-revision-item": {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      gap: "14px",
+      padding: "13px 16px",
+      borderBottom: "1px solid var(--color-borde)",
+      fontSize: "14px"
+    },
+    ".resumen-revision-item:last-child": { borderBottom: "0" },
+    ".resumen-revision-item span": { color: "var(--color-tenue)" },
+    ".resumen-revision-item strong": { color: "var(--color-navy)", fontWeight: "600" },
+    ".resumen-revision-item .cambiar": { color: "var(--color-azul-oscuro)", fontSize: "13px", fontWeight: "600", flex: "none" },
+    ".resumen-revision-item .cambiar:hover": { textDecoration: "underline" },
+    /* ---------------------------------------------------------------
+     * Resumen de errores -- el patron de accesibilidad de formularios
+     * mas documentado de GOV.UK (design-system.service.gov.uk/
+     * components/error-summary): lista cada error con un link al
+     * campo, recibe el foco apenas se renderiza (lo hace
+     * `iniciarResumenErrores` en `/js`) para que un lector de pantalla
+     * lo anuncie antes de llegar al formulario.
+     * ------------------------------------------------------------- */
+    ".resumen-errores": {
+      border: "1px solid #f0c4c1",
+      backgroundColor: "#fdf4f3",
+      borderRadius: "10px",
+      padding: "16px 18px",
+      marginBottom: "20px"
+    },
+    ".resumen-errores h2": { margin: "0 0 10px", fontSize: "15px", color: "#8d241e" },
+    ".resumen-errores ul": { margin: "0", padding: "0 0 0 19px", fontSize: "13.5px" },
+    ".resumen-errores li": { marginBottom: "4px" },
+    ".resumen-errores a": { color: "#8d241e", fontWeight: "600" },
+    ".resumen-errores a:hover": { textDecoration: "underline" },
     /* ---------------------------------------------------------------
      * Dato -- par etiqueta/valor, la unidad minima de cualquier resumen.
      * ------------------------------------------------------------- */
@@ -1484,6 +1568,31 @@ function buildComponents() {
     },
     ".popover-panel.visible": { display: "block" },
     ".popover-panel .titulo": { display: "block", fontWeight: "700", color: "var(--color-navy)", marginBottom: "4px" },
+    /* ---------------------------------------------------------------
+     * Toggletip -- como `[data-tooltip]`, pero se abre con clic/tap en
+     * vez de hover (sin soporte en pantallas tactiles). Misma capa
+     * flotante que `.popover-panel`, mismo ancho fijo -- entra tambien
+     * en la correccion de panel-flotante-angosto de abajo. El JS vive
+     * en `/js` (`iniciarToggletips`).
+     * ------------------------------------------------------------- */
+    "[data-toggletip]": { position: "relative", display: "inline-block" },
+    ".toggletip-panel": {
+      display: "none",
+      position: "absolute",
+      top: "calc(100% + 8px)",
+      left: "50%",
+      transform: "translateX(-50%)",
+      zIndex: "200",
+      width: "220px",
+      backgroundColor: "var(--color-navy)",
+      color: "#fff",
+      borderRadius: "8px",
+      boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
+      padding: "10px 12px",
+      fontSize: "12.5px",
+      lineHeight: "1.5"
+    },
+    ".toggletip-panel.visible": { display: "block" },
     /* Bajo 600px (telefono, no tablet -- el 900px del resto del paquete
        es muy ancho para esto): el breadcrumb trunca cada tramo en vez de
        desbordar o partirse a media palabra, y los tres paneles flotantes
@@ -1511,7 +1620,7 @@ function buildComponents() {
         bottom: "16px",
         width: "auto"
       },
-      ".popover-panel": {
+      ".popover-panel, .toggletip-panel": {
         position: "fixed",
         top: "auto",
         left: "16px",

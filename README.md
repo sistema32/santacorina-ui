@@ -75,6 +75,9 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | `irAPaso(asistente, n)` | Muestra el `[data-paso]` n-ésimo y marca los `[data-chip]` — la llama cada pantalla después de su propia validación | — |
 | `iniciarAsistentes` | Conecta el clic en un chip ya completado/activo para volver a ese paso (no deja saltar a uno no alcanzado) | ✓ |
 | `iniciarZonasArrastre` | Alterna `.activa` en `.zona-arrastre` con dragover/dragleave/drop — la subida real sigue siendo de cada pantalla | ✓ |
+| `iniciarToggletips` | Abre/cierra `.toggletip-panel` al hacer clic en `[data-toggletip]` — alternativa a `[data-tooltip]` con soporte táctil | ✓ |
+| `iniciarResumenErrores` | Enfoca `.resumen-errores` al aparecer y mueve el foco al campo destino al hacer clic en un link — de GOV.UK Design System ([error summary](https://design-system.service.gov.uk/components/error-summary/)) | ✓ |
+| `iniciarTablasOrdenables` | Alterna `aria-sort` en `th[data-ordenable]` y dispara `santacorina:ordenar` — el consumidor reordena sus propias filas | ✓ |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
 
@@ -143,8 +146,14 @@ plataforma queda en una sola tipografía, consistente.
 | `.btn-chico`, `a.btn-chico` (`.peligro`) | Acción secundaria por fila/celda |
 | `.pastilla` (`.celeste`/`.roja`) | Decisión clicable con forma de botón |
 | `.aviso` (`.info`/`.ok`/`.alerta`/`.error`) | Banner de nivel de pantalla |
+| `.aviso-pagina` (mismos tonos) | Franja persistente bajo la cabecera (no por fila como `.aviso`, no transitoria como `.toast`) — de [GOV.UK notification banner](https://design-system.service.gov.uk/components/notification-banner/)/USWDS site alert |
 | `.campo` + `input`/`select`/`textarea` | Control de formulario con etiqueta y ayuda |
+| `fieldset.campo-grupo` + `legend` | Agrupa varios `.campo-check` bajo una pregunta, con el HTML nativo correcto |
 | tabla base + `.tabla-scroll`, `.peso`/`.der`/`.cen`/`.codigo` | Listados tabulares, montos alineados |
+| `th[data-ordenable]` | Flecha + `aria-sort`; JS en `/js` (`iniciarTablasOrdenables`) — de [Carbon Design System](https://carbondesignsystem.com/components/data-table/usage/) (tabla de datos) |
+| `.resumen-revision` + `.resumen-revision-item` (`.cambiar`) | Pares clave/valor con acción "Cambiar", para la pantalla de revisión antes de enviar (cierra `.asistente`) — de [GOV.UK summary list](https://design-system.service.gov.uk/components/summary-list/) |
+| `.resumen-errores` | Caja de errores al inicio del formulario, enfocada automáticamente; JS en `/js` (`iniciarResumenErrores`) — de [GOV.UK error summary](https://design-system.service.gov.uk/components/error-summary/), el patrón de a11y de formularios mejor documentado que encontré |
+| `[data-toggletip]` + `.toggletip-panel` | Tooltip accesible en touch (abre con clic, no con hover); JS en `/js` (`iniciarToggletips`) |
 | `.dato` | Par etiqueta/valor |
 | `.ficha` | Grilla de datos más ancha que una columna |
 | `.luz` (`.verde`/`.naranjo`/`.rojo`/`.gris`) | Punto de semáforo en listas de validación |

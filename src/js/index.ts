@@ -16,6 +16,9 @@ export { iniciarCombobox } from "./combobox.js";
 export { iniciarMedidorClave } from "./medidor-clave.js";
 export { irAPaso, iniciarAsistentes } from "./asistente.js";
 export { iniciarZonasArrastre } from "./arrastre.js";
+export { iniciarToggletips } from "./toggletip.js";
+export { iniciarResumenErrores } from "./resumen-errores.js";
+export { iniciarTablasOrdenables } from "./tabla-ordenable.js";
 
 import { iniciarModales } from "./modal.js";
 import { iniciarLateral } from "./lateral.js";
@@ -31,6 +34,9 @@ import { iniciarCombobox } from "./combobox.js";
 import { iniciarMedidorClave } from "./medidor-clave.js";
 import { iniciarAsistentes } from "./asistente.js";
 import { iniciarZonasArrastre } from "./arrastre.js";
+import { iniciarToggletips } from "./toggletip.js";
+import { iniciarResumenErrores } from "./resumen-errores.js";
+import { iniciarTablasOrdenables } from "./tabla-ordenable.js";
 
 /** Conecta todo lo auto-iniciable. */
 export function iniciarTodo(raiz: ParentNode = document): void {
@@ -48,6 +54,9 @@ export function iniciarTodo(raiz: ParentNode = document): void {
   iniciarMedidorClave(raiz);
   iniciarAsistentes(raiz);
   iniciarZonasArrastre(raiz);
+  iniciarToggletips(raiz);
+  iniciarResumenErrores(raiz);
+  iniciarTablasOrdenables(raiz);
 }
 
 if (typeof document !== "undefined") {

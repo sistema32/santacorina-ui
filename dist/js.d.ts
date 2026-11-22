@@ -110,7 +110,31 @@ declare function iniciarAsistentes(raiz?: ParentNode): void;
  */
 declare function iniciarZonasArrastre(raiz?: ParentNode): void;
 
+declare function iniciarToggletips(raiz?: ParentNode): void;
+
+/**
+ * Resumen de errores -- patron de accesibilidad de GOV.UK Design
+ * System (design-system.service.gov.uk/components/error-summary): una
+ * caja al inicio del formulario que lista cada error con un link al
+ * campo correspondiente. Al existir (tiene al menos un link), recibe
+ * el foco apenas se renderiza, para que un lector de pantalla lo
+ * anuncie antes de llegar al formulario -- el consumidor decide
+ * cuando renderizarla (tras un intento de envio fallido), este modulo
+ * solo maneja el foco y la navegacion a cada campo.
+ */
+declare function iniciarResumenErrores(raiz?: ParentNode): void;
+
+/**
+ * Encabezado de tabla ordenable -- de Carbon Design System (tabla de
+ * datos). Solo la piel y el estado: al hacer clic alterna
+ * `aria-sort` entre "ascending"/"descending"/ninguno y dispara un
+ * evento para que el consumidor reordene sus propias filas, mismo
+ * criterio que `.buscador`/`.combobox`/`.zona-arrastre` (visual si,
+ * logica de negocio no).
+ */
+declare function iniciarTablasOrdenables(raiz?: ParentNode): void;
+
 /** Conecta todo lo auto-iniciable. */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarTabs, iniciarTodo, iniciarZonasArrastre, irAPaso, mostrarToast };
+export { abrirModal, cerrarModal, copiarAlPortapapeles, debounce, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarLateral, iniciarMedidorClave, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarResumenErrores, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarZonasArrastre, irAPaso, mostrarToast };

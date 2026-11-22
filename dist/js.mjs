@@ -638,6 +638,90 @@ function iniciarZonasArrastre(raiz = document) {
   });
 }
 
+// src/js/toggletip.ts
+function iniciarToggletips(raiz = document) {
+  raiz.querySelectorAll("[data-toggletip]").forEach((contenedor2) => {
+    const trigger = contenedor2.querySelector("[data-toggletip-trigger]") ?? contenedor2.firstElementChild;
+    const fuente = contenedor2.querySelector("[data-toggletip-contenido]");
+    if (!trigger || !fuente) return;
+    const panel = document.createElement("div");
+    panel.className = "toggletip-panel";
+    panel.setAttribute("role", "tooltip");
+    panel.innerHTML = fuente.innerHTML;
+    contenedor2.appendChild(panel);
+    trigger.setAttribute("aria-describedby", idDe(panel, "toggletip"));
+    trigger.setAttribute("aria-expanded", "false");
+    const cerrar2 = (devolverFoco = false) => {
+      panel.classList.remove("visible");
+      trigger.setAttribute("aria-expanded", "false");
+      if (devolverFoco) trigger.focus();
+    };
+    const alternar = (e) => {
+      e.stopPropagation();
+      const abrir2 = !panel.classList.contains("visible");
+      panel.classList.toggle("visible", abrir2);
+      trigger.setAttribute("aria-expanded", String(abrir2));
+    };
+    trigger.addEventListener("click", alternar);
+    document.addEventListener("click", (e) => {
+      if (!contenedor2.contains(e.target)) cerrar2();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && panel.classList.contains("visible")) cerrar2(true);
+    });
+  });
+}
+
+// src/js/resumen-errores.ts
+function iniciarResumenErrores(raiz = document) {
+  raiz.querySelectorAll(".resumen-errores").forEach((caja) => {
+    const links = caja.querySelectorAll("a[href^='#']");
+    if (links.length === 0) return;
+    if (!caja.hasAttribute("tabindex")) caja.setAttribute("tabindex", "-1");
+    caja.focus();
+    links.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const destino = document.querySelector(link.getAttribute("href"));
+        if (!destino) return;
+        e.preventDefault();
+        destino.scrollIntoView({ behavior: "smooth", block: "center" });
+        destino.focus({ preventScroll: true });
+      });
+    });
+  });
+}
+
+// src/js/tabla-ordenable.ts
+function iniciarTablasOrdenables(raiz = document) {
+  raiz.querySelectorAll("th[data-ordenable]").forEach((th) => {
+    th.setAttribute("role", "columnheader");
+    th.setAttribute("tabindex", "0");
+    if (!th.hasAttribute("aria-sort")) th.setAttribute("aria-sort", "none");
+    const alternar = () => {
+      const tabla = th.closest("table");
+      tabla?.querySelectorAll("th[data-ordenable]").forEach((otro) => {
+        if (otro !== th) otro.setAttribute("aria-sort", "none");
+      });
+      const actual = th.getAttribute("aria-sort");
+      const siguiente = actual === "ascending" ? "descending" : "ascending";
+      th.setAttribute("aria-sort", siguiente);
+      th.dispatchEvent(
+        new CustomEvent("santacorina:ordenar", {
+          bubbles: true,
+          detail: { columna: th.dataset.ordenable || th.textContent?.trim(), direccion: siguiente }
+        })
+      );
+    };
+    th.addEventListener("click", alternar);
+    th.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        alternar();
+      }
+    });
+  });
+}
+
 // src/js/index.ts
 function iniciarTodo(raiz = document) {
   iniciarModales(raiz);
@@ -654,6 +738,9 @@ function iniciarTodo(raiz = document) {
   iniciarMedidorClave(raiz);
   iniciarAsistentes(raiz);
   iniciarZonasArrastre(raiz);
+  iniciarToggletips(raiz);
+  iniciarResumenErrores(raiz);
+  iniciarTablasOrdenables(raiz);
 }
 if (typeof document !== "undefined") {
   if (document.readyState === "loading") {
@@ -680,8 +767,11 @@ export {
   iniciarModales,
   iniciarPopovers,
   iniciarRangoFechas,
+  iniciarResumenErrores,
+  iniciarTablasOrdenables,
   iniciarTabs,
   iniciarTodo,
+  iniciarToggletips,
   iniciarZonasArrastre,
   irAPaso,
   mostrarToast

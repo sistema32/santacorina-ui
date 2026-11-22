@@ -125,6 +125,12 @@
     <a href="#zona-arrastre">Zona de arrastre</a>
     <a href="#calendario-estado">Calendario de estado</a>
     <a href="#celda-doble">Celda de dos líneas</a>
+    <a href="#resumen-revision">Resumen de revisión</a>
+    <a href="#resumen-errores">Resumen de errores</a>
+    <a href="#campo-grupo">Fieldset / leyenda</a>
+    <a href="#aviso-pagina">Aviso de página</a>
+    <a href="#toggletip">Toggletip</a>
+    <a href="#tabla-ordenable">Tabla ordenable</a>
   </nav>
   <main class="doc-main">
     <header class="doc-header">
@@ -1101,6 +1107,92 @@
           </table>
         </div>
         <pre class="codigo">&lt;td&gt;&lt;strong&gt;171&lt;/strong&gt;&lt;small&gt;14-10-2026 · Factura electrónica&lt;/small&gt;&lt;/td&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="resumen-revision">
+      <h2>Resumen de revisión</h2>
+      <p class="uso">De <a href="https://design-system.service.gov.uk/components/summary-list/">GOV.UK "summary list"</a> — pares clave/valor con acción "Cambiar", para la pantalla de revisión antes de enviar (cierra el flujo de <code>.asistente</code>/<code>.paso</code>). Solo CSS.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="resumen-revision">
+            <div class="resumen-revision-item"><span>Establecimiento</span><strong>Escuela Básica N°1</strong><a href="#" class="cambiar">Cambiar</a></div>
+            <div class="resumen-revision-item"><span>Monto solicitado</span><strong>$1.422.169</strong><a href="#" class="cambiar">Cambiar</a></div>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="resumen-revision-item"&gt;&lt;span&gt;Establecimiento&lt;/span&gt;&lt;strong&gt;Escuela Básica N°1&lt;/strong&gt;&lt;a class="cambiar"&gt;Cambiar&lt;/a&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="resumen-errores">
+      <h2>Resumen de errores</h2>
+      <p class="uso">De <a href="https://design-system.service.gov.uk/components/error-summary/">GOV.UK "error summary"</a> — el patrón de accesibilidad de formularios mejor documentado que encontré. <code>iniciarResumenErrores</code> enfoca la caja apenas aparece y mueve el foco al campo destino al hacer clic en un link.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="resumen-errores">
+            <h2>Hay 2 problemas con tu formulario</h2>
+            <ul>
+              <li><a href="#campo-rut-demo">El RUT ingresado no es válido</a></li>
+              <li><a href="#campo-monto-demo">El monto debe ser mayor a 0</a></li>
+            </ul>
+          </div>
+          <div class="campo"><label for="campo-rut-demo">RUT</label><input id="campo-rut-demo" type="text"></div>
+        </div>
+        <pre class="codigo">&lt;div class="resumen-errores"&gt;&lt;h2&gt;Hay 2 problemas...&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="#campo-rut"&gt;El RUT...&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="campo-grupo">
+      <h2>Fieldset / leyenda</h2>
+      <p class="uso">El HTML nativo correcto para agrupar varios <code>.campo-check</code> bajo una sola pregunta — antes solo existía el estilo del ítem individual.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <fieldset class="campo-grupo">
+            <legend>Tipo de solicitud</legend>
+            <div class="campo-check"><input type="radio" name="tipo-guia" id="tg1" checked><label for="tg1">SEP</label></div>
+            <div class="campo-check"><input type="radio" name="tipo-guia" id="tg2"><label for="tg2">FAEP</label></div>
+          </fieldset>
+        </div>
+        <pre class="codigo">&lt;fieldset class="campo-grupo"&gt;&lt;legend&gt;Tipo de solicitud&lt;/legend&gt;&lt;div class="campo-check"&gt;...&lt;/div&gt;&lt;/fieldset&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="aviso-pagina">
+      <h2>Aviso de página</h2>
+      <p class="uso">De <a href="https://design-system.service.gov.uk/components/notification-banner/">GOV.UK "notification banner"</a>/USWDS "site alert" — franja persistente bajo la cabecera, distinta de <code>.aviso</code> (por tarjeta) y <code>.toast</code> (transitorio).</p>
+      <div class="demo-wrap">
+        <div class="demo" style="padding:0">
+          <div class="aviso-pagina info"><strong>Tienes 3 solicitudes pendientes</strong>Revísalas antes del cierre del mes.</div>
+        </div>
+        <pre class="codigo">&lt;div class="aviso-pagina info"&gt;&lt;strong&gt;Tienes 3 solicitudes pendientes&lt;/strong&gt;Revísalas...&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="toggletip">
+      <h2>Toggletip</h2>
+      <p class="uso">Alternativa a <code>[data-tooltip]</code> con soporte táctil: <code>[data-tooltip]</code> solo responde a hover/focus-visible, sin equivalente en pantallas táctiles. Se abre con clic y se cierra con clic afuera o Escape — mismo patrón de capa flotante que <code>.popover-panel</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <span data-toggletip style="display:inline-block">
+            <button class="boton secundario">¿Qué es el RUT?</button>
+            <div data-toggletip-contenido style="display:none">El Rol Único Tributario identifica a cada contribuyente en Chile.</div>
+          </span>
+        </div>
+        <pre class="codigo">&lt;span data-toggletip&gt;&lt;button&gt;...&lt;/button&gt;&lt;div data-toggletip-contenido hidden&gt;...&lt;/div&gt;&lt;/span&gt;</pre>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="tabla-ordenable">
+      <h2>Tabla ordenable</h2>
+      <p class="uso">De <a href="https://carbondesignsystem.com/components/data-table/usage/">Carbon Design System</a> (tabla de datos) — solo la flecha y el estado <code>aria-sort</code>; <code>iniciarTablasOrdenables</code> dispara <code>santacorina:ordenar</code> con la columna y dirección para que el consumidor reordene sus propias filas.</p>
+      <div class="demo-wrap">
+        <div class="demo tabla-scroll">
+          <table>
+            <thead><tr><th data-ordenable="nombre">Nombre</th><th data-ordenable="monto">Monto</th></tr></thead>
+            <tbody><tr><td>Escuela A</td><td>100</td></tr></tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;th data-ordenable="nombre"&gt;Nombre&lt;/th&gt;</pre>
       </div>
     </section>
   </main>
