@@ -1,5 +1,87 @@
 # Changelog
 
+## 0.26.0 — sin publicar — utilidades para listados, formularios y documentos
+
+Segunda de dos rondas pedidas por el usuario, sobre la base de
+adaptabilidad/accesibilidad de 0.25.0 (`@container`, posicionamiento
+flotante, pila de capas). Confirmado por investigación antes de
+diseñar: ninguna de las 14 piezas de abajo existía (ni función, ni
+demo en `guia/`, ni mención en CHANGELOG) — terreno genuinamente
+nuevo. Mismo criterio de siempre en las que necesitan una petición de
+red real: el paquete nunca hace el `fetch`, siempre lo inyecta el
+consumidor (combobox remoto, cola de adjuntos, reintento).
+
+- **Filtros con URL** (`iniciarFiltrosUrl`, `src/js/filtros-url.ts`) —
+  sincroniza los campos `[name]` de un form con `URLSearchParams` vía
+  `history.replaceState` (no `pushState`, para no saturar "Atrás" con
+  cada tecla); restaura al cargar/recargar/"Atrás"; dispara
+  `santacorina:filtros-cambiar`.
+- **Cambios sin guardar** (`iniciarCambiosSinGuardar`/`huboCambios`,
+  `src/js/cambios-sin-guardar.ts`) — compara una foto (`FormData`
+  serializado) contra el estado actual; avisa en `beforeunload` si
+  difieren. `huboCambios(form)` queda suelta para el guard de
+  navegación de una SPA (un router no dispara `beforeunload`).
+- **Filas repetibles** (`iniciarGruposRepetibles`, `src/js/grupo-repetible.ts`
+  + `.grupo-repetible-fila`) — clona un `<template data-fila-plantilla>`
+  (placeholder `__i__` en `name`/`id`/`for`), conecta
+  `[data-agregar-fila]`/`[data-quitar-fila]`. Las filas nuevas son
+  inputs normales — `iniciarFormularios` ya las valida sin cambios.
+- **Barra de acciones fija** — solo CSS, `.formulario-acciones-fijas`
+  (`position: sticky`, reusa `--z-flotante`).
+- **Campo CLP** (`iniciarCamposClp`/`valorClp`, `src/js/campo-clp.ts`)
+  — formatea con `formato.pesos()` al perder el foco (no en vivo, evita
+  el salto de cursor clásico de estos campos); `valorClp(input)`
+  distingue vacío (`null`) de `0` escrito a propósito.
+- **RUT con dígito verificador** (`formato.rutValido`) — módulo 11
+  real, función pura. `rut()` sigue solo formateando; sin wiring
+  automático en `iniciarFormularios` — se conecta con
+  `setCustomValidity()` nativo desde la pantalla, mismo criterio que
+  cualquier regla cruzada entre campos.
+- **Combobox remoto** (`iniciarComboboxRemoto`, extiende `combobox.ts`)
+  — reemplaza el filtrado local por `buscar(texto)` que da el
+  consumidor; el paquete debounca 250ms y descarta respuestas que ya
+  no corresponden a lo último escrito (si "mar" tarda más que "maria",
+  su respuesta tardía no pisa la lista ya actualizada).
+- **Reintento en listados** (`iniciarReintento`, `src/js/reintento.ts`
+  + `.lista-error`) — conecta `[data-reintentar]` a `cargar()`; oculta
+  el banner si resuelve, lo vuelve a mostrar si falla.
+- **Vista antes/después** — solo CSS, `.comparacion-valores` (se
+  apila en móvil/contenedor angosto vía la base de 0.25.0).
+- **Confirmación reutilizable** (`confirmar`, `src/js/confirmar.ts`) —
+  arma un `.modal` al vuelo reusando `abrirModal`/`cerrarModal` (foco
+  atrapado, Escape vía la pila de capas, todo gratis); devuelve
+  `Promise<boolean>`. Foco inicial en Cancelar, salvo `peligro: false`.
+- **Vista previa de documentos** (`iniciarVistaPrevia`,
+  `src/js/vista-previa.ts`) — intercepta `[data-vista-previa]` y abre
+  imagen/PDF en un `.modal` en vez de navegar. Solo visor.
+- **Cola de adjuntos con progreso** (`iniciarColaAdjuntos`,
+  `src/js/cola-adjuntos.ts` + `.adjunto-fila`) — `subirArchivo(file,
+  onProgreso, señal)` la implementa el consumidor; `señal` es un
+  `AbortSignal` real, "Cancelar" lo aborta si el consumidor lo usa en
+  su `fetch`. Reintentar vuelve a llamar `subirArchivo` para ese
+  archivo.
+- **Encabezado adaptable** — solo CSS, `.cabecera-adaptable` (colapsa
+  el texto de la acción principal vía `@container` si no hay espacio).
+- **Tabs con deep-link + scrollspy** — `.tabs[data-tab-url]`
+  (extiende `tabs.ts`) sincroniza el destino activo con
+  `location.hash`; nuevo `iniciarScrollspy` (`src/js/scrollspy.ts`,
+  `IntersectionObserver`) alterna `.activo` en un nav según la sección
+  visible. De paso: `tabs.ts` no tenía flechas izquierda/derecha entre
+  pestañas (un faltante real de 0.25.0, que sí cubrió menú y
+  calendario) — se completó acá, al tocar el archivo de todas formas.
+
+Verificado con Playwright cada pieza con estado real: filtros-URL ida
+y vuelta (cambiar, recargar, recuperar), `beforeunload` solo cuando
+hay cambios reales, CLP distingue vacío/cero/formateado, RUT válido e
+inválido (autocheck), combobox remoto filtra y selecciona sobre el
+`<select>` real, `confirmar()` resuelve `true`/`false` y limpia el
+modal del DOM en ambos casos, cola de adjuntos reintenta un archivo
+fallido y lo deja "listo", filas repetibles se agregan/reindexan/quitan,
+vista previa abre y cierra, tabs con deep-link sobrevive a un reload,
+scrollspy marca la sección visible. Sin regresiones en las suites de
+0.22.0-0.25.0 (el refactor de `combobox.ts` para soportar búsqueda
+remota fue el cambio más grande sobre código existente).
+
 ## 0.25.0 — sin publicar — adaptabilidad, accesibilidad y CI
 
 Primera de dos rondas pedidas por el usuario para completar flujos de

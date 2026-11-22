@@ -84,6 +84,40 @@ export function buildComponents(): CssEnJs {
     ".pie-compacto": { textAlign: "center", borderTop: "0", padding: "14px 20px" },
 
     /* ---------------------------------------------------------------
+     * Cabecera adaptable -- titulo + pastilla de estado + accion
+     * principal, para el encabezado de una pantalla de detalle (no
+     * reemplaza `.cabecera`, que sigue siendo el header de toda la
+     * app). Se mide a si misma (`container-type`) y colapsa el TEXTO
+     * de la accion (deja el icono solo) cuando no hay espacio -- sin
+     * JS, solo `@container`.
+     * ------------------------------------------------------------- */
+    ".cabecera-adaptable": {
+      containerType: "inline-size",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "14px",
+      flexWrap: "wrap",
+      padding: "16px 20px",
+      backgroundColor: "var(--color-superficie)",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "11px",
+    },
+    ".cabecera-adaptable-titulo": { display: "flex", alignItems: "center", gap: "10px", minWidth: "0" },
+    ".cabecera-adaptable-titulo h1": {
+      margin: "0",
+      fontSize: "17px",
+      color: "var(--color-titulo)",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+    },
+    ".cabecera-adaptable-accion": { flex: "none" },
+    "@container (max-width: 420px)": {
+      ".cabecera-adaptable-accion .texto": { display: "none" },
+    },
+
+    /* ---------------------------------------------------------------
      * Menu lateral -- trasladado de lateral.css tal cual (incluido el
      * patron responsivo con hamburguesa/overlay bajo 900px). El toggle
      * movil necesita que el consumidor agregue un click handler de unas
@@ -430,6 +464,38 @@ export function buildComponents(): CssEnJs {
     ".aviso-pagina[data-tono='error']": { backgroundColor: "var(--color-rojo-fondo)", color: "var(--color-rojo-texto)" },
 
     /* ---------------------------------------------------------------
+     * Reintento en listados -- banner de error + boton "Reintentar"
+     * cuando falla una carga/actualizacion. Mismos tonos que `.aviso`,
+     * el JS vive en `/js` (`iniciarReintento`) -- el loader real
+     * (el fetch de verdad) lo da el consumidor.
+     * ------------------------------------------------------------- */
+    ".lista-error": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "14px",
+      padding: "12px 15px",
+      borderRadius: "8px",
+      fontSize: "14px",
+      marginBottom: "18px",
+      borderLeft: "4px solid var(--color-rojo)",
+      backgroundColor: "var(--color-rojo-fondo)",
+      color: "var(--color-rojo-texto)",
+    },
+    ".lista-error [data-reintentar]": {
+      border: "1px solid var(--color-rojo-texto)",
+      backgroundColor: "transparent",
+      color: "var(--color-rojo-texto)",
+      borderRadius: "7px",
+      padding: "6px 12px",
+      fontWeight: "600",
+      fontSize: "13px",
+      cursor: "pointer",
+      flex: "none",
+    },
+    ".lista-error [data-reintentar]:hover": { opacity: "0.75" },
+
+    /* ---------------------------------------------------------------
      * Campo -- un control de formulario con su etiqueta y ayuda.
      * ------------------------------------------------------------- */
     ".campo": { marginBottom: "17px" },
@@ -504,6 +570,24 @@ export function buildComponents(): CssEnJs {
     },
     ".formulario-seccion-titulo": { color: "var(--color-titulo)", margin: "0 0 4px", fontSize: "16px" },
     ".formulario-seccion-nota": { color: "var(--color-tenue)", margin: "0 0 16px", fontSize: "13px" },
+
+    /* ---------------------------------------------------------------
+     * Barra de acciones fija -- Guardar/Cancelar siempre al alcance en
+     * un formulario largo, sin tapar contenido (position:sticky, no
+     * fixed -- se acomoda al ancho real de su contenedor). Reusa
+     * --z-flotante, igual criterio que `.tabla-cabecera-fija`.
+     * ------------------------------------------------------------- */
+    ".formulario-acciones-fijas": {
+      position: "sticky",
+      bottom: "0",
+      display: "flex",
+      gap: "10px",
+      justifyContent: "flex-end",
+      backgroundColor: "var(--color-superficie)",
+      borderTop: "1px solid var(--color-borde)",
+      padding: "14px 0",
+      zIndex: "var(--z-flotante)",
+    },
 
     /* select -- quita la flecha del sistema operativo, pone una de marca. */
     select: {
@@ -663,6 +747,25 @@ export function buildComponents(): CssEnJs {
     "fieldset.campo-grupo legend": { padding: "0 6px", fontSize: "13px", fontWeight: "600", color: "var(--color-titulo)" },
     "fieldset.campo-grupo .campo-check:last-child": { marginBottom: "0" },
 
+    /* ---------------------------------------------------------------
+     * Filas repetibles -- contactos, partidas u otros grupos de campos
+     * que se repiten. El JS vive en `/js` (`iniciarGruposRepetibles`):
+     * clona un `<template>`, reindexa `name`/`id`/`for` y conecta
+     * "Agregar otro"/"Quitar". Las filas son `.campo`/inputs normales
+     * -- `iniciarFormularios` ya las valida sin cambios.
+     * ------------------------------------------------------------- */
+    ".grupo-repetible-fila": {
+      display: "flex",
+      gap: "12px",
+      alignItems: "flex-end",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "8px",
+      padding: "14px 16px",
+      marginBottom: "12px",
+    },
+    ".grupo-repetible-fila > :first-child": { flex: "1", minWidth: "0" },
+    ".grupo-repetible-fila [data-quitar-fila]": { flex: "none" },
+
     /* input[type=file] -- solo el boton "Elegir archivo"; el cuadro de
        dialogo del sistema operativo no se toca. */
     "input[type=file]::file-selector-button": {
@@ -807,6 +910,28 @@ export function buildComponents(): CssEnJs {
     ".resumen-revision-item strong": { color: "var(--color-titulo)", fontWeight: "600" },
     ".resumen-revision-item .cambiar": { color: "var(--color-azul-texto)", fontSize: "13px", fontWeight: "600", flex: "none" },
     ".resumen-revision-item .cambiar:hover": { textDecoration: "underline" },
+
+    /* ---------------------------------------------------------------
+     * Comparacion de valores -- vista antes/despues para revisar un
+     * cambio (ej. aprobar una edicion de solicitud). Misma estructura
+     * visual que `.resumen-revision` (par clave/valor), pero con DOS
+     * valores por fila en vez de uno. Se apila en movil/contenedor
+     * angosto (ver los bloques de @media 600px / @container 480px).
+     * ------------------------------------------------------------- */
+    ".comparacion-valores": { border: "1px solid var(--color-borde)", borderRadius: "11px", overflow: "hidden" },
+    ".comparacion-valores-item": {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr 1fr",
+      gap: "14px",
+      alignItems: "center",
+      padding: "13px 16px",
+      borderBottom: "1px solid var(--color-borde)",
+      fontSize: "14px",
+    },
+    ".comparacion-valores-item:last-child": { borderBottom: "0" },
+    ".comparacion-valores-item > span:first-child": { color: "var(--color-tenue)" },
+    ".comparacion-valores-item .anterior": { color: "var(--color-rojo-texto)", textDecoration: "line-through" },
+    ".comparacion-valores-item .nuevo": { color: "var(--color-verde-texto)", fontWeight: "600" },
 
     /* ---------------------------------------------------------------
      * Resumen de errores -- el patron de accesibilidad de formularios
@@ -1069,6 +1194,15 @@ export function buildComponents(): CssEnJs {
       fontWeight: "600",
       cursor: "pointer",
     },
+    ".modal-acciones": { display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "18px" },
+
+    /* Vista previa de documentos -- .modal-panel con una imagen o un
+     * PDF embebido (iframe) en vez de texto. El JS vive en `/js`
+     * (`iniciarVistaPrevia`); solo visor, no sube ni descarga nada. */
+    ".vista-previa-panel": { padding: "0", maxWidth: "900px", display: "flex", flexDirection: "column" },
+    ".vista-previa-panel img": { display: "block", width: "100%", maxHeight: "80vh", objectFit: "contain" },
+    ".vista-previa-panel iframe": { width: "100%", height: "75vh", border: "0" },
+    ".vista-previa-panel .cerrar": { margin: "12px", alignSelf: "flex-end" },
 
     /* ---------------------------------------------------------------
      * Toast -- notificacion flotante que aparece y se retira sola.
@@ -1884,6 +2018,7 @@ export function buildComponents(): CssEnJs {
         width: "auto",
         transform: "none",
       },
+      ".comparacion-valores-item": { gridTemplateColumns: "1fr" },
     },
 
     /* `.cajon`/`.modal-panel` ya son `container-type: inline-size` (ver
@@ -1898,6 +2033,7 @@ export function buildComponents(): CssEnJs {
       ".barra-filtros": { flexDirection: "column", alignItems: "stretch" },
       ".barra-filtros .buscador, .barra-filtros select": { flex: "none", width: "100%" },
       ".barra-filtros .limpiar-filtros": { marginLeft: "0", textAlign: "center" },
+      ".comparacion-valores-item": { gridTemplateColumns: "1fr" },
     },
 
     /* ---------------------------------------------------------------
@@ -2229,6 +2365,41 @@ export function buildComponents(): CssEnJs {
     ".documento-nombre": { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--color-texto)", fontSize: "13px" },
 
     /* ---------------------------------------------------------------
+     * Cola de adjuntos -- igual armazon que `.documento-fila`, pero
+     * para un archivo QUE SE ESTA subiendo: barra de progreso en vez
+     * de los links "Ver"/"Quitar". El JS vive en `/js`
+     * (`iniciarColaAdjuntos`) -- `subirArchivo(file, onProgreso, señal)`
+     * la implementa el consumidor (XHR/fetch real), el paquete solo
+     * arma la fila y el estado.
+     * ------------------------------------------------------------- */
+    ".adjunto-fila": {
+      display: "grid",
+      gridTemplateColumns: "minmax(0, 1fr) 90px auto",
+      alignItems: "center",
+      gap: "10px",
+      padding: "8px",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "7px",
+      backgroundColor: "var(--color-superficie)",
+      marginBottom: "8px",
+      fontSize: "13px",
+    },
+    ".adjunto-nombre": { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--color-texto)" },
+    ".adjunto-progreso": { height: "6px", borderRadius: "3px", backgroundColor: "var(--color-gris-fondo)", overflow: "hidden" },
+    ".adjunto-progreso > span": { display: "block", height: "100%", backgroundColor: "var(--color-azul)", transition: "width 0.2s ease" },
+    ".adjunto-fila[data-estado='error'] .adjunto-progreso": { backgroundColor: "var(--color-rojo-fondo)" },
+    ".adjunto-fila[data-estado='error'] .adjunto-progreso > span": { backgroundColor: "var(--color-rojo)" },
+    ".adjunto-fila[data-estado='listo'] .adjunto-progreso > span": { backgroundColor: "var(--color-verde)" },
+    ".adjunto-accion": {
+      border: "0",
+      backgroundColor: "transparent",
+      color: "var(--color-azul-texto)",
+      fontWeight: "600",
+      fontSize: "12.5px",
+      cursor: "pointer",
+    },
+
+    /* ---------------------------------------------------------------
      * Calendario de estado -- de acepta/frontend
      * (CalendarioScrapingView.vue): grilla mensual tipo heatmap con un
      * punto de color por dia (hecho/en-curso/fallido). Proposito
@@ -2269,6 +2440,7 @@ export function buildComponents(): CssEnJs {
       ".toast": { animation: "none" },
       ".cargando": { animation: "none" },
       ".skeleton": { animation: "none" },
+      ".adjunto-progreso > span": { transition: "none" },
     },
 
     /* ---------------------------------------------------------------

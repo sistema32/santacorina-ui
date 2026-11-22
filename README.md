@@ -76,7 +76,7 @@ import { formato, mostrarToast, abrirModal, iniciarTodo, destruirTodo } from "@s
 | `iniciarCalendario` | Panel de calendario sobre `[data-calendario]` | ✓ |
 | `iniciarBuscadores` | Muestra/oculta y conecta el botón `.limpiar` de `.buscador` | ✓ |
 | `iniciarContadores` | Actualiza `.contador-caracteres` de un `textarea[data-contador]` | ✓ |
-| `iniciarTabs` (ampliado en 0.10.0) | Con `data-tab`/`data-tab-panel`, también muestra/oculta el panel — sin esos atributos sigue siendo solo un segmented control, retrocompatible | ✓ |
+| `iniciarTabs` (ampliado en 0.10.0, 0.26.0) | Con `data-tab`/`data-tab-panel`, también muestra/oculta el panel — sin esos atributos sigue siendo solo un segmented control, retrocompatible. Flechas izquierda/derecha entre pestañas; `[data-tab-url]` sincroniza el destino con `location.hash` | ✓ |
 | `iniciarPopovers` | Abre/cierra `.popover-panel` al hacer clic en `[data-popover-trigger]` | ✓ |
 | `iniciarColapsables` | Alterna `.activo` en `[data-colapsable]` al hacer clic en `[data-colapsar]` | ✓ |
 | `iniciarCajones` | Conecta `[data-cajon-toggle]`/`[data-cajon-fondo]` con `.cajon` | ✓ |
@@ -97,6 +97,17 @@ import { formato, mostrarToast, abrirModal, iniciarTodo, destruirTodo } from "@s
 | `posicionarFlotante(ancla, panel)` | Marca `panel.dataset.posicion = "arriba"` si no hay espacio debajo de `ancla` — usado internamente por popover/toggletip/calendario/combobox/menu, exportado por si una pantalla arma su propia capa flotante | — |
 | `debounce(fn, ms)` | Retrasa `fn` hasta que pasan `ms` sin una nueva llamada | — |
 | `copiarAlPortapapeles(texto)` | Copia al portapapeles, con fallback para contextos sin HTTPS | — |
+| `formato.rutValido(valor)` | Valida el dígito verificador (módulo 11) de un RUT — `rut()` solo formatea; conectar a `setCustomValidity()` sigue siendo decisión de cada pantalla (0.26.0) | — |
+| `iniciarFiltrosUrl(form)` | Sincroniza los campos `[name]` de `form` con la URL (`history.replaceState`); restaura al cargar/"Atrás"; dispara `santacorina:filtros-cambiar` (0.26.0) | — |
+| `iniciarCambiosSinGuardar(form)` / `huboCambios(form)` | Avisa (`beforeunload`) si `form` tiene cambios sin guardar respecto a cuando se inició; `huboCambios` queda suelta para un guard de navegación de SPA (0.26.0) | — |
+| `iniciarGruposRepetibles` | Clona `<template data-fila-plantilla>` en `[data-grupo-repetible]` (contactos, partidas…), reindexa `name`/`id`/`for` con `__i__` (0.26.0) | ✓ |
+| `iniciarCamposClp` / `valorClp(input)` | Formatea `input[data-campo-clp]` con `formato.pesos()` al perder el foco; `valorClp` distingue vacío (`null`) de `0` (0.26.0) | ✓ |
+| `iniciarComboboxRemoto(caja, buscar)` | Reemplaza el filtrado local de `.combobox` por `buscar(texto)` (la implementa el consumidor) — debounce 250ms + descarta respuestas viejas (0.26.0) | — |
+| `iniciarReintento(contenedor, cargar)` | Conecta `[data-reintentar]` dentro de `contenedor` a `cargar()`; muestra/oculta `.lista-error` según falle o no (0.26.0) | — |
+| `confirmar(opciones)` | Arma un `.modal` de confirmación al vuelo y devuelve `Promise<boolean>` — foco inicial en Cancelar salvo `peligro: false` (0.26.0) | — |
+| `iniciarVistaPrevia` | Abre `[data-vista-previa]` (ej. el "Ver" de `.documento-fila`) en un `.modal` con imagen/PDF en vez de navegar (0.26.0) | ✓ |
+| `iniciarColaAdjuntos(zona, subirArchivo)` | Cola de `.adjunto-fila` con barra de progreso; `subirArchivo(file, onProgreso, señal)` la implementa el consumidor — `señal` es un `AbortSignal` real (0.26.0) | — |
+| `iniciarScrollspy(nav, contenedor?)` | Alterna `.activo` en los links de `nav` según la sección visible (`IntersectionObserver`) (0.26.0) | — |
 
 Las marcadas "✓" las conecta `iniciarTodo()` solo con cargar el script
 (auto-ejecuta al `DOMContentLoaded`, como el `data-bs-*` de Bootstrap). El
@@ -141,6 +152,7 @@ o `document`):
 | `santacorina:carousel-cambiar` | `.carousel` | `{ indice }` |
 | `santacorina:ordenar` | `th[data-ordenable]` | `{ columna, direccion }` |
 | `santacorina:seleccion-cambiar` | `table[data-seleccion]` | `{ ids, total }` |
+| `santacorina:filtros-cambiar` | el `form` de `iniciarFiltrosUrl` | `{ params }` |
 
 `formato` viene de duplicación real: `peso()`/`conSigno()`/`pct()` estaban
 copiados idénticos en `FinanzasPresupuestoView.vue` y
@@ -346,6 +358,14 @@ los mismos de antes, solo cambió el mecanismo.
 | `.zona-arrastre` (`.activa`) + `.lista-documentos`/`.documento-fila` | Drag & drop + fila de documento — de `acepta/frontend`; JS en `/js` |
 | `.calendario-estado` + `.calendario-estado-dia` + `.punto-estado` (`.hecho`/`.en-curso`/`.fallido`) | Heatmap mensual de actividad — de `acepta/frontend`, distinto de `.calendario` (ese es un selector de fecha) |
 | `td strong, td small` (en el bloque de tabla existente) | Celda de dos líneas — de `acepta/frontend` (41 ocurrencias) |
+| `.formulario-acciones-fijas` | Barra de acciones (Guardar/Cancelar) fija al fondo de un formulario largo (`position: sticky`, 0.26.0) |
+| `.comparacion-valores` + `.comparacion-valores-item` (`.anterior`/`.nuevo`) | Vista antes/después para revisar un cambio — se apila en móvil/contenedor angosto (0.26.0) |
+| `.cabecera-adaptable` + `.cabecera-adaptable-titulo`/`-accion` | Título + estado + acción principal; colapsa el texto de la acción vía `@container` si no hay espacio (0.26.0) |
+| `.grupo-repetible-fila` | Fila de un grupo repetible (contactos, partidas…) — JS en `/js` (`iniciarGruposRepetibles`) (0.26.0) |
+| `.lista-error` (+ `[data-reintentar]`) | Banner de error con botón "Reintentar" en un listado — JS en `/js` (`iniciarReintento`) (0.26.0) |
+| `.modal-acciones` | Fila de botones de un `.modal` (usada por `confirmar()`) (0.26.0) |
+| `.vista-previa-panel` | `.modal-panel` con imagen/PDF en vez de texto — JS en `/js` (`iniciarVistaPrevia`) (0.26.0) |
+| `.adjunto-fila` (`[data-estado="error"\|"listo"]`) | Fila de archivo con barra de progreso — JS en `/js` (`iniciarColaAdjuntos`) (0.26.0) |
 
 Dos ajustes responsivos nuevos, sin clase nueva, bajo 600px (teléfono —
 el 900px del resto del paquete es muy ancho para esto): `.breadcrumb`

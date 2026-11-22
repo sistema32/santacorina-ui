@@ -32,6 +32,30 @@ export function rut(valor: string): string {
 }
 
 /**
+ * Valida el digito verificador de un RUT chileno (modulo 11) -- `rut()`
+ * arriba SOLO formatea, nunca valido. Funcion pura: la pantalla la
+ * conecta a `setCustomValidity()` del campo, mismo criterio que
+ * cualquier regla propia del consumidor (el paquete no la aplica
+ * automaticamente en ningun lado).
+ */
+export function rutValido(valor: string): boolean {
+  const limpio = valor.replace(/[^0-9kK]/g, "").toUpperCase();
+  if (limpio.length < 2) return false;
+  const cuerpo = limpio.slice(0, -1);
+  const dv = limpio.slice(-1);
+  if (!/^\d+$/.test(cuerpo)) return false;
+  let suma = 0;
+  let multiplicador = 2;
+  for (let i = cuerpo.length - 1; i >= 0; i--) {
+    suma += Number(cuerpo[i]) * multiplicador;
+    multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+  }
+  const resto = 11 - (suma % 11);
+  const dvEsperado = resto === 11 ? "0" : resto === 10 ? "K" : String(resto);
+  return dv === dvEsperado;
+}
+
+/**
  * Repara mojibake: texto que paso por UTF-8 -> Latin-1 -> UTF-8 sin
  * querer (comun en exportaciones de Excel/correo con tildes rotas, ej.
  * "InformaciÃ³n" en vez de "Información"). Repara cada fragmento roto

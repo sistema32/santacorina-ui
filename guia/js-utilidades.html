@@ -94,6 +94,7 @@
     <a href="componentes.html#acordeon">Acordeón</a>
     <a href="componentes.html#paginacion">Paginación</a>
     <a href="componentes.html#menu">Menú</a>
+    <a href="componentes.html#confirmar">Confirmación</a>
     <a href="componentes.html#insignia">Insignia</a>
     <a href="componentes.html#insignia-icono">Insignia de ícono</a>
     <a href="componentes.html#tarjeta-accion">Tarjeta de acción</a>
@@ -152,6 +153,16 @@
           <tr><td class="codigo">iniciarSeleccionTabla</td><td>Checkbox de cabecera/fila en <code>table[data-seleccion]</code> + <code>.barra-seleccion</code></td><td class="cen">✓</td></tr>
           <tr><td class="codigo">iniciarMenus</td><td>Mejora <code>.menu</code>/<code>&lt;details&gt;</code>: roles ARIA, flechas entre items, foco inicial, posicionamiento</td><td class="cen">✓</td></tr>
           <tr><td class="codigo">posicionarFlotante(ancla, panel)</td><td>Marca <code>data-posicion="arriba"</code> si no hay espacio debajo de <code>ancla</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarFiltrosUrl(form)</td><td>Sincroniza campos con la URL (<code>history.replaceState</code>); dispara <code>santacorina:filtros-cambiar</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarCambiosSinGuardar/huboCambios</td><td>Avisa (<code>beforeunload</code>) si un form tiene cambios sin guardar</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarGruposRepetibles</td><td>Clona <code>&lt;template data-fila-plantilla&gt;</code>, reindexa <code>name</code>/<code>id</code>/<code>for</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarCamposClp/valorClp</td><td>Formatea <code>input[data-campo-clp]</code> al perder el foco; distingue vacío de <code>0</code></td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarComboboxRemoto(caja, buscar)</td><td>Busqueda remota para <code>.combobox</code> -- debounce + descarta respuestas viejas</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarReintento(contenedor, cargar)</td><td>Conecta <code>[data-reintentar]</code> a <code>cargar()</code>; muestra/oculta <code>.lista-error</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo">confirmar(opciones)</td><td>Modal de confirmación al vuelo, devuelve <code>Promise&lt;boolean&gt;</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarVistaPrevia</td><td>Abre <code>[data-vista-previa]</code> en un modal con imagen/PDF</td><td class="cen">✓</td></tr>
+          <tr><td class="codigo">iniciarColaAdjuntos(zona, subirArchivo)</td><td>Cola de adjuntos con barra de progreso y reintento</td><td class="cen">—</td></tr>
+          <tr><td class="codigo">iniciarScrollspy(nav, contenedor?)</td><td>Alterna <code>.activo</code> en un nav según la sección visible</td><td class="cen">—</td></tr>
         </tbody>
       </table>
     </section>

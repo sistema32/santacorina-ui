@@ -15,6 +15,10 @@ assert.equal(formato.rut("12.345.678-9"), "12.345.678-9");
 assert.equal(formato.rut("76543210k"), "76.543.210-K");
 assert.equal(formato.limpiarMojibake("InformaciÃ³n"), "Información");
 assert.equal(formato.limpiarMojibake("Información"), "Información", "texto ya correcto no debe tocarse");
+assert.equal(formato.rutValido("12.345.678-5"), true);
+assert.equal(formato.rutValido("7.897.897-K"), true);
+assert.equal(formato.rutValido("12.345.678-9"), false, "digito verificador incorrecto");
+assert.equal(formato.rutValido("abc"), false);
 
 await new Promise((listo) => {
   let llamadas = 0;

@@ -25,6 +25,16 @@ export { iniciarFormularios, ponerCargando, quitarCargando } from "./formulario.
 export { iniciarSeleccionTabla } from "./seleccion.js";
 export { iniciarMenus } from "./menu.js";
 export { posicionarFlotante } from "./flotante.js";
+export { iniciarFiltrosUrl } from "./filtros-url.js";
+export { iniciarCambiosSinGuardar, huboCambios } from "./cambios-sin-guardar.js";
+export { iniciarGruposRepetibles } from "./grupo-repetible.js";
+export { iniciarCamposClp, valorClp } from "./campo-clp.js";
+export { iniciarComboboxRemoto } from "./combobox.js";
+export { iniciarReintento } from "./reintento.js";
+export { confirmar } from "./confirmar.js";
+export { iniciarVistaPrevia } from "./vista-previa.js";
+export { iniciarColaAdjuntos } from "./cola-adjuntos.js";
+export { iniciarScrollspy } from "./scrollspy.js";
 
 import { iniciarModales } from "./modal.js";
 import { iniciarLateral } from "./lateral.js";
@@ -47,6 +57,9 @@ import { iniciarCarruseles } from "./carousel.js";
 import { iniciarFormularios } from "./formulario.js";
 import { iniciarSeleccionTabla } from "./seleccion.js";
 import { iniciarMenus } from "./menu.js";
+import { iniciarGruposRepetibles } from "./grupo-repetible.js";
+import { iniciarCamposClp } from "./campo-clp.js";
+import { iniciarVistaPrevia } from "./vista-previa.js";
 
 /** Conecta todo lo auto-iniciable. */
 export function iniciarTodo(raiz: ParentNode = document): void {
@@ -71,4 +84,7 @@ export function iniciarTodo(raiz: ParentNode = document): void {
   iniciarFormularios(raiz);
   iniciarSeleccionTabla(raiz);
   iniciarMenus(raiz);
+  iniciarGruposRepetibles(raiz);
+  iniciarCamposClp(raiz);
+  iniciarVistaPrevia(raiz);
 }

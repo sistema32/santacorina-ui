@@ -1,10 +1,15 @@
 /**
- * Alterna `.activo` al hacer clic dentro de `.tabs`. Si el boton tiene
- * `data-tab="x"`, tambien muestra `[data-tab-panel="x"]` y oculta el
- * resto -- retrocompatible: un `.tabs` sin `data-tab` sigue siendo solo
- * un segmented control, como hasta 0.9.0. `.tabs` recibe `role="tablist"`,
- * cada boton `role="tab"` + `aria-selected`, y cada panel `role="tabpanel"`
- * + `aria-hidden` en espejo con `.activo`.
+ * Alterna `.activo` al hacer clic (o con flechas izquierda/derecha,
+ * 0.26.0) dentro de `.tabs`. Si el boton tiene `data-tab="x"`, tambien
+ * muestra `[data-tab-panel="x"]` y oculta el resto -- retrocompatible:
+ * un `.tabs` sin `data-tab` sigue siendo solo un segmented control,
+ * como hasta 0.9.0. `.tabs` recibe `role="tablist"`, cada boton
+ * `role="tab"` + `aria-selected`, y cada panel `role="tabpanel"` +
+ * `aria-hidden` en espejo con `.activo`.
+ *
+ * Deep-link (0.26.0): `.tabs[data-tab-url]` sincroniza el destino
+ * activo con `location.hash` (via `history.replaceState`) y lo lee al
+ * cargar -- compartir el link deja la misma pestaña activa.
  */
 import { primeraVez } from "./una-vez.js";
 
@@ -26,17 +31,20 @@ export function iniciarTabs(raiz: ParentNode = document): void {
     botones.forEach((boton) => {
       if (!boton.getAttribute("role")) boton.setAttribute("role", "tab");
       boton.setAttribute("aria-selected", boton.classList.contains("activo") ? "true" : "false");
+      boton.tabIndex = boton.classList.contains("activo") ? 0 : -1;
     });
 
-    tabs.addEventListener("click", (e) => {
-      const el = (e.target as Element).closest<HTMLElement>("a, button");
-      if (!el || !tabs.contains(el)) return;
+    const conUrl = tabs.hasAttribute("data-tab-url");
+
+    const activar = (el: HTMLElement) => {
       botones.forEach((b) => {
         b.classList.remove("activo");
         b.setAttribute("aria-selected", "false");
+        b.tabIndex = -1;
       });
       el.classList.add("activo");
       el.setAttribute("aria-selected", "true");
+      el.tabIndex = 0;
 
       const destino = el.dataset.tab;
       if (!destino) return;
@@ -48,7 +56,31 @@ export function iniciarTabs(raiz: ParentNode = document): void {
         if (!panel.getAttribute("role")) panel.setAttribute("role", "tabpanel");
         panel.setAttribute("aria-hidden", activo ? "false" : "true");
       });
+      if (conUrl) history.replaceState(history.state, "", `#${destino}`);
       tabs.dispatchEvent(new CustomEvent("santacorina:tab-cambiar", { bubbles: true, detail: { destino } }));
+    };
+
+    tabs.addEventListener("click", (e) => {
+      const el = (e.target as Element).closest<HTMLElement>("a, button");
+      if (!el || !tabs.contains(el)) return;
+      activar(el);
     });
+
+    tabs.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      const lista = Array.from(botones);
+      const actual = lista.indexOf(document.activeElement as HTMLElement);
+      if (actual === -1) return;
+      e.preventDefault();
+      const siguiente = e.key === "ArrowRight" ? Math.min(actual + 1, lista.length - 1) : Math.max(actual - 1, 0);
+      lista[siguiente].focus();
+      activar(lista[siguiente]);
+    });
+
+    if (conUrl && location.hash) {
+      const destino = location.hash.slice(1);
+      const boton = Array.from(botones).find((b) => b.dataset.tab === destino);
+      if (boton) activar(boton);
+    }
   });
 }

@@ -94,6 +94,7 @@
     <a href="#acordeon">Acordeón</a>
     <a href="#paginacion">Paginación</a>
     <a href="#menu">Menú</a>
+    <a href="#confirmar">Confirmación</a>
     <a href="#insignia">Insignia</a>
     <a href="#insignia-icono">Insignia de ícono</a>
     <a href="#tarjeta-accion">Tarjeta de acción</a>
@@ -597,6 +598,23 @@
       </div>
     </section>
 
+<section class="doc-sec" id="confirmar">
+      <h2>Confirmación reutilizable</h2>
+      <p class="uso"><code>confirmar(opciones)</code> (0.26.0) arma un <code>.modal</code> al vuelo reusando <code>abrirModal</code>/<code>cerrarModal</code> -- foco atrapado, Escape vía la pila de capas, todo gratis -- y devuelve <code>Promise&lt;boolean&gt;</code>. Foco inicial en Cancelar, salvo <code>peligro: false</code>.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <button class="boton peligro" id="demo-btn-confirmar">Eliminar adjunto</button>
+          <p id="demo-confirmar-resultado" style="margin-top:10px;color:var(--color-tenue)"></p>
+        </div>
+        <pre class="codigo">Santacorina.confirmar({
+  titulo: "Eliminar adjunto",
+  mensaje: "Esta acción no se puede deshacer.",
+  textoConfirmar: "Eliminar",
+  peligro: true,
+}).then((ok) => { if (ok) /* eliminar de verdad */ });</pre>
+      </div>
+    </section>
+
 <section class="doc-sec" id="insignia">
       <h2>Insignia</h2>
       <p class="uso">Sobre un padre <code>position:relative</code> — un ícono, una pastilla, un avatar.</p>
@@ -876,6 +894,20 @@
       caja.hidden = false;
       simularError.hidden = true;
       Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
+    });
+  }
+
+  var btnConfirmar = document.getElementById("demo-btn-confirmar");
+  if (btnConfirmar) {
+    btnConfirmar.addEventListener("click", function () {
+      Santacorina.confirmar({
+        titulo: "Eliminar adjunto",
+        mensaje: "Esta acción no se puede deshacer.",
+        textoConfirmar: "Eliminar",
+        peligro: true,
+      }).then(function (ok) {
+        document.getElementById("demo-confirmar-resultado").textContent = ok ? "Confirmado." : "Cancelado.";
+      });
     });
   }
 

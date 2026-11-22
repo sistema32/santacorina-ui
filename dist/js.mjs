@@ -12,7 +12,8 @@ __export(formato_exports, {
   limpiarMojibake: () => limpiarMojibake,
   pct: () => pct,
   pesos: () => pesos,
-  rut: () => rut
+  rut: () => rut,
+  rutValido: () => rutValido
 });
 function pesos(n) {
   return Math.round(n || 0).toLocaleString("es-CL");
@@ -35,6 +36,22 @@ function rut(valor) {
   const dv = limpio.slice(-1);
   const conPuntos = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   return `${conPuntos}-${dv}`;
+}
+function rutValido(valor) {
+  const limpio = valor.replace(/[^0-9kK]/g, "").toUpperCase();
+  if (limpio.length < 2) return false;
+  const cuerpo = limpio.slice(0, -1);
+  const dv = limpio.slice(-1);
+  if (!/^\d+$/.test(cuerpo)) return false;
+  let suma = 0;
+  let multiplicador = 2;
+  for (let i = cuerpo.length - 1; i >= 0; i--) {
+    suma += Number(cuerpo[i]) * multiplicador;
+    multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+  }
+  const resto = 11 - suma % 11;
+  const dvEsperado = resto === 11 ? "0" : resto === 10 ? "K" : String(resto);
+  return dv === dvEsperado;
 }
 function limpiarMojibake(texto) {
   return texto.replace(/[ÂÃ][-¿]+/g, (fragmento) => {
@@ -265,16 +282,18 @@ function iniciarTabs(raiz = document) {
     botones.forEach((boton) => {
       if (!boton.getAttribute("role")) boton.setAttribute("role", "tab");
       boton.setAttribute("aria-selected", boton.classList.contains("activo") ? "true" : "false");
+      boton.tabIndex = boton.classList.contains("activo") ? 0 : -1;
     });
-    tabs.addEventListener("click", (e) => {
-      const el = e.target.closest("a, button");
-      if (!el || !tabs.contains(el)) return;
+    const conUrl = tabs.hasAttribute("data-tab-url");
+    const activar2 = (el) => {
       botones.forEach((b) => {
         b.classList.remove("activo");
         b.setAttribute("aria-selected", "false");
+        b.tabIndex = -1;
       });
       el.classList.add("activo");
       el.setAttribute("aria-selected", "true");
+      el.tabIndex = 0;
       const destino = el.dataset.tab;
       if (!destino) return;
       document.querySelectorAll("[data-tab-panel]").forEach((panel) => {
@@ -285,8 +304,29 @@ function iniciarTabs(raiz = document) {
         if (!panel.getAttribute("role")) panel.setAttribute("role", "tabpanel");
         panel.setAttribute("aria-hidden", activo ? "false" : "true");
       });
+      if (conUrl) history.replaceState(history.state, "", `#${destino}`);
       tabs.dispatchEvent(new CustomEvent("santacorina:tab-cambiar", { bubbles: true, detail: { destino } }));
+    };
+    tabs.addEventListener("click", (e) => {
+      const el = e.target.closest("a, button");
+      if (!el || !tabs.contains(el)) return;
+      activar2(el);
     });
+    tabs.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      const lista = Array.from(botones);
+      const actual = lista.indexOf(document.activeElement);
+      if (actual === -1) return;
+      e.preventDefault();
+      const siguiente = e.key === "ArrowRight" ? Math.min(actual + 1, lista.length - 1) : Math.max(actual - 1, 0);
+      lista[siguiente].focus();
+      activar2(lista[siguiente]);
+    });
+    if (conUrl && location.hash) {
+      const destino = location.hash.slice(1);
+      const boton = Array.from(botones).find((b) => b.dataset.tab === destino);
+      if (boton) activar2(boton);
+    }
   });
 }
 
@@ -651,6 +691,10 @@ function iniciarCajones(raiz = document) {
 
 // src/js/combobox.ts
 var instancias2 = /* @__PURE__ */ new WeakMap();
+var buscadoresRemotos = /* @__PURE__ */ new WeakMap();
+function iniciarComboboxRemoto(caja, buscar) {
+  buscadoresRemotos.set(caja, buscar);
+}
 function iniciarCombobox(raiz = document) {
   raiz.querySelectorAll(".combobox").forEach((caja) => {
     if (!primeraVez(caja, "combobox")) {
@@ -667,43 +711,70 @@ function iniciarCombobox(raiz = document) {
     input.setAttribute("aria-controls", idDe(lista, "combobox-lista"));
     input.setAttribute("aria-autocomplete", "list");
     lista.setAttribute("role", "listbox");
-    const opciones = Array.from(select.options).filter((o) => o.value);
+    const opcionesLocales = Array.from(select.options).filter((o) => o.value).map((o) => ({ valor: o.value, texto: o.textContent ?? "" }));
+    let opcionesActuales = opcionesLocales;
     let resaltada = -1;
-    const seleccionar = (opcion) => {
+    const seleccionar = (item) => {
+      let opcion = Array.from(select.options).find((o) => o.value === item.valor);
+      if (!opcion) {
+        opcion = document.createElement("option");
+        opcion.value = item.valor;
+        opcion.textContent = item.texto;
+        select.appendChild(opcion);
+      }
       select.value = opcion.value;
-      input.value = opcion.textContent ?? "";
+      input.value = item.texto;
       select.dispatchEvent(new Event("change", { bubbles: true }));
       caja.dispatchEvent(
-        new CustomEvent("santacorina:combobox-seleccionar", {
-          bubbles: true,
-          detail: { valor: opcion.value, texto: opcion.textContent ?? "" }
-        })
+        new CustomEvent("santacorina:combobox-seleccionar", { bubbles: true, detail: { valor: item.valor, texto: item.texto } })
       );
       cerrar2();
     };
     const normalizar = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
-    const redibujar = (filtro) => {
+    const pintarOpciones = (items) => {
+      opcionesActuales = items;
       lista.innerHTML = "";
-      const texto = normalizar(filtro.trim());
-      const visibles = opciones.filter((o) => normalizar(o.textContent ?? "").includes(texto));
       resaltada = -1;
-      if (visibles.length === 0) {
+      if (items.length === 0) {
         const li = document.createElement("li");
         li.className = "sin-resultados";
         li.textContent = "Sin resultados";
         lista.appendChild(li);
         return;
       }
-      visibles.forEach((opcion) => {
+      items.forEach((item) => {
         const li = document.createElement("li");
-        li.textContent = opcion.textContent ?? "";
-        li.id = `${lista.id}-op-${opcion.value}`;
+        li.textContent = item.texto;
+        li.id = `${lista.id}-op-${item.valor}`;
         li.setAttribute("role", "option");
-        li.setAttribute("aria-selected", opcion.value === select.value ? "true" : "false");
-        li.addEventListener("click", () => seleccionar(opcion));
-        li.dataset.valor = opcion.value;
+        li.setAttribute("aria-selected", item.valor === select.value ? "true" : "false");
+        li.addEventListener("click", () => seleccionar(item));
+        li.dataset.valor = item.valor;
         lista.appendChild(li);
       });
+    };
+    let temporizadorBusqueda;
+    let tokenBusqueda = 0;
+    const redibujar = (filtro) => {
+      const buscar = buscadoresRemotos.get(caja);
+      if (!buscar) {
+        const texto = normalizar(filtro.trim());
+        pintarOpciones(opcionesLocales.filter((o) => normalizar(o.texto).includes(texto)));
+        return;
+      }
+      clearTimeout(temporizadorBusqueda);
+      const miToken = ++tokenBusqueda;
+      lista.innerHTML = "";
+      const cargando = document.createElement("li");
+      cargando.className = "sin-resultados";
+      cargando.textContent = "Buscando\u2026";
+      lista.appendChild(cargando);
+      temporizadorBusqueda = setTimeout(() => {
+        buscar(filtro.trim()).then((resultados) => {
+          if (miToken !== tokenBusqueda) return;
+          pintarOpciones(resultados);
+        });
+      }, 250);
     };
     let desapilar = null;
     const abrir2 = () => {
@@ -736,14 +807,12 @@ function iniciarCombobox(raiz = document) {
     };
     const reconciliar = () => {
       const texto = normalizar(input.value.trim());
-      const coincide = opciones.find((o) => normalizar(o.textContent ?? "") === texto);
+      const coincide = opcionesActuales.find((o) => normalizar(o.texto) === texto);
       if (coincide) {
-        select.value = coincide.value;
-        input.value = coincide.textContent ?? "";
-        select.dispatchEvent(new Event("change", { bubbles: true }));
+        seleccionar(coincide);
         return;
       }
-      const actual = opciones.find((o) => o.value === select.value);
+      const actual = Array.from(select.options).find((o) => o.value === select.value);
       input.value = actual?.textContent ?? "";
     };
     input.addEventListener("blur", reconciliar);
@@ -761,16 +830,16 @@ function iniciarCombobox(raiz = document) {
         resaltada = Math.max(resaltada - 1, 0);
         marcarResaltada(resaltada);
       } else if (e.key === "Enter") {
-        if (resaltada >= 0 && opciones.length) {
+        if (resaltada >= 0 && opcionesActuales.length) {
           e.preventDefault();
-          const elegida = opciones.find((o) => o.value === items[resaltada]?.dataset.valor);
+          const elegida = opcionesActuales.find((o) => o.valor === items[resaltada]?.dataset.valor);
           if (elegida) seleccionar(elegida);
         }
       }
     });
     if (select.value) {
-      const actual = opciones.find((o) => o.value === select.value);
-      if (actual) input.value = actual.textContent ?? "";
+      const actual = opcionesLocales.find((o) => o.valor === select.value);
+      if (actual) input.value = actual.texto;
     }
     const instancia = { reconciliar, cerrar: cerrar2 };
     instancias2.set(caja, instancia);
@@ -1206,6 +1275,300 @@ function iniciarMenus(raiz = document) {
   });
 }
 
+// src/js/filtros-url.ts
+function camposDe(form) {
+  return Array.from(form.querySelectorAll("input[name], select[name]"));
+}
+function restaurarDesdeUrl(form) {
+  const params = new URLSearchParams(location.search);
+  camposDe(form).forEach((campo) => {
+    const valor = params.get(campo.name);
+    if (valor === null) return;
+    if (campo instanceof HTMLInputElement && campo.type === "checkbox") {
+      campo.checked = valor === "1";
+    } else {
+      campo.value = valor;
+    }
+  });
+}
+function sincronizarUrl(form) {
+  const params = new URLSearchParams(location.search);
+  camposDe(form).forEach((campo) => {
+    const valor = campo instanceof HTMLInputElement && campo.type === "checkbox" ? campo.checked ? "1" : "" : campo.value;
+    if (valor) params.set(campo.name, valor);
+    else params.delete(campo.name);
+  });
+  const query = params.toString();
+  history.replaceState(history.state, "", query ? `?${query}` : location.pathname);
+  form.dispatchEvent(
+    new CustomEvent("santacorina:filtros-cambiar", { bubbles: true, detail: { params: Object.fromEntries(params) } })
+  );
+}
+function iniciarFiltrosUrl(form) {
+  if (!primeraVez(form, "filtros-url")) return;
+  restaurarDesdeUrl(form);
+  form.addEventListener("input", () => sincronizarUrl(form));
+  form.addEventListener("change", () => sincronizarUrl(form));
+  window.addEventListener("popstate", () => restaurarDesdeUrl(form));
+}
+
+// src/js/cambios-sin-guardar.ts
+function serializar(form) {
+  const partes = [];
+  new FormData(form).forEach((valor, clave) => partes.push(`${clave}=${typeof valor === "string" ? valor : valor.name}`));
+  return partes.join("&");
+}
+var fotos = /* @__PURE__ */ new WeakMap();
+var formularios = [];
+function huboCambios(form) {
+  const foto = fotos.get(form);
+  return foto !== void 0 && foto !== serializar(form);
+}
+var avisoActivo = false;
+function iniciarCambiosSinGuardar(form) {
+  fotos.set(form, serializar(form));
+  if (!primeraVez(form, "cambios-sin-guardar")) return;
+  formularios.push(form);
+  if (!avisoActivo) {
+    avisoActivo = true;
+    window.addEventListener("beforeunload", (e) => {
+      if (formularios.some((f) => huboCambios(f))) e.preventDefault();
+    });
+  }
+}
+
+// src/js/grupo-repetible.ts
+function reindexar(fila, indice) {
+  fila.querySelectorAll("[name], [id], [for]").forEach((el) => {
+    ["name", "id", "for"].forEach((attr) => {
+      const valor = el.getAttribute(attr);
+      if (valor?.includes("__i__")) el.setAttribute(attr, valor.replace(/__i__/g, String(indice)));
+    });
+  });
+}
+function iniciarGruposRepetibles(raiz = document) {
+  raiz.querySelectorAll("[data-grupo-repetible]").forEach((grupo) => {
+    if (!primeraVez(grupo, "grupo-repetible")) return;
+    const plantilla = grupo.querySelector("template[data-fila-plantilla]");
+    const contenedor2 = grupo.querySelector("[data-filas]");
+    const botonAgregar = grupo.querySelector("[data-agregar-fila]");
+    if (!plantilla || !contenedor2 || !botonAgregar) return;
+    let contador = contenedor2.children.length;
+    const conectarQuitar = (fila) => {
+      fila.querySelector("[data-quitar-fila]")?.addEventListener("click", () => fila.remove());
+    };
+    Array.from(contenedor2.children).forEach(conectarQuitar);
+    botonAgregar.addEventListener("click", () => {
+      const origen = plantilla.content.firstElementChild;
+      if (!origen) return;
+      const fila = origen.cloneNode(true);
+      reindexar(fila, contador++);
+      contenedor2.appendChild(fila);
+      conectarQuitar(fila);
+    });
+  });
+}
+
+// src/js/campo-clp.ts
+var valores = /* @__PURE__ */ new WeakMap();
+function parsear(texto) {
+  const limpio = texto.replace(/[^0-9]/g, "");
+  return limpio === "" ? null : Number(limpio);
+}
+function valorClp(input) {
+  return valores.get(input) ?? null;
+}
+function iniciarCamposClp(raiz = document) {
+  raiz.querySelectorAll("input[data-campo-clp]").forEach((input) => {
+    if (!primeraVez(input, "campo-clp")) return;
+    input.inputMode = "numeric";
+    const valor = parsear(input.value);
+    valores.set(input, valor);
+    if (valor !== null) input.value = pesos(valor);
+    input.addEventListener("input", () => {
+      valores.set(input, parsear(input.value));
+    });
+    input.addEventListener("blur", () => {
+      const actual = valores.get(input) ?? null;
+      input.value = actual === null ? "" : pesos(actual);
+    });
+  });
+}
+
+// src/js/reintento.ts
+function iniciarReintento(contenedor2, cargar) {
+  if (!primeraVez(contenedor2, "reintento")) return;
+  const banner = contenedor2.querySelector(".lista-error");
+  contenedor2.addEventListener("click", (e) => {
+    if (!e.target.closest("[data-reintentar]")) return;
+    banner?.setAttribute("hidden", "");
+    cargar().catch(() => banner?.removeAttribute("hidden"));
+  });
+}
+
+// src/js/confirmar.ts
+function confirmar(opciones) {
+  return new Promise((resolve) => {
+    const modal = document.createElement("div");
+    modal.className = "modal";
+    modal.innerHTML = `
+      <div class="modal-panel">
+        <h3></h3>
+        <p></p>
+        <div class="modal-acciones">
+          <button type="button" class="boton secundario" data-accion="cancelar"></button>
+          <button type="button" class="boton" data-accion="confirmar"></button>
+        </div>
+      </div>
+    `;
+    modal.querySelector("h3").textContent = opciones.titulo;
+    modal.querySelector("p").textContent = opciones.mensaje;
+    const btnCancelar = modal.querySelector("[data-accion='cancelar']");
+    const btnConfirmar = modal.querySelector("[data-accion='confirmar']");
+    btnCancelar.textContent = opciones.textoCancelar ?? "Cancelar";
+    btnConfirmar.textContent = opciones.textoConfirmar ?? "Confirmar";
+    if (opciones.peligro !== false) btnConfirmar.classList.add("peligro");
+    let resultado = false;
+    btnCancelar.addEventListener("click", () => {
+      resultado = false;
+      cerrarModal(modal);
+    });
+    btnConfirmar.addEventListener("click", () => {
+      resultado = true;
+      cerrarModal(modal);
+    });
+    modal.addEventListener(
+      "santacorina:modal-cerrar",
+      () => {
+        resolve(resultado);
+        modal.remove();
+      },
+      { once: true }
+    );
+    document.body.appendChild(modal);
+    abrirModal(modal);
+    (opciones.peligro === false ? btnConfirmar : btnCancelar).focus();
+  });
+}
+
+// src/js/vista-previa.ts
+function esImagen(url) {
+  return /\.(png|jpe?g|gif|webp|svg)(\?|#|$)/i.test(url);
+}
+function iniciarVistaPrevia(raiz = document) {
+  raiz.querySelectorAll("[data-vista-previa]").forEach((link) => {
+    if (!primeraVez(link, "vista-previa")) return;
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const url = link.href;
+      const modal = document.createElement("div");
+      modal.className = "modal";
+      modal.innerHTML = '<div class="modal-panel vista-previa-panel"></div>';
+      const panel = modal.querySelector(".modal-panel");
+      if (esImagen(url)) {
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = link.textContent ?? "";
+        panel.appendChild(img);
+      } else {
+        const iframe = document.createElement("iframe");
+        iframe.src = url;
+        panel.appendChild(iframe);
+      }
+      const boton = document.createElement("button");
+      boton.type = "button";
+      boton.className = "cerrar";
+      boton.textContent = "Cerrar";
+      boton.setAttribute("data-cerrar-modal", "");
+      panel.appendChild(boton);
+      modal.addEventListener("click", (ev) => {
+        if (ev.target === modal || ev.target.closest("[data-cerrar-modal]")) cerrarModal(modal);
+      });
+      modal.addEventListener("santacorina:modal-cerrar", () => modal.remove(), { once: true });
+      document.body.appendChild(modal);
+      abrirModal(modal);
+    });
+  });
+}
+
+// src/js/cola-adjuntos.ts
+function crearFila(nombre) {
+  const fila = document.createElement("div");
+  fila.className = "adjunto-fila";
+  fila.innerHTML = `
+    <span class="adjunto-nombre"></span>
+    <span class="adjunto-progreso"><span style="width:0%"></span></span>
+    <button type="button" class="adjunto-accion">Cancelar</button>
+  `;
+  fila.querySelector(".adjunto-nombre").textContent = nombre;
+  return {
+    fila,
+    barra: fila.querySelector(".adjunto-progreso > span"),
+    accion: fila.querySelector(".adjunto-accion")
+  };
+}
+function subir(file, lista, subirArchivo) {
+  const { fila, barra, accion } = crearFila(file.name);
+  lista.appendChild(fila);
+  const intentar = () => {
+    fila.removeAttribute("data-estado");
+    barra.style.width = "0%";
+    accion.textContent = "Cancelar";
+    const controlador = new AbortController();
+    accion.onclick = () => controlador.abort();
+    subirArchivo(file, (pct2) => barra.style.width = `${Math.min(100, Math.max(0, pct2))}%`, controlador.signal).then(() => {
+      fila.dataset.estado = "listo";
+      barra.style.width = "100%";
+      accion.textContent = "Quitar";
+      accion.onclick = () => fila.remove();
+    }).catch(() => {
+      fila.dataset.estado = "error";
+      accion.textContent = "Reintentar";
+      accion.onclick = () => intentar();
+    });
+  };
+  intentar();
+}
+function iniciarColaAdjuntos(zona, subirArchivo) {
+  if (!primeraVez(zona, "cola-adjuntos")) return;
+  const dropzone = zona.querySelector(".zona-arrastre");
+  const input = zona.querySelector("input[type=file]");
+  const lista = zona.querySelector("[data-adjuntos-lista]");
+  if (!lista) return;
+  const encolar = (files) => {
+    if (!files) return;
+    Array.from(files).forEach((file) => subir(file, lista, subirArchivo));
+  };
+  input?.addEventListener("change", () => {
+    encolar(input.files);
+    input.value = "";
+  });
+  dropzone?.addEventListener("drop", (e) => {
+    e.preventDefault();
+    encolar(e.dataTransfer?.files ?? null);
+  });
+}
+
+// src/js/scrollspy.ts
+function iniciarScrollspy(nav, contenedor2 = document) {
+  if (!primeraVez(nav, "scrollspy")) return;
+  const links = Array.from(nav.querySelectorAll("a[href^='#']"));
+  const secciones = links.map((link) => ({ link, seccion: contenedor2.querySelector(link.getAttribute("href")) })).filter((s) => Boolean(s.seccion));
+  const observador = new IntersectionObserver(
+    (entradas) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;
+        const item = secciones.find((s) => s.seccion === entrada.target);
+        if (!item) return;
+        links.forEach((l) => l.classList.remove("activo"));
+        item.link.classList.add("activo");
+      });
+    },
+    { rootMargin: "-20% 0px -70% 0px" }
+  );
+  secciones.forEach((s) => observador.observe(s.seccion));
+}
+
 // src/js/index.ts
 function iniciarTodo(raiz = document) {
   iniciarModales(raiz);
@@ -1229,40 +1592,55 @@ function iniciarTodo(raiz = document) {
   iniciarFormularios(raiz);
   iniciarSeleccionTabla(raiz);
   iniciarMenus(raiz);
+  iniciarGruposRepetibles(raiz);
+  iniciarCamposClp(raiz);
+  iniciarVistaPrevia(raiz);
 }
 export {
   abrirModal,
   avanzarCarrusel,
   cerrarModal,
+  confirmar,
   copiarAlPortapapeles,
   debounce,
   destruirTodo,
   formato_exports as formato,
+  huboCambios,
   iniciarAsistentes,
   iniciarBuscadores,
   iniciarCajones,
   iniciarCalendario,
+  iniciarCambiosSinGuardar,
+  iniciarCamposClp,
   iniciarCarruseles,
+  iniciarColaAdjuntos,
   iniciarColapsables,
   iniciarCombobox,
+  iniciarComboboxRemoto,
   iniciarContadores,
+  iniciarFiltrosUrl,
   iniciarFormularios,
+  iniciarGruposRepetibles,
   iniciarLateral,
   iniciarMedidorClave,
   iniciarMenus,
   iniciarModales,
   iniciarPopovers,
   iniciarRangoFechas,
+  iniciarReintento,
   iniciarResumenErrores,
+  iniciarScrollspy,
   iniciarSeleccionTabla,
   iniciarTablasOrdenables,
   iniciarTabs,
   iniciarTodo,
   iniciarToggletips,
+  iniciarVistaPrevia,
   iniciarZonasArrastre,
   irAPaso,
   mostrarToast,
   ponerCargando,
   posicionarFlotante,
-  quitarCargando
+  quitarCargando,
+  valorClp
 };

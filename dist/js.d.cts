@@ -10,6 +10,14 @@ declare function fechaCorta(fecha: Date): string;
 /** Formatea un RUT chileno a "12.345.678-9" -- acepta con o sin puntos/guion. */
 declare function rut(valor: string): string;
 /**
+ * Valida el digito verificador de un RUT chileno (modulo 11) -- `rut()`
+ * arriba SOLO formatea, nunca valido. Funcion pura: la pantalla la
+ * conecta a `setCustomValidity()` del campo, mismo criterio que
+ * cualquier regla propia del consumidor (el paquete no la aplica
+ * automaticamente en ningun lado).
+ */
+declare function rutValido(valor: string): boolean;
+/**
  * Repara mojibake: texto que paso por UTF-8 -> Latin-1 -> UTF-8 sin
  * querer (comun en exportaciones de Excel/correo con tildes rotas, ej.
  * "InformaciÃ³n" en vez de "Información"). Repara cada fragmento roto
@@ -29,8 +37,9 @@ declare const formato_limpiarMojibake: typeof limpiarMojibake;
 declare const formato_pct: typeof pct;
 declare const formato_pesos: typeof pesos;
 declare const formato_rut: typeof rut;
+declare const formato_rutValido: typeof rutValido;
 declare namespace formato {
-  export { formato_conSigno as conSigno, formato_fechaCorta as fechaCorta, formato_limpiarMojibake as limpiarMojibake, formato_pct as pct, formato_pesos as pesos, formato_rut as rut };
+  export { formato_conSigno as conSigno, formato_fechaCorta as fechaCorta, formato_limpiarMojibake as limpiarMojibake, formato_pct as pct, formato_pesos as pesos, formato_rut as rut, formato_rutValido as rutValido };
 }
 
 /** Retrasa `fn` hasta que pasen `ms` sin una nueva llamada -- para inputs de busqueda. */
@@ -73,6 +82,19 @@ declare function iniciarColapsables(raiz?: ParentNode): void;
 
 declare function iniciarCajones(raiz?: ParentNode): void;
 
+type Opcion = {
+    valor: string;
+    texto: string;
+};
+/**
+ * Activa busqueda remota en `caja` (un `.combobox` ya presente en el
+ * DOM): `buscar(texto)` la implementa el consumidor -- el paquete
+ * debounca 250ms y descarta respuestas viejas (si la busqueda de "mar"
+ * tarda mas que la de "maria", su respuesta llega despues y no debe
+ * pisar la lista ya actualizada). Puede llamarse antes o despues de
+ * `iniciarCombobox`/`iniciarTodo`.
+ */
+declare function iniciarComboboxRemoto(caja: HTMLElement, buscar: (texto: string) => Promise<Opcion[]>): void;
 declare function iniciarCombobox(raiz?: ParentNode): void;
 
 declare function iniciarMedidorClave(raiz?: ParentNode): void;
@@ -128,7 +150,40 @@ declare function iniciarMenus(raiz?: ParentNode): void;
  */
 declare function posicionarFlotante(ancla: HTMLElement, panel: HTMLElement): void;
 
+/** Sincroniza los campos con `name` de `form` con la URL (query string). */
+declare function iniciarFiltrosUrl(form: HTMLFormElement): void;
+
+/** true si `form` difiere de la foto tomada por `iniciarCambiosSinGuardar`. */
+declare function huboCambios(form: HTMLFormElement): boolean;
+/** Toma una foto de `form` y avisa (`beforeunload`) si se sale con cambios sin guardar. */
+declare function iniciarCambiosSinGuardar(form: HTMLFormElement): void;
+
+declare function iniciarGruposRepetibles(raiz?: ParentNode): void;
+
+/** Valor numerico real del campo -- `null` si esta vacio, distinto de `0`. */
+declare function valorClp(input: HTMLInputElement): number | null;
+declare function iniciarCamposClp(raiz?: ParentNode): void;
+
+declare function iniciarReintento(contenedor: HTMLElement, cargar: () => Promise<void>): void;
+
+interface OpcionesConfirmar {
+    titulo: string;
+    mensaje: string;
+    textoConfirmar?: string;
+    textoCancelar?: string;
+    peligro?: boolean;
+}
+declare function confirmar(opciones: OpcionesConfirmar): Promise<boolean>;
+
+declare function iniciarVistaPrevia(raiz?: ParentNode): void;
+
+type SubirArchivo = (file: File, onProgreso: (pct: number) => void, señal: AbortSignal) => Promise<void>;
+/** `zona` es el contenedor con `.zona-arrastre` (drop) + `input[type=file]` + un `[data-adjuntos-lista]` donde van las filas. */
+declare function iniciarColaAdjuntos(zona: HTMLElement, subirArchivo: SubirArchivo): void;
+
+declare function iniciarScrollspy(nav: HTMLElement, contenedor?: ParentNode): void;
+
 /** Conecta todo lo auto-iniciable. */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, avanzarCarrusel, cerrarModal, copiarAlPortapapeles, debounce, destruirTodo, formato, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarCarruseles, iniciarColapsables, iniciarCombobox, iniciarContadores, iniciarFormularios, iniciarLateral, iniciarMedidorClave, iniciarMenus, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarResumenErrores, iniciarSeleccionTabla, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarZonasArrastre, irAPaso, mostrarToast, ponerCargando, posicionarFlotante, quitarCargando };
+export { abrirModal, avanzarCarrusel, cerrarModal, confirmar, copiarAlPortapapeles, debounce, destruirTodo, formato, huboCambios, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarCambiosSinGuardar, iniciarCamposClp, iniciarCarruseles, iniciarColaAdjuntos, iniciarColapsables, iniciarCombobox, iniciarComboboxRemoto, iniciarContadores, iniciarFiltrosUrl, iniciarFormularios, iniciarGruposRepetibles, iniciarLateral, iniciarMedidorClave, iniciarMenus, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarReintento, iniciarResumenErrores, iniciarScrollspy, iniciarSeleccionTabla, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarVistaPrevia, iniciarZonasArrastre, irAPaso, mostrarToast, ponerCargando, posicionarFlotante, quitarCargando, valorClp };
