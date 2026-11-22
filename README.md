@@ -169,8 +169,11 @@ los mismos de antes, solo cambió el mecanismo.
 | `.aviso` (`data-tono="info\|ok\|alerta\|error"`) | Banner de nivel de pantalla |
 | `.aviso-pagina` (mismos `data-tono`) | Franja persistente bajo la cabecera (no por fila como `.aviso`, no transitoria como `.toast`) — de [GOV.UK notification banner](https://design-system.service.gov.uk/components/notification-banner/)/USWDS site alert |
 | `.campo` + `input`/`select`/`textarea` | Control de formulario con etiqueta y ayuda |
+| `[aria-invalid="true"]` + `.campo-error` | Borde rojo en el control + mensaje junto a él; complementa `.resumen-errores` (el resumen enlaza al campo, esto muestra por qué) |
 | `fieldset.campo-grupo` + `legend` | Agrupa varios `.campo-check` bajo una pregunta, con el HTML nativo correcto |
+| `.barra-filtros` + `.limpiar-filtros` | Agrupa `.buscador` + campos sueltos + `.chip` (sin cambios) + "Limpiar filtros" en una fila; en móvil pasa a columna sin reordenar |
 | tabla base + `.tabla-scroll`, `.peso`/`.der`/`.cen`/`.codigo` | Listados tabulares, montos alineados |
+| `.tabla-cabecera-fija` / `.tabla-compacta` | Encabezado fijo con scroll vertical (reusa `--z-flotante`) y densidad compacta, para listados largos |
 | `th[data-ordenable]` | Flecha + `aria-sort`; JS en `/js` (`iniciarTablasOrdenables`) — de [Carbon Design System](https://carbondesignsystem.com/components/data-table/usage/) (tabla de datos) |
 | `.resumen-revision` + `.resumen-revision-item` (`.cambiar`) | Pares clave/valor con acción "Cambiar", para la pantalla de revisión antes de enviar (cierra `.asistente`) — de [GOV.UK summary list](https://design-system.service.gov.uk/components/summary-list/) |
 | `.resumen-errores` | Caja de errores al inicio del formulario, enfocada automáticamente; JS en `/js` (`iniciarResumenErrores`) — de [GOV.UK error summary](https://design-system.service.gov.uk/components/error-summary/), el patrón de a11y de formularios mejor documentado que encontré |

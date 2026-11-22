@@ -43,6 +43,7 @@
     <a href="layout.html#z-index">Z-index</a>
     <div class="grupo">Formularios</div>
     <a href="formularios.html#campo">Campo</a>
+    <a href="formularios.html#campo-error">Error de campo</a>
     <a href="formularios.html#check">Checkbox / radio</a>
     <a href="formularios.html#interruptor">Interruptor</a>
     <a href="formularios.html#rango">Rango</a>
@@ -50,6 +51,7 @@
     <a href="formularios.html#buscador">Buscador</a>
     <a href="formularios.html#contador">Contador de caracteres</a>
     <a href="formularios.html#grupo-campo">Grupo de campo</a>
+    <a href="#barra-filtros">Barra de filtros</a>
     <a href="formularios.html#campo-grupo">Fieldset / leyenda</a>
     <a href="formularios.html#combobox">Combobox</a>
     <a href="formularios.html#medidor-clave">Medidor de contraseña</a>
@@ -67,6 +69,7 @@
     <a href="#aviso-pagina">Aviso de página</a>
     <a href="#tabla">Tabla</a>
     <a href="#tabla-ordenable">Tabla ordenable</a>
+    <a href="#tabla-variantes">Variantes de tabla</a>
     <a href="#dato">Dato</a>
     <a href="#luz">Semáforo</a>
     <a href="#tiempo">Línea de tiempo</a>
@@ -227,6 +230,42 @@
           </table>
         </div>
         <pre class="codigo">&lt;th data-ordenable="nombre"&gt;Nombre&lt;/th&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="tabla-variantes">
+      <h2>Variantes de tabla</h2>
+      <p class="uso">Para listados largos (presupuestos, facturas): <code>.tabla-cabecera-fija</code> deja el encabezado fijo al hacer scroll vertical dentro de un contenedor con altura (reusa <code>--z-flotante</code>, sin un número nuevo), <code>.tabla-compacta</code> reduce el padding de celdas.</p>
+      <div class="demo-wrap">
+        <div class="demo" style="height:140px;overflow-y:auto;padding:0">
+          <table class="tabla-cabecera-fija tabla-compacta">
+            <thead><tr><th>Nombre</th><th>Monto</th></tr></thead>
+            <tbody>
+              <tr><td>Escuela A</td><td>100</td></tr>
+              <tr><td>Escuela B</td><td>200</td></tr>
+              <tr><td>Escuela C</td><td>300</td></tr>
+              <tr><td>Escuela D</td><td>400</td></tr>
+              <tr><td>Escuela E</td><td>500</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre class="codigo">&lt;table class="tabla-cabecera-fija tabla-compacta"&gt;...&lt;/table&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="barra-filtros">
+      <h2>Barra de filtros</h2>
+      <p class="uso">Agrupa <code>.buscador</code> + campos sueltos + <code>.chip</code> (ya existentes, sin cambios) + "Limpiar filtros" en una sola fila. En móvil pasa a columna sin reordenar los hijos.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <div class="barra-filtros">
+            <div class="buscador"><input type="search" placeholder="Buscar solicitud..."><button class="limpiar">×</button></div>
+            <select><option>Estado</option><option>Pendiente</option></select>
+            <span class="chip" data-tono="azul">SEP <button class="quitar">×</button></span>
+            <button class="limpiar-filtros">Limpiar filtros</button>
+          </div>
+        </div>
+        <pre class="codigo">&lt;div class="barra-filtros"&gt;&lt;div class="buscador"&gt;...&lt;/div&gt;&lt;select&gt;...&lt;/select&gt;&lt;span class="chip"&gt;...&lt;/span&gt;&lt;button class="limpiar-filtros"&gt;Limpiar filtros&lt;/button&gt;&lt;/div&gt;</pre>
       </div>
     </section>
 

@@ -384,6 +384,14 @@ function buildComponents() {
       marginBottom: "5px"
     },
     ".campo .ayuda": { fontSize: "12.5px", color: "var(--color-tenue)", margin: "4px 0 0" },
+    ".campo-error": {
+      display: "flex",
+      alignItems: "center",
+      gap: "5px",
+      fontSize: "12.5px",
+      color: "var(--color-rojo)",
+      margin: "4px 0 0"
+    },
     [[
       "input[type=text]",
       "input[type=number]",
@@ -405,6 +413,25 @@ function buildComponents() {
     },
     textarea: { resize: "vertical", minHeight: "88px" },
     "input:disabled, input[readonly]": { backgroundColor: "var(--color-gris-fondo)", color: "var(--color-tenue)" },
+    /* Error de campo -- complementa `.resumen-errores` (0.16.0): el
+       resumen enlaza al campo, esto muestra por que, junto al control.
+       Selector de atributo (no una lista de input[type=...]) para que
+       aplique igual a select/textarea sin repetirla. Va DESPUES del
+       bloque de controles de arriba (misma especificidad, mismo layer
+       -- si fuera antes, pierde contra el `border` sin condicion de
+       ese bloque, como ya paso una vez con `.popover-panel`). */
+    /* Especificidad a proposito: igual o mayor que `input[type=text]`
+       etc. del bloque de arriba (element+atributo = 0,1,1) -- un
+       selector de atributo solo (`[aria-invalid=true]`, 0,1,0) pierde
+       contra esas reglas sin importar el orden (se vio al verificar:
+       el borde se quedaba en gris). */
+    "input[aria-invalid='true'], select[aria-invalid='true'], textarea[aria-invalid='true']": {
+      borderColor: "var(--color-rojo)"
+    },
+    "input[aria-invalid='true']:focus-visible, select[aria-invalid='true']:focus-visible, textarea[aria-invalid='true']:focus-visible": {
+      outline: "2px solid var(--color-rojo)",
+      outlineOffset: "2px"
+    },
     ".fila": { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: "16px" },
     /* ---------------------------------------------------------------
      * Seccion de formulario -- agrupa los `.campo` de un formulario
@@ -482,6 +509,36 @@ function buildComponents() {
     ".grupo-campo .sufijo": { borderLeft: "1px solid var(--color-borde)" },
     ".grupo-campo input": { border: "0", borderRadius: "0", flex: "1", minWidth: "0" },
     ".grupo-campo input:focus-visible": { outline: "0" },
+    /* ---------------------------------------------------------------
+     * Barra de filtros -- agrupa `.buscador` + campos sueltos + `.chip`
+     * (ya existentes, sin cambios) + "Limpiar filtros" en una sola
+     * fila. En movil pasa a columna (ver el bloque 600px mas abajo,
+     * fusionado ahi -- no una clave nueva) sin reordenar los hijos.
+     * ------------------------------------------------------------- */
+    ".barra-filtros": {
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      gap: "10px",
+      padding: "14px 16px",
+      backgroundColor: "#fff",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "10px",
+      marginBottom: "18px"
+    },
+    ".barra-filtros .buscador": { flex: "1 1 220px", minWidth: "180px", width: "auto" },
+    ".barra-filtros select": { width: "auto", flex: "0 1 170px" },
+    ".barra-filtros .limpiar-filtros": {
+      marginLeft: "auto",
+      border: "0",
+      backgroundColor: "transparent",
+      color: "var(--color-azul-oscuro)",
+      fontSize: "13px",
+      fontWeight: "600",
+      cursor: "pointer",
+      padding: "0"
+    },
+    ".barra-filtros .limpiar-filtros:hover": { textDecoration: "underline" },
     /* ---------------------------------------------------------------
      * Contador de caracteres -- para un textarea con `maxlength`. El JS
      * vive en `@sistema32/santacorina-ui/js` (`iniciarContadores`).
@@ -587,6 +644,18 @@ function buildComponents() {
        OC"). No es una clase nueva, era una regla que faltaba aca. */
     "td strong, td small": { display: "block" },
     "td small": { color: "var(--color-tenue)", marginTop: "4px", fontSize: "12px", lineHeight: "1.35" },
+    /* Variantes de tabla -- para listados largos (presupuestos,
+       facturas): encabezado fijo al hacer scroll vertical dentro de un
+       contenedor con altura, y densidad compacta. `.tabla-cabecera-fija`
+       reusa `--z-flotante` (0.18.0) en vez de inventar otro numero. */
+    ".tabla-cabecera-fija thead th": {
+      position: "sticky",
+      top: "0",
+      backgroundColor: "#fff",
+      zIndex: "var(--z-flotante)"
+    },
+    ".tabla-compacta th": { padding: "6px 8px" },
+    ".tabla-compacta td": { padding: "7px 8px" },
     /* Encabezado de tabla ordenable -- de Carbon Design System (tabla
        de datos). Solo la flecha y el estado `[aria-sort]`; el JS vive
        en `/js` (`iniciarTablasOrdenables`) y solo dispara un evento --
@@ -1622,6 +1691,9 @@ function buildComponents() {
        paneles (mismo layer/especificidad -- si fuera antes, la regla base
        sin media gana por venir despues en el CSS generado). */
     "@media (max-width: 600px)": {
+      ".barra-filtros": { flexDirection: "column", alignItems: "stretch" },
+      ".barra-filtros .buscador, .barra-filtros select": { flex: "none", width: "100%" },
+      ".barra-filtros .limpiar-filtros": { marginLeft: "0", textAlign: "center" },
       ".breadcrumb a, .breadcrumb .actual": {
         display: "inline-block",
         maxWidth: "40vw",

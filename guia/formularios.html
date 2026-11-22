@@ -43,6 +43,7 @@
     <a href="layout.html#z-index">Z-index</a>
     <div class="grupo">Formularios</div>
     <a href="#campo">Campo</a>
+    <a href="#campo-error">Error de campo</a>
     <a href="#check">Checkbox / radio</a>
     <a href="#interruptor">Interruptor</a>
     <a href="#rango">Rango</a>
@@ -50,6 +51,7 @@
     <a href="#buscador">Buscador</a>
     <a href="#contador">Contador de caracteres</a>
     <a href="#grupo-campo">Grupo de campo</a>
+    <a href="componentes.html#barra-filtros">Barra de filtros</a>
     <a href="#campo-grupo">Fieldset / leyenda</a>
     <a href="#combobox">Combobox</a>
     <a href="#medidor-clave">Medidor de contraseña</a>
@@ -67,6 +69,7 @@
     <a href="componentes.html#aviso-pagina">Aviso de página</a>
     <a href="componentes.html#tabla">Tabla</a>
     <a href="componentes.html#tabla-ordenable">Tabla ordenable</a>
+    <a href="componentes.html#tabla-variantes">Variantes de tabla</a>
     <a href="componentes.html#dato">Dato</a>
     <a href="componentes.html#luz">Semáforo</a>
     <a href="componentes.html#tiempo">Línea de tiempo</a>
@@ -123,6 +126,19 @@
           <p class="ayuda">Se usa para vincular la solicitud al presupuesto correcto.</p>
         </div></div>
         <pre class="codigo">&lt;div class="campo"&gt;&lt;label&gt;RBD&lt;/label&gt;&lt;input type="text"&gt;&lt;/div&gt;</pre>
+      </div>
+    </section>
+
+<section class="doc-sec" id="campo-error">
+      <h2>Error de campo</h2>
+      <p class="uso">Complementa <code>.resumen-errores</code> (ya existente): el resumen enlaza al campo, esto muestra por qué, junto al control. <code>[aria-invalid="true"]</code> funciona en cualquier <code>input</code>/<code>select</code>/<code>textarea</code> sin una clase nueva.</p>
+      <div class="demo-wrap">
+        <div class="demo"><div class="campo" style="max-width:320px">
+          <label for="rut-err">RUT</label>
+          <input id="rut-err" type="text" aria-invalid="true" aria-describedby="rut-err-msg">
+          <p class="campo-error" id="rut-err-msg"><span class="icono icono-advertencia"></span>El RUT ingresado no es válido.</p>
+        </div></div>
+        <pre class="codigo">&lt;input aria-invalid="true" aria-describedby="x-error"&gt;&lt;p class="campo-error" id="x-error"&gt;&lt;span class="icono icono-advertencia"&gt;&lt;/span&gt;El RUT...&lt;/p&gt;</pre>
       </div>
     </section>
 

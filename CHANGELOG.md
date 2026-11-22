@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.20.0 — sin publicar
+
+Otra revisión externa del catálogo (`README.md#componentes-incluidos`)
+priorizó 3 piezas para pantallas de gestión. Confirmé cada gap contra
+`src/components.ts` antes de agregar nada:
+
+- **`[aria-invalid="true"]` + `.campo-error`** — borde rojo en el
+  control + mensaje junto a él. Complementa `.resumen-errores`
+  (0.16.0): el resumen enlaza al campo, esto muestra por qué. Se
+  encontró y corrigió un problema de especificidad al verificar: un
+  selector de atributo solo (`[aria-invalid=true]`, especificidad
+  0,1,0) pierde contra `input[type=text]` del bloque de controles
+  (0,1,1) sin importar el orden — el borde se quedaba gris. Se
+  corrigió calificando el selector con el elemento
+  (`input[aria-invalid='true'], select[...], textarea[...]`).
+- **`.tabla-cabecera-fija` / `.tabla-compacta`** — encabezado fijo
+  (`position: sticky`, reusa `--z-flotante` de 0.18.0 en vez de un
+  número nuevo) y densidad compacta, para presupuestos/facturas
+  largas dentro de un contenedor con scroll vertical.
+- **`.barra-filtros`** — agrupa `.buscador` + campos sueltos + `.chip`
+  (todos ya existentes, sin cambios) + "Limpiar filtros" en una fila;
+  en móvil pasa a columna sin reordenar los hijos (mismo criterio que
+  el resto del paquete: layout nuevo sobre componentes que ya existen,
+  no una reinvención).
+
+Quedan fuera, como el propio reporte sugería para después: acciones
+masivas en tablas y estilos de impresión.
+
+Verificado con Playwright: scroll vertical real dentro de una tabla
+confirma que el `thead` se queda fijo (`bounding_box()` sin cambiar),
+`.tabla-compacta` reduce el padding medido, y `.barra-filtros` pasa a
+columna a 375px conservando el orden de sus hijos.
+
 ## 0.19.0 — sin publicar — fixes de una revisión externa
 
 Alguien revisó `main` en el commit `2162f31` (v0.18.0) y reportó 6
