@@ -45,6 +45,7 @@
   pre.codigo{
     background:var(--doc-code-bg); color:var(--doc-code-ink); border-radius:0 0 10px 10px;
     padding:14px 18px; margin:0; font:12.5px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace; overflow-x:auto;
+    position:relative;
   }
   .demo-wrap{ border-radius:12px; overflow:hidden; border:1px solid var(--doc-border); margin-bottom:28px; }
   .demo-wrap .demo{ border:0; border-radius:0; margin-bottom:0; }
@@ -53,12 +54,30 @@
   .token .swatch{ height:52px; } .token .meta{ padding:8px 10px; font-size:12px; }
   .token .meta b{ display:block; font-size:12.5px; }
   .token .meta span{ color:var(--doc-ink-dim); font-family:ui-monospace,Consolas,monospace; font-size:11px; }
-  @media (max-width:760px){ .doc-nav{ display:none; } .doc-main{ padding:28px 16px 60px; } }
+  .doc-nav-toggle{
+    display:none; position:fixed; z-index:500; top:14px; left:14px;
+    background:var(--doc-surface); color:var(--doc-ink); border:1px solid var(--doc-border);
+    border-radius:8px; padding:9px 14px; font-size:13.5px; font-weight:600; cursor:pointer;
+    box-shadow:0 2px 10px rgba(12,45,74,0.18);
+  }
+  @media (max-width:760px){
+    .doc-nav{ display:none; }
+    .doc-nav.abierta{ display:block; position:fixed; z-index:400; inset:0; width:auto; height:100vh; }
+    .doc-nav-toggle{ display:block; }
+    .doc-main{ padding:28px 16px 60px; }
+  }
+  .copiar-boton{
+    position:absolute; top:8px; right:10px; z-index:5; background:rgba(255,255,255,0.12);
+    color:var(--doc-code-ink); border:1px solid rgba(255,255,255,0.22); border-radius:6px;
+    padding:3px 9px; font-size:11.5px; cursor:pointer;
+  }
+  .copiar-boton:hover{ background:rgba(255,255,255,0.22); }
 </style>
 </head>
 <body>
+<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
 <div class="doc-shell">
-  <nav class="doc-nav">
+  <nav class="doc-nav" id="doc-nav">
     <p class="marca">@sistema32/santacorina-ui</p>
     <p class="sub">Guía de componentes</p>
     <a href="#tokens">Tokens</a>
@@ -786,6 +805,11 @@
       <div class="demo-wrap">
         <div class="demo">
           <button class="boton secundario" data-cajon-toggle="g-filtros">Abrir filtros</button>
+          <div class="cajon" data-cajon="g-filtros">
+            <div class="cajon-cabecera"><h3>Filtros</h3><button class="boton secundario" data-cajon-toggle="g-filtros">×</button></div>
+            <div class="campo"><label>Estado</label><select><option>Todas</option><option>Pendientes</option></select></div>
+          </div>
+          <div class="cajon-fondo" data-cajon-fondo="g-filtros"></div>
         </div>
         <pre class="codigo">&lt;button data-cajon-toggle="x"&gt;...&lt;/button&gt;&lt;div class="cajon" data-cajon="x"&gt;...&lt;/div&gt;&lt;div class="cajon-fondo" data-cajon-fondo="x"&gt;&lt;/div&gt;</pre>
       </div>
@@ -1128,15 +1152,17 @@
       <h2>Resumen de errores</h2>
       <p class="uso">De <a href="https://design-system.service.gov.uk/components/error-summary/">GOV.UK "error summary"</a> — el patrón de accesibilidad de formularios mejor documentado que encontré. <code>iniciarResumenErrores</code> enfoca la caja apenas aparece y mueve el foco al campo destino al hacer clic en un link.</p>
       <div class="demo-wrap">
-        <div class="demo">
-          <div class="resumen-errores">
+        <div class="demo" id="demo-resumen-errores">
+          <button class="boton secundario" id="simular-error">Simular envío fallido</button>
+          <div class="resumen-errores" hidden style="margin-top:14px">
             <h2>Hay 2 problemas con tu formulario</h2>
             <ul>
               <li><a href="#campo-rut-demo">El RUT ingresado no es válido</a></li>
               <li><a href="#campo-monto-demo">El monto debe ser mayor a 0</a></li>
             </ul>
           </div>
-          <div class="campo"><label for="campo-rut-demo">RUT</label><input id="campo-rut-demo" type="text"></div>
+          <div class="campo" style="margin-top:14px"><label for="campo-rut-demo">RUT</label><input id="campo-rut-demo" type="text"></div>
+          <div class="campo"><label for="campo-monto-demo">Monto</label><input id="campo-monto-demo" type="number"></div>
         </div>
         <pre class="codigo">&lt;div class="resumen-errores"&gt;&lt;h2&gt;Hay 2 problemas...&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="#campo-rut"&gt;El RUT...&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</pre>
       </div>
@@ -1197,5 +1223,41 @@
     </section>
   </main>
 </div>
+
+<script src="../dist/js.global.js"></script>
+<script>
+  // Solo para esta pagina de documentacion -- no es parte del paquete.
+  var navToggle = document.getElementById("doc-nav-toggle");
+  var nav = document.getElementById("doc-nav");
+  navToggle.addEventListener("click", function () {
+    nav.classList.toggle("abierta");
+  });
+  nav.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { nav.classList.remove("abierta"); });
+  });
+
+  var simularError = document.getElementById("simular-error");
+  if (simularError) {
+    simularError.addEventListener("click", function () {
+      var caja = document.querySelector("#demo-resumen-errores .resumen-errores");
+      caja.hidden = false;
+      simularError.hidden = true;
+      Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
+    });
+  }
+
+  document.querySelectorAll("pre.codigo").forEach(function (pre) {
+    var texto = pre.textContent;
+    var boton = document.createElement("button");
+    boton.className = "copiar-boton";
+    boton.type = "button";
+    boton.textContent = "Copiar";
+    boton.addEventListener("click", function () {
+      Santacorina.copiarAlPortapapeles(texto);
+      Santacorina.mostrarToast("Código copiado", "ok");
+    });
+    pre.appendChild(boton);
+  });
+</script>
 </body>
 </html>

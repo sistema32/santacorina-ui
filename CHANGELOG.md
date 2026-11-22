@@ -1,5 +1,38 @@
 # Changelog
 
+## guia/index.html — demos interactivos + copiar código (sin cambio de versión)
+
+No toca `dist/` ni nada en `package.json["files"]` — `guia/` es una
+herramienta de desarrollo local (`npm run dev:guia`), no se publica.
+
+Auditando la guía encontré que **no cargaba ningún `<script>`**: todos
+los demos interactivos (popover, cajón, toggletip, combobox, medidor
+de clave, tabla ordenable, colapsar) se veían pero no respondían a
+clics — HTML estático con las clases correctas, nada más. Y ningún
+bloque de código tenía botón de copiar.
+
+- Se agregó `<script src="../dist/js.global.js">` — la mayoría de los
+  demos ya tenía los atributos `data-*` correctos y quedaron vivos
+  solo con cargar el script.
+- Se encontró y arregló un demo roto de verdad: el de `.cajon` solo
+  tenía el botón disparador, nunca el panel ni el fondo — hacer clic
+  no hacía nada porque el elemento `[data-cajon="g-filtros"]` no
+  existía en el DOM.
+- `.resumen-errores` se cambió para empezar oculto detrás de un botón
+  "Simular envío fallido" — si quedaba visible desde el `<body>`, le
+  robaba el foco a la página apenas cargaba (demo más honesta además:
+  en la vida real tampoco aparece antes de un envío fallido).
+- Botón "Copiar" en cada `pre.codigo`, usando `copiarAlPortapapeles` y
+  `mostrarToast` que el propio paquete ya expone — sin clipboard logic
+  nueva.
+- Botón "☰ Componentes" para el nav en móvil — antes desaparecía por
+  completo bajo 760px sin ningún reemplazo.
+
+Verificado con Playwright: popover/cajón responden a clic, el resumen
+de errores no roba foco hasta el clic en "Simular", el botón copiar
+deja el texto real en el portapapeles y muestra el toast, y el nav
+móvil se abre con la hamburguesa.
+
 ## 0.17.0 — sin publicar — cambio incompatible de markup
 
 El usuario preguntó si podíamos mejorar cómo se llaman las clases CSS
