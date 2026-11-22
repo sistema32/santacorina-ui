@@ -3,7 +3,7 @@ import {
   __esm,
   defaultTheme,
   init_theme
-} from "./chunk-QZJOSLYR.mjs";
+} from "./chunk-7HUTLONW.mjs";
 
 // src/components.ts
 function buildComponents() {
@@ -16,7 +16,7 @@ function buildComponents() {
     ".app": { display: "flex", minHeight: "100vh" },
     ".principal": { flex: "1", minWidth: "0", display: "flex", flexDirection: "column" },
     ".cabecera": {
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       borderBottom: "1px solid var(--color-borde)",
       padding: "18px 30px",
       display: "flex",
@@ -25,11 +25,11 @@ function buildComponents() {
       gap: "20px",
       flexWrap: "wrap"
     },
-    ".cabecera h1": { margin: "0", fontSize: "19px", color: "var(--color-navy)" },
+    ".cabecera h1": { margin: "0", fontSize: "19px", color: "var(--color-titulo)" },
     ".cabecera-datos": { margin: "4px 0 0", fontSize: "13px", color: "var(--color-tenue)" },
     ".punto": { opacity: "0.45", margin: "0 5px" },
     ".cabecera-usuario": { textAlign: "right", fontSize: "13px", lineHeight: "1.4" },
-    ".usuario-nombre": { display: "block", fontWeight: "700", color: "var(--color-navy)" },
+    ".usuario-nombre": { display: "block", fontWeight: "700", color: "var(--color-titulo)" },
     ".usuario-rol": { display: "block", color: "var(--color-tenue)", fontSize: "12px" },
     ".contenido": { flex: "1", padding: "26px 30px 40px", maxWidth: "1180px", width: "100%" },
     ".contenido.ancho": { maxWidth: "1400px" },
@@ -196,7 +196,7 @@ function buildComponents() {
      * Tarjeta -- contenedor base de cualquier bloque de contenido.
      * ------------------------------------------------------------- */
     ".tarjeta": {
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
       borderRadius: "11px",
       padding: "20px 22px",
@@ -205,11 +205,11 @@ function buildComponents() {
     ".tarjeta h3": {
       margin: "0 0 14px",
       fontSize: "15px",
-      color: "var(--color-navy)"
+      color: "var(--color-titulo)"
     },
     "h2.seccion": {
       fontSize: "16px",
-      color: "var(--color-navy)",
+      color: "var(--color-titulo)",
       margin: "0 0 14px"
     },
     /* ---------------------------------------------------------------
@@ -222,7 +222,7 @@ function buildComponents() {
       marginBottom: "22px"
     },
     ".kpi": {
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
       borderRadius: "11px",
       padding: "15px 17px",
@@ -231,7 +231,7 @@ function buildComponents() {
     ".kpi .n": {
       fontSize: "26px",
       fontWeight: "700",
-      color: "var(--color-navy)",
+      color: "var(--color-titulo)",
       lineHeight: "1.1"
     },
     ".kpi .t": { fontSize: "12.5px", color: "var(--color-tenue)", marginTop: "3px" },
@@ -251,11 +251,11 @@ function buildComponents() {
       fontWeight: "600",
       whiteSpace: "nowrap"
     },
-    ".etiqueta[data-tono='gris']": { backgroundColor: "var(--color-gris-fondo)", color: "#4c5966" },
-    ".etiqueta[data-tono='azul']": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
-    ".etiqueta[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
-    ".etiqueta[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".etiqueta[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".etiqueta[data-tono='gris']": { backgroundColor: "var(--color-gris-fondo)", color: "var(--color-gris-texto)" },
+    ".etiqueta[data-tono='azul']": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)" },
+    ".etiqueta[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "var(--color-verde-texto)" },
+    ".etiqueta[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "var(--color-naranjo-texto)" },
+    ".etiqueta[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "var(--color-rojo-texto)" },
     /* ---------------------------------------------------------------
      * Boton -- la accion principal de una pantalla o formulario.
      * ------------------------------------------------------------- */
@@ -273,14 +273,14 @@ function buildComponents() {
     ".boton:hover": { backgroundColor: "var(--color-azul-oscuro)" },
     ".boton:disabled": { backgroundColor: "#b7c3d0", cursor: "not-allowed" },
     ".boton.secundario": {
-      backgroundColor: "#fff",
-      color: "var(--color-navy)",
+      backgroundColor: "var(--color-superficie)",
+      color: "var(--color-titulo)",
       border: "1px solid var(--color-borde)"
     },
     ".boton.secundario:hover": { backgroundColor: "var(--color-gris-fondo)" },
     ".boton.peligro": {
-      backgroundColor: "#fff",
-      color: "var(--color-rojo)",
+      backgroundColor: "var(--color-superficie)",
+      color: "var(--color-rojo-texto)",
       border: "1px solid #f0c4c1"
     },
     ".boton.peligro:hover": { backgroundColor: "var(--color-rojo-fondo)" },
@@ -300,12 +300,12 @@ function buildComponents() {
       display: "inline-block",
       border: "1px solid var(--color-borde)",
       borderRadius: "6px",
-      backgroundColor: "#fff",
-      color: "var(--color-navy)",
+      backgroundColor: "var(--color-superficie)",
+      color: "var(--color-titulo)",
       textDecoration: "none"
     },
     "a.btn-chico:hover": { borderColor: "var(--color-azul)", backgroundColor: "#f6faff" },
-    "a.btn-chico.peligro": { color: "var(--color-rojo)", borderColor: "#f0c4c1" },
+    "a.btn-chico.peligro": { color: "var(--color-rojo-texto)", borderColor: "#f0c4c1" },
     "a.btn-chico.peligro:hover": {
       backgroundColor: "var(--color-rojo-fondo)",
       borderColor: "var(--color-rojo)"
@@ -325,15 +325,15 @@ function buildComponents() {
       whiteSpace: "nowrap"
     },
     ".pastilla[data-tono='celeste']": {
-      backgroundColor: "#e7f0fc",
+      backgroundColor: "var(--color-azul-fondo)",
       borderColor: "#cfe0f6",
-      color: "var(--color-azul-oscuro)"
+      color: "var(--color-azul-texto)"
     },
     ".pastilla[data-tono='celeste']:hover": { backgroundColor: "#d7e7fa" },
     ".pastilla[data-tono='roja']": {
       backgroundColor: "var(--color-rojo-fondo)",
       borderColor: "#f3d3cf",
-      color: "#8d241e"
+      color: "var(--color-rojo-texto)"
     },
     ".pastilla[data-tono='roja']:hover": { backgroundColor: "#fbdedb" },
     ".pastilla:disabled": { opacity: "0.55", cursor: "default" },
@@ -347,14 +347,14 @@ function buildComponents() {
       marginBottom: "18px",
       borderLeft: "4px solid"
     },
-    ".aviso[data-tono='info']": { backgroundColor: "#eaf2fc", borderColor: "var(--color-azul)", color: "#1a4b8a" },
-    ".aviso[data-tono='ok']": { backgroundColor: "var(--color-verde-fondo)", borderColor: "var(--color-verde)", color: "#14603c" },
+    ".aviso[data-tono='info']": { backgroundColor: "var(--color-azul-fondo)", borderColor: "var(--color-azul)", color: "var(--color-azul-texto)" },
+    ".aviso[data-tono='ok']": { backgroundColor: "var(--color-verde-fondo)", borderColor: "var(--color-verde)", color: "var(--color-verde-texto)" },
     ".aviso[data-tono='alerta']": {
       backgroundColor: "var(--color-naranjo-fondo)",
       borderColor: "var(--color-naranjo)",
-      color: "#8a4e08"
+      color: "var(--color-naranjo-texto)"
     },
-    ".aviso[data-tono='error']": { backgroundColor: "var(--color-rojo-fondo)", borderColor: "var(--color-rojo)", color: "#8d241e" },
+    ".aviso[data-tono='error']": { backgroundColor: "var(--color-rojo-fondo)", borderColor: "var(--color-rojo)", color: "var(--color-rojo-texto)" },
     /* ---------------------------------------------------------------
      * Aviso de pagina -- de GOV.UK "notification banner"/USWDS "site
      * alert": a diferencia de `.aviso` (dentro de una tarjeta) y
@@ -368,10 +368,10 @@ function buildComponents() {
       borderBottom: "1px solid var(--color-borde)"
     },
     ".aviso-pagina strong": { display: "block", marginBottom: "2px" },
-    ".aviso-pagina[data-tono='info']": { backgroundColor: "#eaf2fc", color: "#1a4b8a" },
-    ".aviso-pagina[data-tono='ok']": { backgroundColor: "var(--color-verde-fondo)", color: "#14603c" },
-    ".aviso-pagina[data-tono='alerta']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".aviso-pagina[data-tono='error']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".aviso-pagina[data-tono='info']": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)" },
+    ".aviso-pagina[data-tono='ok']": { backgroundColor: "var(--color-verde-fondo)", color: "var(--color-verde-texto)" },
+    ".aviso-pagina[data-tono='alerta']": { backgroundColor: "var(--color-naranjo-fondo)", color: "var(--color-naranjo-texto)" },
+    ".aviso-pagina[data-tono='error']": { backgroundColor: "var(--color-rojo-fondo)", color: "var(--color-rojo-texto)" },
     /* ---------------------------------------------------------------
      * Campo -- un control de formulario con su etiqueta y ayuda.
      * ------------------------------------------------------------- */
@@ -380,7 +380,7 @@ function buildComponents() {
       display: "block",
       fontSize: "13px",
       fontWeight: "600",
-      color: "var(--color-navy)",
+      color: "var(--color-titulo)",
       marginBottom: "5px"
     },
     ".campo .ayuda": { fontSize: "12.5px", color: "var(--color-tenue)", margin: "4px 0 0" },
@@ -389,7 +389,7 @@ function buildComponents() {
       alignItems: "center",
       gap: "5px",
       fontSize: "12.5px",
-      color: "var(--color-rojo)",
+      color: "var(--color-rojo-texto)",
       margin: "4px 0 0"
     },
     [[
@@ -408,7 +408,7 @@ function buildComponents() {
       border: "1px solid var(--color-borde)",
       borderRadius: "8px",
       fontSize: "15px",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       color: "var(--color-texto)"
     },
     textarea: { resize: "vertical", minHeight: "88px" },
@@ -444,7 +444,7 @@ function buildComponents() {
       borderTop: "1px solid var(--color-borde)",
       paddingTop: "28px"
     },
-    ".formulario-seccion-titulo": { color: "var(--color-navy)", margin: "0 0 4px", fontSize: "16px" },
+    ".formulario-seccion-titulo": { color: "var(--color-titulo)", margin: "0 0 4px", fontSize: "16px" },
     ".formulario-seccion-nota": { color: "var(--color-tenue)", margin: "0 0 16px", fontSize: "13px" },
     /* select -- quita la flecha del sistema operativo, pone una de marca. */
     select: {
@@ -482,7 +482,7 @@ function buildComponents() {
       padding: "4px"
     },
     ".buscador .limpiar.visible": { display: "block" },
-    ".buscador .limpiar:hover": { color: "var(--color-navy)" },
+    ".buscador .limpiar:hover": { color: "var(--color-titulo)" },
     ".buscador input::-webkit-search-cancel-button": { appearance: "none" },
     /* ---------------------------------------------------------------
      * Grupo de campo -- prefijo/sufijo pegado a un input (ej. "$" en un
@@ -494,7 +494,7 @@ function buildComponents() {
       border: "1px solid var(--color-borde)",
       borderRadius: "8px",
       overflow: "hidden",
-      backgroundColor: "#fff"
+      backgroundColor: "var(--color-superficie)"
     },
     ".grupo-campo .prefijo, .grupo-campo .sufijo": {
       display: "flex",
@@ -521,7 +521,7 @@ function buildComponents() {
       alignItems: "center",
       gap: "10px",
       padding: "14px 16px",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
       borderRadius: "10px",
       marginBottom: "18px"
@@ -532,7 +532,7 @@ function buildComponents() {
       marginLeft: "auto",
       border: "0",
       backgroundColor: "transparent",
-      color: "var(--color-azul-oscuro)",
+      color: "var(--color-azul-texto)",
       fontSize: "13px",
       fontWeight: "600",
       cursor: "pointer",
@@ -550,8 +550,8 @@ function buildComponents() {
       color: "var(--color-tenue)",
       marginTop: "4px"
     },
-    ".contador-caracteres.cerca": { color: "var(--color-naranjo)" },
-    ".contador-caracteres.lleno": { color: "var(--color-rojo)", fontWeight: "600" },
+    ".contador-caracteres.cerca": { color: "var(--color-naranjo-texto)" },
+    ".contador-caracteres.lleno": { color: "var(--color-rojo-texto)", fontWeight: "600" },
     /* ---------------------------------------------------------------
      * Checkbox / radio -- nativos, solo con el color de marca (en vez
      * de reconstruirlos con un input oculto + div decorado: el navegador
@@ -569,7 +569,7 @@ function buildComponents() {
        conjunto de `.campo-check` bajo una sola pregunta ("Elige una
        opcion"). Antes solo existia el estilo del item individual. */
     "fieldset.campo-grupo": { border: "1px solid var(--color-borde)", borderRadius: "8px", padding: "14px 16px", marginBottom: "17px" },
-    "fieldset.campo-grupo legend": { padding: "0 6px", fontSize: "13px", fontWeight: "600", color: "var(--color-navy)" },
+    "fieldset.campo-grupo legend": { padding: "0 6px", fontSize: "13px", fontWeight: "600", color: "var(--color-titulo)" },
     "fieldset.campo-grupo .campo-check:last-child": { marginBottom: "0" },
     /* input[type=file] -- solo el boton "Elegir archivo"; el cuadro de
        dialogo del sistema operativo no se toca. */
@@ -578,7 +578,7 @@ function buildComponents() {
       borderRadius: "8px",
       border: "1px solid var(--color-borde)",
       backgroundColor: "var(--color-gris-fondo)",
-      color: "var(--color-navy)",
+      color: "var(--color-titulo)",
       fontWeight: "600",
       fontSize: "13px",
       cursor: "pointer",
@@ -651,7 +651,7 @@ function buildComponents() {
     ".tabla-cabecera-fija thead th": {
       position: "sticky",
       top: "0",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       zIndex: "var(--z-flotante)"
     },
     ".tabla-compacta th": { padding: "6px 8px" },
@@ -661,7 +661,7 @@ function buildComponents() {
        en `/js` (`iniciarTablasOrdenables`) y solo dispara un evento --
        quien reordena las filas es el consumidor. */
     "th[data-ordenable]": { cursor: "pointer", userSelect: "none", paddingRight: "20px", position: "relative" },
-    "th[data-ordenable]:hover": { color: "var(--color-navy)" },
+    "th[data-ordenable]:hover": { color: "var(--color-titulo)" },
     "th[data-ordenable]::after": {
       content: '""',
       position: "absolute",
@@ -694,8 +694,8 @@ function buildComponents() {
     },
     ".resumen-revision-item:last-child": { borderBottom: "0" },
     ".resumen-revision-item span": { color: "var(--color-tenue)" },
-    ".resumen-revision-item strong": { color: "var(--color-navy)", fontWeight: "600" },
-    ".resumen-revision-item .cambiar": { color: "var(--color-azul-oscuro)", fontSize: "13px", fontWeight: "600", flex: "none" },
+    ".resumen-revision-item strong": { color: "var(--color-titulo)", fontWeight: "600" },
+    ".resumen-revision-item .cambiar": { color: "var(--color-azul-texto)", fontSize: "13px", fontWeight: "600", flex: "none" },
     ".resumen-revision-item .cambiar:hover": { textDecoration: "underline" },
     /* ---------------------------------------------------------------
      * Resumen de errores -- el patron de accesibilidad de formularios
@@ -712,10 +712,10 @@ function buildComponents() {
       padding: "16px 18px",
       marginBottom: "20px"
     },
-    ".resumen-errores h2": { margin: "0 0 10px", fontSize: "15px", color: "#8d241e" },
+    ".resumen-errores h2": { margin: "0 0 10px", fontSize: "15px", color: "var(--color-rojo-texto)" },
     ".resumen-errores ul": { margin: "0", padding: "0 0 0 19px", fontSize: "13.5px" },
     ".resumen-errores li": { marginBottom: "4px" },
-    ".resumen-errores a": { color: "#8d241e", fontWeight: "600" },
+    ".resumen-errores a": { color: "var(--color-rojo-texto)", fontWeight: "600" },
     ".resumen-errores a:hover": { textDecoration: "underline" },
     /* ---------------------------------------------------------------
      * Dato -- par etiqueta/valor, la unidad minima de cualquier resumen.
@@ -730,7 +730,7 @@ function buildComponents() {
     },
     ".dato:last-child": { borderBottom: "0" },
     ".dato span": { color: "var(--color-tenue)" },
-    ".dato strong": { textAlign: "right", color: "var(--color-navy)", fontWeight: "600" },
+    ".dato strong": { textAlign: "right", color: "var(--color-titulo)", fontWeight: "600" },
     /* Ficha -- grilla de datos, para resumenes mas anchos que una columna. */
     ".ficha": {
       backgroundColor: "var(--color-gris-fondo)",
@@ -748,7 +748,7 @@ function buildComponents() {
       letterSpacing: "0.5px",
       color: "var(--color-tenue)"
     },
-    ".ficha div strong": { fontSize: "14px", color: "var(--color-navy)", fontWeight: "600" },
+    ".ficha div strong": { fontSize: "14px", color: "var(--color-titulo)", fontWeight: "600" },
     /* ---------------------------------------------------------------
      * Luz / semaforo -- punto de estado, para listas de validacion.
      * ------------------------------------------------------------- */
@@ -807,12 +807,12 @@ function buildComponents() {
       padding: "12px 16px",
       borderBottom: "1px solid var(--color-borde)",
       color: "var(--color-texto)",
-      backgroundColor: "#fff"
+      backgroundColor: "var(--color-superficie)"
     },
     "a.lista-grupo-item, button.lista-grupo-item": { cursor: "pointer", width: "100%", textAlign: "left", border: "0" },
     "a.lista-grupo-item:hover, button.lista-grupo-item:hover": { backgroundColor: "var(--color-gris-fondo)" },
     ".lista-grupo-item:last-child": { borderBottom: "0" },
-    ".lista-grupo-item.activo": { backgroundColor: "#eaf2fc", color: "var(--color-azul-oscuro)", fontWeight: "600" },
+    ".lista-grupo-item.activo": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)", fontWeight: "600" },
     ".vacio p": { margin: "0 0 14px" },
     ".tenue": { color: "var(--color-tenue)" },
     /* ---------------------------------------------------------------
@@ -893,7 +893,7 @@ function buildComponents() {
       padding: "20px",
       border: "1px solid var(--color-borde)",
       borderRadius: "11px",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       color: "var(--color-texto)",
       textDecoration: "none",
       transition: "border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease"
@@ -924,7 +924,7 @@ function buildComponents() {
     },
     ".modal.visible": { display: "flex" },
     ".modal-panel": {
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       borderRadius: "12px",
       padding: "26px 28px",
       maxWidth: "620px",
@@ -933,7 +933,7 @@ function buildComponents() {
       overflow: "auto",
       boxShadow: "0 22px 60px rgba(4, 20, 36, 0.4)"
     },
-    ".modal-panel h3": { margin: "0 0 12px", fontSize: "17px", color: "var(--color-navy)" },
+    ".modal-panel h3": { margin: "0 0 12px", fontSize: "17px", color: "var(--color-titulo)" },
     ".modal-panel .cerrar": {
       marginTop: "16px",
       padding: "10px 18px",
@@ -972,9 +972,9 @@ function buildComponents() {
       boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
       animation: "santacorina-toast-in 0.18s ease"
     },
-    ".toast.ok": { backgroundColor: "#146540" },
-    ".toast.alerta": { backgroundColor: "#8a4e08" },
-    ".toast.error": { backgroundColor: "#8d241e" },
+    ".toast.ok": { backgroundColor: "var(--color-verde-texto)" },
+    ".toast.alerta": { backgroundColor: "var(--color-naranjo-texto)" },
+    ".toast.error": { backgroundColor: "var(--color-rojo-texto)" },
     ".toast .cerrar": {
       marginLeft: "auto",
       border: "0",
@@ -1012,7 +1012,7 @@ function buildComponents() {
       gap: "8px",
       padding: "9px 15px",
       borderRadius: "999px",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
       fontSize: "13px",
       color: "var(--color-tenue)"
@@ -1029,13 +1029,13 @@ function buildComponents() {
       fontWeight: "700",
       flex: "none"
     },
-    ".stepper-paso.activo": { borderColor: "var(--color-azul)", color: "var(--color-navy)", fontWeight: "600" },
+    ".stepper-paso.activo": { borderColor: "var(--color-azul)", color: "var(--color-titulo)", fontWeight: "600" },
     ".stepper-paso.activo .num": { backgroundColor: "var(--color-azul)", color: "#fff" },
-    ".stepper-paso.completado": { borderColor: "#bfe3ce", color: "#146540" },
+    ".stepper-paso.completado": { borderColor: "#bfe3ce", color: "var(--color-verde-texto)" },
     ".stepper-paso.completado .num": { backgroundColor: "var(--color-verde)", color: "#fff" },
     ".stepper-paso.rechazado": {
       borderColor: "#f0bdba",
-      color: "#8d241e",
+      color: "var(--color-rojo-texto)",
       fontWeight: "600",
       backgroundColor: "#fdf4f3"
     },
@@ -1081,7 +1081,7 @@ function buildComponents() {
       border: "1px solid var(--color-borde)",
       borderRadius: "10px",
       padding: "13px 14px",
-      backgroundColor: "#fff"
+      backgroundColor: "var(--color-superficie)"
     },
     ".rastreador-item .n": {
       display: "inline-grid",
@@ -1098,7 +1098,7 @@ function buildComponents() {
     ".rastreador-item .titulo": {
       display: "block",
       fontWeight: "600",
-      color: "var(--color-navy)",
+      color: "var(--color-titulo)",
       fontSize: "13.5px",
       marginBottom: "5px"
     },
@@ -1126,7 +1126,7 @@ function buildComponents() {
     ".validacion": { display: "flex", gap: "13px", padding: "14px 0", borderBottom: "1px solid var(--color-borde)" },
     ".validacion:last-child": { borderBottom: "0" },
     ".validacion-txt": { flex: "1", minWidth: "0" },
-    ".validacion-txt h4": { margin: "0 0 3px", fontSize: "14px", color: "var(--color-navy)" },
+    ".validacion-txt h4": { margin: "0 0 3px", fontSize: "14px", color: "var(--color-titulo)" },
     ".validacion-txt p": { margin: "0", fontSize: "13.5px", color: "var(--color-tenue)" },
     ".validacion-txt ul": { margin: "7px 0 0", paddingLeft: "19px", fontSize: "13px", color: "var(--color-tenue)" },
     /* Detalle tecnico -- trasladado de portal.css:63-67, sobre
@@ -1200,9 +1200,9 @@ function buildComponents() {
     },
     ".tabs a:hover, .tabs button:hover": { backgroundColor: "var(--color-gris-fondo)" },
     ".tabs a.activo, .tabs button.activo": {
-      backgroundColor: "#eaf2fc",
+      backgroundColor: "var(--color-azul-fondo)",
       borderColor: "#cfe0f6",
-      color: "var(--color-azul-oscuro)",
+      color: "var(--color-azul-texto)",
       fontWeight: "600"
     },
     /* Panel real de pestana -- opcional: `.tabs` sin `data-tab` sigue
@@ -1310,10 +1310,10 @@ function buildComponents() {
       color: "var(--color-tenue)",
       margin: "0 0 14px"
     },
-    ".breadcrumb a": { color: "var(--color-azul-oscuro)" },
+    ".breadcrumb a": { color: "var(--color-azul-texto)" },
     ".breadcrumb a:hover": { textDecoration: "underline" },
     ".breadcrumb .sep": { opacity: "0.5" },
-    ".breadcrumb .actual": { color: "var(--color-navy)", fontWeight: "600" },
+    ".breadcrumb .actual": { color: "var(--color-titulo)", fontWeight: "600" },
     /* ---------------------------------------------------------------
      * Skeleton -- nuevo, no existia ningun estado de carga: hoy una
      * pantalla cargando no muestra nada hasta que llega el dato.
@@ -1358,7 +1358,7 @@ function buildComponents() {
       height: "16px",
       margin: "2px",
       borderRadius: "50%",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       boxShadow: "0 1px 2px rgba(12, 45, 74, 0.25)",
       transition: "transform 0.15s ease"
     },
@@ -1377,12 +1377,12 @@ function buildComponents() {
       fontSize: "12px",
       fontWeight: "600",
       backgroundColor: "var(--color-gris-fondo)",
-      color: "#4c5966"
+      color: "var(--color-gris-texto)"
     },
-    ".chip[data-tono='azul']": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
-    ".chip[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
-    ".chip[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".chip[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".chip[data-tono='azul']": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)" },
+    ".chip[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "var(--color-verde-texto)" },
+    ".chip[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "var(--color-naranjo-texto)" },
+    ".chip[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "var(--color-rojo-texto)" },
     ".chip .quitar": {
       display: "grid",
       placeItems: "center",
@@ -1408,17 +1408,17 @@ function buildComponents() {
       height: "36px",
       borderRadius: "50%",
       backgroundColor: "var(--color-gris-fondo)",
-      color: "var(--color-navy)",
+      color: "var(--color-titulo)",
       fontSize: "13px",
       fontWeight: "700",
       flex: "none"
     },
     ".avatar[data-tamano='chico']": { width: "26px", height: "26px", fontSize: "11px" },
     ".avatar[data-tamano='grande']": { width: "48px", height: "48px", fontSize: "16px" },
-    ".avatar[data-tono='azul']": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
-    ".avatar[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
-    ".avatar[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".avatar[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".avatar[data-tono='azul']": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)" },
+    ".avatar[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "var(--color-verde-texto)" },
+    ".avatar[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "var(--color-naranjo-texto)" },
+    ".avatar[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "var(--color-rojo-texto)" },
     /* ---------------------------------------------------------------
      * Insignia de icono -- de acepta/frontend/src/components/IconBadge.vue
      * (23 usos en ConfiguracionView/DashboardView/ProcesosView). El
@@ -1439,10 +1439,10 @@ function buildComponents() {
     },
     ".insignia-icono[data-tamano='chica']": { width: "28px", height: "28px", borderRadius: "6px" },
     ".insignia-icono[data-tamano='grande']": { width: "44px", height: "44px", borderRadius: "10px" },
-    ".insignia-icono[data-tono='azul']": { backgroundColor: "#e7f0fc", color: "var(--color-azul-oscuro)" },
-    ".insignia-icono[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "#146540" },
-    ".insignia-icono[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "#8a4e08" },
-    ".insignia-icono[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "#8d241e" },
+    ".insignia-icono[data-tono='azul']": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)" },
+    ".insignia-icono[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "var(--color-verde-texto)" },
+    ".insignia-icono[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "var(--color-naranjo-texto)" },
+    ".insignia-icono[data-tono='rojo']": { backgroundColor: "var(--color-rojo-fondo)", color: "var(--color-rojo-texto)" },
     /* ---------------------------------------------------------------
      * Divisor -- separa dos bloques, con o sin texto en medio.
      * ------------------------------------------------------------- */
@@ -1476,7 +1476,7 @@ function buildComponents() {
       padding: "14px 18px",
       cursor: "pointer",
       fontWeight: "600",
-      color: "var(--color-navy)",
+      color: "var(--color-titulo)",
       listStyle: "none"
     },
     ".acordeon summary::-webkit-details-marker": { display: "none" },
@@ -1508,7 +1508,7 @@ function buildComponents() {
       padding: "0 8px",
       borderRadius: "7px",
       border: "1px solid var(--color-borde)",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       color: "var(--color-tenue)",
       textDecoration: "none",
       cursor: "pointer",
@@ -1546,7 +1546,7 @@ function buildComponents() {
       right: "0",
       zIndex: "var(--z-flotante)",
       minWidth: "180px",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
       borderRadius: "10px",
       boxShadow: "0 10px 30px rgba(12, 45, 74, 0.18)",
@@ -1567,7 +1567,7 @@ function buildComponents() {
       textDecoration: "none"
     },
     ".menu-panel a:hover, .menu-panel button:hover": { backgroundColor: "var(--color-gris-fondo)" },
-    ".menu-panel button.peligro, .menu-panel a.peligro": { color: "var(--color-rojo)" },
+    ".menu-panel button.peligro, .menu-panel a.peligro": { color: "var(--color-rojo-texto)" },
     ".menu-panel hr": { border: "0", borderTop: "1px solid var(--color-borde)", margin: "6px 0" },
     /* ---------------------------------------------------------------
      * Calendario -- selector de fecha en grilla visual, mismo patron de
@@ -1575,7 +1575,7 @@ function buildComponents() {
      * (`iniciarCalendario`), esto es solo la piel.
      * ------------------------------------------------------------- */
     ".calendario": { position: "relative", display: "inline-block" },
-    ".calendario input": { cursor: "pointer", backgroundColor: "#fff" },
+    ".calendario input": { cursor: "pointer", backgroundColor: "var(--color-superficie)" },
     ".calendario-panel": {
       display: "none",
       position: "absolute",
@@ -1583,7 +1583,7 @@ function buildComponents() {
       left: "0",
       zIndex: "var(--z-flotante)",
       width: "260px",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
       borderRadius: "10px",
       boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
@@ -1596,7 +1596,7 @@ function buildComponents() {
       justifyContent: "space-between",
       marginBottom: "8px",
       fontWeight: "600",
-      color: "var(--color-navy)",
+      color: "var(--color-titulo)",
       fontSize: "13.5px",
       textTransform: "capitalize"
     },
@@ -1645,7 +1645,7 @@ function buildComponents() {
       transform: "translateX(-50%)",
       zIndex: "var(--z-flotante-alto)",
       width: "260px",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
       borderRadius: "10px",
       boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
@@ -1654,7 +1654,7 @@ function buildComponents() {
       color: "var(--color-texto)"
     },
     ".popover-panel.visible": { display: "block" },
-    ".popover-panel .titulo": { display: "block", fontWeight: "700", color: "var(--color-navy)", marginBottom: "4px" },
+    ".popover-panel .titulo": { display: "block", fontWeight: "700", color: "var(--color-titulo)", marginBottom: "4px" },
     /* ---------------------------------------------------------------
      * Toggletip -- como `[data-tooltip]`, pero se abre con clic/tap en
      * vez de hover (sin soporte en pantallas tactiles). Misma capa
@@ -1740,7 +1740,7 @@ function buildComponents() {
       right: "0",
       height: "100vh",
       width: "min(380px, 90vw)",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       boxShadow: "-8px 0 30px rgba(12,45,74,0.18)",
       zIndex: "var(--z-cajon)",
       transform: "translateX(100%)",
@@ -1763,7 +1763,7 @@ function buildComponents() {
       alignItems: "center",
       marginBottom: "16px"
     },
-    ".cajon-cabecera h3": { margin: "0", fontSize: "16px", color: "var(--color-navy)" },
+    ".cajon-cabecera h3": { margin: "0", fontSize: "16px", color: "var(--color-titulo)" },
     /* ---------------------------------------------------------------
      * Combobox -- select con autocompletado. Conexion real: elegir uno
      * de 105 establecimientos en un `<select>` plano es incomodo. Sobre
@@ -1781,7 +1781,7 @@ function buildComponents() {
       zIndex: "var(--z-flotante)",
       maxHeight: "220px",
       overflowY: "auto",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
       borderRadius: "10px",
       boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
@@ -1978,8 +1978,8 @@ function buildComponents() {
       border: "1px solid var(--color-borde)",
       borderRadius: "6px",
       padding: "5px 9px",
-      backgroundColor: "#fff",
-      color: "var(--color-azul-oscuro)",
+      backgroundColor: "var(--color-superficie)",
+      color: "var(--color-azul-texto)",
       textDecoration: "none",
       cursor: "pointer",
       fontSize: "12px",
@@ -2004,7 +2004,7 @@ function buildComponents() {
       border: "1px dashed var(--color-borde)",
       borderRadius: "8px"
     },
-    ".zona-arrastre.activa": { borderColor: "var(--color-azul)", backgroundColor: "#eaf2fc" },
+    ".zona-arrastre.activa": { borderColor: "var(--color-azul)", backgroundColor: "var(--color-azul-fondo)" },
     ".zona-arrastre .pista": { fontSize: "13px", color: "var(--color-tenue)" },
     ".lista-documentos": { display: "flex", flexDirection: "column", gap: "8px" },
     ".documento-fila": {
@@ -2015,7 +2015,7 @@ function buildComponents() {
       padding: "8px",
       border: "1px solid var(--color-borde)",
       borderRadius: "7px",
-      backgroundColor: "#fff"
+      backgroundColor: "var(--color-superficie)"
     },
     ".documento-tipo": { color: "var(--color-tenue)", fontSize: "11px", fontWeight: "800" },
     ".documento-nombre": { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--color-texto)", fontSize: "13px" },
@@ -2098,6 +2098,64 @@ var init_plugin = __esm({
               "--z-modal": "9000",
               "--z-toast": "9500",
               "--z-tooltip": "9999"
+            },
+            /* ---------------------------------------------------------------
+             * Modo oscuro -- mismo mecanismo que ya documenta el README para
+             * `--color-*`/`--font-sans`: variables CSS, sin logica de JS. Por
+             * defecto sigue `prefers-color-scheme`; `data-theme="dark"`/
+             * `"light"` en <html> (o cualquier ancestro) lo fuerza a mano,
+             * igual que ya hace `guia/guia.css` para la guia (ese mismo
+             * mecanismo, ahora tambien en el paquete real).
+             *
+             * Solo son reactivos al tema los tokens de "superficie de
+             * pagina" (fondo/texto/tenue/borde/gris-fondo/gris-texto/
+             * superficie/titulo) y los 4 pares fondo+texto de tono. Los
+             * colores de marca saturados (navy, navy-claro, azul, verde,
+             * naranjo, rojo, gris) quedan FIJOS a proposito: son el fondo
+             * de `.lateral`/`.hero`/`.toast` (franjas de marca oscuras
+             * siempre, no reactivas) o sirven de texto blanco sobre un
+             * boton/insignia de color (no dependen del tema de la pagina).
+             * `titulo` existe aparte de `navy` por lo mismo: `navy` no
+             * puede aclararse para el texto de titulo sin tambien aclarar
+             * el fondo fijo de `.lateral`, asi que son dos tokens.
+             * ------------------------------------------------------------- */
+            "@media (prefers-color-scheme: dark)": {
+              ":root:not([data-theme='light'])": {
+                "--color-fondo": "#0b1420",
+                "--color-texto": "#e6ecf2",
+                "--color-tenue": "#93a4b7",
+                "--color-borde": "#223246",
+                "--color-gris-fondo": "#26323d",
+                "--color-gris-texto": "#b7c3ce",
+                "--color-superficie": "#121d2b",
+                "--color-titulo": "#cfe0f6",
+                "--color-azul-fondo": "#16314f",
+                "--color-azul-texto": "#8fc0f0",
+                "--color-verde-fondo": "#123524",
+                "--color-verde-texto": "#7bd9a8",
+                "--color-naranjo-fondo": "#3a2a12",
+                "--color-naranjo-texto": "#f0b86b",
+                "--color-rojo-fondo": "#3a1715",
+                "--color-rojo-texto": "#f0938c"
+              }
+            },
+            "[data-theme='dark']": {
+              "--color-fondo": "#0b1420",
+              "--color-texto": "#e6ecf2",
+              "--color-tenue": "#93a4b7",
+              "--color-borde": "#223246",
+              "--color-gris-fondo": "#26323d",
+              "--color-gris-texto": "#b7c3ce",
+              "--color-superficie": "#121d2b",
+              "--color-titulo": "#cfe0f6",
+              "--color-azul-fondo": "#16314f",
+              "--color-azul-texto": "#8fc0f0",
+              "--color-verde-fondo": "#123524",
+              "--color-verde-texto": "#7bd9a8",
+              "--color-naranjo-fondo": "#3a2a12",
+              "--color-naranjo-texto": "#f0b86b",
+              "--color-rojo-fondo": "#3a1715",
+              "--color-rojo-texto": "#f0938c"
             }
           });
           addBase({

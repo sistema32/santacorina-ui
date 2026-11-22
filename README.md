@@ -142,6 +142,35 @@ v4 para su utilidad `font-sans` — el override (sin `@layer`) también le
 gana a esa utilidad y al `<html>` base, no solo a `body`: toda la
 plataforma queda en una sola tipografía, consistente.
 
+## Modo oscuro
+
+Sigue `prefers-color-scheme` por defecto; `data-theme="dark"`/`"light"`
+en cualquier ancestro (típicamente `<html>`) lo fuerza a mano — mismo
+mecanismo que ya usan los colores/la tipografía, solo variables CSS.
+
+```css
+/* no hace falta nada mas para que respete el tema del sistema operativo */
+```
+
+```html
+<!-- forzar oscuro sin importar el SO -->
+<html data-theme="dark">
+```
+
+Reactivos al tema: `--color-fondo`, `--color-texto`, `--color-tenue`,
+`--color-borde`, `--color-gris-fondo`/`-texto`, `--color-superficie`
+(fondo de tarjeta/modal/panel/input — antes `#fff` literal en 47
+lugares, sin variable), `--color-titulo` (texto de título/etiqueta —
+separado de `--color-navy` a propósito) y los 4 pares de tono
+`--color-azul/verde/naranjo/rojo-fondo`/`-texto`.
+
+**Fijos, no reactivos, a propósito**: `--color-navy` (sigue siendo el
+fondo de marca de `.lateral`/`.hero`/`.toast` en cualquier tema — son
+franjas oscuras por diseño, no por tema) y los colores saturados base
+(`--color-azul`/`-azul-oscuro`/`-verde`/`-naranjo`/`-rojo`/`-gris`,
+usados como fondo de botón/badge con texto blanco fijo o como borde —
+su variante de *texto* reactiva es la versión `-texto` de cada uno).
+
 ## Componentes incluidos
 
 Convención para variantes de diseño: desde 0.17.0, el tono de color y
@@ -347,6 +376,24 @@ para no repetir la investigación:
    que no lo defina revienta con "Invalid value used as weak map key"
    — si alguna vez se prueba el paquete fuera de un navegador de
    verdad, hay que stubear `documentElement` también.
+8. **Un color de marca no puede ser "texto reactivo al tema" y "fondo
+   fijo de marca" a la vez con el mismo token.** El primer intento de
+   modo oscuro solo tocó `guia/guia.css` (fondo de demo siempre
+   blanco) — tapaba el síntoma, no la causa: el paquete en sí no tenía
+   modo oscuro. Al hacerlo de verdad, `--color-navy` resultó tener dos
+   roles en conflicto: texto de título (debía aclararse en oscuro) y
+   fondo fijo de `.lateral`/`.hero`/`.toast` (no debía cambiar nunca).
+   Se separaron en dos tokens (`--color-titulo` reactivo, `--color-navy`
+   fijo). El mismo conflicto apareció de nuevo con `--color-rojo`/
+   `-naranjo`/`-azul-oscuro` usados como texto suelto (breadcrumb,
+   contador de caracteres, etc.): aclararlos para que el texto
+   contrastara en oscuro habría aclarado también sus usos como fondo
+   de badge/insignia con texto blanco fijo, empeorando ESE contraste.
+   Se resolvió reusando los pares `-texto` ya creados para los tonos
+   (mismo valor claro, variante oscura con buen contraste propia) en
+   vez de tocar el color base. Verificado con un cálculo real de ratio
+   WCAG (no "se ve bien a ojo") para cada combinación texto/fondo
+   nueva, en los dos temas.
 
 ## Desarrollo
 

@@ -99,6 +99,64 @@ const santacorinaUI: SantacorinaPlugin = plugin.withOptions<SantacorinaUIOptions
           "--z-toast": "9500",
           "--z-tooltip": "9999",
         },
+        /* ---------------------------------------------------------------
+         * Modo oscuro -- mismo mecanismo que ya documenta el README para
+         * `--color-*`/`--font-sans`: variables CSS, sin logica de JS. Por
+         * defecto sigue `prefers-color-scheme`; `data-theme="dark"`/
+         * `"light"` en <html> (o cualquier ancestro) lo fuerza a mano,
+         * igual que ya hace `guia/guia.css` para la guia (ese mismo
+         * mecanismo, ahora tambien en el paquete real).
+         *
+         * Solo son reactivos al tema los tokens de "superficie de
+         * pagina" (fondo/texto/tenue/borde/gris-fondo/gris-texto/
+         * superficie/titulo) y los 4 pares fondo+texto de tono. Los
+         * colores de marca saturados (navy, navy-claro, azul, verde,
+         * naranjo, rojo, gris) quedan FIJOS a proposito: son el fondo
+         * de `.lateral`/`.hero`/`.toast` (franjas de marca oscuras
+         * siempre, no reactivas) o sirven de texto blanco sobre un
+         * boton/insignia de color (no dependen del tema de la pagina).
+         * `titulo` existe aparte de `navy` por lo mismo: `navy` no
+         * puede aclararse para el texto de titulo sin tambien aclarar
+         * el fondo fijo de `.lateral`, asi que son dos tokens.
+         * ------------------------------------------------------------- */
+        "@media (prefers-color-scheme: dark)": {
+          ":root:not([data-theme='light'])": {
+            "--color-fondo": "#0b1420",
+            "--color-texto": "#e6ecf2",
+            "--color-tenue": "#93a4b7",
+            "--color-borde": "#223246",
+            "--color-gris-fondo": "#26323d",
+            "--color-gris-texto": "#b7c3ce",
+            "--color-superficie": "#121d2b",
+            "--color-titulo": "#cfe0f6",
+            "--color-azul-fondo": "#16314f",
+            "--color-azul-texto": "#8fc0f0",
+            "--color-verde-fondo": "#123524",
+            "--color-verde-texto": "#7bd9a8",
+            "--color-naranjo-fondo": "#3a2a12",
+            "--color-naranjo-texto": "#f0b86b",
+            "--color-rojo-fondo": "#3a1715",
+            "--color-rojo-texto": "#f0938c",
+          },
+        },
+        "[data-theme='dark']": {
+          "--color-fondo": "#0b1420",
+          "--color-texto": "#e6ecf2",
+          "--color-tenue": "#93a4b7",
+          "--color-borde": "#223246",
+          "--color-gris-fondo": "#26323d",
+          "--color-gris-texto": "#b7c3ce",
+          "--color-superficie": "#121d2b",
+          "--color-titulo": "#cfe0f6",
+          "--color-azul-fondo": "#16314f",
+          "--color-azul-texto": "#8fc0f0",
+          "--color-verde-fondo": "#123524",
+          "--color-verde-texto": "#7bd9a8",
+          "--color-naranjo-fondo": "#3a2a12",
+          "--color-naranjo-texto": "#f0b86b",
+          "--color-rojo-fondo": "#3a1715",
+          "--color-rojo-texto": "#f0938c",
+        },
       });
 
       // addComponents en Tailwind v4 es un alias de addUtilities (exige

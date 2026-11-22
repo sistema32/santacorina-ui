@@ -1,5 +1,44 @@
 # Changelog
 
+## 0.21.0 — sin publicar — modo oscuro real
+
+El fix anterior (fondo de `.demo` siempre blanco en `guia/guia.css`)
+tapó el síntoma, no la causa — correcto: el paquete en sí no tenía
+modo oscuro. `--color-navy`/`--color-texto`/`--color-tenue` y 47
+fondos `"#fff"` literales estaban pensados solo para una página clara;
+cualquier consumidor real (no solo la guía) que pusiera un componente
+sobre un fondo oscuro tenía el mismo problema.
+
+Se agrega modo oscuro real, mismo mecanismo que ya usan
+`--color-*`/`--font-sans` (variables CSS, `prefers-color-scheme` +
+`data-theme="dark"`/`"light"` para forzarlo a mano):
+
+- **`--color-superficie`** (nuevo) — reemplaza los 47 `"#fff"`
+  literales de tarjeta/modal/cajón/menú/calendario/popover/combobox/
+  inputs/paginación/etc.
+- **`--color-titulo`** (nuevo) — separa el rol de "texto de título" de
+  `--color-navy`, que se deja fijo (sigue siendo el fondo de marca de
+  `.lateral`/`.hero`/`.toast`, no reactivo a propósito).
+- **`--color-fondo`/`-texto`/`-tenue`/`-borde`/`-gris-fondo`** (ya
+  existían) pasan a ser reactivos al tema.
+- **4 pares fondo+texto por tono** (`--color-azul/verde/naranjo/rojo-fondo`/
+  `-texto`) — consolidan ~8 literales casi duplicados que repetían el
+  mismo color con variaciones de 1-3 unidades RGB entre `.etiqueta`/
+  `.chip`/`.avatar`/`.insignia-icono`/`.aviso`/`.aviso-pagina`.
+- Mismo tratamiento para los usos de `--color-rojo`/`-naranjo`/
+  `-azul-oscuro` como texto suelto (breadcrumb, contador de
+  caracteres, links de "cambiar") — redirigidos a sus pares `-texto`
+  reactivos en vez de aclarar el color base (que rompería su uso como
+  fondo de badge con texto blanco fijo).
+- `guia/guia.css`: se revierte el parche anterior — `.demo` vuelve a
+  `var(--doc-surface)`, ya no hace falta fijarlo en blanco.
+
+Verificado con un cálculo real de contraste WCAG (no a ojo) para cada
+combinación texto/fondo nueva en ambos temas — todas ≥4.5:1, varias
+sobre 7:1. Playwright confirma además que ningún texto queda con el
+mismo color que su fondo (el bug original) en tarjeta/kpi/etiqueta/
+chip/avatar/aviso/campo/breadcrumb/lista-grupo, en los dos temas.
+
 ## 0.20.0 — sin publicar
 
 Otra revisión externa del catálogo (`README.md#componentes-incluidos`)
