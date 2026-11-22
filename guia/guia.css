@@ -2,6 +2,15 @@
     --doc-bg: #f4f7fa; --doc-surface: #ffffff; --doc-ink: #1c2733;
     --doc-ink-dim: #5b6b7c; --doc-border: #dde4ec;
     --doc-code-bg: #0c2d4a; --doc-code-ink: #dce6f0; --doc-nav-w: 220px;
+    /* Fondo de las demos -- a proposito NUNCA cambia con el tema. Los
+       componentes reales que se muestran adentro (de santacorina-ui)
+       no tienen modo oscuro propio: su texto (--color-navy/--color-texto)
+       esta pensado solo para un fondo claro. Si .demo usara --doc-surface
+       (que si cambia a oscuro), ese texto quedaba casi invisible --
+       navy sobre un azul casi negro, se vio exactamente eso al
+       reportarlo. El resto del cromo (nav, cabeceras, bloques de
+       codigo) si es tema-consciente, solo esto se fija. */
+    --doc-demo-bg: #ffffff;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -40,7 +49,7 @@
   section.doc-sec{ margin-bottom:52px; scroll-margin-top:24px; }
   section.doc-sec h2{ font-size:19px; margin:0 0 4px; }
   section.doc-sec .uso{ font-size:13.5px; color:var(--doc-ink-dim); margin:0 0 18px; max-width:68ch; line-height:1.6; }
-  .demo{ background:var(--doc-surface); border:1px solid var(--doc-border); border-radius:12px; padding:22px; margin-bottom:10px; }
+  .demo{ background:var(--doc-demo-bg); border:1px solid var(--doc-border); border-radius:12px; padding:22px; margin-bottom:10px; }
   .demo-fila{ display:flex; flex-wrap:wrap; gap:12px; align-items:flex-start; }
   pre.codigo{
     background:var(--doc-code-bg); color:var(--doc-code-ink); border-radius:0 0 10px 10px;
