@@ -7,13 +7,24 @@ declare function pesos(n: number): string;
 declare function conSigno(n: number): string;
 declare function pct(x: number): string;
 declare function fechaCorta(fecha: Date): string;
+/** Formatea un RUT chileno a "12.345.678-9" -- acepta con o sin puntos/guion. */
+declare function rut(valor: string): string;
+/**
+ * Repara mojibake: texto que paso por UTF-8 -> Latin-1 -> UTF-8 sin
+ * querer (comun en exportaciones de Excel/correo con tildes rotas, ej.
+ * "InformaciÃ³n" en vez de "Información"). Si el texto no tiene ese
+ * patron, se devuelve intacto.
+ */
+declare function limpiarMojibake(texto: string): string;
 
 declare const formato_conSigno: typeof conSigno;
 declare const formato_fechaCorta: typeof fechaCorta;
+declare const formato_limpiarMojibake: typeof limpiarMojibake;
 declare const formato_pct: typeof pct;
 declare const formato_pesos: typeof pesos;
+declare const formato_rut: typeof rut;
 declare namespace formato {
-  export { formato_conSigno as conSigno, formato_fechaCorta as fechaCorta, formato_pct as pct, formato_pesos as pesos };
+  export { formato_conSigno as conSigno, formato_fechaCorta as fechaCorta, formato_limpiarMojibake as limpiarMojibake, formato_pct as pct, formato_pesos as pesos, formato_rut as rut };
 }
 
 /** Retrasa `fn` hasta que pasen `ms` sin una nueva llamada -- para inputs de busqueda. */

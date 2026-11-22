@@ -58,6 +58,8 @@ import { formato, mostrarToast, abrirModal } from "@sistema32/santacorina-ui/js"
 | Utilidad | Qué hace | Se auto-inicia |
 |---|---|---|
 | `formato.pesos/conSigno/pct/fechaCorta` | Formato chileno de moneda, porcentaje y fecha corta | — |
+| `formato.rut(valor)` | Formatea un RUT a `"12.345.678-9"` (no valida el dígito verificador) | — |
+| `formato.limpiarMojibake(texto)` | Repara texto que pasó por UTF-8 → Latin-1 → UTF-8 sin querer | — |
 | `abrirModal`/`cerrarModal` | Abre/cierra un `.modal`; backdrop, Escape y `[data-cerrar-modal]` cierran solos | parcial (el cierre) |
 | `mostrarToast(mensaje, tipo?)` | Crea y descarta un `.toast` | — |
 | `iniciarLateral` | Conecta `.lateral-toggle` con `.abierta`/`.visible` | ✓ |

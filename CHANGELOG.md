@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.23.0 — sin publicar — rut() y limpiarMojibake()
+
+Dos agregados puntuales a `formato` (mismo módulo de `pesos`/`conSigno`/`pct`/`fechaCorta`):
+
+- **`formato.rut(valor)`** — formatea un RUT chileno a `"12.345.678-9"`,
+  acepte o no el input puntos/guión de entrada (`"123456789"`,
+  `"12.345.678-9"`, `"76543210k"` → mismo resultado, con la K siempre
+  mayúscula). Solo formatea — no valida el dígito verificador, eso
+  sigue siendo decisión de cada pantalla (mismo criterio que el resto
+  del paquete: piel, no lógica de negocio).
+- **`formato.limpiarMojibake(texto)`** — repara texto que pasó por
+  UTF-8 → Latin-1 → UTF-8 sin querer (`"InformaciÃ³n"` →
+  `"Información"`), común en datos que vienen de una exportación de
+  Excel o un correo con el charset mal declarado. Si el texto no tiene
+  ese patrón, lo devuelve intacto — no toca texto que ya está bien.
+
 ## 0.22.0 — sin publicar — ciclo de vida JS, validación con guardado, selección de filas
 
 Tercera ronda sobre la misma revisión externa: completar flujos de

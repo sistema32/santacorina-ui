@@ -10,6 +10,11 @@ assert.equal(formato.pct(1.098), "109,8%");
 assert.equal(formato.pesos(1422169), "1.422.169");
 assert.equal(formato.conSigno(718704), "$718.704");
 assert.equal(formato.fechaCorta(new Date(2026, 9, 14)), "14-10-2026");
+assert.equal(formato.rut("123456789"), "12.345.678-9");
+assert.equal(formato.rut("12.345.678-9"), "12.345.678-9");
+assert.equal(formato.rut("76543210k"), "76.543.210-K");
+assert.equal(formato.limpiarMojibake("InformaciÃ³n"), "Información");
+assert.equal(formato.limpiarMojibake("Información"), "Información", "texto ya correcto no debe tocarse");
 
 await new Promise((listo) => {
   let llamadas = 0;
