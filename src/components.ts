@@ -44,24 +44,24 @@ export function buildComponents(): CssEnJs {
     ".cabecera": {
       backgroundColor: "var(--color-superficie)",
       borderBottom: "1px solid var(--color-borde)",
-      padding: "18px 30px",
+      padding: "var(--esp-4) var(--esp-6)",
       display: "flex",
       justifyContent: "space-between",
       alignItems: "flex-start",
-      gap: "20px",
+      gap: "var(--esp-5)",
       flexWrap: "wrap",
     },
-    ".cabecera h1": { margin: "0", fontSize: "19px", color: "var(--color-titulo)" },
-    ".cabecera-datos": { margin: "4px 0 0", fontSize: "13px", color: "var(--color-tenue)" },
-    ".punto": { opacity: "0.45", margin: "0 5px" },
-    ".cabecera-usuario": { textAlign: "right", fontSize: "13px", lineHeight: "1.4" },
+    ".cabecera h1": { margin: "0", fontSize: "var(--t-lead)", color: "var(--color-titulo)" },
+    ".cabecera-datos": { margin: "var(--esp-1) 0 0", fontSize: "var(--t-cuerpo)", color: "var(--color-tenue)" },
+    ".punto": { opacity: "0.45", margin: "0 var(--esp-1)" },
+    ".cabecera-usuario": { textAlign: "right", fontSize: "var(--t-cuerpo)", lineHeight: "1.4" },
     ".usuario-nombre": { display: "block", fontWeight: "700", color: "var(--color-titulo)" },
-    ".usuario-rol": { display: "block", color: "var(--color-tenue)", fontSize: "12px" },
-    ".contenido": { flex: "1", padding: "26px 30px 40px", maxWidth: "1180px", width: "100%" },
+    ".usuario-rol": { display: "block", color: "var(--color-tenue)", fontSize: "var(--t-menor)" },
+    ".contenido": { flex: "1", padding: "var(--esp-5) var(--esp-6) var(--esp-7)", maxWidth: "1180px", width: "100%" },
     ".contenido.ancho": { maxWidth: "1400px" },
     ".pie": {
-      padding: "16px 30px 24px",
-      fontSize: "12px",
+      padding: "var(--esp-4) var(--esp-6) var(--esp-5)",
+      fontSize: "var(--t-menor)",
       color: "var(--color-tenue)",
       borderTop: "1px solid var(--color-borde)",
     },
@@ -75,13 +75,13 @@ export function buildComponents(): CssEnJs {
      * preventivas, para la proxima pantalla que necesite un header
      * distinto (un modal, un login, una bandeja con buscador integrado).
      * ------------------------------------------------------------- */
-    ".cabecera-compacta": { padding: "12px 20px" },
-    ".cabecera-compacta h1": { fontSize: "16px" },
+    ".cabecera-compacta": { padding: "var(--esp-3) var(--esp-5)" },
+    ".cabecera-compacta h1": { fontSize: "var(--t-lead)" },
     ".cabecera-centrada": { justifyContent: "center", textAlign: "center" },
     ".cabecera-centrada .cabecera-usuario": { display: "none" },
     ".cabecera-con-buscador": { alignItems: "center" },
     ".cabecera-con-buscador .buscador": { maxWidth: "320px" },
-    ".pie-compacto": { textAlign: "center", borderTop: "0", padding: "14px 20px" },
+    ".pie-compacto": { textAlign: "center", borderTop: "0", padding: "var(--esp-4) var(--esp-5)" },
 
     /* ---------------------------------------------------------------
      * Cabecera adaptable -- titulo + pastilla de estado + accion
@@ -96,17 +96,17 @@ export function buildComponents(): CssEnJs {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      gap: "14px",
+      gap: "var(--esp-4)",
       flexWrap: "wrap",
-      padding: "16px 20px",
+      padding: "var(--esp-4) var(--esp-5)",
       backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "11px",
+      borderRadius: "var(--radio)",
     },
-    ".cabecera-adaptable-titulo": { display: "flex", alignItems: "center", gap: "10px", minWidth: "0" },
+    ".cabecera-adaptable-titulo": { display: "flex", alignItems: "center", gap: "var(--esp-3)", minWidth: "0" },
     ".cabecera-adaptable-titulo h1": {
       margin: "0",
-      fontSize: "17px",
+      fontSize: "var(--t-lead)",
       color: "var(--color-titulo)",
       overflow: "hidden",
       textOverflow: "ellipsis",
@@ -143,36 +143,34 @@ export function buildComponents(): CssEnJs {
     },
     ".lateral::-webkit-scrollbar": { width: "8px" },
     ".lateral::-webkit-scrollbar-track": { backgroundColor: "transparent" },
-    ".lateral::-webkit-scrollbar-thumb": { backgroundColor: "rgba(255,255,255,0.3)", borderRadius: "4px" },
+    ".lateral::-webkit-scrollbar-thumb": { backgroundColor: "rgba(255,255,255,0.3)", borderRadius: "var(--radio)" },
     ".lateral::-webkit-scrollbar-thumb:hover": { backgroundColor: "rgba(255,255,255,0.5)" },
     ".lateral.lateral-fija": { position: "fixed", left: "0", top: "0", zIndex: "var(--z-lateral)" },
     ".lateral *": { boxSizing: "border-box" },
     ".lateral a": { color: "inherit", textDecoration: "none" },
     ".lateral .lateral-marca": {
       display: "block",
-      padding: "20px 22px 16px",
+      padding: "var(--esp-5) var(--esp-5) var(--esp-4)",
       borderBottom: "1px solid rgba(255,255,255,0.12)",
     },
     ".lateral .lateral-logo": { display: "block", width: "100%", maxWidth: "200px", height: "auto" },
-    ".lateral .lateral-sub": { display: "block", fontSize: "12px", opacity: "0.72", marginTop: "8px", letterSpacing: "0.3px" },
-    ".lateral nav": { padding: "14px 12px 26px" },
+    ".lateral .lateral-sub": { display: "block", fontSize: "var(--t-menor)", opacity: "0.72", marginTop: "var(--esp-2)" },
+    ".lateral nav": { padding: "var(--esp-4) var(--esp-3) var(--esp-5)" },
     ".lateral .grupo": {
-      fontSize: "11px",
-      textTransform: "uppercase",
-      letterSpacing: "0.9px",
-      opacity: "0.5",
-      padding: "16px 12px 6px",
+      fontSize: "var(--t-menor)",
+      opacity: "0.62",
+      padding: "var(--esp-4) var(--esp-3) var(--esp-2)",
       fontWeight: "700",
     },
     ".lateral .item": {
       display: "flex",
       alignItems: "center",
-      gap: "10px",
-      padding: "9px 12px",
-      borderRadius: "7px",
-      fontSize: "14px",
+      gap: "var(--esp-3)",
+      padding: "var(--esp-2) var(--esp-3)",
+      borderRadius: "var(--radio)",
+      fontSize: "var(--t-cuerpo)",
       color: "#dce6f0",
-      marginBottom: "2px",
+      marginBottom: "var(--esp-1)",
       width: "100%",
       backgroundColor: "transparent",
       border: "0",
@@ -185,28 +183,28 @@ export function buildComponents(): CssEnJs {
     ".lateral .item.activo": { backgroundColor: "var(--color-azul)", color: "#fff", fontWeight: "600" },
     ".lateral .item.inactivo": { opacity: "0.38", cursor: "default" },
     ".lateral .item.salir:hover": { backgroundColor: "rgba(200,54,47,0.35)" },
-    ".lateral .ico": { width: "18px", textAlign: "center", fontSize: "13px", opacity: "0.85", flex: "0 0 18px" },
+    ".lateral .ico": { width: "18px", textAlign: "center", fontSize: "var(--t-cuerpo)", opacity: "0.85", flex: "0 0 18px" },
     ".lateral .salir-form": { margin: "0" },
     ".lateral .contador": {
       marginLeft: "auto",
       backgroundColor: "var(--color-azul)",
       color: "#fff",
-      borderRadius: "999px",
-      padding: "1px 8px",
-      fontSize: "11.5px",
+      borderRadius: "var(--radio-pastilla)",
+      padding: "var(--esp-1) var(--esp-2)",
+      fontSize: "var(--t-menor)",
       fontWeight: "700",
     },
     ".lateral .item.activo .contador": { backgroundColor: "rgba(255,255,255,0.28)" },
     ".lateral .ubicacion": {
-      marginTop: "26px",
-      padding: "13px 14px",
-      borderRadius: "8px",
+      marginTop: "var(--esp-5)",
+      padding: "var(--esp-3) var(--esp-4)",
+      borderRadius: "var(--radio)",
       backgroundColor: "rgba(255,255,255,0.07)",
-      fontSize: "12px",
+      fontSize: "var(--t-menor)",
       lineHeight: "1.5",
       opacity: "0.9",
     },
-    ".lateral .ubicacion strong": { display: "block", marginTop: "3px", fontSize: "13px" },
+    ".lateral .ubicacion strong": { display: "block", marginTop: "var(--esp-1)", fontSize: "var(--t-cuerpo)" },
     ".lateral-toggle": {
       display: "none",
       position: "fixed",
@@ -215,11 +213,11 @@ export function buildComponents(): CssEnJs {
       zIndex: "var(--z-cajon-control)",
       width: "40px",
       height: "40px",
-      borderRadius: "8px",
+      borderRadius: "var(--radio)",
       border: "0",
       backgroundColor: "var(--color-navy)",
       color: "#fff",
-      fontSize: "19px",
+      fontSize: "var(--t-lead)",
       lineHeight: "1",
       alignItems: "center",
       justifyContent: "center",
@@ -235,8 +233,8 @@ export function buildComponents(): CssEnJs {
     },
     "@media (max-width: 900px)": {
       ".app": { flexDirection: "column" },
-      ".contenido": { padding: "20px 16px 34px" },
-      ".cabecera": { padding: "16px" },
+      ".contenido": { padding: "var(--esp-5) var(--esp-4) var(--esp-6)" },
+      ".cabecera": { padding: "var(--esp-4)" },
       ".lateral, .lateral.lateral-fija": {
         position: "fixed",
         left: "0",
@@ -261,19 +259,19 @@ export function buildComponents(): CssEnJs {
     ".tarjeta": {
       backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "11px",
-      padding: "20px 22px",
-      marginBottom: "20px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-5) var(--esp-5)",
+      marginBottom: "var(--esp-5)",
     },
     ".tarjeta h3": {
-      margin: "0 0 14px",
-      fontSize: "15px",
+      margin: "0 0 var(--esp-4)",
+      fontSize: "var(--t-cuerpo)",
       color: "var(--color-titulo)",
     },
     "h2.seccion": {
-      fontSize: "16px",
+      fontSize: "var(--t-lead)",
       color: "var(--color-titulo)",
-      margin: "0 0 14px",
+      margin: "0 0 var(--esp-4)",
     },
 
     /* ---------------------------------------------------------------
@@ -282,37 +280,66 @@ export function buildComponents(): CssEnJs {
     ".kpis": {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(158px, 1fr))",
-      gap: "13px",
-      marginBottom: "22px",
+      gap: "var(--esp-5)",
+      marginBottom: "var(--esp-5)",
     },
+    /* Era una caja con borde de 1px y un filo de color a la izquierda:
+       cuatro iguales en fila, la postal del tablero generado. En una
+       "stat tile" la cifra ES el grafico, asi que manda ella y la caja
+       sobra -- el numero a 34px se ancla solo, sin recuadro que lo
+       sostenga. El filo de color pasa a ser una marca corta ARRIBA del
+       numero: sigue estando, pero como marca y no como marco.
+
+       Dos reglas de visualizacion de datos que el componente violaba:
+       1. Digitos proporcionales, no tabulares, en una cifra grande y
+          suelta: `tabular-nums` le da a cada digito el ancho de un 0 y
+          un "121" se ve flojo a 34px. Lo tabular es para columnas que
+          tienen que alinearse (ahi esta, en `td.peso`).
+       2. El estado no puede viajar solo en el color. En el uso real la
+          etiqueta `.t` ya lo dice ("Sobregirado", "Pendientes"), y esa
+          es la condicion para que `data-tono` sea legitimo: refuerza,
+          no reemplaza. Documentado en la guia. */
     ".kpi": {
-      backgroundColor: "var(--color-superficie)",
-      border: "1px solid var(--color-borde)",
-      borderRadius: "11px",
-      padding: "15px 17px",
-      borderLeft: "4px solid var(--color-gris)",
+      backgroundColor: "transparent",
+      border: "0",
+      padding: "0",
+    },
+    ".kpi::before": {
+      content: '""',
+      display: "block",
+      width: "28px",
+      height: "4px",
+      backgroundColor: "var(--color-gris)",
+      marginBottom: "var(--esp-3)",
     },
     ".kpi .n": {
-      fontSize: "26px",
+      fontSize: "var(--t-display)",
       fontWeight: "700",
       color: "var(--color-titulo)",
-      lineHeight: "1.1",
+      lineHeight: "1",
+      fontVariantNumeric: "proportional-nums",
     },
-    ".kpi .t": { fontSize: "12.5px", color: "var(--color-tenue)", marginTop: "3px" },
-    ".kpi[data-tono='azul']": { borderLeftColor: "var(--color-azul)" },
-    ".kpi[data-tono='verde']": { borderLeftColor: "var(--color-verde)" },
-    ".kpi[data-tono='naranjo']": { borderLeftColor: "var(--color-naranjo)" },
-    ".kpi[data-tono='rojo']": { borderLeftColor: "var(--color-rojo)" },
-    ".kpi[data-tono='gris']": { borderLeftColor: "var(--color-gris)" },
+    ".kpi .t": { fontSize: "var(--t-menor)", color: "var(--color-tenue)", marginTop: "var(--esp-2)" },
+    /* Variacion contra un periodo con nombre -- opcional y nueva. El
+       signo lo pone `formato.conSigno()`; aca solo el color, que es la
+       unica vez que un texto lleva color de dato: la direccion. */
+    ".kpi .delta": { fontSize: "var(--t-menor)", fontWeight: "600", marginTop: "var(--esp-1)" },
+    ".kpi .delta[data-direccion='sube']": { color: "var(--color-verde-texto)" },
+    ".kpi .delta[data-direccion='baja']": { color: "var(--color-rojo-texto)" },
+    ".kpi[data-tono='azul']::before": { backgroundColor: "var(--color-azul)" },
+    ".kpi[data-tono='verde']::before": { backgroundColor: "var(--color-verde)" },
+    ".kpi[data-tono='naranjo']::before": { backgroundColor: "var(--color-naranjo)" },
+    ".kpi[data-tono='rojo']::before": { backgroundColor: "var(--color-rojo)" },
+    ".kpi[data-tono='gris']::before": { backgroundColor: "var(--color-gris)" },
 
     /* ---------------------------------------------------------------
      * Etiqueta -- estado corto, en linea con texto (no es clicable).
      * ------------------------------------------------------------- */
     ".etiqueta": {
       display: "inline-block",
-      padding: "3px 10px",
-      borderRadius: "999px",
-      fontSize: "12px",
+      padding: "var(--esp-1) var(--esp-3)",
+      borderRadius: "var(--radio-pastilla)",
+      fontSize: "var(--t-menor)",
       fontWeight: "600",
       whiteSpace: "nowrap",
     },
@@ -327,16 +354,16 @@ export function buildComponents(): CssEnJs {
      * ------------------------------------------------------------- */
     ".boton": {
       display: "inline-block",
-      padding: "10px 18px",
-      borderRadius: "8px",
+      padding: "var(--esp-3) var(--esp-4)",
+      borderRadius: "var(--radio)",
       border: "0",
-      backgroundColor: "var(--color-azul)",
+      backgroundColor: "var(--color-azul-oscuro)",
       color: "#fff",
       fontWeight: "600",
-      fontSize: "14px",
+      fontSize: "var(--t-cuerpo)",
       cursor: "pointer",
     },
-    ".boton:hover": { backgroundColor: "var(--color-azul-oscuro)" },
+    ".boton:hover": { backgroundColor: "var(--color-navy)" },
     ".boton:disabled": { backgroundColor: "#b7c3d0", cursor: "not-allowed" },
     ".boton.secundario": {
       backgroundColor: "var(--color-superficie)",
@@ -375,18 +402,18 @@ export function buildComponents(): CssEnJs {
      * "Aprobar / Rechazar / Revisar" en una fila de bandeja).
      * ------------------------------------------------------------- */
     ".grupo-botones": { display: "inline-flex", maxWidth: "100%", overflowX: "auto" },
-    ".grupo-botones .boton": { borderRadius: "0", marginLeft: "-1px" },
-    ".grupo-botones .boton:first-child": { borderRadius: "8px 0 0 8px", marginLeft: "0" },
-    ".grupo-botones .boton:last-child": { borderRadius: "0 8px 8px 0" },
+    ".grupo-botones .boton": { borderRadius: "var(--radio)", marginLeft: "-1px" },
+    ".grupo-botones .boton:first-child": { borderRadius: "var(--radio)", marginLeft: "0" },
+    ".grupo-botones .boton:last-child": { borderRadius: "var(--radio)" },
     ".grupo-botones .boton.secundario": { position: "relative" },
     ".grupo-botones .boton.secundario:hover": { zIndex: "1" },
 
     /* Boton chico -- accion secundaria en una fila o celda de tabla. */
-    ".btn-chico": { fontSize: "12px", padding: "4px 9px" },
+    ".btn-chico": { fontSize: "var(--t-menor)", padding: "var(--esp-1) var(--esp-2)" },
     "a.btn-chico": {
       display: "inline-block",
       border: "1px solid var(--color-borde)",
-      borderRadius: "6px",
+      borderRadius: "var(--radio)",
       backgroundColor: "var(--color-superficie)",
       color: "var(--color-titulo)",
       textDecoration: "none",
@@ -401,9 +428,9 @@ export function buildComponents(): CssEnJs {
     /* Pastilla -- decision clicable con forma de boton, no de etiqueta. */
     ".pastilla": {
       display: "inline-block",
-      padding: "5px 14px",
-      borderRadius: "999px",
-      fontSize: "12.5px",
+      padding: "var(--esp-1) var(--esp-4)",
+      borderRadius: "var(--radio-pastilla)",
+      fontSize: "var(--t-menor)",
       fontWeight: "600",
       lineHeight: "1.35",
       border: "1px solid transparent",
@@ -430,10 +457,10 @@ export function buildComponents(): CssEnJs {
      * Aviso -- banner de nivel de pantalla completa (no por fila).
      * ------------------------------------------------------------- */
     ".aviso": {
-      padding: "12px 15px",
-      borderRadius: "8px",
-      fontSize: "14px",
-      marginBottom: "18px",
+      padding: "var(--esp-3) var(--esp-4)",
+      borderRadius: "var(--radio)",
+      fontSize: "var(--t-cuerpo)",
+      marginBottom: "var(--esp-4)",
       borderLeft: "4px solid",
     },
     ".aviso[data-tono='info']": { backgroundColor: "var(--color-azul-fondo)", borderColor: "var(--color-azul)", color: "var(--color-azul-texto)" },
@@ -453,11 +480,11 @@ export function buildComponents(): CssEnJs {
      * (ej. "Hay 3 solicitudes pendientes de tu aprobacion").
      * ------------------------------------------------------------- */
     ".aviso-pagina": {
-      padding: "14px 30px",
-      fontSize: "14px",
+      padding: "var(--esp-4) var(--esp-6)",
+      fontSize: "var(--t-cuerpo)",
       borderBottom: "1px solid var(--color-borde)",
     },
-    ".aviso-pagina strong": { display: "block", marginBottom: "2px" },
+    ".aviso-pagina strong": { display: "block", marginBottom: "var(--esp-1)" },
     ".aviso-pagina[data-tono='info']": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)" },
     ".aviso-pagina[data-tono='ok']": { backgroundColor: "var(--color-verde-fondo)", color: "var(--color-verde-texto)" },
     ".aviso-pagina[data-tono='alerta']": { backgroundColor: "var(--color-naranjo-fondo)", color: "var(--color-naranjo-texto)" },
@@ -473,11 +500,11 @@ export function buildComponents(): CssEnJs {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      gap: "14px",
-      padding: "12px 15px",
-      borderRadius: "8px",
-      fontSize: "14px",
-      marginBottom: "18px",
+      gap: "var(--esp-4)",
+      padding: "var(--esp-3) var(--esp-4)",
+      borderRadius: "var(--radio)",
+      fontSize: "var(--t-cuerpo)",
+      marginBottom: "var(--esp-4)",
       borderLeft: "4px solid var(--color-rojo)",
       backgroundColor: "var(--color-rojo-fondo)",
       color: "var(--color-rojo-texto)",
@@ -486,10 +513,10 @@ export function buildComponents(): CssEnJs {
       border: "1px solid var(--color-rojo-texto)",
       backgroundColor: "transparent",
       color: "var(--color-rojo-texto)",
-      borderRadius: "7px",
-      padding: "6px 12px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-2) var(--esp-3)",
       fontWeight: "600",
-      fontSize: "13px",
+      fontSize: "var(--t-cuerpo)",
       cursor: "pointer",
       flex: "none",
     },
@@ -498,22 +525,22 @@ export function buildComponents(): CssEnJs {
     /* ---------------------------------------------------------------
      * Campo -- un control de formulario con su etiqueta y ayuda.
      * ------------------------------------------------------------- */
-    ".campo": { marginBottom: "17px" },
+    ".campo": { marginBottom: "var(--esp-4)" },
     ".campo label": {
       display: "block",
-      fontSize: "13px",
+      fontSize: "var(--t-cuerpo)",
       fontWeight: "600",
       color: "var(--color-titulo)",
-      marginBottom: "5px",
+      marginBottom: "var(--esp-1)",
     },
-    ".campo .ayuda": { fontSize: "12.5px", color: "var(--color-tenue)", margin: "4px 0 0" },
+    ".campo .ayuda": { fontSize: "var(--t-menor)", color: "var(--color-tenue)", margin: "var(--esp-1) 0 0" },
     ".campo-error": {
       display: "flex",
       alignItems: "center",
-      gap: "5px",
-      fontSize: "12.5px",
+      gap: "var(--esp-1)",
+      fontSize: "var(--t-menor)",
       color: "var(--color-rojo-texto)",
-      margin: "4px 0 0",
+      margin: "var(--esp-1) 0 0",
     },
     [[
       "input[type=text]",
@@ -527,10 +554,10 @@ export function buildComponents(): CssEnJs {
       "textarea",
     ].join(", ")]: {
       width: "100%",
-      padding: "10px 12px",
+      padding: "var(--esp-3) var(--esp-3)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "8px",
-      fontSize: "15px",
+      borderRadius: "var(--radio)",
+      fontSize: "var(--t-cuerpo)",
       backgroundColor: "var(--color-superficie)",
       color: "var(--color-texto)",
     },
@@ -555,7 +582,7 @@ export function buildComponents(): CssEnJs {
       outline: "2px solid var(--color-rojo)",
       outlineOffset: "2px",
     },
-    ".fila": { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: "16px" },
+    ".fila": { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: "var(--esp-4)" },
 
     /* ---------------------------------------------------------------
      * Seccion de formulario -- agrupa los `.campo` de un formulario
@@ -563,13 +590,13 @@ export function buildComponents(): CssEnJs {
      * otro (hoy `solicitud_form.html` solo tiene `h2.seccion` para
      * separar bloques, sin agrupar visualmente los campos de cada uno).
      * ------------------------------------------------------------- */
-    ".formulario-seccion": { marginBottom: "28px" },
+    ".formulario-seccion": { marginBottom: "var(--esp-6)" },
     ".formulario-seccion + .formulario-seccion": {
       borderTop: "1px solid var(--color-borde)",
       paddingTop: "28px",
     },
-    ".formulario-seccion-titulo": { color: "var(--color-titulo)", margin: "0 0 4px", fontSize: "16px" },
-    ".formulario-seccion-nota": { color: "var(--color-tenue)", margin: "0 0 16px", fontSize: "13px" },
+    ".formulario-seccion-titulo": { color: "var(--color-titulo)", margin: "0 0 var(--esp-1)", fontSize: "var(--t-lead)" },
+    ".formulario-seccion-nota": { color: "var(--color-tenue)", margin: "0 0 var(--esp-4)", fontSize: "var(--t-cuerpo)" },
 
     /* ---------------------------------------------------------------
      * Barra de acciones fija -- Guardar/Cancelar siempre al alcance en
@@ -581,11 +608,11 @@ export function buildComponents(): CssEnJs {
       position: "sticky",
       bottom: "0",
       display: "flex",
-      gap: "10px",
+      gap: "var(--esp-3)",
       justifyContent: "flex-end",
       backgroundColor: "var(--color-superficie)",
       borderTop: "1px solid var(--color-borde)",
-      padding: "14px 0",
+      padding: "var(--esp-4) 0",
       zIndex: "var(--z-flotante)",
     },
 
@@ -623,9 +650,9 @@ export function buildComponents(): CssEnJs {
       backgroundColor: "transparent",
       cursor: "pointer",
       color: "var(--color-tenue)",
-      fontSize: "16px",
+      fontSize: "var(--t-lead)",
       lineHeight: "1",
-      padding: "4px",
+      padding: "var(--esp-1)",
     },
     ".buscador .limpiar.visible": { display: "block" },
     ".buscador .limpiar:hover": { color: "var(--color-titulo)" },
@@ -639,22 +666,22 @@ export function buildComponents(): CssEnJs {
       display: "flex",
       alignItems: "stretch",
       border: "1px solid var(--color-borde)",
-      borderRadius: "8px",
+      borderRadius: "var(--radio)",
       overflow: "hidden",
       backgroundColor: "var(--color-superficie)",
     },
     ".grupo-campo .prefijo, .grupo-campo .sufijo": {
       display: "flex",
       alignItems: "center",
-      padding: "0 12px",
+      padding: "0 var(--esp-3)",
       backgroundColor: "var(--color-gris-fondo)",
       color: "var(--color-tenue)",
-      fontSize: "14px",
+      fontSize: "var(--t-cuerpo)",
       whiteSpace: "nowrap",
     },
     ".grupo-campo .prefijo": { borderRight: "1px solid var(--color-borde)" },
     ".grupo-campo .sufijo": { borderLeft: "1px solid var(--color-borde)" },
-    ".grupo-campo input": { border: "0", borderRadius: "0", flex: "1", minWidth: "0" },
+    ".grupo-campo input": { border: "0", borderRadius: "var(--radio)", flex: "1", minWidth: "0" },
     ".grupo-campo input:focus-visible": { outline: "0" },
 
     /* ---------------------------------------------------------------
@@ -667,12 +694,12 @@ export function buildComponents(): CssEnJs {
       display: "flex",
       flexWrap: "wrap",
       alignItems: "center",
-      gap: "10px",
-      padding: "14px 16px",
+      gap: "var(--esp-3)",
+      padding: "var(--esp-4) var(--esp-4)",
       backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "10px",
-      marginBottom: "18px",
+      borderRadius: "var(--radio)",
+      marginBottom: "var(--esp-4)",
     },
     ".barra-filtros .buscador": { flex: "1 1 220px", minWidth: "180px", width: "auto" },
     ".barra-filtros select": { width: "auto", flex: "0 1 170px" },
@@ -681,7 +708,7 @@ export function buildComponents(): CssEnJs {
       border: "0",
       backgroundColor: "transparent",
       color: "var(--color-azul-texto)",
-      fontSize: "13px",
+      fontSize: "var(--t-cuerpo)",
       fontWeight: "600",
       cursor: "pointer",
       padding: "0",
@@ -698,17 +725,17 @@ export function buildComponents(): CssEnJs {
       display: "none",
       alignItems: "center",
       justifyContent: "space-between",
-      gap: "14px",
+      gap: "var(--esp-4)",
       flexWrap: "wrap",
       backgroundColor: "var(--color-navy)",
       color: "#fff",
-      borderRadius: "10px",
-      padding: "12px 18px",
-      marginBottom: "14px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-3) var(--esp-4)",
+      marginBottom: "var(--esp-4)",
     },
     ".barra-seleccion.visible": { display: "flex" },
-    ".barra-seleccion span": { fontSize: "13px", fontWeight: "600" },
-    ".barra-seleccion .acciones": { display: "flex", gap: "8px", flexWrap: "wrap" },
+    ".barra-seleccion span": { fontSize: "var(--t-cuerpo)", fontWeight: "600" },
+    ".barra-seleccion .acciones": { display: "flex", gap: "var(--esp-2)", flexWrap: "wrap" },
     "table[data-seleccion] th:has([data-seleccionar-todo])": { width: "1%" },
     "table[data-seleccion] td:has([data-seleccionar-fila])": { width: "1%" },
 
@@ -719,9 +746,9 @@ export function buildComponents(): CssEnJs {
     ".contador-caracteres": {
       display: "block",
       textAlign: "right",
-      fontSize: "12px",
+      fontSize: "var(--t-menor)",
       color: "var(--color-tenue)",
-      marginTop: "4px",
+      marginTop: "var(--esp-1)",
     },
     ".contador-caracteres.cerca": { color: "var(--color-naranjo-texto)" },
     ".contador-caracteres.lleno": { color: "var(--color-rojo-texto)", fontWeight: "600" },
@@ -737,14 +764,14 @@ export function buildComponents(): CssEnJs {
       height: "17px",
       cursor: "pointer",
     },
-    ".campo-check": { display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" },
+    ".campo-check": { display: "flex", alignItems: "center", gap: "var(--esp-2)", marginBottom: "var(--esp-3)" },
     ".campo-check label": { margin: "0", fontWeight: "400", color: "var(--color-texto)", cursor: "pointer" },
 
     /* `fieldset`/`legend` -- el HTML nativo correcto para agrupar un
        conjunto de `.campo-check` bajo una sola pregunta ("Elige una
        opcion"). Antes solo existia el estilo del item individual. */
-    "fieldset.campo-grupo": { border: "1px solid var(--color-borde)", borderRadius: "8px", padding: "14px 16px", marginBottom: "17px" },
-    "fieldset.campo-grupo legend": { padding: "0 6px", fontSize: "13px", fontWeight: "600", color: "var(--color-titulo)" },
+    "fieldset.campo-grupo": { border: "1px solid var(--color-borde)", borderRadius: "var(--radio)", padding: "var(--esp-4) var(--esp-4)", marginBottom: "var(--esp-4)" },
+    "fieldset.campo-grupo legend": { padding: "0 var(--esp-2)", fontSize: "var(--t-cuerpo)", fontWeight: "600", color: "var(--color-titulo)" },
     "fieldset.campo-grupo .campo-check:last-child": { marginBottom: "0" },
 
     /* ---------------------------------------------------------------
@@ -756,12 +783,12 @@ export function buildComponents(): CssEnJs {
      * ------------------------------------------------------------- */
     ".grupo-repetible-fila": {
       display: "flex",
-      gap: "12px",
+      gap: "var(--esp-3)",
       alignItems: "flex-end",
       border: "1px solid var(--color-borde)",
-      borderRadius: "8px",
-      padding: "14px 16px",
-      marginBottom: "12px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-4) var(--esp-4)",
+      marginBottom: "var(--esp-3)",
     },
     ".grupo-repetible-fila > :first-child": { flex: "1", minWidth: "0" },
     ".grupo-repetible-fila [data-quitar-fila]": { flex: "none" },
@@ -769,15 +796,15 @@ export function buildComponents(): CssEnJs {
     /* input[type=file] -- solo el boton "Elegir archivo"; el cuadro de
        dialogo del sistema operativo no se toca. */
     "input[type=file]::file-selector-button": {
-      padding: "8px 14px",
-      borderRadius: "8px",
+      padding: "var(--esp-2) var(--esp-4)",
+      borderRadius: "var(--radio)",
       border: "1px solid var(--color-borde)",
       backgroundColor: "var(--color-gris-fondo)",
       color: "var(--color-titulo)",
       fontWeight: "600",
-      fontSize: "13px",
+      fontSize: "var(--t-cuerpo)",
       cursor: "pointer",
-      marginRight: "10px",
+      marginRight: "var(--esp-3)",
     },
     "input[type=file]::file-selector-button:hover": { backgroundColor: "#e6eaef" },
 
@@ -786,7 +813,7 @@ export function buildComponents(): CssEnJs {
       appearance: "none",
       width: "100%",
       height: "7px",
-      borderRadius: "999px",
+      borderRadius: "var(--radio-pastilla)",
       backgroundColor: "#e8ebef",
       cursor: "pointer",
     },
@@ -807,22 +834,21 @@ export function buildComponents(): CssEnJs {
       border: "2px solid #fff",
       boxShadow: "0 1px 3px rgba(12, 45, 74, 0.35)",
     },
-    "input[type=range]::-moz-range-track": { height: "7px", borderRadius: "999px", backgroundColor: "#e8ebef" },
+    "input[type=range]::-moz-range-track": { height: "7px", borderRadius: "var(--radio-pastilla)", backgroundColor: "#e8ebef" },
 
     /* ---------------------------------------------------------------
      * Tabla -- base de cualquier listado tabular.
      * ------------------------------------------------------------- */
-    table: { width: "100%", borderCollapse: "collapse", fontSize: "14px" },
+    table: { width: "100%", borderCollapse: "collapse", fontSize: "var(--t-cuerpo)" },
     th: {
       textAlign: "left",
-      fontSize: "11.5px",
-      textTransform: "uppercase",
-      letterSpacing: "0.5px",
+      fontSize: "var(--t-menor)",
+      fontWeight: "600",
       color: "var(--color-tenue)",
-      padding: "9px 10px",
+      padding: "var(--esp-2) var(--esp-3)",
       borderBottom: "2px solid var(--color-borde)",
     },
-    td: { padding: "11px 10px", borderBottom: "1px solid var(--color-borde)", verticalAlign: "top" },
+    td: { padding: "var(--esp-3) var(--esp-3)", borderBottom: "1px solid var(--color-borde)", verticalAlign: "top" },
     "tr:last-child td": { borderBottom: "0" },
     ".tabla-scroll": {
       overflowX: "auto",
@@ -830,17 +856,18 @@ export function buildComponents(): CssEnJs {
       scrollbarWidth: "thin",
     },
     ".tabla-scroll::-webkit-scrollbar": { height: "8px" },
-    ".tabla-scroll::-webkit-scrollbar-thumb": { backgroundColor: "var(--color-borde)", borderRadius: "999px" },
+    ".tabla-scroll::-webkit-scrollbar-thumb": { backgroundColor: "var(--color-borde)", borderRadius: "var(--radio-pastilla)" },
     ".tabla-scroll::-webkit-scrollbar-track": { backgroundColor: "transparent" },
     "td.peso, th.der, td.der": { textAlign: "right" },
     "td.peso": { fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" },
     "th.cen, td.cen": { textAlign: "center" },
-    "td.codigo": { fontFamily: "ui-monospace, Consolas, monospace", fontSize: "12.5px" },
+    // td.codigo lleva identificadores literales (clases, funciones, RUT): es codigo.
+    "td.codigo": { fontFamily: "ui-monospace, Consolas, monospace", fontSize: "var(--t-menor)" }, // taste-skill-ignore
     /* Celda de dos lineas -- de acepta/frontend (41 ocurrencias reales:
        "Factura N / fecha-tipo DTE", "Proveedor / RUT", "OC / nombre
        OC"). No es una clase nueva, era una regla que faltaba aca. */
     "td strong, td small": { display: "block" },
-    "td small": { color: "var(--color-tenue)", marginTop: "4px", fontSize: "12px", lineHeight: "1.35" },
+    "td small": { color: "var(--color-tenue)", marginTop: "var(--esp-1)", fontSize: "var(--t-menor)", lineHeight: "1.35" },
 
     /* Variantes de tabla -- para listados largos (presupuestos,
        facturas): encabezado fijo al hacer scroll vertical dentro de un
@@ -852,8 +879,8 @@ export function buildComponents(): CssEnJs {
       backgroundColor: "var(--color-superficie)",
       zIndex: "var(--z-flotante)",
     },
-    ".tabla-compacta th": { padding: "6px 8px" },
-    ".tabla-compacta td": { padding: "7px 8px" },
+    ".tabla-compacta th": { padding: "var(--esp-2) var(--esp-2)" },
+    ".tabla-compacta td": { padding: "var(--esp-2) var(--esp-2)" },
 
     /* Densidad por bloque -- generaliza `.tabla-compacta` (una sola
      * tabla) a cualquier contenedor, mismo criterio que `data-tono`/
@@ -863,10 +890,10 @@ export function buildComponents(): CssEnJs {
      * `.tabla-compacta` queda intacta (equivale a aplicar el atributo
      * solo a esa tabla).
      */
-    "[data-densidad='compacta'] .campo": { marginBottom: "10px" },
-    "[data-densidad='compacta'] .tarjeta": { padding: "12px 14px", marginBottom: "12px" },
-    "[data-densidad='compacta'] table th": { padding: "6px 8px" },
-    "[data-densidad='compacta'] table td": { padding: "7px 8px" },
+    "[data-densidad='compacta'] .campo": { marginBottom: "var(--esp-3)" },
+    "[data-densidad='compacta'] .tarjeta": { padding: "var(--esp-3) var(--esp-4)", marginBottom: "var(--esp-3)" },
+    "[data-densidad='compacta'] table th": { padding: "var(--esp-2) var(--esp-2)" },
+    "[data-densidad='compacta'] table td": { padding: "var(--esp-2) var(--esp-2)" },
 
     /* Encabezado de tabla ordenable -- de Carbon Design System (tabla
        de datos). Solo la flecha y el estado `[aria-sort]`; el JS vive
@@ -895,20 +922,20 @@ export function buildComponents(): CssEnJs {
      * revision antes de enviar un formulario multi-paso (cierra el
      * flujo de `.asistente`/`.paso`).
      * ------------------------------------------------------------- */
-    ".resumen-revision": { border: "1px solid var(--color-borde)", borderRadius: "11px", overflow: "hidden" },
+    ".resumen-revision": { border: "1px solid var(--color-borde)", borderRadius: "var(--radio)", overflow: "hidden" },
     ".resumen-revision-item": {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      gap: "14px",
-      padding: "13px 16px",
+      gap: "var(--esp-4)",
+      padding: "var(--esp-3) var(--esp-4)",
       borderBottom: "1px solid var(--color-borde)",
-      fontSize: "14px",
+      fontSize: "var(--t-cuerpo)",
     },
     ".resumen-revision-item:last-child": { borderBottom: "0" },
     ".resumen-revision-item span": { color: "var(--color-tenue)" },
     ".resumen-revision-item strong": { color: "var(--color-titulo)", fontWeight: "600" },
-    ".resumen-revision-item .cambiar": { color: "var(--color-azul-texto)", fontSize: "13px", fontWeight: "600", flex: "none" },
+    ".resumen-revision-item .cambiar": { color: "var(--color-azul-texto)", fontSize: "var(--t-cuerpo)", fontWeight: "600", flex: "none" },
     ".resumen-revision-item .cambiar:hover": { textDecoration: "underline" },
 
     /* ---------------------------------------------------------------
@@ -918,15 +945,15 @@ export function buildComponents(): CssEnJs {
      * valores por fila en vez de uno. Se apila en movil/contenedor
      * angosto (ver los bloques de @media 600px / @container 480px).
      * ------------------------------------------------------------- */
-    ".comparacion-valores": { border: "1px solid var(--color-borde)", borderRadius: "11px", overflow: "hidden" },
+    ".comparacion-valores": { border: "1px solid var(--color-borde)", borderRadius: "var(--radio)", overflow: "hidden" },
     ".comparacion-valores-item": {
       display: "grid",
       gridTemplateColumns: "1fr 1fr 1fr",
-      gap: "14px",
+      gap: "var(--esp-4)",
       alignItems: "center",
-      padding: "13px 16px",
+      padding: "var(--esp-3) var(--esp-4)",
       borderBottom: "1px solid var(--color-borde)",
-      fontSize: "14px",
+      fontSize: "var(--t-cuerpo)",
     },
     ".comparacion-valores-item:last-child": { borderBottom: "0" },
     ".comparacion-valores-item > span:first-child": { color: "var(--color-tenue)" },
@@ -944,13 +971,13 @@ export function buildComponents(): CssEnJs {
     ".resumen-errores": {
       border: "1px solid #f0c4c1",
       backgroundColor: "#fdf4f3",
-      borderRadius: "10px",
-      padding: "16px 18px",
-      marginBottom: "20px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-4) var(--esp-4)",
+      marginBottom: "var(--esp-5)",
     },
-    ".resumen-errores h2": { margin: "0 0 10px", fontSize: "15px", color: "var(--color-rojo-texto)" },
-    ".resumen-errores ul": { margin: "0", padding: "0 0 0 19px", fontSize: "13.5px" },
-    ".resumen-errores li": { marginBottom: "4px" },
+    ".resumen-errores h2": { margin: "0 0 var(--esp-3)", fontSize: "var(--t-cuerpo)", color: "var(--color-rojo-texto)" },
+    ".resumen-errores ul": { margin: "0", padding: "0 0 0 var(--esp-4)", fontSize: "var(--t-cuerpo)" },
+    ".resumen-errores li": { marginBottom: "var(--esp-1)" },
     ".resumen-errores a": { color: "var(--color-rojo-texto)", fontWeight: "600" },
     ".resumen-errores a:hover": { textDecoration: "underline" },
 
@@ -960,10 +987,10 @@ export function buildComponents(): CssEnJs {
     ".dato": {
       display: "flex",
       justifyContent: "space-between",
-      gap: "14px",
-      padding: "8px 0",
+      gap: "var(--esp-4)",
+      padding: "var(--esp-2) 0",
       borderBottom: "1px solid var(--color-borde)",
-      fontSize: "14px",
+      fontSize: "var(--t-cuerpo)",
     },
     ".dato:last-child": { borderBottom: "0" },
     ".dato span": { color: "var(--color-tenue)" },
@@ -972,21 +999,19 @@ export function buildComponents(): CssEnJs {
     /* Ficha -- grilla de datos, para resumenes mas anchos que una columna. */
     ".ficha": {
       backgroundColor: "var(--color-gris-fondo)",
-      borderRadius: "9px",
-      padding: "15px 17px",
-      marginBottom: "20px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-4) var(--esp-4)",
+      marginBottom: "var(--esp-5)",
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
-      gap: "12px",
+      gap: "var(--esp-3)",
     },
     ".ficha div span": {
       display: "block",
-      fontSize: "11.5px",
-      textTransform: "uppercase",
-      letterSpacing: "0.5px",
+      fontSize: "var(--t-menor)",
       color: "var(--color-tenue)",
     },
-    ".ficha div strong": { fontSize: "14px", color: "var(--color-titulo)", fontWeight: "600" },
+    ".ficha div strong": { fontSize: "var(--t-cuerpo)", color: "var(--color-titulo)", fontWeight: "600" },
 
     /* ---------------------------------------------------------------
      * Luz / semaforo -- punto de estado, para listas de validacion.
@@ -996,7 +1021,7 @@ export function buildComponents(): CssEnJs {
       height: "13px",
       borderRadius: "50%",
       flex: "0 0 13px",
-      marginTop: "5px",
+      marginTop: "var(--esp-1)",
       display: "inline-block",
     },
     ".luz[data-tono='verde']": { backgroundColor: "var(--color-verde)" },
@@ -1009,7 +1034,7 @@ export function buildComponents(): CssEnJs {
      * ------------------------------------------------------------- */
     ".linea-tiempo": { listStyle: "none", margin: "0", padding: "0" },
     ".linea-tiempo li": {
-      padding: "11px 0 11px 20px",
+      padding: "var(--esp-3) 0 var(--esp-3) var(--esp-5)",
       borderLeft: "2px solid var(--color-borde)",
       position: "relative",
     },
@@ -1023,13 +1048,13 @@ export function buildComponents(): CssEnJs {
       borderRadius: "50%",
       backgroundColor: "var(--color-azul)",
     },
-    ".linea-tiempo .ts": { fontSize: "12px", color: "var(--color-tenue)" },
-    ".linea-tiempo .txt": { fontSize: "14px" },
+    ".linea-tiempo .ts": { fontSize: "var(--t-menor)", color: "var(--color-tenue)" },
+    ".linea-tiempo .txt": { fontSize: "var(--t-cuerpo)" },
 
     /* ---------------------------------------------------------------
      * Estado vacio -- cuando un listado no tiene filas que mostrar.
      * ------------------------------------------------------------- */
-    ".vacio": { textAlign: "center", padding: "38px 20px", color: "var(--color-tenue)" },
+    ".vacio": { textAlign: "center", padding: "var(--esp-6) var(--esp-5)", color: "var(--color-tenue)" },
 
     /* ---------------------------------------------------------------
      * Lista de grupo -- lista vertical de items clicables/seleccionables
@@ -1038,15 +1063,15 @@ export function buildComponents(): CssEnJs {
      * ------------------------------------------------------------- */
     ".lista-grupo": {
       border: "1px solid var(--color-borde)",
-      borderRadius: "11px",
+      borderRadius: "var(--radio)",
       overflow: "hidden",
     },
     ".lista-grupo-item": {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      gap: "10px",
-      padding: "12px 16px",
+      gap: "var(--esp-3)",
+      padding: "var(--esp-3) var(--esp-4)",
       borderBottom: "1px solid var(--color-borde)",
       color: "var(--color-texto)",
       backgroundColor: "var(--color-superficie)",
@@ -1055,7 +1080,7 @@ export function buildComponents(): CssEnJs {
     "a.lista-grupo-item:hover, button.lista-grupo-item:hover": { backgroundColor: "var(--color-gris-fondo)" },
     ".lista-grupo-item:last-child": { borderBottom: "0" },
     ".lista-grupo-item.activo": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)", fontWeight: "600" },
-    ".vacio p": { margin: "0 0 14px" },
+    ".vacio p": { margin: "0 0 var(--esp-4)" },
 
     ".tenue": { color: "var(--color-tenue)" },
 
@@ -1067,7 +1092,7 @@ export function buildComponents(): CssEnJs {
     ".columnas": {
       display: "grid",
       gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 0.85fr)",
-      gap: "18px",
+      gap: "var(--esp-4)",
       alignItems: "start",
     },
     ".columnas.columnas-2": { gridTemplateColumns: "repeat(2, minmax(0, 1fr))" },
@@ -1076,8 +1101,8 @@ export function buildComponents(): CssEnJs {
        crear un segundo sistema de grid: son modificadores del mismo
        `.columnas` de siempre (default sin clase extra: 18px). */
     ".columnas.gutters-0": { gap: "0" },
-    ".columnas.gutters-chico": { gap: "8px" },
-    ".columnas.gutters-grande": { gap: "28px" },
+    ".columnas.gutters-chico": { gap: "var(--esp-2)" },
+    ".columnas.gutters-grande": { gap: "var(--esp-6)" },
     "@media (max-width: 1150px)": {
       ".columnas, .columnas.columnas-2, .columnas.columnas-4": { gridTemplateColumns: "1fr" },
     },
@@ -1101,14 +1126,14 @@ export function buildComponents(): CssEnJs {
      * `grid-template-rows: masonry` (hoy solo Firefox tras flag) ni una
      * libreria JS: con soporte universal y sin JS alcanza.
      * ------------------------------------------------------------- */
-    ".masonry": { columnCount: "3", columnGap: "18px" },
-    ".masonry > *": { breakInside: "avoid", marginBottom: "18px" },
+    ".masonry": { columnCount: "3", columnGap: "var(--esp-4)" },
+    ".masonry > *": { breakInside: "avoid", marginBottom: "var(--esp-4)" },
     "@media (max-width: 560px)": {
       ".masonry": { columnCount: "1" },
       ".documento-fila": { gridTemplateColumns: "1fr auto" },
       ".documento-nombre": { gridColumn: "1 / -1" },
-      ".hero": { padding: "24px 20px" },
-      ".hero h1": { fontSize: "21px" },
+      ".hero": { padding: "var(--esp-5) var(--esp-5)" },
+      ".hero h1": { fontSize: "var(--t-titulo)" },
     },
 
     /* ---------------------------------------------------------------
@@ -1118,13 +1143,13 @@ export function buildComponents(): CssEnJs {
     ".hero": {
       backgroundColor: "var(--color-navy)",
       color: "#fff",
-      borderRadius: "14px",
-      padding: "38px 36px",
-      marginBottom: "24px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-6) var(--esp-6)",
+      marginBottom: "var(--esp-5)",
     },
-    ".hero h1": { margin: "0 0 10px", fontSize: "26px" },
-    ".hero p": { margin: "0 0 20px", maxWidth: "60ch", color: "#c9d6e4", fontSize: "14.5px", lineHeight: "1.6" },
-    ".hero .acciones": { display: "flex", gap: "10px", flexWrap: "wrap" },
+    ".hero h1": { margin: "0 0 var(--esp-3)", fontSize: "var(--t-titulo)" },
+    ".hero p": { margin: "0 0 var(--esp-5)", maxWidth: "60ch", color: "#c9d6e4", fontSize: "var(--t-cuerpo)", lineHeight: "1.6" },
+    ".hero .acciones": { display: "flex", gap: "var(--esp-3)", flexWrap: "wrap" },
     ".hero .boton.secundario": { backgroundColor: "rgba(255,255,255,0.12)", color: "#fff", border: "0" },
     ".hero .boton.secundario:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
 
@@ -1138,22 +1163,22 @@ export function buildComponents(): CssEnJs {
       flexDirection: "column",
       alignItems: "flex-start",
       minHeight: "154px",
-      padding: "20px",
+      padding: "var(--esp-5)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "11px",
+      borderRadius: "var(--radio)",
       backgroundColor: "var(--color-superficie)",
       color: "var(--color-texto)",
       textDecoration: "none",
-      transition: "border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease",
+      transition: "border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease",
     },
     ".tarjeta-accion:hover": {
-      borderColor: "var(--color-azul)",
-      boxShadow: "0 4px 14px rgba(42,120,214,0.15)",
+      borderColor: "var(--color-azul-oscuro)",
+      backgroundColor: "var(--color-gris-fondo)",
       transform: "translateY(-1px)",
     },
-    ".tarjeta-accion .insignia-icono": { marginBottom: "14px" },
-    ".tarjeta-accion strong": { fontSize: "14px", fontWeight: "600" },
-    ".tarjeta-accion small": { maxWidth: "260px", marginTop: "7px", color: "var(--color-tenue)", fontSize: "12.5px", lineHeight: "1.5" },
+    ".tarjeta-accion .insignia-icono": { marginBottom: "var(--esp-4)" },
+    ".tarjeta-accion strong": { fontSize: "var(--t-cuerpo)", fontWeight: "600" },
+    ".tarjeta-accion small": { maxWidth: "260px", marginTop: "var(--esp-2)", color: "var(--color-tenue)", fontSize: "var(--t-menor)", lineHeight: "1.5" },
 
     /* ---------------------------------------------------------------
      * Modal -- superpuesto de pantalla completa + panel centrado.
@@ -1169,13 +1194,13 @@ export function buildComponents(): CssEnJs {
       alignItems: "center",
       justifyContent: "center",
       zIndex: "var(--z-modal)",
-      padding: "20px",
+      padding: "var(--esp-5)",
     },
     ".modal.visible": { display: "flex" },
     ".modal-panel": {
       backgroundColor: "var(--color-superficie)",
-      borderRadius: "12px",
-      padding: "26px 28px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-5) var(--esp-6)",
       maxWidth: "620px",
       width: "100%",
       maxHeight: "82vh",
@@ -1183,18 +1208,18 @@ export function buildComponents(): CssEnJs {
       boxShadow: "0 22px 60px rgba(4, 20, 36, 0.4)",
       containerType: "inline-size",
     },
-    ".modal-panel h3": { margin: "0 0 12px", fontSize: "17px", color: "var(--color-titulo)" },
+    ".modal-panel h3": { margin: "0 0 var(--esp-3)", fontSize: "var(--t-lead)", color: "var(--color-titulo)" },
     ".modal-panel .cerrar": {
-      marginTop: "16px",
-      padding: "10px 18px",
+      marginTop: "var(--esp-4)",
+      padding: "var(--esp-3) var(--esp-4)",
       border: "0",
-      borderRadius: "8px",
+      borderRadius: "var(--radio)",
       backgroundColor: "var(--color-azul)",
       color: "#fff",
       fontWeight: "600",
       cursor: "pointer",
     },
-    ".modal-acciones": { display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "18px" },
+    ".modal-acciones": { display: "flex", justifyContent: "flex-end", gap: "var(--esp-3)", marginTop: "var(--esp-4)" },
 
     /* Vista previa de documentos -- .modal-panel con una imagen o un
      * PDF embebido (iframe) en vez de texto. El JS vive en `/js`
@@ -1202,7 +1227,7 @@ export function buildComponents(): CssEnJs {
     ".vista-previa-panel": { padding: "0", maxWidth: "900px", display: "flex", flexDirection: "column" },
     ".vista-previa-panel img": { display: "block", width: "100%", maxHeight: "80vh", objectFit: "contain" },
     ".vista-previa-panel iframe": { width: "100%", height: "75vh", border: "0" },
-    ".vista-previa-panel .cerrar": { margin: "12px", alignSelf: "flex-end" },
+    ".vista-previa-panel .cerrar": { margin: "var(--esp-3)", alignSelf: "flex-end" },
 
     /* ---------------------------------------------------------------
      * Toast -- notificacion flotante que aparece y se retira sola.
@@ -1215,20 +1240,20 @@ export function buildComponents(): CssEnJs {
       right: "20px",
       display: "flex",
       flexDirection: "column",
-      gap: "10px",
+      gap: "var(--esp-3)",
       zIndex: "var(--z-toast)",
       maxWidth: "360px",
     },
     ".toast": {
       display: "flex",
       alignItems: "center",
-      gap: "10px",
+      gap: "var(--esp-3)",
       minWidth: "220px",
-      padding: "12px 16px",
-      borderRadius: "8px",
+      padding: "var(--esp-3) var(--esp-4)",
+      borderRadius: "var(--radio)",
       backgroundColor: "var(--color-navy)",
       color: "#fff",
-      fontSize: "13.5px",
+      fontSize: "var(--t-cuerpo)",
       boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
       animation: "santacorina-toast-in 0.18s ease",
     },
@@ -1242,7 +1267,7 @@ export function buildComponents(): CssEnJs {
       color: "inherit",
       opacity: "0.75",
       cursor: "pointer",
-      fontSize: "15px",
+      fontSize: "var(--t-cuerpo)",
       lineHeight: "1",
       padding: "0",
     },
@@ -1263,19 +1288,19 @@ export function buildComponents(): CssEnJs {
       margin: "0",
       padding: "0",
       display: "flex",
-      gap: "8px",
+      gap: "var(--esp-2)",
       flexWrap: "wrap",
       alignItems: "center",
     },
     ".stepper-paso": {
       display: "flex",
       alignItems: "center",
-      gap: "8px",
-      padding: "9px 15px",
-      borderRadius: "999px",
+      gap: "var(--esp-2)",
+      padding: "var(--esp-2) var(--esp-4)",
+      borderRadius: "var(--radio-pastilla)",
       backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
-      fontSize: "13px",
+      fontSize: "var(--t-cuerpo)",
       color: "var(--color-tenue)",
     },
     ".stepper-paso .num": {
@@ -1286,7 +1311,7 @@ export function buildComponents(): CssEnJs {
       color: "var(--color-tenue)",
       display: "grid",
       placeItems: "center",
-      fontSize: "12px",
+      fontSize: "var(--t-menor)",
       fontWeight: "700",
       flex: "none",
     },
@@ -1320,8 +1345,8 @@ export function buildComponents(): CssEnJs {
     ".acciones": {
       display: "flex",
       justifyContent: "space-between",
-      gap: "10px",
-      marginTop: "22px",
+      gap: "var(--esp-3)",
+      marginTop: "var(--esp-5)",
       flexWrap: "wrap",
     },
 
@@ -1338,12 +1363,12 @@ export function buildComponents(): CssEnJs {
       padding: "0",
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
-      gap: "12px",
+      gap: "var(--esp-3)",
     },
     ".rastreador-item": {
       border: "1px solid var(--color-borde)",
-      borderRadius: "10px",
-      padding: "13px 14px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-3) var(--esp-4)",
       backgroundColor: "var(--color-superficie)",
     },
     ".rastreador-item .n": {
@@ -1354,30 +1379,30 @@ export function buildComponents(): CssEnJs {
       borderRadius: "50%",
       backgroundColor: "var(--color-gris-fondo)",
       color: "var(--color-tenue)",
-      fontSize: "12px",
+      fontSize: "var(--t-menor)",
       fontWeight: "700",
-      marginBottom: "8px",
+      marginBottom: "var(--esp-2)",
     },
     ".rastreador-item .titulo": {
       display: "block",
       fontWeight: "600",
       color: "var(--color-titulo)",
-      fontSize: "13.5px",
-      marginBottom: "5px",
+      fontSize: "var(--t-cuerpo)",
+      marginBottom: "var(--esp-1)",
     },
-    ".rastreador-item .descripcion": { display: "block", fontSize: "12.5px", color: "var(--color-tenue)", lineHeight: "1.5" },
+    ".rastreador-item .descripcion": { display: "block", fontSize: "var(--t-menor)", color: "var(--color-tenue)", lineHeight: "1.5" },
     ".rastreador-item .responsable": {
       display: "inline-block",
-      marginTop: "8px",
-      fontSize: "11.5px",
+      marginTop: "var(--esp-2)",
+      fontSize: "var(--t-menor)",
       color: "var(--color-tenue)",
       backgroundColor: "var(--color-gris-fondo)",
-      padding: "2px 8px",
-      borderRadius: "999px",
+      padding: "var(--esp-1) var(--esp-2)",
+      borderRadius: "var(--radio-pastilla)",
     },
     ".rastreador-item.hecho": { borderColor: "#bfe3ce", backgroundColor: "#f4faf6" },
     ".rastreador-item.hecho .n": { backgroundColor: "var(--color-verde)", color: "#fff" },
-    ".rastreador-item.actual": { borderColor: "var(--color-azul)", boxShadow: "0 0 0 3px rgba(42,120,214,0.13)" },
+    ".rastreador-item.actual": { borderColor: "var(--color-azul)", borderLeftWidth: "4px" },
     ".rastreador-item.actual .n": { backgroundColor: "var(--color-azul)", color: "#fff" },
     ".rastreador-item.pendiente": { opacity: "0.62" },
 
@@ -1387,25 +1412,25 @@ export function buildComponents(): CssEnJs {
      * rendicion_solicitud, revision_solicitud, solicitud_detalle,
      * solicitud_form). Siempre va junto a `.luz`, que ya existe.
      * ------------------------------------------------------------- */
-    ".validacion": { display: "flex", gap: "13px", padding: "14px 0", borderBottom: "1px solid var(--color-borde)" },
+    ".validacion": { display: "flex", gap: "var(--esp-3)", padding: "var(--esp-4) 0", borderBottom: "1px solid var(--color-borde)" },
     ".validacion:last-child": { borderBottom: "0" },
     ".validacion-txt": { flex: "1", minWidth: "0" },
-    ".validacion-txt h4": { margin: "0 0 3px", fontSize: "14px", color: "var(--color-titulo)" },
-    ".validacion-txt p": { margin: "0", fontSize: "13.5px", color: "var(--color-tenue)" },
-    ".validacion-txt ul": { margin: "7px 0 0", paddingLeft: "19px", fontSize: "13px", color: "var(--color-tenue)" },
+    ".validacion-txt h4": { margin: "0 0 var(--esp-1)", fontSize: "var(--t-cuerpo)", color: "var(--color-titulo)" },
+    ".validacion-txt p": { margin: "0", fontSize: "var(--t-cuerpo)", color: "var(--color-tenue)" },
+    ".validacion-txt ul": { margin: "var(--esp-2) 0 0", paddingLeft: "19px", fontSize: "var(--t-cuerpo)", color: "var(--color-tenue)" },
 
     /* Detalle tecnico -- trasladado de portal.css:63-67, sobre
        `<details>` nativo (mismo criterio que `.acordeon`: el navegador
        resuelve abrir/cerrar), pensado para ir dentro de `.validacion-txt`. */
-    ".detalle-tecnico": { marginTop: "8px", fontSize: "12.5px" },
+    ".detalle-tecnico": { marginTop: "var(--esp-2)", fontSize: "var(--t-menor)" },
     ".detalle-tecnico summary": { cursor: "pointer", color: "var(--color-azul)" },
     ".detalle-tecnico pre": {
       backgroundColor: "var(--color-gris-fondo)",
-      padding: "10px",
-      borderRadius: "7px",
+      padding: "var(--esp-3)",
+      borderRadius: "var(--radio)",
       overflowX: "auto",
-      margin: "7px 0 0",
-      fontSize: "12px",
+      margin: "var(--esp-2) 0 0",
+      fontSize: "var(--t-menor)",
     },
 
     /* ---------------------------------------------------------------
@@ -1416,16 +1441,16 @@ export function buildComponents(): CssEnJs {
     ".total-caja": {
       backgroundColor: "var(--color-navy)",
       color: "#fff",
-      borderRadius: "10px",
-      padding: "16px 20px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-4) var(--esp-5)",
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      gap: "14px",
+      gap: "var(--esp-4)",
       flexWrap: "wrap",
     },
-    ".total-caja span": { fontSize: "13px", opacity: "0.82" },
-    ".total-caja strong": { fontSize: "25px", fontWeight: "700" },
+    ".total-caja span": { fontSize: "var(--t-cuerpo)", opacity: "0.82" },
+    ".total-caja strong": { fontSize: "var(--t-titulo)", fontWeight: "700" },
 
     /* Columna ancha -- para usar dentro de .columnas/.fila/.masonry
        cuando un item debe ocupar todo el ancho de la grilla, en vez de
@@ -1439,13 +1464,13 @@ export function buildComponents(): CssEnJs {
      * ------------------------------------------------------------- */
     ".barra-progreso": {
       height: "7px",
-      borderRadius: "999px",
+      borderRadius: "var(--radio-pastilla)",
       backgroundColor: "#e8ebef",
       overflow: "hidden",
     },
     ".barra-progreso .relleno": {
       height: "100%",
-      borderRadius: "999px",
+      borderRadius: "var(--radio-pastilla)",
       backgroundColor: "var(--color-azul)",
     },
     ".barra-progreso .relleno.alerta": { backgroundColor: "var(--color-naranjo)" },
@@ -1456,10 +1481,10 @@ export function buildComponents(): CssEnJs {
      * establecimientos). `.activo` en vez de `.elegido`: mismo nombre de
      * estado que usa `.stepper-paso`.
      * ------------------------------------------------------------- */
-    ".tabs": { display: "inline-flex", gap: "4px", fontSize: "13px" },
+    ".tabs": { display: "inline-flex", gap: "var(--esp-1)", fontSize: "var(--t-cuerpo)" },
     ".tabs a, .tabs button": {
-      padding: "4px 11px",
-      borderRadius: "999px",
+      padding: "var(--esp-1) var(--esp-3)",
+      borderRadius: "var(--radio-pastilla)",
       color: "var(--color-tenue)",
       border: "1px solid transparent",
       backgroundColor: "transparent",
@@ -1489,7 +1514,7 @@ export function buildComponents(): CssEnJs {
      * la vez" que `.tab-panel.activo`. El JS vive en `/js`
      * (`iniciarCarruseles`) -- sin autoplay por defecto, ver README.
      * ------------------------------------------------------------- */
-    ".carousel": { position: "relative", overflow: "hidden", borderRadius: "11px" },
+    ".carousel": { position: "relative", overflow: "hidden", borderRadius: "var(--radio)" },
     ".carousel-pista": { display: "flex", transition: "transform 0.25s ease" },
     ".carousel-slide": { flex: "0 0 100%", minWidth: "0" },
     ".carousel-controles button": {
@@ -1506,7 +1531,7 @@ export function buildComponents(): CssEnJs {
       cursor: "pointer",
       display: "grid",
       placeItems: "center",
-      fontSize: "16px",
+      fontSize: "var(--t-lead)",
     },
     ".carousel-controles button:hover": { backgroundColor: "rgba(12,45,74,0.75)" },
     ".carousel-anterior": { left: "10px" },
@@ -1518,7 +1543,7 @@ export function buildComponents(): CssEnJs {
       transform: "translateX(-50%)",
       zIndex: "var(--z-flotante)",
       display: "flex",
-      gap: "6px",
+      gap: "var(--esp-2)",
     },
     ".carousel-indicadores button": {
       width: "8px",
@@ -1544,9 +1569,9 @@ export function buildComponents(): CssEnJs {
       transform: "translateX(-50%)",
       backgroundColor: "var(--color-navy)",
       color: "#fff",
-      padding: "6px 10px",
-      borderRadius: "6px",
-      fontSize: "12px",
+      padding: "var(--esp-2) var(--esp-3)",
+      borderRadius: "var(--radio)",
+      fontSize: "var(--t-menor)",
       maxWidth: "220px",
       width: "max-content",
       textAlign: "center",
@@ -1578,10 +1603,10 @@ export function buildComponents(): CssEnJs {
       display: "flex",
       flexWrap: "wrap",
       alignItems: "center",
-      gap: "6px",
-      fontSize: "13px",
+      gap: "var(--esp-2)",
+      fontSize: "var(--t-cuerpo)",
       color: "var(--color-tenue)",
-      margin: "0 0 14px",
+      margin: "0 0 var(--esp-4)",
     },
     ".breadcrumb a": { color: "var(--color-azul-texto)" },
     ".breadcrumb a:hover": { textDecoration: "underline" },
@@ -1594,13 +1619,14 @@ export function buildComponents(): CssEnJs {
      * ------------------------------------------------------------- */
     ".skeleton": {
       backgroundColor: "var(--color-gris-fondo)",
+      // El degradado ES el barrido del skeleton (la animacion de carga), no un fondo.
       backgroundImage:
-        "linear-gradient(90deg, var(--color-gris-fondo) 25%, #e4e9ee 37%, var(--color-gris-fondo) 63%)",
+        "linear-gradient(90deg, var(--color-gris-fondo) 25%, #e4e9ee 37%, var(--color-gris-fondo) 63%)", // taste-skill-ignore
       backgroundSize: "400% 100%",
       animation: "santacorina-skeleton 1.4s ease infinite",
-      borderRadius: "6px",
+      borderRadius: "var(--radio)",
     },
-    ".skeleton-texto": { height: "14px", marginBottom: "8px" },
+    ".skeleton-texto": { height: "14px", marginBottom: "var(--esp-2)" },
     ".skeleton-texto.corto": { width: "40%" },
     "@keyframes santacorina-skeleton": {
       "0%": { backgroundPosition: "100% 50%" },
@@ -1623,7 +1649,7 @@ export function buildComponents(): CssEnJs {
       height: "22px",
       backgroundColor: "var(--color-gris-fondo)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "999px",
+      borderRadius: "var(--radio-pastilla)",
       transition: "background-color 0.15s ease",
       flex: "none",
     },
@@ -1632,7 +1658,7 @@ export function buildComponents(): CssEnJs {
       display: "block",
       width: "16px",
       height: "16px",
-      margin: "2px",
+      margin: "var(--esp-1)",
       borderRadius: "50%",
       backgroundColor: "var(--color-superficie)",
       boxShadow: "0 1px 2px rgba(12, 45, 74, 0.25)",
@@ -1648,10 +1674,10 @@ export function buildComponents(): CssEnJs {
     ".chip": {
       display: "inline-flex",
       alignItems: "center",
-      gap: "6px",
-      padding: "3px 6px 3px 10px",
-      borderRadius: "999px",
-      fontSize: "12px",
+      gap: "var(--esp-2)",
+      padding: "var(--esp-1) var(--esp-2) var(--esp-1) var(--esp-3)",
+      borderRadius: "var(--radio-pastilla)",
+      fontSize: "var(--t-menor)",
       fontWeight: "600",
       backgroundColor: "var(--color-gris-fondo)",
       color: "var(--color-gris-texto)",
@@ -1671,7 +1697,7 @@ export function buildComponents(): CssEnJs {
       cursor: "pointer",
       backgroundColor: "rgba(0,0,0,0.08)",
       color: "inherit",
-      fontSize: "11px",
+      fontSize: "var(--t-menor)",
       lineHeight: "1",
     },
     ".chip .quitar:hover": { backgroundColor: "rgba(0,0,0,0.16)" },
@@ -1687,12 +1713,12 @@ export function buildComponents(): CssEnJs {
       borderRadius: "50%",
       backgroundColor: "var(--color-gris-fondo)",
       color: "var(--color-titulo)",
-      fontSize: "13px",
+      fontSize: "var(--t-cuerpo)",
       fontWeight: "700",
       flex: "none",
     },
-    ".avatar[data-tamano='chico']": { width: "26px", height: "26px", fontSize: "11px" },
-    ".avatar[data-tamano='grande']": { width: "48px", height: "48px", fontSize: "16px" },
+    ".avatar[data-tamano='chico']": { width: "26px", height: "26px", fontSize: "var(--t-menor)" },
+    ".avatar[data-tamano='grande']": { width: "48px", height: "48px", fontSize: "var(--t-lead)" },
     ".avatar[data-tono='azul']": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)" },
     ".avatar[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "var(--color-verde-texto)" },
     ".avatar[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "var(--color-naranjo-texto)" },
@@ -1712,12 +1738,12 @@ export function buildComponents(): CssEnJs {
       flex: "none",
       width: "36px",
       height: "36px",
-      borderRadius: "8px",
+      borderRadius: "var(--radio)",
       backgroundColor: "var(--color-gris-fondo)",
       color: "var(--color-tenue)",
     },
-    ".insignia-icono[data-tamano='chica']": { width: "28px", height: "28px", borderRadius: "6px" },
-    ".insignia-icono[data-tamano='grande']": { width: "44px", height: "44px", borderRadius: "10px" },
+    ".insignia-icono[data-tamano='chica']": { width: "28px", height: "28px", borderRadius: "var(--radio)" },
+    ".insignia-icono[data-tamano='grande']": { width: "44px", height: "44px", borderRadius: "var(--radio)" },
     ".insignia-icono[data-tono='azul']": { backgroundColor: "var(--color-azul-fondo)", color: "var(--color-azul-texto)" },
     ".insignia-icono[data-tono='verde']": { backgroundColor: "var(--color-verde-fondo)", color: "var(--color-verde-texto)" },
     ".insignia-icono[data-tono='naranjo']": { backgroundColor: "var(--color-naranjo-fondo)", color: "var(--color-naranjo-texto)" },
@@ -1729,9 +1755,9 @@ export function buildComponents(): CssEnJs {
     ".divisor": {
       display: "flex",
       alignItems: "center",
-      gap: "12px",
-      margin: "18px 0",
-      fontSize: "12.5px",
+      gap: "var(--esp-3)",
+      margin: "var(--esp-4) 0",
+      fontSize: "var(--t-menor)",
       color: "var(--color-tenue)",
     },
     ".divisor::before, .divisor::after": {
@@ -1746,15 +1772,15 @@ export function buildComponents(): CssEnJs {
      * ------------------------------------------------------------- */
     ".acordeon": {
       border: "1px solid var(--color-borde)",
-      borderRadius: "11px",
-      marginBottom: "10px",
+      borderRadius: "var(--radio)",
+      marginBottom: "var(--esp-3)",
       overflow: "hidden",
     },
     ".acordeon summary": {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      padding: "14px 18px",
+      padding: "var(--esp-4) var(--esp-4)",
       cursor: "pointer",
       fontWeight: "600",
       color: "var(--color-titulo)",
@@ -1773,22 +1799,22 @@ export function buildComponents(): CssEnJs {
     },
     ".acordeon[open] summary::after": { transform: "rotate(225deg)" },
     ".acordeon .cuerpo": {
-      padding: "0 18px 16px",
-      fontSize: "14px",
+      padding: "0 var(--esp-4) var(--esp-4)",
+      fontSize: "var(--t-cuerpo)",
       color: "var(--color-texto)",
     },
 
     /* ---------------------------------------------------------------
      * Paginacion -- mismo estado `.activo` que `.tabs`/`.stepper-paso`.
      * ------------------------------------------------------------- */
-    ".paginacion": { display: "inline-flex", gap: "4px", fontSize: "13px" },
+    ".paginacion": { display: "inline-flex", gap: "var(--esp-1)", fontSize: "var(--t-cuerpo)" },
     ".paginacion a, .paginacion button": {
       display: "grid",
       placeItems: "center",
       minWidth: "30px",
       height: "30px",
-      padding: "0 8px",
-      borderRadius: "7px",
+      padding: "0 var(--esp-2)",
+      borderRadius: "var(--radio)",
       border: "1px solid var(--color-borde)",
       backgroundColor: "var(--color-superficie)",
       color: "var(--color-tenue)",
@@ -1817,7 +1843,7 @@ export function buildComponents(): CssEnJs {
       justifyContent: "center",
       width: "30px",
       height: "30px",
-      borderRadius: "8px",
+      borderRadius: "var(--radio)",
       color: "var(--color-tenue)",
     },
     ".menu summary::-webkit-details-marker": { display: "none" },
@@ -1831,9 +1857,9 @@ export function buildComponents(): CssEnJs {
       minWidth: "180px",
       backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "10px",
+      borderRadius: "var(--radio)",
       boxShadow: "0 10px 30px rgba(12, 45, 74, 0.18)",
-      padding: "6px",
+      padding: "var(--esp-2)",
     },
     /* `data-posicion="arriba"` lo pone `posicionarFlotante()` (JS en
      * `/js`, `flotante.ts`) cuando no hay espacio debajo del ancla --
@@ -1844,19 +1870,19 @@ export function buildComponents(): CssEnJs {
       display: "block",
       width: "100%",
       textAlign: "left",
-      padding: "8px 10px",
-      borderRadius: "7px",
+      padding: "var(--esp-2) var(--esp-3)",
+      borderRadius: "var(--radio)",
       border: "0",
       backgroundColor: "transparent",
       color: "var(--color-texto)",
-      fontSize: "13.5px",
+      fontSize: "var(--t-cuerpo)",
       fontFamily: "inherit",
       cursor: "pointer",
       textDecoration: "none",
     },
     ".menu-panel a:hover, .menu-panel button:hover": { backgroundColor: "var(--color-gris-fondo)" },
     ".menu-panel button.peligro, .menu-panel a.peligro": { color: "var(--color-rojo-texto)" },
-    ".menu-panel hr": { border: "0", borderTop: "1px solid var(--color-borde)", margin: "6px 0" },
+    ".menu-panel hr": { border: "0", borderTop: "1px solid var(--color-borde)", margin: "var(--esp-2) 0" },
 
     /* ---------------------------------------------------------------
      * Calendario -- selector de fecha en grilla visual, mismo patron de
@@ -1874,9 +1900,9 @@ export function buildComponents(): CssEnJs {
       width: "260px",
       backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "10px",
+      borderRadius: "var(--radio)",
       boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
-      padding: "12px",
+      padding: "var(--esp-3)",
     },
     ".calendario-panel.visible": { display: "block" },
     ".calendario-panel[data-posicion='arriba']": { top: "auto", bottom: "calc(100% + 4px)" },
@@ -1884,10 +1910,10 @@ export function buildComponents(): CssEnJs {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      marginBottom: "8px",
+      marginBottom: "var(--esp-2)",
       fontWeight: "600",
       color: "var(--color-titulo)",
-      fontSize: "13.5px",
+      fontSize: "var(--t-cuerpo)",
       textTransform: "capitalize",
     },
     ".calendario-nav": {
@@ -1895,24 +1921,24 @@ export function buildComponents(): CssEnJs {
       backgroundColor: "transparent",
       cursor: "pointer",
       color: "var(--color-tenue)",
-      fontSize: "15px",
-      padding: "4px 8px",
-      borderRadius: "6px",
+      fontSize: "var(--t-cuerpo)",
+      padding: "var(--esp-1) var(--esp-2)",
+      borderRadius: "var(--radio)",
     },
     ".calendario-nav:hover": { backgroundColor: "var(--color-gris-fondo)" },
-    ".calendario-grilla": { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "2px", fontSize: "12.5px" },
+    ".calendario-grilla": { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "var(--esp-1)", fontSize: "var(--t-menor)" },
     ".calendario-dow": {
       textAlign: "center",
       color: "var(--color-tenue)",
-      fontSize: "11px",
-      padding: "4px 0",
+      fontSize: "var(--t-menor)",
+      padding: "var(--esp-1) 0",
       fontWeight: "600",
     },
     ".calendario-dia": {
       display: "grid",
       placeItems: "center",
       height: "30px",
-      borderRadius: "7px",
+      borderRadius: "var(--radio)",
       cursor: "pointer",
       color: "var(--color-texto)",
       border: "0",
@@ -1942,15 +1968,15 @@ export function buildComponents(): CssEnJs {
       width: "260px",
       backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "10px",
+      borderRadius: "var(--radio)",
       boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
-      padding: "14px 16px",
-      fontSize: "13.5px",
+      padding: "var(--esp-4) var(--esp-4)",
+      fontSize: "var(--t-cuerpo)",
       color: "var(--color-texto)",
     },
     ".popover-panel.visible": { display: "block" },
     ".popover-panel[data-posicion='arriba']": { top: "auto", bottom: "calc(100% + 8px)" },
-    ".popover-panel .titulo": { display: "block", fontWeight: "700", color: "var(--color-titulo)", marginBottom: "4px" },
+    ".popover-panel .titulo": { display: "block", fontWeight: "700", color: "var(--color-titulo)", marginBottom: "var(--esp-1)" },
 
     /* ---------------------------------------------------------------
      * Toggletip -- como `[data-tooltip]`, pero se abre con clic/tap en
@@ -1970,10 +1996,10 @@ export function buildComponents(): CssEnJs {
       width: "220px",
       backgroundColor: "var(--color-navy)",
       color: "#fff",
-      borderRadius: "8px",
+      borderRadius: "var(--radio)",
       boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
-      padding: "10px 12px",
-      fontSize: "12.5px",
+      padding: "var(--esp-3) var(--esp-3)",
+      fontSize: "var(--t-menor)",
       lineHeight: "1.5",
     },
     ".toggletip-panel.visible": { display: "block" },
@@ -2063,7 +2089,7 @@ export function buildComponents(): CssEnJs {
       transform: "translateX(100%)",
       transition: "transform 0.22s ease",
       overflowY: "auto",
-      padding: "22px 24px",
+      padding: "var(--esp-5) var(--esp-5)",
       containerType: "inline-size",
     },
     ".cajon.abierto": { transform: "translateX(0)" },
@@ -2079,9 +2105,9 @@ export function buildComponents(): CssEnJs {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom: "16px",
+      marginBottom: "var(--esp-4)",
     },
-    ".cajon-cabecera h3": { margin: "0", fontSize: "16px", color: "var(--color-titulo)" },
+    ".cajon-cabecera h3": { margin: "0", fontSize: "var(--t-lead)", color: "var(--color-titulo)" },
 
     /* ---------------------------------------------------------------
      * Combobox -- select con autocompletado. Conexion real: elegir uno
@@ -2102,19 +2128,19 @@ export function buildComponents(): CssEnJs {
       overflowY: "auto",
       backgroundColor: "var(--color-superficie)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "10px",
+      borderRadius: "var(--radio)",
       boxShadow: "0 10px 30px rgba(12,45,74,0.18)",
-      padding: "6px",
+      padding: "var(--esp-2)",
       margin: "0",
       listStyle: "none",
     },
     ".combobox-opciones.visible": { display: "block" },
     ".combobox-opciones[data-posicion='arriba']": { top: "auto", bottom: "calc(100% + 4px)" },
     ".combobox-opciones li": {
-      padding: "8px 10px",
-      borderRadius: "7px",
+      padding: "var(--esp-2) var(--esp-3)",
+      borderRadius: "var(--radio)",
       cursor: "pointer",
-      fontSize: "14px",
+      fontSize: "var(--t-cuerpo)",
     },
     ".combobox-opciones li:hover, .combobox-opciones li.resaltada": { backgroundColor: "var(--color-gris-fondo)" },
     ".combobox-opciones li.sin-resultados": { color: "var(--color-tenue)", cursor: "default" },
@@ -2126,19 +2152,19 @@ export function buildComponents(): CssEnJs {
      * (eso lo sigue haciendo el backend). El JS vive en `/js`
      * (`iniciarMedidorClave`).
      * ------------------------------------------------------------- */
-    ".medidor-clave": { marginTop: "8px" },
-    ".medidor-clave .segmentos": { display: "flex", gap: "4px", marginBottom: "5px" },
+    ".medidor-clave": { marginTop: "var(--esp-2)" },
+    ".medidor-clave .segmentos": { display: "flex", gap: "var(--esp-1)", marginBottom: "var(--esp-1)" },
     ".medidor-clave .segmentos span": {
       height: "4px",
       flex: "1",
-      borderRadius: "999px",
+      borderRadius: "var(--radio-pastilla)",
       backgroundColor: "var(--color-gris-fondo)",
     },
     ".medidor-clave .segmentos span.activo.debil": { backgroundColor: "var(--color-rojo)" },
     ".medidor-clave .segmentos span.activo.regular": { backgroundColor: "var(--color-naranjo)" },
     ".medidor-clave .segmentos span.activo.buena": { backgroundColor: "#cbb400" },
     ".medidor-clave .segmentos span.activo.fuerte": { backgroundColor: "var(--color-verde)" },
-    ".medidor-clave .etiqueta": { fontSize: "12px", color: "var(--color-tenue)" },
+    ".medidor-clave .etiqueta": { fontSize: "var(--t-menor)", color: "var(--color-tenue)" },
 
     /* ---------------------------------------------------------------
      * Insignia -- punto o numero sobre un padre `position:relative`
@@ -2152,11 +2178,11 @@ export function buildComponents(): CssEnJs {
       placeItems: "center",
       minWidth: "17px",
       height: "17px",
-      padding: "0 4px",
-      borderRadius: "999px",
+      padding: "0 var(--esp-1)",
+      borderRadius: "var(--radio-pastilla)",
       backgroundColor: "var(--color-rojo)",
       color: "#fff",
-      fontSize: "10.5px",
+      fontSize: "var(--t-menor)",
       fontWeight: "700",
       lineHeight: "1",
       border: "2px solid #fff",
@@ -2271,7 +2297,7 @@ export function buildComponents(): CssEnJs {
     /* Ocho mas, agregados preventivos sobre conceptos reales de sgp (ver
        CHANGELOG 0.9.0 para la evidencia de cada uno: ＋ "Agregar
        productos" en solicitud_form.html, año cerrado/solo lectura en
-       periodo.py, filtros de listado, ✕ usado para "eliminar fila"
+       periodo.py, filtros de listado, ✕ usado para "eliminar fila" taste-skill-ignore
        cuando ya significa "cerrar" en otra parte, etc). */
     ".icono-agregar": {
       "--icono-svg":
@@ -2316,16 +2342,16 @@ export function buildComponents(): CssEnJs {
     ".pildora-archivo": {
       display: "inline-flex",
       alignItems: "center",
-      gap: "5px",
+      gap: "var(--esp-1)",
       width: "fit-content",
       border: "1px solid var(--color-borde)",
-      borderRadius: "6px",
-      padding: "5px 9px",
+      borderRadius: "var(--radio)",
+      padding: "var(--esp-1) var(--esp-2)",
       backgroundColor: "var(--color-superficie)",
       color: "var(--color-azul-texto)",
       textDecoration: "none",
       cursor: "pointer",
-      fontSize: "12px",
+      fontSize: "var(--t-menor)",
       lineHeight: "1.2",
       fontFamily: "inherit",
     },
@@ -2343,26 +2369,26 @@ export function buildComponents(): CssEnJs {
     ".zona-arrastre": {
       display: "flex",
       alignItems: "center",
-      gap: "10px",
-      padding: "10px 14px",
+      gap: "var(--esp-3)",
+      padding: "var(--esp-3) var(--esp-4)",
       border: "1px dashed var(--color-borde)",
-      borderRadius: "8px",
+      borderRadius: "var(--radio)",
     },
     ".zona-arrastre.activa": { borderColor: "var(--color-azul)", backgroundColor: "var(--color-azul-fondo)" },
-    ".zona-arrastre .pista": { fontSize: "13px", color: "var(--color-tenue)" },
-    ".lista-documentos": { display: "flex", flexDirection: "column", gap: "8px" },
+    ".zona-arrastre .pista": { fontSize: "var(--t-cuerpo)", color: "var(--color-tenue)" },
+    ".lista-documentos": { display: "flex", flexDirection: "column", gap: "var(--esp-2)" },
     ".documento-fila": {
       display: "grid",
       gridTemplateColumns: "90px minmax(0, 1fr) auto auto",
       alignItems: "center",
-      gap: "8px",
-      padding: "8px",
+      gap: "var(--esp-2)",
+      padding: "var(--esp-2)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "7px",
+      borderRadius: "var(--radio)",
       backgroundColor: "var(--color-superficie)",
     },
-    ".documento-tipo": { color: "var(--color-tenue)", fontSize: "11px", fontWeight: "800" },
-    ".documento-nombre": { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--color-texto)", fontSize: "13px" },
+    ".documento-tipo": { color: "var(--color-tenue)", fontSize: "var(--t-menor)", fontWeight: "800" },
+    ".documento-nombre": { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--color-texto)", fontSize: "var(--t-cuerpo)" },
 
     /* ---------------------------------------------------------------
      * Cola de adjuntos -- igual armazon que `.documento-fila`, pero
@@ -2376,16 +2402,16 @@ export function buildComponents(): CssEnJs {
       display: "grid",
       gridTemplateColumns: "minmax(0, 1fr) 90px auto",
       alignItems: "center",
-      gap: "10px",
-      padding: "8px",
+      gap: "var(--esp-3)",
+      padding: "var(--esp-2)",
       border: "1px solid var(--color-borde)",
-      borderRadius: "7px",
+      borderRadius: "var(--radio)",
       backgroundColor: "var(--color-superficie)",
-      marginBottom: "8px",
-      fontSize: "13px",
+      marginBottom: "var(--esp-2)",
+      fontSize: "var(--t-cuerpo)",
     },
     ".adjunto-nombre": { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "var(--color-texto)" },
-    ".adjunto-progreso": { height: "6px", borderRadius: "3px", backgroundColor: "var(--color-gris-fondo)", overflow: "hidden" },
+    ".adjunto-progreso": { height: "6px", borderRadius: "var(--radio)", backgroundColor: "var(--color-gris-fondo)", overflow: "hidden" },
     ".adjunto-progreso > span": { display: "block", height: "100%", backgroundColor: "var(--color-azul)", transition: "width 0.2s ease" },
     ".adjunto-fila[data-estado='error'] .adjunto-progreso": { backgroundColor: "var(--color-rojo-fondo)" },
     ".adjunto-fila[data-estado='error'] .adjunto-progreso > span": { backgroundColor: "var(--color-rojo)" },
@@ -2395,7 +2421,7 @@ export function buildComponents(): CssEnJs {
       backgroundColor: "transparent",
       color: "var(--color-azul-texto)",
       fontWeight: "600",
-      fontSize: "12.5px",
+      fontSize: "var(--t-menor)",
       cursor: "pointer",
     },
 
@@ -2407,23 +2433,23 @@ export function buildComponents(): CssEnJs {
      * de fecha para un input) -- nombre propio para no confundirlos.
      * Solo CSS: el consumidor arma la grilla con sus propios datos.
      * ------------------------------------------------------------- */
-    ".calendario-estado": { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "2px", fontSize: "12.5px" },
+    ".calendario-estado": { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "var(--esp-1)", fontSize: "var(--t-menor)" },
     ".calendario-estado-dia": {
       display: "grid",
       gridTemplateColumns: "1fr auto",
       alignContent: "space-between",
-      gap: "8px",
+      gap: "var(--esp-2)",
       minHeight: "64px",
-      padding: "8px",
+      padding: "var(--esp-2)",
       border: "0",
-      borderRadius: "7px",
+      borderRadius: "var(--radio)",
       backgroundColor: "transparent",
       color: "var(--color-texto)",
       textAlign: "left",
     },
     "button.calendario-estado-dia": { cursor: "pointer" },
     "button.calendario-estado-dia:hover": { backgroundColor: "var(--color-gris-fondo)" },
-    ".calendario-estado-dia small": { gridColumn: "1 / -1", color: "var(--color-tenue)", fontSize: "11px" },
+    ".calendario-estado-dia small": { gridColumn: "1 / -1", color: "var(--color-tenue)", fontSize: "var(--t-menor)" },
     ".punto-estado": { display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--color-gris)" },
     ".punto-estado.hecho": { backgroundColor: "var(--color-verde)" },
     ".punto-estado.en-curso": { backgroundColor: "var(--color-naranjo)" },

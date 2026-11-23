@@ -81,6 +81,40 @@ const santacorinaUI: SantacorinaPlugin = plugin.withOptions<SantacorinaUIOptions
             Object.entries(colors).map(([nombre, valor]) => [`--color-${nombre}`, valor])
           ),
           "--font-sans": fonts.sans,
+          // Escala tipografica -- misma idea que --color-* y --z-*: una
+          // sola fuente de verdad. Antes habia 16 tamanos sueltos entre
+          // 10.5px y 26px, elegidos uno por uno al escribir cada
+          // componente; esa escalera sin escalones es lo que hace que
+          // una interfaz se vea generada en vez de disenada. Son cinco y
+          // nada entremedio. Si la densidad de una pantalla pide menos
+          // cuerpo, se cambia --t-cuerpo una vez y cambia todo: por eso
+          // es una variable y no 60 literales.
+          "--t-menor": "13px",
+          "--t-cuerpo": "16px",
+          "--t-lead": "20px",
+          "--t-titulo": "26px",
+          "--t-display": "34px",
+          // Una sola esquina para todo lo rectangular (antes: 3, 4, 6, 7,
+          // 8, 9, 10, 11, 12 y 14px repartidos sin criterio). Recta por
+          // defecto. --radio-pastilla queda aparte para lo que de verdad
+          // es una pastilla o un circulo: insignias, interruptor, barra
+          // de progreso, avatar.
+          "--radio": "0",
+          "--radio-pastilla": "999px",
+          // Escala de espaciado, multiplos de 4. Antes habia 14 valores
+          // de `gap` distintos (2, 4, 5, 6, 8, 10, 12, 13, 14, 16, 18,
+          // 20, 28px) y 67 paddings distintos, con joyas como
+          // "15px 17px" y "7px 8px": nadie eligio 17px, aparecio. Un
+          // espaciado sin ritmo se nota aunque no se sepa por que, y es
+          // la otra mitad de lo que hace que una interfaz parezca
+          // promediada en vez de disenada.
+          "--esp-1": "4px",
+          "--esp-2": "8px",
+          "--esp-3": "12px",
+          "--esp-4": "16px",
+          "--esp-5": "24px",
+          "--esp-6": "32px",
+          "--esp-7": "48px",
           // Escala de z-index -- antes de 0.18.0 habia 9 literales
           // (100/200/1000/1150/1200/1300/9000/9500/9999) repartidos sin
           // ninguna relacion documentada entre si. Misma idea que
@@ -169,7 +203,7 @@ const santacorinaUI: SantacorinaPlugin = plugin.withOptions<SantacorinaUIOptions
           backgroundColor: "var(--color-fondo)",
           color: "var(--color-texto)",
           fontFamily: "var(--font-sans)",
-          fontSize: "15px",
+          fontSize: "var(--t-cuerpo)",
           lineHeight: "1.55",
         },
         a: { color: "inherit", textDecoration: "none" },
