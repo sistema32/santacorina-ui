@@ -27,6 +27,11 @@
       <button type="button" data-tema="system">Sistema</button>
       <button type="button" data-tema="dark">Oscuro</button>
     </div>
+    <div class="nav-buscar-caja">
+      <span class="icono icono-buscar"></span>
+      <input type="search" id="nav-buscar" placeholder="Buscar componente..." aria-label="Buscar en la guía">
+    </div>
+    <p class="nav-sin-resultados" id="nav-sin-resultados">Sin resultados.</p>
     <a href="index.html" class="nav-inicio">&larr; Portada / índice completo</a>
     <div class="grupo">Fundamentos</div>
     <a href="index.html#tokens">Tokens</a>
@@ -312,6 +317,85 @@
     });
   });
   marcarTemaActivo();
+
+  // Agrupa cada ".grupo" con los links que le siguen (hasta el
+  // proximo ".grupo") en un contenedor colapsable -- el HTML sigue
+  // siendo plano (grupo + links sueltos), esto solo los envuelve en
+  // tiempo de ejecucion. Estado colapsado/expandido persiste por
+  // nombre de grupo (no por pagina, asi es consistente en las 5).
+  (function () {
+    var navEl = document.getElementById("doc-nav");
+    if (!navEl) return;
+    var marcadores = Array.prototype.slice.call(navEl.querySelectorAll(".grupo"));
+    marcadores.forEach(function (marcador) {
+      var contenido = document.createElement("div");
+      contenido.className = "grupo-contenido";
+      var siguiente = marcador.nextElementSibling;
+      while (siguiente && !siguiente.classList.contains("grupo")) {
+        var actual = siguiente;
+        siguiente = siguiente.nextElementSibling;
+        contenido.appendChild(actual);
+      }
+      marcador.insertAdjacentElement("afterend", contenido);
+
+      var boton = document.createElement("button");
+      boton.type = "button";
+      boton.className = "grupo";
+      var nombre = marcador.textContent.trim();
+      boton.innerHTML = '<span class="texto"></span><span class="chevron" aria-hidden="true">&#9662;</span>';
+      boton.querySelector(".texto").textContent = nombre;
+      marcador.replaceWith(boton);
+
+      var clave = "santacorina-guia-grupo-" + nombre;
+      var colapsado = false;
+      try { colapsado = localStorage.getItem(clave) === "1"; } catch (e) {}
+      boton.setAttribute("aria-expanded", String(!colapsado));
+      contenido.hidden = colapsado;
+
+      boton.addEventListener("click", function () {
+        var expandido = boton.getAttribute("aria-expanded") === "true";
+        boton.setAttribute("aria-expanded", String(!expandido));
+        contenido.hidden = expandido;
+        try { localStorage.setItem(clave, expandido ? "1" : "0"); } catch (e) {}
+      });
+    });
+
+    function normalizarTexto(s) {
+      return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    }
+    var buscador = document.getElementById("nav-buscar");
+    var sinResultados = document.getElementById("nav-sin-resultados");
+    if (buscador) {
+      buscador.addEventListener("input", function () {
+        var texto = normalizarTexto(buscador.value.trim());
+        var algunoVisible = false;
+        navEl.querySelectorAll(".grupo-contenido").forEach(function (contenido) {
+          var boton = contenido.previousElementSibling;
+          var enlaces = Array.prototype.slice.call(contenido.querySelectorAll("a"));
+          var hayCoincidencia = false;
+          enlaces.forEach(function (a) {
+            var coincide = !texto || normalizarTexto(a.textContent).indexOf(texto) !== -1;
+            a.style.display = coincide ? "" : "none";
+            if (coincide) hayCoincidencia = true;
+          });
+          if (texto) {
+            contenido.hidden = !hayCoincidencia;
+            boton.style.display = hayCoincidencia ? "" : "none";
+            if (hayCoincidencia) boton.setAttribute("aria-expanded", "true");
+          } else {
+            boton.style.display = "";
+            var claveB = "santacorina-guia-grupo-" + boton.querySelector(".texto").textContent.trim();
+            var colapsadoGuardado = false;
+            try { colapsadoGuardado = localStorage.getItem(claveB) === "1"; } catch (e) {}
+            contenido.hidden = colapsadoGuardado;
+            boton.setAttribute("aria-expanded", String(!colapsadoGuardado));
+          }
+          if (hayCoincidencia) algunoVisible = true;
+        });
+        if (sinResultados) sinResultados.classList.toggle("visible", !!texto && !algunoVisible);
+      });
+    }
+  })();
 
   var navToggle = document.getElementById("doc-nav-toggle");
   var nav = document.getElementById("doc-nav");

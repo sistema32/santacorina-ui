@@ -1,7 +1,7 @@
   :root{
     --doc-bg: #f4f7fa; --doc-surface: #ffffff; --doc-ink: #1c2733;
     --doc-ink-dim: #5b6b7c; --doc-border: #dde4ec;
-    --doc-code-bg: #0c2d4a; --doc-code-ink: #dce6f0; --doc-nav-w: 220px;
+    --doc-code-bg: #0c2d4a; --doc-code-ink: #dce6f0; --doc-nav-w: 236px;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -30,15 +30,16 @@
   }
   .tema-selector button:hover{ background:var(--doc-bg); }
   .tema-selector button[aria-pressed="true"]{ background:var(--doc-bg); color:var(--doc-ink); font-weight:600; }
-  .doc-nav a{ display:block; padding:6px 10px; border-radius:7px; font-size:13.5px; color:var(--doc-ink-dim); text-decoration:none; }
+  .doc-nav a{ display:block; padding:7px 10px; border-radius:7px; font-size:13.5px; line-height:1.3; color:var(--doc-ink-dim); text-decoration:none; }
   .doc-nav a:hover{ background:var(--doc-bg); color:var(--doc-ink); }
+  .doc-nav a.activo{ background:var(--doc-bg); color:var(--doc-ink); font-weight:600; }
   .doc-main{ flex:1; min-width:0; padding:40px clamp(20px,4vw,56px) 80px; max-width:980px; }
-  .doc-header{ margin-bottom:36px; }
+  .doc-header{ margin-bottom:40px; }
   .doc-header .eyebrow{ font-size:11.5px; text-transform:uppercase; letter-spacing:.09em; color:var(--doc-ink-dim); font-weight:700; }
-  .doc-header h1{ margin:6px 0 10px; font-size:28px; }
+  .doc-header h1{ margin:6px 0 10px; font-size:30px; letter-spacing:-.01em; }
   .doc-header p{ margin:0; max-width:62ch; color:var(--doc-ink-dim); line-height:1.6; }
-  section.doc-sec{ margin-bottom:52px; scroll-margin-top:24px; }
-  section.doc-sec h2{ font-size:19px; margin:0 0 4px; }
+  section.doc-sec{ margin-bottom:56px; scroll-margin-top:24px; }
+  section.doc-sec h2{ font-size:20px; margin:0 0 6px; letter-spacing:-.005em; }
   section.doc-sec .uso{ font-size:13.5px; color:var(--doc-ink-dim); margin:0 0 18px; max-width:68ch; line-height:1.6; }
   .demo{ background:var(--doc-surface); border:1px solid var(--doc-border); border-radius:12px; padding:22px; margin-bottom:10px; }
   .demo-fila{ display:flex; flex-wrap:wrap; gap:12px; align-items:flex-start; }
@@ -83,8 +84,29 @@
 .icono-card .icono{ font-size:22px; }
 .icono-card .nombre{ font-size:11px; font-family:ui-monospace,Consolas,monospace; color:var(--doc-ink-dim); text-align:center; word-break:break-word; }
 
-.grupo{ text-transform:uppercase; letter-spacing:.07em; font-size:10.5px; font-weight:700; color:var(--doc-ink-dim); margin:18px 0 4px; padding:0 10px; }
+.nav-buscar-caja{ position:relative; margin:0 0 16px; }
+.nav-buscar-caja .icono{ position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:13px; color:var(--doc-ink-dim); pointer-events:none; }
+#nav-buscar{
+  width:100%; box-sizing:border-box; padding:7px 10px 7px 30px; border:1px solid var(--doc-border);
+  border-radius:8px; background:var(--doc-bg); color:var(--doc-ink); font:13px/1.3 inherit;
+}
+#nav-buscar:focus{ outline:2px solid var(--color-azul,#2a78d6); outline-offset:1px; }
+.doc-nav .grupo{
+  display:flex; align-items:center; justify-content:space-between; width:100%; gap:6px;
+  text-transform:uppercase; letter-spacing:.07em; font-size:10.5px; font-weight:700;
+  color:var(--doc-ink-dim); margin:18px 0 4px; padding:4px 10px; border:0; background:none;
+  font-family:inherit; cursor:pointer; border-radius:6px;
+}
+.doc-nav .grupo:hover{ color:var(--doc-ink); background:var(--doc-bg); }
 .doc-nav .grupo:first-of-type{ margin-top:4px; }
+.doc-nav .grupo .chevron{ font-size:9px; transition:transform .15s ease; flex:none; }
+.doc-nav .grupo[aria-expanded="false"] .chevron{ transform:rotate(-90deg); }
+.grupo-contenido[hidden]{ display:none; }
+.nav-sin-resultados{ padding:10px; font-size:12.5px; color:var(--doc-ink-dim); display:none; }
+.nav-sin-resultados.visible{ display:block; }
+@media (prefers-reduced-motion: reduce){
+  .doc-nav .grupo .chevron{ transition:none; }
+}
 .nav-inicio{ font-weight:600; color:var(--doc-ink) !important; margin-bottom:10px; }
 .uso-paginas{ margin-top:12px !important; font-size:13.5px; }
 .uso-paginas a{ color: var(--color-azul-oscuro); }
