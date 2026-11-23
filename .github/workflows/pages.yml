@@ -1,0 +1,61 @@
+name: Deploy guía a GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "guia/**"
+      - "dist/**"
+      - "src/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+      # `guia/*.html` referencia `../dist/...` via rutas relativas --
+      # se publica `guia/` y `dist/` como hermanos, igual estructura
+      # que en el repo, para que esas rutas sigan resolviendo. El
+      # `index.html` de la raiz solo redirige a `guia/index.html` (la
+      # portada real de la guia).
+      - name: Preparar sitio
+        run: |
+          mkdir -p _site
+          cp -r guia _site/guia
+          cp -r dist _site/dist
+          cat > _site/index.html <<'EOF'
+          <!doctype html>
+          <meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=guia/index.html">
+          <link rel="canonical" href="guia/index.html">
+          <p>Redirigiendo a <a href="guia/index.html">la guía</a>…</p>
+          EOF
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
