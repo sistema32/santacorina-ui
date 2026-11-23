@@ -154,25 +154,10 @@
 
 <section class="doc-sec" id="iconos">
       <h2>Íconos</h2>
-      <p class="uso">100% CSS vía <code>mask-image</code> + <code>background-color: currentColor</code> — heredan el color de texto como cualquier letra. Reemplazan los glifos sueltos (<code>✓</code>/<code>✔</code> inconsistente, <code>✕</code>, <code>→</code>) repetidos a mano en decenas de plantillas de <code>sgp</code>.</p>
+      <p class="uso">100% CSS vía <code>mask-image</code> + <code>background-color: currentColor</code> — heredan el color de texto como cualquier letra. Reemplazan los glifos sueltos (<code>✓</code>/<code>✔</code> inconsistente, <code>✕</code>, <code>→</code>) repetidos a mano en decenas de plantillas de <code>sgp</code>. Cada clase es <code>icono-&lt;nombre&gt;</code> — hacé clic en cualquiera para copiar el HTML.</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila" style="font-size:20px">
-          <span class="icono icono-check"></span>
-          <span class="icono icono-cerrar"></span>
-          <span class="icono icono-flecha-derecha"></span>
-          <span class="icono icono-chevron-izq"></span>
-          <span class="icono icono-chevron-der"></span>
-          <span class="icono icono-mas-opciones"></span>
-          <span class="icono icono-menu"></span>
-          <span class="icono icono-buscar"></span>
-          <span class="icono icono-agregar"></span>
-          <span class="icono icono-candado"></span>
-          <span class="icono icono-filtro"></span>
-          <span class="icono icono-eliminar"></span>
-          <span class="icono icono-editar"></span>
-          <span class="icono icono-ver"></span>
-          <span class="icono icono-advertencia"></span>
-          <span class="icono icono-info"></span>
+        <div class="demo">
+          <div class="icono-grid" id="icono-grid"></div>
         </div>
         <pre class="codigo">&lt;span class="icono icono-check"&gt;&lt;/span&gt;</pre>
       </div>
@@ -315,6 +300,27 @@
       caja.hidden = false;
       simularError.hidden = true;
       Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
+    });
+  }
+
+  var ICONOS = [
+    "check", "cerrar", "flecha-derecha", "chevron-izq", "chevron-der",
+    "mas-opciones", "menu", "buscar", "agregar", "candado",
+    "filtro", "eliminar", "editar", "ver", "advertencia", "info",
+  ];
+  var grillaIconos = document.getElementById("icono-grid");
+  if (grillaIconos) {
+    ICONOS.forEach(function (nombre) {
+      var clase = "icono-" + nombre;
+      var tarjeta = document.createElement("button");
+      tarjeta.type = "button";
+      tarjeta.className = "icono-card";
+      tarjeta.innerHTML = '<span class="icono ' + clase + '"></span><span class="nombre">' + clase + "</span>";
+      tarjeta.addEventListener("click", function () {
+        Santacorina.copiarAlPortapapeles('<span class="icono ' + clase + '"></span>');
+        Santacorina.mostrarToast("Copiado: " + clase, "ok");
+      });
+      grillaIconos.appendChild(tarjeta);
     });
   }
 

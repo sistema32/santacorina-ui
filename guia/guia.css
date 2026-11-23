@@ -73,6 +73,16 @@
   }
   .copiar-boton:hover{ background:rgba(255,255,255,0.22); }
 
+.icono-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:10px; }
+.icono-card{
+  display:flex; flex-direction:column; align-items:center; gap:9px; padding:16px 8px;
+  border:1px solid var(--doc-border); border-radius:10px; background:var(--doc-surface);
+  cursor:pointer; font-family:inherit; color:inherit;
+}
+.icono-card:hover{ background:var(--doc-bg); border-color:var(--doc-ink-dim); }
+.icono-card .icono{ font-size:22px; }
+.icono-card .nombre{ font-size:11px; font-family:ui-monospace,Consolas,monospace; color:var(--doc-ink-dim); text-align:center; word-break:break-word; }
+
 .grupo{ text-transform:uppercase; letter-spacing:.07em; font-size:10.5px; font-weight:700; color:var(--doc-ink-dim); margin:18px 0 4px; padding:0 10px; }
 .doc-nav .grupo:first-of-type{ margin-top:4px; }
 .nav-inicio{ font-weight:600; color:var(--doc-ink) !important; margin-bottom:10px; }
