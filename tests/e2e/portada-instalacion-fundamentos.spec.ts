@@ -5,15 +5,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const urlDe = (pagina: string) => "file://" + path.resolve(__dirname, "../../guia", pagina);
 
-test("portada: las 6 tarjetas llevan a su página, sin tokens/iconos mezclados ahí", async ({ page }) => {
+test("portada: las 6 filas llevan a su página, sin tokens/iconos mezclados ahí", async ({ page }) => {
   await page.goto(urlDe("index.html"));
 
-  const tarjetas = page.locator(".portada-card");
-  await expect(tarjetas).toHaveCount(6);
+  const filas = page.locator(".portada-fila");
+  await expect(filas).toHaveCount(6);
   await expect(page.locator("#tokens")).toHaveCount(0);
   await expect(page.locator("#icono-grid")).toHaveCount(0);
 
-  await page.click('.portada-card[href="instalacion.html"]');
+  await page.click('.portada-fila[href="instalacion.html"]');
   await expect(page).toHaveURL(/instalacion\.html$/);
 });
 
@@ -34,4 +34,16 @@ test("fundamentos.html: tokens, tipografia e iconos con grilla de 16 iconos nomb
   await expect(page.locator("#tokens .token")).toHaveCount(6);
   await expect(page.locator("#iconos .icono-card")).toHaveCount(16);
   await expect(page.locator("#iconos .icono-card .nombre").first()).toHaveText("icono-check");
+});
+
+test("portada: el lector escribe los tokens reales del :root y sigue al tema", async ({ page }) => {
+  await page.goto(urlDe("index.html"));
+
+  const filas = page.locator("#lector-filas tr");
+  await expect(filas).toHaveCount(6);
+  await expect(filas.first()).toContainText("--color-fondo");
+  await expect(filas.first().locator("td.valor")).toHaveText("#f4f7fa");
+
+  await page.click('.tema-selector button[data-tema="dark"]');
+  await expect(filas.first().locator("td.valor")).toHaveText("#0b1420");
 });

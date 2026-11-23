@@ -17,7 +17,7 @@
     }
   })();
 </script>
-<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<button class="doc-nav-toggle" id="doc-nav-toggle"><span class="icono icono-menu" aria-hidden="true"></span>Componentes</button>
 <div class="doc-shell">
   <nav class="doc-nav" id="doc-nav">
     <p class="marca">@sistema32/santacorina-ui</p>
@@ -43,6 +43,7 @@
     <div class="grupo">Fundamentos</div>
     <a href="fundamentos.html#tokens">Tokens</a>
     <a href="fundamentos.html#tipografia">Tipografía</a>
+    <a href="fundamentos.html#escala">Escala, espaciado y esquina</a>
     <a href="fundamentos.html#iconos">Íconos</a>
     <div class="grupo">Layout</div>
     <a href="#armazon">Armazón de página</a>
@@ -129,7 +130,6 @@
   </nav>
   <main class="doc-main">
     <header class="doc-header">
-      <p class="eyebrow">SLEP Santa Corina</p>
       <h1>Layout</h1>
       <p>Armazón de página, contenedores, grillas y z-index -- las piezas estructurales que no son un componente visual puntual.</p>
     </header>
@@ -138,7 +138,7 @@
       <h2>Container / container-fluid</h2>
       <p class="uso">De Bootstrap (Layout): un contenedor centrado reusable <em>fuera</em> del armazón <code>.app</code>/<code>.principal</code> (ese ya tiene <code>.contenido</code>/<code>.contenido.ancho</code>, que sigue siendo lo correcto dentro del armazón). Pensado para una pantalla standalone (ej. un login). Se llama <code>.contenedor</code>/<code>.contenedor-fluido</code> en vez de <code>.container</code>: Tailwind v4 ya genera su propia utilidad <code>.container</code> en <code>@layer utilities</code>, que le ganaría a la nuestra (confirmado — el nombre en inglés chocaba de verdad).</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="contenedor" style="background:var(--color-gris-fondo);padding:10px">.contenedor (max-width por breakpoint)</div>
           <div class="contenedor-fluido" style="background:var(--color-gris-fondo);padding:10px;margin-top:8px">.contenedor-fluido (100% siempre)</div>
         </div>
@@ -150,7 +150,7 @@
       <h2>Armazón de página</h2>
       <p class="uso"><code>.app</code> (layout completo) → <code>.lateral</code> + <code>.principal</code> (<code>.cabecera</code> + <code>.contenido</code> + <code>.pie</code>). Es el mismo armazón que ya corre en cada pantalla de <code>sgp</code>, solo que ahora viene del paquete en vez de duplicado en cada deploy.</p>
       <div class="demo-wrap">
-        <div class="demo" style="padding:0;overflow:hidden">
+        <div class="demo" data-ui style="padding:0;overflow:hidden">
           <div class="cabecera" style="padding:14px 20px">
             <div><h1 style="font-size:16px">COLEGIO ALCÁZAR</h1><p class="cabecera-datos">RBD 12255-6 <span class="punto">·</span> Año 2026</p></div>
             <div class="cabecera-usuario"><span class="usuario-nombre">arodriguez</span><span class="usuario-rol">Encargado de Compras</span></div>
@@ -166,7 +166,7 @@
       <h2>Menú lateral</h2>
       <p class="uso">Incluye el patrón responsivo completo (hamburguesa + overlay + panel deslizante bajo 900px). El toggle móvil necesita que el consumidor agregue un <em>click handler</em> de unas líneas que alterne <code>.abierta</code> en <code>.lateral</code> y <code>.visible</code> en <code>.lateral-fondo</code> — el CSS deja listas las tres clases, pero no es solo-CSS como <code>.acordeon</code>/<code>.menu</code> porque el estado tiene que sobrevivir a cambios de página en una app multi-página.</p>
       <div class="demo-wrap">
-        <div class="demo" style="padding:0;display:flex;justify-content:center;background:var(--doc-bg)">
+        <div class="demo" data-ui style="padding:0;display:flex;justify-content:center;background:var(--doc-bg)">
           <aside class="lateral" style="height:auto;position:static;flex:none">
             <div class="lateral-marca"><strong style="font-size:15px">EMISA</strong><span class="lateral-sub">SLEP Santa Corina</span></div>
             <nav>
@@ -184,7 +184,7 @@
       <h2>Variantes de cabecera/pie</h2>
       <p class="uso"><code>.cabecera</code>/<code>.pie</code> siguen siendo las de producción. Estas son preventivas — hoy <code>sgp</code> usa deliberadamente un solo tipo de cabecera (confirmado en código: <code>unidad_base.html</code>/<code>portal_base.html</code> son casi idénticas).</p>
       <div class="demo-wrap">
-        <div class="demo" style="padding:0">
+        <div class="demo" data-ui style="padding:0">
           <header class="cabecera cabecera-compacta">
             <div><h1>Confirmar envío</h1></div>
             <div class="cabecera-usuario"><span class="usuario-nombre">arodriguez</span></div>
@@ -193,7 +193,7 @@
         <pre class="codigo">&lt;header class="cabecera cabecera-compacta"&gt;...&lt;/header&gt;</pre>
       </div>
       <div class="demo-wrap">
-        <div class="demo" style="padding:0">
+        <div class="demo" data-ui style="padding:0">
           <header class="cabecera cabecera-centrada">
             <div><h1>Acceso a la plataforma</h1><p class="cabecera-datos">SLEP Santa Corina</p></div>
           </header>
@@ -201,7 +201,7 @@
         <pre class="codigo">&lt;header class="cabecera cabecera-centrada"&gt;...&lt;/header&gt;</pre>
       </div>
       <div class="demo-wrap">
-        <div class="demo" style="padding:0">
+        <div class="demo" data-ui style="padding:0">
           <header class="cabecera cabecera-con-buscador">
             <div><h1>Solicitudes de Compra</h1></div>
             <div class="buscador"><input type="search" placeholder="Buscar solicitud..."><button type="button" class="limpiar">×</button></div>
@@ -210,7 +210,7 @@
         <pre class="codigo">&lt;header class="cabecera cabecera-con-buscador"&gt;...&lt;div class="buscador"&gt;...&lt;/div&gt;&lt;/header&gt;</pre>
       </div>
       <div class="demo-wrap">
-        <div class="demo" style="padding:0">
+        <div class="demo" data-ui style="padding:0">
           <footer class="pie pie-compacto">EMISA · SLEP Santa Corina</footer>
         </div>
         <pre class="codigo">&lt;footer class="pie pie-compacto"&gt;...&lt;/footer&gt;</pre>
@@ -221,15 +221,15 @@
       <h2>Z-index</h2>
       <p class="uso">Antes de 0.18.0 había 9 valores de z-index sueltos sin ninguna relación documentada entre sí. Ahora son variables CSS (<code>--z-*</code>, declaradas junto a <code>--color-*</code>) que ya usan <code>.menu-panel</code>/<code>.cajon</code>/<code>.modal</code>/<code>.toast</code>/etc., más 5 utilidades públicas para que tu propio HTML se apile sin adivinar un número.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <table>
             <thead><tr><th>Utilidad</th><th>Variable</th><th>Valor</th><th>Uso real</th></tr></thead>
             <tbody>
-              <tr><td class="codigo">.z-flotante</td><td class="codigo">--z-flotante</td><td class="peso">100</td><td>menú, calendario, combobox</td></tr>
-              <tr><td class="codigo">.z-flotante-alto</td><td class="codigo">--z-flotante-alto</td><td class="peso">200</td><td>popover, toggletip</td></tr>
-              <tr><td class="codigo">.z-cajon</td><td class="codigo">--z-cajon</td><td class="peso">1200</td><td>cajón, lateral móvil</td></tr>
-              <tr><td class="codigo">.z-modal</td><td class="codigo">--z-modal</td><td class="peso">9000</td><td>modal</td></tr>
-              <tr><td class="codigo">.z-toast</td><td class="codigo">--z-toast</td><td class="peso">9500</td><td>toast</td></tr>
+              <tr><td class="codigo"><code>.z-flotante</code></td><td class="codigo"><code>--z-flotante</code></td><td class="peso">100</td><td>menú, calendario, combobox</td></tr>
+              <tr><td class="codigo"><code>.z-flotante-alto</code></td><td class="codigo"><code>--z-flotante-alto</code></td><td class="peso">200</td><td>popover, toggletip</td></tr>
+              <tr><td class="codigo"><code>.z-cajon</code></td><td class="codigo"><code>--z-cajon</code></td><td class="peso">1200</td><td>cajón, lateral móvil</td></tr>
+              <tr><td class="codigo"><code>.z-modal</code></td><td class="codigo"><code>--z-modal</code></td><td class="peso">9000</td><td>modal</td></tr>
+              <tr><td class="codigo"><code>.z-toast</code></td><td class="codigo"><code>--z-toast</code></td><td class="peso">9500</td><td>toast</td></tr>
             </tbody>
           </table>
         </div>
@@ -239,9 +239,9 @@
 
 <section class="doc-sec" id="columnas-variantes">
       <h2>Columnas (2 / 4) + gutters</h2>
-      <p class="uso"><code>.columnas-2</code>/<code>.columnas-4</code> sobre <code>.columnas</code> existente — mismo breakpoint de 1150px que ya colapsa a 1 columna. <code>.gutters-0</code>/<code>.gutters-chico</code>/<code>.gutters-grande</code> controlan el espaciado (gutters de Bootstrap), sin crear un segundo sistema de grid — son modificadores del mismo <code>.columnas</code>.</p>
+      <p class="uso"><code>.columnas-2</code>/<code>.columnas-4</code> sobre <code>.columnas</code> existente — mismo breakpoint de 1150px que ya colapsa a 1 columna. <code>.gutters-0</code>/<code>.gutters-chico</code>/<code>.gutters-grande</code> controlan el espaciado, sin crear un segundo sistema de grid — son modificadores del mismo <code>.columnas</code>. Desde 0.27.0 salen de la escala de espaciado y cada uno es el doble del anterior (<code>0</code> · <code>--esp-2</code> 8px · sin clase <code>--esp-4</code> 16px · <code>--esp-6</code> 32px); antes eran 8 / 18 / 28px, tres números sin relación entre sí.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="columnas columnas-4 gutters-chico">
             <div class="kpi" data-tono="azul"><div class="n">4</div><div class="t">Pendientes</div></div>
             <div class="kpi" data-tono="verde"><div class="n">12</div><div class="t">Aprobadas</div></div>
@@ -257,7 +257,7 @@
       <h2>Masonry</h2>
       <p class="uso">Empaquetado tipo Pinterest vía <code>columns</code> CSS — soporte universal, sin JS (<code>grid-template-rows: masonry</code> hoy solo lo tiene Firefox tras flag).</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="masonry">
             <div class="tarjeta" style="margin-bottom:0"><p style="margin:0">Corta.</p></div>
             <div class="tarjeta" style="margin-bottom:0"><p style="margin:0">Con bastante más texto, para que la altura sea claramente distinta a las demás.</p></div>
@@ -272,8 +272,8 @@
       <h2>Hero</h2>
       <p class="uso">Banner de introducción para un dashboard o pantalla de bienvenida.</p>
       <div class="demo-wrap">
-        <div class="demo" style="padding:0">
-          <div class="hero" style="margin:0;border-radius:0">
+        <div class="demo" data-ui style="padding:0">
+          <div class="hero" style="margin:0">
             <h1>Bienvenido, Alejandro</h1>
             <p>Tiene 4 solicitudes pendientes de revisión esta semana.</p>
             <div class="acciones"><button class="boton">Ver pendientes</button><button class="boton secundario">Ir al tablero</button></div>
@@ -287,7 +287,7 @@
       <h2>Columna ancha</h2>
       <p class="uso">Para usar dentro de <code>.columnas</code>/<code>.fila</code>/<code>.masonry</code> cuando un ítem debe ocupar todo el ancho de la grilla, en vez de un <code>style</code> inline por pantalla.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="columnas" style="margin:0">
             <div class="kpi" data-tono="azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
             <div class="kpi" data-tono="verde"><div class="n">99%</div><div class="t">Ejecución</div></div>
@@ -368,7 +368,7 @@
     });
 
     function normalizarTexto(s) {
-      return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     var buscador = document.getElementById("nav-buscar");
     var sinResultados = document.getElementById("nav-sin-resultados");

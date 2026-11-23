@@ -17,7 +17,7 @@
     }
   })();
 </script>
-<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<button class="doc-nav-toggle" id="doc-nav-toggle"><span class="icono icono-menu" aria-hidden="true"></span>Componentes</button>
 <div class="doc-shell">
   <nav class="doc-nav" id="doc-nav">
     <p class="marca">@sistema32/santacorina-ui</p>
@@ -43,6 +43,7 @@
     <div class="grupo">Fundamentos</div>
     <a href="fundamentos.html#tokens">Tokens</a>
     <a href="fundamentos.html#tipografia">Tipografía</a>
+    <a href="fundamentos.html#escala">Escala, espaciado y esquina</a>
     <a href="fundamentos.html#iconos">Íconos</a>
     <div class="grupo">Layout</div>
     <a href="layout.html#armazon">Armazón de página</a>
@@ -129,7 +130,6 @@
   </nav>
   <main class="doc-main">
     <header class="doc-header">
-      <p class="eyebrow">SLEP Santa Corina</p>
       <h1>Componentes</h1>
       <p>Tarjetas, botones, datos, navegación y los paneles flotantes (menú, popover, cajón, carousel) -- la mayor parte del paquete.</p>
     </header>
@@ -138,30 +138,31 @@
       <h2>Tarjeta</h2>
       <p class="uso">Contenedor base de cualquier bloque de contenido.</p>
       <div class="demo-wrap">
-        <div class="demo"><div class="tarjeta"><h3>Presupuesto total</h3><p class="tenue">COLEGIO ALCÁZAR · RBD 12255-6 · Año 2026</p></div></div>
+        <div class="demo" data-ui><div class="tarjeta"><h3>Presupuesto total</h3><p class="tenue">COLEGIO ALCÁZAR · RBD 12255-6 · Año 2026</p></div></div>
         <pre class="codigo">&lt;div class="tarjeta"&gt;&lt;h3&gt;Presupuesto total&lt;/h3&gt;&lt;/div&gt;</pre>
       </div>
     </section>
 
 <section class="doc-sec" id="kpi">
       <h2>KPI</h2>
-      <p class="uso">Cifra destacada con color de estado en el borde izquierdo.</p>
+      <p class="uso">La cifra <strong>es</strong> el gráfico: manda ella, sin recuadro que la sostenga. El color del estado es la marca corta de arriba, no un marco. <code>.delta</code> es opcional y compara contra un período con nombre — es el único texto del paquete que lleva color de dato, porque ahí el color <em>es</em> la dirección.</p>
       <div class="demo-wrap">
-        <div class="demo"><div class="kpis" style="margin-bottom:0">
+        <div class="demo" data-ui><div class="kpis" style="margin-bottom:0">
           <div class="kpi" data-tono="azul"><div class="n">105</div><div class="t">Establecimientos</div></div>
-          <div class="kpi" data-tono="verde"><div class="n">99%</div><div class="t">% ejecución</div></div>
-          <div class="kpi" data-tono="naranjo"><div class="n">2</div><div class="t">Pendientes</div></div>
-          <div class="kpi" data-tono="rojo"><div class="n">1</div><div class="t">Sobregirado</div></div>
+          <div class="kpi" data-tono="verde"><div class="n">99%</div><div class="t">Ejecución del presupuesto</div><div class="delta" data-direccion="sube">+4,2 pts vs. 2025</div></div>
+          <div class="kpi" data-tono="naranjo"><div class="n">2</div><div class="t">Solicitudes pendientes</div></div>
+          <div class="kpi" data-tono="rojo"><div class="n">1</div><div class="t">Establecimiento sobregirado</div><div class="delta" data-direccion="baja">-6 vs. octubre</div></div>
         </div></div>
-        <pre class="codigo">&lt;div class="kpi" data-tono="rojo"&gt;&lt;div class="n"&gt;1&lt;/div&gt;&lt;div class="t"&gt;Sobregirado&lt;/div&gt;&lt;/div&gt;</pre>
+        <pre class="codigo">&lt;div class="kpi" data-tono="rojo"&gt;&lt;div class="n"&gt;1&lt;/div&gt;&lt;div class="t"&gt;Establecimiento sobregirado&lt;/div&gt;&lt;div class="delta" data-direccion="baja"&gt;-6 vs. octubre&lt;/div&gt;&lt;/div&gt;</pre>
       </div>
+      <p class="uso"><strong>La etiqueta tiene que decir el estado.</strong> <code>data-tono</code> refuerza, nunca reemplaza: si el único que sabe que algo anda mal es el color, quien no distingue rojo de verde no se entera. Por eso la etiqueta dice «Establecimiento sobregirado» y no «Alertas». Los dígitos van proporcionales a propósito — <code>tabular-nums</code> le da a cada uno el ancho de un cero y a 34px un «121» se ve flojo; lo tabular es para columnas que deben alinearse, y ahí sigue estando (<code>td.peso</code>).</p>
     </section>
 
 <section class="doc-sec" id="etiqueta">
       <h2>Etiqueta</h2>
       <p class="uso">Estado corto en línea con texto. No es clicable — para eso está la pastilla.</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
+        <div class="demo demo-fila" data-ui>
           <span class="etiqueta" data-tono="verde">ACEPTADA</span>
           <span class="etiqueta" data-tono="rojo">RECHAZADA</span>
           <span class="etiqueta" data-tono="naranjo">EN REVISIÓN</span>
@@ -175,7 +176,7 @@
       <h2>Botón</h2>
       <p class="uso"><code>.btn-chico</code> es la variante para una fila o celda de tabla.</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
+        <div class="demo demo-fila" data-ui>
           <button class="boton">Enviar solicitud</button>
           <button class="boton secundario">Guardar borrador</button>
           <button class="boton peligro">Rechazar</button>
@@ -190,7 +191,7 @@
       <h2>Pastilla</h2>
       <p class="uso">Decisión clicable con forma de botón.</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
+        <div class="demo demo-fila" data-ui>
           <button class="pastilla" data-tono="celeste">Revisar</button>
           <button class="pastilla" data-tono="roja">Rechazar</button>
         </div>
@@ -202,7 +203,7 @@
       <h2>Aviso</h2>
       <p class="uso">Banner de nivel de pantalla completa.</p>
       <div class="demo-wrap">
-        <div class="demo" style="display:flex;flex-direction:column;gap:10px">
+        <div class="demo" data-ui style="display:flex;flex-direction:column;gap:10px">
           <div class="aviso" data-tono="info">El año 2027 ya está abierto. Los datos de 2026 quedan de solo lectura.</div>
           <div class="aviso" data-tono="ok">Backup completado exitosamente.</div>
           <div class="aviso" data-tono="alerta">El envío de correos no está configurado.</div>
@@ -216,7 +217,7 @@
       <h2>Aviso de página</h2>
       <p class="uso">De <a href="https://design-system.service.gov.uk/components/notification-banner/">GOV.UK "notification banner"</a>/USWDS "site alert" — franja persistente bajo la cabecera, distinta de <code>.aviso</code> (por tarjeta) y <code>.toast</code> (transitorio).</p>
       <div class="demo-wrap">
-        <div class="demo" style="padding:0">
+        <div class="demo" data-ui style="padding:0">
           <div class="aviso-pagina" data-tono="info"><strong>Tienes 3 solicitudes pendientes</strong>Revísalas antes del cierre del mes.</div>
         </div>
         <pre class="codigo">&lt;div class="aviso-pagina" data-tono="info"&gt;&lt;strong&gt;Tienes 3 solicitudes pendientes&lt;/strong&gt;Revísalas...&lt;/div&gt;</pre>
@@ -227,7 +228,7 @@
       <h2>Tabla</h2>
       <p class="uso">Los montos (<code>.peso</code>) van siempre alineados a la derecha, con cifras de ancho fijo.</p>
       <div class="demo-wrap">
-        <div class="demo tabla-scroll">
+        <div class="demo tabla-scroll" data-ui>
           <table>
             <thead><tr><th>SC</th><th>Solicita</th><th class="der">Solicitado</th></tr></thead>
             <tbody><tr><td>46255</td><td>ADQ. COLACION (DESAYUNO)</td><td class="peso">$1.422.169</td></tr></tbody>
@@ -241,7 +242,7 @@
       <h2>Tabla ordenable</h2>
       <p class="uso">De <a href="https://carbondesignsystem.com/components/data-table/usage/">Carbon Design System</a> (tabla de datos) — solo la flecha y el estado <code>aria-sort</code>; <code>iniciarTablasOrdenables</code> dispara <code>santacorina:ordenar</code> con la columna y dirección para que el consumidor reordene sus propias filas.</p>
       <div class="demo-wrap">
-        <div class="demo tabla-scroll">
+        <div class="demo tabla-scroll" data-ui>
           <table>
             <thead><tr><th data-ordenable="nombre">Nombre</th><th data-ordenable="monto">Monto</th></tr></thead>
             <tbody><tr><td>Escuela A</td><td>100</td></tr></tbody>
@@ -255,7 +256,7 @@
       <h2>Variantes de tabla</h2>
       <p class="uso">Para listados largos (presupuestos, facturas): <code>.tabla-cabecera-fija</code> deja el encabezado fijo al hacer scroll vertical dentro de un contenedor con altura (reusa <code>--z-flotante</code>, sin un número nuevo), <code>.tabla-compacta</code> reduce el padding de celdas.</p>
       <div class="demo-wrap">
-        <div class="demo" style="height:140px;overflow-y:auto;padding:0">
+        <div class="demo" data-ui style="height:140px;overflow-y:auto;padding:0">
           <table class="tabla-cabecera-fija tabla-compacta">
             <thead><tr><th>Nombre</th><th>Monto</th></tr></thead>
             <tbody>
@@ -275,7 +276,7 @@
       <h2>Densidad por bloque</h2>
       <p class="uso"><code>[data-densidad="compacta"]</code> (0.25.0) generaliza <code>.tabla-compacta</code> a cualquier contenedor -- una tabla puede ser compacta mientras el formulario vecino sigue con controles cómodos. Mismo criterio que <code>data-tono</code>/<code>data-tamano</code>: un atributo, no una clase nueva por componente.</p>
       <div class="demo-wrap">
-        <div class="demo" data-densidad="compacta">
+        <div class="demo" data-ui data-densidad="compacta">
           <div class="campo"><label>RBD</label><input type="text" value="12345-6"></div>
           <table>
             <thead><tr><th>Nombre</th><th>Monto</th></tr></thead>
@@ -290,7 +291,7 @@
       <h2>Barra de filtros</h2>
       <p class="uso">Agrupa <code>.buscador</code> + campos sueltos + <code>.chip</code> (ya existentes, sin cambios) + "Limpiar filtros" en una sola fila. En móvil pasa a columna sin reordenar los hijos.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="barra-filtros">
             <div class="buscador"><input type="search" placeholder="Buscar solicitud..."><button class="limpiar">×</button></div>
             <select><option>Estado</option><option>Pendiente</option></select>
@@ -306,7 +307,7 @@
       <h2>Dato</h2>
       <p class="uso">Par etiqueta/valor — la unidad mínima de cualquier resumen.</p>
       <div class="demo-wrap">
-        <div class="demo" style="max-width:360px">
+        <div class="demo" data-ui style="max-width:360px">
           <div class="dato"><span>Presupuesto total</span><strong>$59.894.565</strong></div>
           <div class="dato"><span>Saldo disponible</span><strong>$718.704</strong></div>
         </div>
@@ -318,7 +319,7 @@
       <h2>Semáforo</h2>
       <p class="uso">Punto de estado para una lista de chequeos.</p>
       <div class="demo-wrap">
-        <div class="demo" style="display:flex;flex-direction:column;gap:10px">
+        <div class="demo" data-ui style="display:flex;flex-direction:column;gap:10px">
           <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz" data-tono="verde"></span><span>Presupuesto disponible</span></div>
           <div style="display:flex;gap:10px;align-items:flex-start"><span class="luz" data-tono="rojo"></span><span>Fuente sin validar</span></div>
         </div>
@@ -330,7 +331,7 @@
       <h2>Línea de tiempo</h2>
       <p class="uso">Historial de eventos, más reciente abajo.</p>
       <div class="demo-wrap">
-        <div class="demo"><ul class="linea-tiempo" style="margin:0;padding:0">
+        <div class="demo" data-ui><ul class="linea-tiempo" style="margin:0;padding:0">
           <li><span class="ts">14-10-2026 14:42</span><br><span class="txt">Solicitud enviada</span></li>
         </ul></div>
         <pre class="codigo">&lt;ul class="linea-tiempo"&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</pre>
@@ -341,7 +342,7 @@
       <h2>Estado vacío</h2>
       <p class="uso">Cuando un listado no tiene filas que mostrar.</p>
       <div class="demo-wrap">
-        <div class="demo"><div class="vacio"><p>Sin solicitudes pendientes.</p></div></div>
+        <div class="demo" data-ui><div class="vacio"><p>Sin solicitudes pendientes.</p></div></div>
         <pre class="codigo">&lt;div class="vacio"&gt;&lt;p&gt;Sin solicitudes pendientes.&lt;/p&gt;&lt;/div&gt;</pre>
       </div>
     </section>
@@ -350,12 +351,12 @@
       <h2>Stepper</h2>
       <p class="uso">Progreso de un flujo de varios pasos, con sus estados posibles.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <ol class="stepper" style="list-style:none;margin:0;padding:0">
-            <li class="stepper-paso completado"><span class="num">✓</span> Datos</li>
+            <li class="stepper-paso completado"><span class="num"><span class="icono icono-check" aria-hidden="true"></span></span> Datos</li>
             <li class="stepper-paso activo"><span class="num">2</span> Productos</li>
             <li class="stepper-paso"><span class="num">3</span> Revisión</li>
-            <li class="stepper-paso rechazado"><span class="num">✕</span> Rechazado</li>
+            <li class="stepper-paso rechazado"><span class="num"><span class="icono icono-cerrar" aria-hidden="true"></span></span> Rechazado</li>
             <li class="stepper-paso omitido"><span class="num">5</span> Omitido</li>
           </ol>
         </div>
@@ -367,19 +368,19 @@
       <h2>Asistente</h2>
       <p class="uso">Trasladado tal cual de <code>portal.css</code> (wizard horizontal, usado en 5 pantallas reales: <code>compras_dashboard</code>, <code>compras_solicitud</code>, <code>solicitud_form</code>, <code>tesoreria_dashboard</code>, <code>tesoreria_solicitud</code>). La fila de chips reutiliza <code>.stepper</code>/<code>.stepper-paso</code> ya existente — <code>.stepper-paso.completado</code> es el equivalente de lo que esas pantallas llaman <code>.paso-chip.listo</code>. Avanzar sigue siendo decisión de cada pantalla: valida antes de llamar <code>irAPaso</code> (el paquete no auto-avanza un botón "Continuar").</p>
       <div class="demo-wrap">
-        <div class="demo" data-asistente>
+        <div class="demo" data-ui data-asistente>
           <ol class="stepper" style="list-style:none;margin:0 0 14px;padding:0">
-            <li class="stepper-paso completado" data-chip="1"><span class="num">✓</span> Datos</li>
+            <li class="stepper-paso completado" data-chip="1"><span class="num"><span class="icono icono-check" aria-hidden="true"></span></span> Datos</li>
             <li class="stepper-paso activo" data-chip="2"><span class="num">2</span> Productos</li>
             <li class="stepper-paso" data-chip="3"><span class="num">3</span> Resumen</li>
           </ol>
-          <section data-paso="2" class="paso visible"><p style="margin:0">Contenido del paso 2.</p></section>
+          <section data-paso="2" class="paso visible"><p style="margin:0">Acá va el contenido del segundo paso del asistente.</p></section>
 
 <section class="doc-sec" id="rastreador">
       <h2>Rastreador de proceso</h2>
       <p class="uso">Trasladado tal cual de <code>portal.css</code> (<code>.pasos-compra</code>, usado en <code>compras_dashboard</code>/<code>compras_solicitud</code>), con nombre genérico — no "-compra" — porque sirve para cualquier proceso de varias etapas. Distinto de <code>.linea-tiempo</code> (solo un log) y de <code>.stepper</code> (horizontal, sin descripción).</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <ul class="rastreador">
             <li class="rastreador-item hecho"><span class="n">1</span><span class="titulo">Solicitud enviada</span><span class="descripcion">Registrada en el sistema.</span><span class="responsable">Comprador</span></li>
             <li class="rastreador-item actual"><span class="n">2</span><span class="titulo">En revisión</span><span class="descripcion">Esperando aprobación de presupuesto.</span><span class="responsable">Encargado</span></li>
@@ -394,7 +395,7 @@
       <h2>Validación</h2>
       <p class="uso">Trasladado tal cual de <code>portal.css</code> (usado en 6 pantallas). Siempre va junto a <code>.luz</code>. <code>.detalle-tecnico</code> (sobre <code>&lt;details&gt;</code> nativo, igual criterio que <code>.acordeon</code>) va dentro de <code>.validacion-txt</code> para información técnica opcional.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="validacion">
             <div class="luz" data-tono="verde"></div>
             <div class="validacion-txt">
@@ -422,7 +423,7 @@
       <h2>Total</h2>
       <p class="uso">Trasladado tal cual de <code>portal.css</code> (<code>solicitud_form.html</code>). Parecido a <code>.hero</code>, pero chico y pensado para ir dentro de un formulario.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="total-caja" style="margin:0">
             <span>VALOR TOTAL (se calcula automáticamente)</span>
             <strong>$1.422.169</strong>
@@ -436,7 +437,7 @@
       <h2>Barra de progreso</h2>
       <p class="uso">Mismos tres colores semánticos que el resto de la librería: azul en curso, naranjo alerta, rojo pasado.</p>
       <div class="demo-wrap">
-        <div class="demo" style="display:flex;flex-direction:column;gap:10px">
+        <div class="demo" data-ui style="display:flex;flex-direction:column;gap:10px">
           <div class="barra-progreso"><div class="relleno" style="width:60%"></div></div>
           <div class="barra-progreso"><div class="relleno alerta" style="width:85%"></div></div>
           <div class="barra-progreso"><div class="relleno pasada" style="width:100%"></div></div>
@@ -449,7 +450,7 @@
       <h2>Tabs</h2>
       <p class="uso">Mismo nombre de estado que el stepper: <code>.activo</code>.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="tabs">
             <button class="activo">Los 105</button>
             <button>Les falta algo (103)</button>
@@ -463,7 +464,7 @@
       <h2>Pestañas con panel real</h2>
       <p class="uso">Con <code>data-tab</code>/<code>data-tab-panel</code>, <code>iniciarTabs()</code> muestra/oculta el panel correspondiente — sin esos atributos, <code>.tabs</code> sigue siendo solo un segmented control, igual que hasta 0.9.0.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="tabs"><button class="activo" data-tab="g-a">Activas (105)</button><button data-tab="g-b">Cerradas (12)</button></div>
           <div data-tab-panel="g-a" class="tab-panel activo" style="margin-top:14px"><div class="dato" style="border-bottom:0"><span>Colegio Alcázar</span><strong>En revisión</strong></div></div>
           <div data-tab-panel="g-b" class="tab-panel" style="margin-top:14px"><div class="dato" style="border-bottom:0"><span>Escuela República</span><strong>Aprobada</strong></div></div>
@@ -476,7 +477,7 @@
       <h2>Tooltip</h2>
       <p class="uso">Solo CSS, vía <code>data-tooltip</code> — no requiere JS.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <span data-tooltip="Precio de mercado sin fuente conectada todavía" style="text-decoration:underline;cursor:help">Precio de mercado</span>
         </div>
         <pre class="codigo">&lt;span data-tooltip="Precio de mercado sin fuente conectada todavía"&gt;Precio de mercado&lt;/span&gt;</pre>
@@ -487,7 +488,7 @@
       <h2>Toggletip</h2>
       <p class="uso">Alternativa a <code>[data-tooltip]</code> con soporte táctil: <code>[data-tooltip]</code> solo responde a hover/focus-visible, sin equivalente en pantallas táctiles. Se abre con clic y se cierra con clic afuera o Escape — mismo patrón de capa flotante que <code>.popover-panel</code>.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <span data-toggletip style="display:inline-block">
             <button class="boton secundario">¿Qué es el RUT?</button>
             <div data-toggletip-contenido style="display:none">El Rol Único Tributario identifica a cada contribuyente en Chile.</div>
@@ -501,7 +502,7 @@
       <h2>Breadcrumb</h2>
       <p class="uso">Generaliza el «Estás viendo: X → Y» que antes se armaba a mano.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="breadcrumb">
             <a href="#">COLEGIO ALCÁZAR</a><span class="sep">→</span><span class="actual">Solicitudes de Compras</span>
           </div>
@@ -514,7 +515,7 @@
       <h2>Skeleton</h2>
       <p class="uso">Estado de carga — antes una pantalla cargando no mostraba nada hasta que llegaba el dato.</p>
       <div class="demo-wrap">
-        <div class="demo" style="display:flex;flex-direction:column;gap:8px">
+        <div class="demo" data-ui style="display:flex;flex-direction:column;gap:8px">
           <div class="skeleton skeleton-texto"></div>
           <div class="skeleton skeleton-texto"></div>
           <div class="skeleton skeleton-texto corto"></div>
@@ -527,7 +528,7 @@
       <h2>Chip</h2>
       <p class="uso">Como <code>.etiqueta</code>, pero removible — para filtros seleccionados.</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
+        <div class="demo demo-fila" data-ui>
           <span class="chip" data-tono="azul">SEP <button class="quitar">×</button></span>
           <span class="chip" data-tono="verde">FAEP <button class="quitar">×</button></span>
         </div>
@@ -539,7 +540,7 @@
       <h2>Avatar</h2>
       <p class="uso">Iniciales en círculo, para listas de usuarios o aprobadores.</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
+        <div class="demo demo-fila" data-ui>
           <span class="avatar" data-tono="azul">AR</span>
           <span class="avatar" data-tono="verde" data-tamano="chico">MO</span>
           <span class="avatar" data-tono="naranjo" data-tamano="grande">CL</span>
@@ -552,7 +553,7 @@
       <h2>Divisor</h2>
       <p class="uso">Separa dos bloques, con o sin texto en medio.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <p style="margin:0 0 10px">Bloque uno</p>
           <div class="divisor">o</div>
           <p style="margin:10px 0 0">Bloque dos</p>
@@ -565,7 +566,7 @@
       <h2>Acordeón</h2>
       <p class="uso">Marca sobre <code>&lt;details&gt;/&lt;summary&gt;</code> nativos — el navegador resuelve abrir/cerrar y teclado.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <details class="acordeon" open>
             <summary>Qué incluye el presupuesto</summary>
             <div class="cuerpo">Fuente SEP, FAEP y subvención regular.</div>
@@ -579,7 +580,7 @@
       <h2>Paginación</h2>
       <p class="uso">Mismo estado <code>.activo</code> que tabs y stepper.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <nav class="paginacion">
             <button>‹</button>
             <button class="activo">1</button>
@@ -596,18 +597,18 @@
       <h2>Menú</h2>
       <p class="uso">Misma técnica que <code>.acordeon</code> (<code>&lt;details&gt;</code> nativo), pero el panel flota anclado en vez de empujar el layout. <code>iniciarMenus</code> (0.25.0) mejora el <code>&lt;details&gt;</code> sin reemplazarlo: <code>role="menu"</code>/<code>"menuitem"</code>, flechas arriba/abajo entre items, foco inicial al abrir, y abre hacia arriba si no hay espacio debajo (<code>posicionarFlotante</code>).</p>
       <div class="demo-wrap">
-        <div class="demo" style="display:flex;justify-content:flex-end">
+        <div class="demo" data-ui style="display:flex;justify-content:flex-end">
           <details class="menu">
-            <summary>⋮</summary>
+            <summary><span class="icono icono-mas-opciones" aria-hidden="true"></span></summary>
             <div class="menu-panel">
               <a href="#">Ver detalle</a>
               <button>Editar</button>
-              <hr>
+              <hr><!-- taste-skill-ignore: separador propio del componente .menu-panel -->
               <button class="peligro">Eliminar</button>
             </div>
           </details>
         </div>
-        <pre class="codigo">&lt;details class="menu"&gt;&lt;summary&gt;⋮&lt;/summary&gt;&lt;div class="menu-panel"&gt;...&lt;/div&gt;&lt;/details&gt;</pre>
+        <pre class="codigo">&lt;details class="menu"&gt;&lt;summary&gt;&lt;span class="icono icono-mas-opciones"&gt;&lt;/span&gt;&lt;/summary&gt;&lt;div class="menu-panel"&gt;...&lt;/div&gt;&lt;/details&gt;</pre>
       </div>
     </section>
 
@@ -615,7 +616,7 @@
       <h2>Confirmación reutilizable</h2>
       <p class="uso"><code>confirmar(opciones)</code> (0.26.0) arma un <code>.modal</code> al vuelo reusando <code>abrirModal</code>/<code>cerrarModal</code> -- foco atrapado, Escape vía la pila de capas, todo gratis -- y devuelve <code>Promise&lt;boolean&gt;</code>. Foco inicial en Cancelar, salvo <code>peligro: false</code>.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <button class="boton peligro" id="demo-btn-confirmar">Eliminar adjunto</button>
           <p id="demo-confirmar-resultado" style="margin-top:10px;color:var(--color-tenue)"></p>
         </div>
@@ -632,7 +633,7 @@
       <h2>Insignia</h2>
       <p class="uso">Sobre un padre <code>position:relative</code> — un ícono, una pastilla, un avatar.</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
+        <div class="demo demo-fila" data-ui>
           <span style="position:relative;display:inline-block"><span class="avatar" data-tono="azul">AR</span><span class="insignia punto" data-tono="verde"></span></span>
           <span style="position:relative;display:inline-block"><button class="pastilla" data-tono="celeste">Notificaciones</button><span class="insignia">3</span></span>
         </div>
@@ -644,12 +645,12 @@
       <h2>Insignia de ícono</h2>
       <p class="uso">De <code>acepta/frontend</code> (<code>IconBadge.vue</code>, 23 usos). El propio componente reemplazó "~6 variantes casi idénticas" que había antes de empaquetarlo una vez.</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
-          <span class="insignia-icono" data-tono="azul" data-tamano="chica">⚙</span>
-          <span class="insignia-icono" data-tono="verde">✓</span>
-          <span class="insignia-icono" data-tono="rojo" data-tamano="grande">!</span>
+        <div class="demo demo-fila" data-ui>
+          <span class="insignia-icono" data-tono="azul" data-tamano="chica"><span class="icono icono-mas-opciones" aria-hidden="true"></span></span>
+          <span class="insignia-icono" data-tono="verde"><span class="icono icono-check" aria-hidden="true"></span></span>
+          <span class="insignia-icono" data-tono="rojo" data-tamano="grande"><span class="icono icono-advertencia" aria-hidden="true"></span></span>
         </div>
-        <pre class="codigo">&lt;span class="insignia-icono" data-tono="verde"&gt;✓&lt;/span&gt;</pre>
+        <pre class="codigo">&lt;span class="insignia-icono" data-tono="verde"&gt;&lt;span class="icono icono-check"&gt;&lt;/span&gt;&lt;/span&gt;</pre>
       </div>
     </section>
 
@@ -657,8 +658,8 @@
       <h2>Tarjeta de acción</h2>
       <p class="uso">De <code>acepta/frontend</code> (<code>.home-section-card</code>/<code>.process-card</code>) — ícono + título + descripción, clicable, para grillas de acceso rápido de un dashboard.</p>
       <div class="demo-wrap">
-        <div class="demo" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <a href="#" class="tarjeta-accion"><span class="insignia-icono" data-tono="azul">⚙</span><strong>Procesos</strong><small>Lanzar un proceso de scraping manual.</small></a>
+        <div class="demo" data-ui style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <a href="#" class="tarjeta-accion"><span class="insignia-icono" data-tono="azul"><span class="icono icono-mas-opciones" aria-hidden="true"></span></span><strong>Procesos</strong><small>Lanzar un proceso de scraping manual.</small></a>
         </div>
         <pre class="codigo">&lt;a class="tarjeta-accion"&gt;&lt;span class="insignia-icono" data-tono="azul"&gt;...&lt;/span&gt;&lt;strong&gt;Procesos&lt;/strong&gt;&lt;small&gt;...&lt;/small&gt;&lt;/a&gt;</pre>
       </div>
@@ -668,7 +669,7 @@
       <h2>Spinner</h2>
       <p class="uso">Para meter dentro de <code>.boton</code> mientras se envía algo.</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
+        <div class="demo demo-fila" data-ui>
           <button class="boton" style="display:inline-flex;align-items:center;gap:8px"><span class="cargando"></span> Enviando...</button>
           <span class="cargando oscuro grande"></span>
         </div>
@@ -680,7 +681,7 @@
       <h2>Grupo de botones</h2>
       <p class="uso">Botones de acción visualmente unidos — ej. "Aprobar / Revisar / Rechazar" en una fila de bandeja.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="grupo-botones">
             <button class="boton secundario">Aprobar</button>
             <button class="boton secundario">Revisar</button>
@@ -695,7 +696,7 @@
       <h2>Lista de grupo</h2>
       <p class="uso">Lista vertical de ítems clicables/seleccionables con borde — distinta de <code>.lateral .item</code> (solo del menú) y de una tabla.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="lista-grupo">
             <a href="#" class="lista-grupo-item activo">Colegio Alcázar <span class="etiqueta" data-tono="azul">105</span></a>
             <a href="#" class="lista-grupo-item">Escuela República <span class="etiqueta" data-tono="gris">12</span></a>
@@ -709,7 +710,7 @@
       <h2>Popover</h2>
       <p class="uso">Como <code>[data-tooltip]</code>, pero con contenido rico y abierto por clic, no por hover.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div data-popover style="display:inline-block">
             <button class="boton secundario" data-popover-trigger>Precio de mercado</button>
             <div data-popover-contenido style="display:none">
@@ -726,7 +727,7 @@
       <h2>Colapsar genérico</h2>
       <p class="uso">A diferencia de <code>.acordeon</code> (auto-contenido en <code>&lt;details&gt;</code>), el botón y el panel pueden vivir en cualquier parte del DOM, y son independientes entre sí (no mutuamente excluyentes como <code>.tabs</code>).</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <button class="boton secundario" data-colapsar="g-det">Mostrar detalle técnico</button>
           <div data-colapsable="g-det" class="tab-panel" style="margin-top:10px;font-size:13px;color:var(--color-tenue)">Detalle técnico del cálculo.</div>
         </div>
@@ -738,7 +739,7 @@
       <h2>Cajón</h2>
       <p class="uso">Generaliza el panel deslizante que ya tiene <code>.lateral</code> en móvil, para usarlo en <em>otra</em> cosa (ej. un panel de filtros), no solo el menú.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <button class="boton secundario" data-cajon-toggle="g-filtros">Abrir filtros</button>
           <div class="cajon" data-cajon="g-filtros">
             <div class="cajon-cabecera"><h3>Filtros</h3><button class="boton secundario" data-cajon-toggle="g-filtros">×</button></div>
@@ -754,7 +755,7 @@
       <h2>Carousel</h2>
       <p class="uso">De Bootstrap. En 0.11.0 se dejó fuera a propósito ("sin caso de uso en un portal de compras públicas"); se agrega ahora como paridad de framework, mismo criterio preventivo que <code>.hero</code>. Sin autoplay por defecto -- clic en flechas/indicadores o flechas de teclado con el carrusel enfocado; <code>avanzarCarrusel(el, dir)</code> queda exportado para quien quiera autoplay con su propio <code>setInterval</code>.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="carousel" style="max-width:360px">
             <div class="carousel-pista">
               <div class="carousel-slide" style="background:var(--color-azul);color:#fff;height:140px;display:grid;place-items:center">Slide 1</div>
@@ -776,7 +777,7 @@
       <h2>Píldora de archivo</h2>
       <p class="uso">De <code>acepta/frontend</code> (<code>.file-pill</code>, 21 usos) — link/botón outline para "descargar/ver documento", distinto de <code>.pastilla</code> (fondo sólido, para una decisión).</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
+        <div class="demo demo-fila" data-ui>
           <a href="#" class="pildora-archivo">XML</a>
           <a href="#" class="pildora-archivo">PDF</a>
           <button class="pildora-archivo tenue">Quitar</button>
@@ -789,7 +790,7 @@
       <h2>Zona de arrastre</h2>
       <p class="uso">De <code>acepta/frontend</code> (<code>EdicionFacturasView</code>, patrón de carga de XML/PDF/recepción conforme). <code>iniciarZonasArrastre</code> solo alterna <code>.activa</code> en dragover/dragleave/drop — la subida real sigue siendo de cada pantalla.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="zona-arrastre">
             <label class="boton secundario">Examinar<input type="file" hidden></label>
             <span class="pista">o arrastra el archivo aquí</span>
@@ -811,7 +812,7 @@
       <h2>Calendario de estado</h2>
       <p class="uso">De <code>acepta/frontend</code> (<code>CalendarioScrapingView.vue</code>) — grilla mensual tipo heatmap, <strong>no</strong> un selector de fecha (eso es <code>.calendario</code>/<code>iniciarCalendario</code>, propósito distinto). Solo CSS: el consumidor arma la grilla con sus propios datos.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="calendario-estado">
             <button class="calendario-estado-dia"><span>1</span><span class="punto-estado hecho"></span></button>
             <button class="calendario-estado-dia"><span>2</span><span class="punto-estado en-curso"></span></button>
@@ -826,7 +827,7 @@
       <h2>Celda de dos líneas</h2>
       <p class="uso">De <code>acepta/frontend</code> (41 ocurrencias: "Factura N° / fecha·tipo DTE", "Proveedor / RUT"). No es una clase nueva — es una regla que faltaba en el bloque de tabla ya existente.</p>
       <div class="demo-wrap">
-        <div class="demo tabla-scroll">
+        <div class="demo tabla-scroll" data-ui>
           <table>
             <thead><tr><th>Factura</th><th>Proveedor</th></tr></thead>
             <tbody><tr><td><strong>171</strong><small>14-10-2026 · Factura electrónica</small></td><td><strong>CONSTRUCCIONES M&amp;A</strong><small>77585867-2</small></td></tr></tbody>
@@ -840,7 +841,7 @@
       <h2>Selección de filas</h2>
       <p class="uso">De Carbon Design System (data table). <code>iniciarSeleccionTabla</code> conecta el checkbox de cabecera (<code>[data-seleccionar-todo]</code>) con el de cada fila (<code>[data-seleccionar-fila]</code>): marca/desmarca solo las filas <strong>visibles en esa tabla</strong> — el paquete no sabe cuántas hay en otras páginas del servidor, así que "seleccionar las N de todas las páginas" queda fuera de alcance. Dispara <code>santacorina:seleccion-cambiar</code> y muestra/oculta <code>.barra-seleccion</code> (calcada de <a href="#total-caja">.total-caja</a>).</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="barra-seleccion"><span data-seleccion-contador></span></div>
           <table data-seleccion style="margin-top:10px">
             <thead><tr><th><input type="checkbox" data-seleccionar-todo></th><th>Proveedor</th><th>Monto</th></tr></thead>
@@ -934,7 +935,7 @@
     });
 
     function normalizarTexto(s) {
-      return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     var buscador = document.getElementById("nav-buscar");
     var sinResultados = document.getElementById("nav-sin-resultados");

@@ -17,7 +17,7 @@
     }
   })();
 </script>
-<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<button class="doc-nav-toggle" id="doc-nav-toggle"><span class="icono icono-menu" aria-hidden="true"></span>Componentes</button>
 <div class="doc-shell">
   <nav class="doc-nav" id="doc-nav">
     <p class="marca">@sistema32/santacorina-ui</p>
@@ -43,6 +43,7 @@
     <div class="grupo">Fundamentos</div>
     <a href="fundamentos.html#tokens">Tokens</a>
     <a href="fundamentos.html#tipografia">Tipografía</a>
+    <a href="fundamentos.html#escala">Escala, espaciado y esquina</a>
     <a href="fundamentos.html#iconos">Íconos</a>
     <div class="grupo">Layout</div>
     <a href="layout.html#armazon">Armazón de página</a>
@@ -129,7 +130,6 @@
   </nav>
   <main class="doc-main">
     <header class="doc-header">
-      <p class="eyebrow">SLEP Santa Corina</p>
       <h1>JS / Utilidades</h1>
       <p>Lo que no es CSS: formato de moneda/fecha, portapapeles, toasts y el resto de funciones JS que exporta el paquete.</p>
     </header>
@@ -138,7 +138,7 @@
       <h2>Utilidades JS</h2>
       <p class="uso">Primera vez que el paquete incluye JS, no solo CSS. Dos modos de consumo:</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <p style="margin:0 0 6px;font-weight:600;color:var(--color-navy)">Sin bundler (plantillas Jinja de <code>sgp/web</code>)</p>
           <pre class="codigo">&lt;script src="node_modules/@sistema32/santacorina-ui/dist/js.global.js"&gt;&lt;/script&gt;
 &lt;!-- Santacorina.formato.conSigno(-6014510) -- "-$6.014.510" --&gt;
@@ -148,43 +148,45 @@
 // onMounted(() => iniciarTodo(raiz)); onUnmounted(() => destruirTodo(raiz));</pre>
         </div>
       </div>
-      <table style="margin-bottom:10px">
+      <div class="tabla-scroll" style="margin-bottom:10px">
+      <table>
         <thead><tr><th>Utilidad</th><th>Qué hace</th><th>Se auto-inicia</th></tr></thead>
         <tbody>
-          <tr><td class="codigo">formato</td><td>pesos/conSigno/pct/fechaCorta/rut/limpiarMojibake</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">abrirModal/cerrarModal</td><td>Abre/cierra un <code>.modal</code>; backdrop, Escape y <code>[data-cerrar-modal]</code> ya cierran solos</td><td class="cen">✓ (cierre)</td></tr>
-          <tr><td class="codigo">mostrarToast(msg, tipo)</td><td>Crea y descarta un <code>.toast</code></td><td class="cen">—</td></tr>
-          <tr><td class="codigo">iniciarLateral</td><td>Conecta <code>.lateral-toggle</code> con <code>.abierta</code>/<code>.visible</code></td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">iniciarTabs</td><td>Mueve <code>.activo</code> al hacer clic en <code>.tabs</code></td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">iniciarRangoFechas</td><td>Sincroniza min/max entre dos <code>input[type=date]</code></td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">iniciarCalendario</td><td>Panel de calendario sobre <code>[data-calendario]</code></td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">debounce(fn, ms)</td><td>Retrasa una función hasta que pasan <code>ms</code> sin llamarla</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">copiarAlPortapapeles(txt)</td><td>Con fallback para contextos sin HTTPS</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">destruirTodo(raiz?)</td><td>Libera los listeners de <code>document</code> (Escape, clic-afuera) que <code>iniciarTodo(raiz)</code> registró</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">iniciarFormularios</td><td>Valida con la Constraint Validation API nativa cada <code>&lt;form data-validar&gt;</code></td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">ponerCargando/quitarCargando(boton)</td><td>Estado "Guardando…" en un <code>.boton</code> sin cambiar su ancho</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">iniciarSeleccionTabla</td><td>Checkbox de cabecera/fila en <code>table[data-seleccion]</code> + <code>.barra-seleccion</code></td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">iniciarMenus</td><td>Mejora <code>.menu</code>/<code>&lt;details&gt;</code>: roles ARIA, flechas entre items, foco inicial, posicionamiento</td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">posicionarFlotante(ancla, panel)</td><td>Marca <code>data-posicion="arriba"</code> si no hay espacio debajo de <code>ancla</code></td><td class="cen">—</td></tr>
-          <tr><td class="codigo">iniciarFiltrosUrl(form)</td><td>Sincroniza campos con la URL (<code>history.replaceState</code>); dispara <code>santacorina:filtros-cambiar</code></td><td class="cen">—</td></tr>
-          <tr><td class="codigo">iniciarCambiosSinGuardar/huboCambios</td><td>Avisa (<code>beforeunload</code>) si un form tiene cambios sin guardar</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">iniciarGruposRepetibles</td><td>Clona <code>&lt;template data-fila-plantilla&gt;</code>, reindexa <code>name</code>/<code>id</code>/<code>for</code></td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">iniciarCamposClp/valorClp</td><td>Formatea <code>input[data-campo-clp]</code> al perder el foco; distingue vacío de <code>0</code></td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">iniciarComboboxRemoto(caja, buscar)</td><td>Busqueda remota para <code>.combobox</code> -- debounce + descarta respuestas viejas</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">iniciarReintento(contenedor, cargar)</td><td>Conecta <code>[data-reintentar]</code> a <code>cargar()</code>; muestra/oculta <code>.lista-error</code></td><td class="cen">—</td></tr>
-          <tr><td class="codigo">confirmar(opciones)</td><td>Modal de confirmación al vuelo, devuelve <code>Promise&lt;boolean&gt;</code></td><td class="cen">—</td></tr>
-          <tr><td class="codigo">iniciarVistaPrevia</td><td>Abre <code>[data-vista-previa]</code> en un modal con imagen/PDF</td><td class="cen">✓</td></tr>
-          <tr><td class="codigo">iniciarColaAdjuntos(zona, subirArchivo)</td><td>Cola de adjuntos con barra de progreso y reintento</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">iniciarScrollspy(nav, contenedor?)</td><td>Alterna <code>.activo</code> en un nav según la sección visible</td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>formato</code></td><td>pesos/conSigno/pct/fechaCorta/rut/limpiarMojibake</td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>abrirModal/cerrarModal</code></td><td>Abre/cierra un <code>.modal</code>; backdrop, Escape y <code>[data-cerrar-modal]</code> ya cierran solos</td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span> <small>(cierre)</small></td></tr>
+          <tr><td class="codigo"><code>mostrarToast(msg, tipo)</code></td><td>Crea y descarta un <code>.toast</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>iniciarLateral</code></td><td>Conecta <code>.lateral-toggle</code> con <code>.abierta</code>/<code>.visible</code></td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>iniciarTabs</code></td><td>Mueve <code>.activo</code> al hacer clic en <code>.tabs</code></td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>iniciarRangoFechas</code></td><td>Sincroniza min/max entre dos <code>input[type=date]</code></td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>iniciarCalendario</code></td><td>Panel de calendario sobre <code>[data-calendario]</code></td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>debounce(fn, ms)</code></td><td>Retrasa una función hasta que pasan <code>ms</code> sin llamarla</td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>copiarAlPortapapeles(txt)</code></td><td>Con fallback para contextos sin HTTPS</td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>destruirTodo(raiz?)</code></td><td>Libera los listeners de <code>document</code> (Escape, clic-afuera) que <code>iniciarTodo(raiz)</code> registró</td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>iniciarFormularios</code></td><td>Valida con la Constraint Validation API nativa cada <code>&lt;form data-validar&gt;</code></td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>ponerCargando/quitarCargando(boton)</code></td><td>Estado "Guardando…" en un <code>.boton</code> sin cambiar su ancho</td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>iniciarSeleccionTabla</code></td><td>Checkbox de cabecera/fila en <code>table[data-seleccion]</code> + <code>.barra-seleccion</code></td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>iniciarMenus</code></td><td>Mejora <code>.menu</code>/<code>&lt;details&gt;</code>: roles ARIA, flechas entre items, foco inicial, posicionamiento</td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>posicionarFlotante(ancla, panel)</code></td><td>Marca <code>data-posicion="arriba"</code> si no hay espacio debajo de <code>ancla</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>iniciarFiltrosUrl(form)</code></td><td>Sincroniza campos con la URL (<code>history.replaceState</code>); dispara <code>santacorina:filtros-cambiar</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>iniciarCambiosSinGuardar/huboCambios</code></td><td>Avisa (<code>beforeunload</code>) si un form tiene cambios sin guardar</td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>iniciarGruposRepetibles</code></td><td>Clona <code>&lt;template data-fila-plantilla&gt;</code>, reindexa <code>name</code>/<code>id</code>/<code>for</code></td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>iniciarCamposClp/valorClp</code></td><td>Formatea <code>input[data-campo-clp]</code> al perder el foco; distingue vacío de <code>0</code></td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>iniciarComboboxRemoto(caja, buscar)</code></td><td>Busqueda remota para <code>.combobox</code> -- debounce + descarta respuestas viejas</td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>iniciarReintento(contenedor, cargar)</code></td><td>Conecta <code>[data-reintentar]</code> a <code>cargar()</code>; muestra/oculta <code>.lista-error</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>confirmar(opciones)</code></td><td>Modal de confirmación al vuelo, devuelve <code>Promise&lt;boolean&gt;</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>iniciarVistaPrevia</code></td><td>Abre <code>[data-vista-previa]</code> en un modal con imagen/PDF</td><td class="cen"><span class="icono icono-check" role="img" aria-label="si"></span></td></tr>
+          <tr><td class="codigo"><code>iniciarColaAdjuntos(zona, subirArchivo)</code></td><td>Cola de adjuntos con barra de progreso y reintento</td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>iniciarScrollspy(nav, contenedor?)</code></td><td>Alterna <code>.activo</code> en un nav según la sección visible</td><td class="cen">—</td></tr>
         </tbody>
       </table>
+      </div>
     </section>
 
 <section class="doc-sec" id="ciclo-de-vida">
       <h2>Ciclo de vida y eventos</h2>
       <p class="uso"><code>iniciarTodo()</code> ya era seguro de llamar dos veces sobre el mismo DOM (0.19.0) — no duplica listeners. Lo que faltaba era el caso de una SPA que <strong>desmonta</strong> <code>raiz</code> y monta un nodo equivalente: los listeners que modal/cajón/popover/toggletip/calendario/combobox/menú ponen en <code>document</code> (clic-afuera) no se liberan solos, porque <code>document</code> nunca se destruye. <code>destruirTodo(raiz)</code> los libera antes de desmontar. Desde 0.25.0, <code>Escape</code> ya no depende de un listener por módulo: los 7 se apilan en una pila compartida al abrirse (<code>apilarCapa</code>) y <code>Escape</code> cierra solo la capa superior — un popover abierto dentro de un modal se cierra primero, el modal recién con el segundo <code>Escape</code>.</p>
       <div class="demo-wrap">
-        <div class="demo" id="demo-ciclo-vida">
+        <div class="demo" data-ui id="demo-ciclo-vida">
           <div data-popover-demo><button data-popover-trigger class="boton secundario">Abrir popover</button><div data-popover-contenido>Contenido del popover</div></div>
           <p style="margin:14px 0 6px">Listeners de <code>keydown</code> activos en <code>document</code> ahora mismo: <strong id="conteo-listeners">—</strong></p>
           <button class="boton" id="btn-remontar-demo">destruirTodo() + remontar</button>
@@ -197,17 +199,17 @@ Santacorina.iniciarTodo(); // vuelve a quedar en UN solo listener, no se acumula
       <table style="margin-bottom:10px">
         <thead><tr><th>Evento</th><th>Se dispara en</th><th><code>detail</code></th></tr></thead>
         <tbody>
-          <tr><td class="codigo">santacorina:modal-abrir / -cerrar</td><td class="codigo">.modal</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">santacorina:cajon-abrir / -cerrar</td><td class="codigo">.cajon</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">santacorina:popover-abrir / -cerrar</td><td class="codigo">[data-popover]</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">santacorina:toggletip-abrir / -cerrar</td><td class="codigo">[data-toggletip]</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">santacorina:calendario-abrir / -cerrar</td><td class="codigo">[data-calendario]</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">santacorina:colapsar-abrir / -cerrar</td><td class="codigo">[data-colapsar]</td><td class="cen">—</td></tr>
-          <tr><td class="codigo">santacorina:tab-cambiar</td><td class="codigo">.tabs</td><td class="codigo">{ destino }</td></tr>
-          <tr><td class="codigo">santacorina:combobox-seleccionar</td><td class="codigo">.combobox</td><td class="codigo">{ valor, texto }</td></tr>
-          <tr><td class="codigo">santacorina:carousel-cambiar</td><td class="codigo">.carousel</td><td class="codigo">{ indice }</td></tr>
-          <tr><td class="codigo">santacorina:ordenar</td><td class="codigo">th[data-ordenable]</td><td class="codigo">{ columna, direccion }</td></tr>
-          <tr><td class="codigo">santacorina:seleccion-cambiar</td><td class="codigo">table[data-seleccion]</td><td class="codigo">{ ids, total }</td></tr>
+          <tr><td class="codigo"><code>santacorina:modal-abrir / -cerrar</code></td><td class="codigo"><code>.modal</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>santacorina:cajon-abrir / -cerrar</code></td><td class="codigo"><code>.cajon</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>santacorina:popover-abrir / -cerrar</code></td><td class="codigo"><code>[data-popover]</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>santacorina:toggletip-abrir / -cerrar</code></td><td class="codigo"><code>[data-toggletip]</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>santacorina:calendario-abrir / -cerrar</code></td><td class="codigo"><code>[data-calendario]</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>santacorina:colapsar-abrir / -cerrar</code></td><td class="codigo"><code>[data-colapsar]</code></td><td class="cen">—</td></tr>
+          <tr><td class="codigo"><code>santacorina:tab-cambiar</code></td><td class="codigo"><code>.tabs</code></td><td class="codigo"><code>{ destino }</code></td></tr>
+          <tr><td class="codigo"><code>santacorina:combobox-seleccionar</code></td><td class="codigo"><code>.combobox</code></td><td class="codigo"><code>{ valor, texto }</code></td></tr>
+          <tr><td class="codigo"><code>santacorina:carousel-cambiar</code></td><td class="codigo"><code>.carousel</code></td><td class="codigo"><code>{ indice }</code></td></tr>
+          <tr><td class="codigo"><code>santacorina:ordenar</code></td><td class="codigo"><code>th[data-ordenable]</code></td><td class="codigo"><code>{ columna, direccion }</code></td></tr>
+          <tr><td class="codigo"><code>santacorina:seleccion-cambiar</code></td><td class="codigo"><code>table[data-seleccion]</code></td><td class="codigo"><code>{ ids, total }</code></td></tr>
         </tbody>
       </table>
     </section>
@@ -282,7 +284,7 @@ Santacorina.iniciarTodo(); // vuelve a quedar en UN solo listener, no se acumula
     });
 
     function normalizarTexto(s) {
-      return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     var buscador = document.getElementById("nav-buscar");
     var sinResultados = document.getElementById("nav-sin-resultados");

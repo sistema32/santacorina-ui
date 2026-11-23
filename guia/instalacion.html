@@ -17,7 +17,7 @@
     }
   })();
 </script>
-<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<button class="doc-nav-toggle" id="doc-nav-toggle"><span class="icono icono-menu" aria-hidden="true"></span>Componentes</button>
 <div class="doc-shell">
   <nav class="doc-nav" id="doc-nav">
     <p class="marca">@sistema32/santacorina-ui</p>
@@ -43,6 +43,7 @@
     <div class="grupo">Fundamentos</div>
     <a href="fundamentos.html#tokens">Tokens</a>
     <a href="fundamentos.html#tipografia">Tipografía</a>
+    <a href="fundamentos.html#escala">Escala, espaciado y esquina</a>
     <a href="fundamentos.html#iconos">Íconos</a>
     <div class="grupo">Layout</div>
     <a href="layout.html#armazon">Armazón de página</a>
@@ -129,7 +130,6 @@
   </nav>
   <main class="doc-main">
     <header class="doc-header">
-      <p class="eyebrow">Guía de instalación</p>
       <h1>Instalación</h1>
       <p>Cómo sumar <code>@sistema32/santacorina-ui</code> a un sistema nuevo, con o sin Node, y cómo conectar sus utilidades JS. Requiere <code>tailwindcss@^4.0.0</code> como peer dependency si usas el modo "con tu build de Tailwind" — el modo "sin Node" no lo necesita en absoluto.</p>
     </header>
@@ -138,8 +138,8 @@
       <h2>1. Instalar el paquete</h2>
       <p class="uso">Un solo paquete trae el CSS (plugin de Tailwind) y el JS — se consumen por separado según lo que necesite el sistema.</p>
       <div class="demo-wrap">
-        <div class="demo">
-          <pre class="codigo" style="margin:0;border-radius:8px">npm install @sistema32/santacorina-ui</pre>
+        <div class="demo" data-ui>
+          <pre class="codigo" style="margin:0">npm install @sistema32/santacorina-ui</pre>
         </div>
       </div>
     </section>
@@ -148,8 +148,8 @@
       <h2>2. Con tu propio build de Tailwind</h2>
       <p class="uso">El caso normal para un sistema con Node y Vite/Webpack ya corriendo Tailwind v4. Agrega el <code>@plugin</code> en el CSS de entrada:</p>
       <div class="demo-wrap">
-        <div class="demo">
-          <pre class="codigo" style="margin:0;border-radius:8px">/* src/estilos.css */
+        <div class="demo" data-ui>
+          <pre class="codigo" style="margin:0">/* src/estilos.css */
 @import "tailwindcss";
 @plugin "@sistema32/santacorina-ui";</pre>
         </div>
@@ -161,8 +161,8 @@
       <h2>3. Sin Node (backend sin build propio)</h2>
       <p class="uso">El caso real de <code>sgp</code>: el backend Python no tiene Node en su imagen de producción. <code>dist/ui.css</code> es el plugin ya compilado contra Tailwind — se enlaza directo, sin paso de build ni Tailwind instalado del lado del consumidor.</p>
       <div class="demo-wrap">
-        <div class="demo">
-          <pre class="codigo" style="margin:0;border-radius:8px">&lt;link rel="stylesheet" href="node_modules/@sistema32/santacorina-ui/dist/ui.css"&gt;</pre>
+        <div class="demo" data-ui>
+          <pre class="codigo" style="margin:0">&lt;link rel="stylesheet" href="node_modules/@sistema32/santacorina-ui/dist/ui.css"&gt;</pre>
         </div>
       </div>
     </section>
@@ -171,15 +171,15 @@
       <h2>4. Utilidades JS</h2>
       <p class="uso">Dos modos de consumo, mismo criterio que el CSS: uno con auto-arranque para plantillas sin bundler, otro explícito para quien ya tiene su propio ciclo de vida (Vue y similares).</p>
       <div class="demo-wrap">
-        <div class="demo">
-          <pre class="codigo" style="margin:0;border-radius:8px">&lt;!-- sin bundler (plantillas Jinja) --&gt;
+        <div class="demo" data-ui>
+          <pre class="codigo" style="margin:0">&lt;!-- sin bundler (plantillas Jinja) --&gt;
 &lt;script src="node_modules/@sistema32/santacorina-ui/dist/js.global.js"&gt;&lt;/script&gt;
 &lt;!-- expone window.Santacorina y ya auto-arrancó .lateral-toggle, .tabs, etc. --&gt;</pre>
         </div>
       </div>
       <div class="demo-wrap">
-        <div class="demo">
-          <pre class="codigo" style="margin:0;border-radius:8px">// con bundler (Vue u otro) -- esta entrada NO se auto-ejecuta
+        <div class="demo" data-ui>
+          <pre class="codigo" style="margin:0">// con bundler (Vue u otro) -- esta entrada NO se auto-ejecuta
 import { formato, mostrarToast, abrirModal, iniciarTodo, destruirTodo } from "@sistema32/santacorina-ui/js";
 
 // onMounted(() =&gt; iniciarTodo(raizRef.value));
@@ -193,8 +193,8 @@ import { formato, mostrarToast, abrirModal, iniciarTodo, destruirTodo } from "@s
       <h2>5. Personalizar colores y tipografía</h2>
       <p class="uso">Los tokens de marca son variables CSS en un <code>:root</code> <strong>sin</strong> <code>@layer</code> — eso le gana a cualquier regla dentro de un layer (el plugin define sus colores en <code>@layer base</code>) sin importar el orden en que aparezcan en el archivo.</p>
       <div class="demo-wrap">
-        <div class="demo">
-          <pre class="codigo" style="margin:0;border-radius:8px">@import "tailwindcss";
+        <div class="demo" data-ui>
+          <pre class="codigo" style="margin:0">@import "tailwindcss";
 @plugin "@sistema32/santacorina-ui";
 
 :root {
@@ -210,8 +210,8 @@ import { formato, mostrarToast, abrirModal, iniciarTodo, destruirTodo } from "@s
       <h2>6. Modo oscuro</h2>
       <p class="uso">Sigue <code>prefers-color-scheme</code> por defecto. <code>data-theme="dark"</code>/<code>"light"</code> en cualquier ancestro (típicamente <code>&lt;html&gt;</code>) lo fuerza a mano — mismo mecanismo que colores y tipografía, solo variables CSS.</p>
       <div class="demo-wrap">
-        <div class="demo">
-          <pre class="codigo" style="margin:0;border-radius:8px">&lt;!-- forzar oscuro sin importar el sistema operativo --&gt;
+        <div class="demo" data-ui>
+          <pre class="codigo" style="margin:0">&lt;!-- forzar oscuro sin importar el sistema operativo --&gt;
 &lt;html data-theme="dark"&gt;</pre>
         </div>
       </div>
@@ -288,7 +288,7 @@ import { formato, mostrarToast, abrirModal, iniciarTodo, destruirTodo } from "@s
     });
 
     function normalizarTexto(s) {
-      return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     var buscador = document.getElementById("nav-buscar");
     var sinResultados = document.getElementById("nav-sin-resultados");

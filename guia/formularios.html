@@ -17,7 +17,7 @@
     }
   })();
 </script>
-<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<button class="doc-nav-toggle" id="doc-nav-toggle"><span class="icono icono-menu" aria-hidden="true"></span>Componentes</button>
 <div class="doc-shell">
   <nav class="doc-nav" id="doc-nav">
     <p class="marca">@sistema32/santacorina-ui</p>
@@ -43,6 +43,7 @@
     <div class="grupo">Fundamentos</div>
     <a href="fundamentos.html#tokens">Tokens</a>
     <a href="fundamentos.html#tipografia">Tipografía</a>
+    <a href="fundamentos.html#escala">Escala, espaciado y esquina</a>
     <a href="fundamentos.html#iconos">Íconos</a>
     <div class="grupo">Layout</div>
     <a href="layout.html#armazon">Armazón de página</a>
@@ -129,7 +130,6 @@
   </nav>
   <main class="doc-main">
     <header class="doc-header">
-      <p class="eyebrow">SLEP Santa Corina</p>
       <h1>Formularios</h1>
       <p>Campos, grupos, validación y los patrones de accesibilidad de GOV.UK Design System para formularios largos.</p>
     </header>
@@ -138,7 +138,7 @@
       <h2>Campo</h2>
       <p class="uso">Un control de formulario con su etiqueta y texto de ayuda.</p>
       <div class="demo-wrap">
-        <div class="demo"><div class="campo" style="max-width:320px">
+        <div class="demo" data-ui><div class="campo" style="max-width:320px">
           <label for="rbd">RBD del establecimiento</label>
           <input id="rbd" type="text" value="12255-6">
           <p class="ayuda">Se usa para vincular la solicitud al presupuesto correcto.</p>
@@ -151,7 +151,7 @@
       <h2>Error de campo</h2>
       <p class="uso">Complementa <code>.resumen-errores</code> (ya existente): el resumen enlaza al campo, esto muestra por qué, junto al control. <code>[aria-invalid="true"]</code> funciona en cualquier <code>input</code>/<code>select</code>/<code>textarea</code> sin una clase nueva.</p>
       <div class="demo-wrap">
-        <div class="demo"><div class="campo" style="max-width:320px">
+        <div class="demo" data-ui><div class="campo" style="max-width:320px">
           <label for="rut-err">RUT</label>
           <input id="rut-err" type="text" aria-invalid="true" aria-describedby="rut-err-msg">
           <p class="campo-error" id="rut-err-msg"><span class="icono icono-advertencia"></span>El RUT ingresado no es válido.</p>
@@ -164,7 +164,7 @@
       <h2>Checkbox / radio</h2>
       <p class="uso">Nativos, solo con <code>accent-color</code> de marca — no un input oculto + div decorado.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="campo-check"><input type="checkbox" id="g-c1" checked><label for="g-c1">Recepción conforme</label></div>
           <div class="campo-check"><input type="radio" name="g-r" id="g-r1" checked><label for="g-r1">SEP</label></div>
         </div>
@@ -176,7 +176,7 @@
       <h2>Interruptor</h2>
       <p class="uso">On/off — activar o desactivar algo (ej. un destino de Finanzas).</p>
       <div class="demo-wrap">
-        <div class="demo demo-fila">
+        <div class="demo demo-fila" data-ui>
           <label class="interruptor"><input type="checkbox" checked><span class="pista"></span></label>
           <label class="interruptor"><input type="checkbox"><span class="pista"></span></label>
         </div>
@@ -188,7 +188,7 @@
       <h2>Rango</h2>
       <p class="uso">Mismos colores que <code>.barra-progreso</code>.</p>
       <div class="demo-wrap">
-        <div class="demo"><input type="range" min="0" max="100" value="65"></div>
+        <div class="demo" data-ui><input type="range" min="0" max="100" value="65"></div>
         <pre class="codigo">&lt;input type="range" min="0" max="100" value="65"&gt;</pre>
       </div>
     </section>
@@ -197,7 +197,7 @@
       <h2>Archivo</h2>
       <p class="uso">Marca solo sobre el botón "Elegir archivo" — el cuadro de diálogo del sistema operativo no se toca.</p>
       <div class="demo-wrap">
-        <div class="demo"><div class="campo" style="margin-bottom:0">
+        <div class="demo" data-ui><div class="campo" style="margin-bottom:0">
           <label for="g-f1">Agregar antecedente</label>
           <input type="file" id="g-f1">
         </div></div>
@@ -209,7 +209,7 @@
       <h2>Buscador</h2>
       <p class="uso"><code>input[type=search]</code> ya trae un botón nativo de limpiar, pero depende del navegador y no tiene ícono — se oculta y se reemplaza por uno de marca (<code>iniciarBuscadores</code>).</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="buscador">
             <input type="search" placeholder="Buscar establecimiento...">
             <button type="button" class="limpiar" aria-label="Limpiar">×</button>
@@ -223,7 +223,7 @@
       <h2>Contador de caracteres</h2>
       <p class="uso">Sobre un <code>textarea</code> con <code>maxlength</code> — marca <code>.cerca</code> al 90% y <code>.lleno</code> al límite (<code>iniciarContadores</code>).</p>
       <div class="demo-wrap">
-        <div class="demo"><div class="campo" style="margin-bottom:0">
+        <div class="demo" data-ui><div class="campo" style="margin-bottom:0">
           <label for="g-ta1">Motivo del rechazo</label>
           <textarea id="g-ta1" data-contador maxlength="120"></textarea>
           <span class="contador-caracteres">0/120</span>
@@ -236,7 +236,7 @@
       <h2>Grupo de campo</h2>
       <p class="uso">Prefijo/sufijo pegado a un input — esta plataforma maneja montos en pesos en cada tabla.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="grupo-campo" style="max-width:220px">
             <span class="prefijo">$</span>
             <input type="text" value="1.422.169">
@@ -250,7 +250,7 @@
       <h2>Fieldset / leyenda</h2>
       <p class="uso">El HTML nativo correcto para agrupar varios <code>.campo-check</code> bajo una sola pregunta — antes solo existía el estilo del ítem individual.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <fieldset class="campo-grupo">
             <legend>Tipo de solicitud</legend>
             <div class="campo-check"><input type="radio" name="tipo-guia" id="tg1" checked><label for="tg1">SEP</label></div>
@@ -265,7 +265,7 @@
       <h2>Combobox</h2>
       <p class="uso">Select con autocompletado sobre un <code>&lt;select&gt;</code> oculto — sigue funcionando con un form normal si el JS falla. Filtra sin distinguir tildes.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="combobox">
             <input type="text" placeholder="Buscar establecimiento...">
             <select>
@@ -284,7 +284,7 @@
       <h2>Medidor de contraseña</h2>
       <p class="uso">Heurística simple (longitud + variedad de caracteres) para una guía visual — la seguridad real la sigue validando el backend.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <input type="password" data-medidor-clave placeholder="Nueva contraseña">
         </div>
         <pre class="codigo">&lt;input type="password" data-medidor-clave&gt;</pre>
@@ -295,7 +295,7 @@
       <h2>Secciones de formulario</h2>
       <p class="uso">Agrupa los <code>.campo</code> de un formulario largo bajo un título, en vez de dejarlos todos sueltos uno tras otro.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="formulario-seccion" style="margin-bottom:0">
             <h4 class="formulario-seccion-titulo">Datos del solicitante</h4>
             <p class="formulario-seccion-nota">Quién pide la compra y para qué establecimiento.</p>
@@ -310,7 +310,7 @@
       <h2>Formulario largo (ejemplo)</h2>
       <p class="uso">Combinando lo de arriba en contexto real: una solicitud de compra con 4 secciones.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="formulario-seccion">
             <h4 class="formulario-seccion-titulo">Datos del solicitante</h4>
             <p class="formulario-seccion-nota">Quién pide la compra y para qué establecimiento.</p>
@@ -345,7 +345,7 @@
       <h2>Resumen de revisión</h2>
       <p class="uso">De <a href="https://design-system.service.gov.uk/components/summary-list/">GOV.UK "summary list"</a> — pares clave/valor con acción "Cambiar", para la pantalla de revisión antes de enviar (cierra el flujo de <code>.asistente</code>/<code>.paso</code>). Solo CSS.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <div class="resumen-revision">
             <div class="resumen-revision-item"><span>Establecimiento</span><strong>Escuela Básica N°1</strong><a href="#" class="cambiar">Cambiar</a></div>
             <div class="resumen-revision-item"><span>Monto solicitado</span><strong>$1.422.169</strong><a href="#" class="cambiar">Cambiar</a></div>
@@ -359,7 +359,7 @@
       <h2>Resumen de errores</h2>
       <p class="uso">De <a href="https://design-system.service.gov.uk/components/error-summary/">GOV.UK "error summary"</a> — el patrón de accesibilidad de formularios mejor documentado que encontré. <code>iniciarResumenErrores</code> enfoca la caja apenas aparece y mueve el foco al campo destino al hacer clic en un link.</p>
       <div class="demo-wrap">
-        <div class="demo" id="demo-resumen-errores">
+        <div class="demo" data-ui id="demo-resumen-errores">
           <button class="boton secundario" id="simular-error">Simular envío fallido</button>
           <div class="resumen-errores" hidden style="margin-top:14px">
             <h2>Hay 2 problemas con tu formulario</h2>
@@ -379,7 +379,7 @@
       <h2>Validación con guardado</h2>
       <p class="uso"><code>iniciarFormularios</code> conecta la Constraint Validation API nativa del navegador (<code>checkValidity()</code>) a <code>.campo-error</code>/<code>.resumen-errores</code> de arriba en cada <code>&lt;form data-validar&gt;</code>: envía el form vacío y mira. Reglas entre campos (ej. confirmar contraseña) siguen siendo del consumidor vía <code>input.setCustomValidity(...)</code> nativo — el paquete no inventa un motor de reglas. <code>ponerCargando</code>/<code>quitarCargando</code> ponen el botón en "Guardando…" sin cambiar su ancho (el texto real sigue ahí, oculto con <code>color:transparent</code>) y evitan un doble envío.</p>
       <div class="demo-wrap">
-        <div class="demo">
+        <div class="demo" data-ui>
           <form data-validar id="demo-form-validar">
             <div class="campo"><label for="demo-rut">RUT</label><input id="demo-rut" type="text" required data-mensaje-error="Ingresa un RUT válido"></div>
             <div class="campo"><label for="demo-monto">Monto</label><input id="demo-monto" type="number" required min="1" data-mensaje-error="El monto debe ser mayor a 0"></div>
@@ -470,7 +470,7 @@
     });
 
     function normalizarTexto(s) {
-      return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     var buscador = document.getElementById("nav-buscar");
     var sinResultados = document.getElementById("nav-sin-resultados");

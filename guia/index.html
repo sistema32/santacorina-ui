@@ -17,7 +17,7 @@
     }
   })();
 </script>
-<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<button class="doc-nav-toggle" id="doc-nav-toggle"><span class="icono icono-menu" aria-hidden="true"></span>Componentes</button>
 <div class="doc-shell">
   <nav class="doc-nav" id="doc-nav">
     <p class="marca">@sistema32/santacorina-ui</p>
@@ -43,6 +43,7 @@
     <div class="grupo">Fundamentos</div>
     <a href="fundamentos.html#tokens">Tokens</a>
     <a href="fundamentos.html#tipografia">Tipografía</a>
+    <a href="fundamentos.html#escala">Escala, espaciado y esquina</a>
     <a href="fundamentos.html#iconos">Íconos</a>
     <div class="grupo">Layout</div>
     <a href="layout.html#armazon">Armazón de página</a>
@@ -129,49 +130,55 @@
   </nav>
   <main class="doc-main">
     <header class="doc-header">
-      <p class="eyebrow">SLEP Santa Corina</p>
-      <h1>@sistema32/santacorina-ui</h1>
-      <p>Plugin de Tailwind CSS v4: tokens de marca + los componentes que Tailwind no trae de fábrica. Este CSS lo sirve directamente <code>dist/ui.css</code> — lo que ves es exactamente lo que recibe cualquier proyecto que instale el paquete.</p>
+      <h1>El sistema de diseño de Santa Corina</h1>
+      <p><code>@sistema32/santacorina-ui</code> es un plugin de Tailwind CSS v4: tokens de marca + los componentes que Tailwind no trae de fábrica. Este CSS lo sirve directamente <code>dist/ui.css</code> — lo que ves es exactamente lo que recibe cualquier proyecto que instale el paquete.</p>
     </header>
 
+    <section class="doc-sec" id="lector">
+      <h2>Lo que esta página está usando ahora mismo</h2>
+      <p class="uso">Ninguno de estos valores está escrito a mano: el navegador lee el <code>:root</code> de esta página, que sale de <code>dist/ui.css</code> tal como se publica. Cambiá el tema arriba a la izquierda y la tabla cambia con él.</p>
+      <div class="lector">
+        <table class="lector-tabla" data-ui>
+          <thead><tr><th>Muestra</th><th>Token</th><th>Valor en este tema</th></tr></thead>
+          <tbody id="lector-filas"></tbody>
+        </table>
+        <p class="nota" id="lector-pie"></p>
+      </div>
+    </section>
+
     <section class="doc-sec" id="secciones">
-      <div class="portada-grid">
-        <a class="portada-card" href="instalacion.html">
-          <span class="icono icono-agregar"></span>
-          <b>Instalación</b>
-          <span>npm install, con/sin Tailwind, utilidades JS, personalizar colores.</span>
+      <h2>Las seis páginas</h2>
+      <div class="portada-lista">
+        <a class="portada-fila" href="instalacion.html">
+          <span class="portada-txt"><span class="portada-nombre">Instalación</span><span class="detalle">npm install, con y sin Tailwind, utilidades JS, personalizar colores.</span></span>
+          <span class="portada-cuenta">6 secciones</span>
         </a>
-        <a class="portada-card" href="fundamentos.html">
-          <span class="icono icono-info"></span>
-          <b>Fundamentos</b>
-          <span>Tokens de color, tipografía de marca e íconos.</span>
+        <a class="portada-fila" href="fundamentos.html">
+          <span class="portada-txt"><span class="portada-nombre">Fundamentos</span><span class="detalle">Tokens de color, tipografía de marca e íconos.</span></span>
+          <span class="portada-cuenta">4 secciones</span>
         </a>
-        <a class="portada-card" href="layout.html">
-          <span class="icono icono-menu"></span>
-          <b>Layout</b>
-          <span>Armazón de página, menú lateral, contenedores, hero, columnas.</span>
+        <a class="portada-fila" href="layout.html">
+          <span class="portada-txt"><span class="portada-nombre">Layout</span><span class="detalle">Armazón de página, menú lateral, contenedores, hero, columnas.</span></span>
+          <span class="portada-cuenta">9 secciones</span>
         </a>
-        <a class="portada-card" href="formularios.html">
-          <span class="icono icono-editar"></span>
-          <b>Formularios</b>
-          <span>Campos, validación, combobox, resumen de errores, formulario largo.</span>
+        <a class="portada-fila" href="formularios.html">
+          <span class="portada-txt"><span class="portada-nombre">Formularios</span><span class="detalle">Campos, validación, combobox, resumen de errores, formulario largo.</span></span>
+          <span class="portada-cuenta">17 secciones</span>
         </a>
-        <a class="portada-card" href="componentes.html">
-          <span class="icono icono-ver"></span>
-          <b>Componentes</b>
-          <span>Tarjetas, tablas, tabs, menú, modal, cajón y el resto del catálogo.</span>
+        <a class="portada-fila" href="componentes.html">
+          <span class="portada-txt"><span class="portada-nombre">Componentes</span><span class="detalle">Tarjetas, tablas, tabs, menú, modal, cajón y el resto del catálogo.</span></span>
+          <span class="portada-cuenta">50 secciones</span>
         </a>
-        <a class="portada-card" href="js-utilidades.html">
-          <span class="icono icono-check"></span>
-          <b>JS / Utilidades</b>
-          <span>Funciones JS, auto-arranque vs. bundler, ciclo de vida y eventos.</span>
+        <a class="portada-fila" href="js-utilidades.html">
+          <span class="portada-txt"><span class="portada-nombre">JS / Utilidades</span><span class="detalle">Funciones JS, auto-arranque frente a bundler, ciclo de vida y eventos.</span></span>
+          <span class="portada-cuenta">2 secciones</span>
         </a>
       </div>
     </section>
 
     <section class="doc-sec" id="indice">
       <h2>Índice de referencia</h2>
-      <p class="uso">Las 73 clases/funciones del paquete, con la página donde está cada una documentada.</p>
+      <p class="uso">Las 80 clases/funciones del paquete, con la página donde está cada una documentada.</p>
       <div class="demo-wrap">
         <div class="demo tabla-scroll">
           <table>
@@ -179,6 +186,7 @@
             <tbody>
 <tr><td>Tokens</td><td class="tenue">Fundamentos</td><td><a href="fundamentos.html#tokens">fundamentos &rarr;</a></td></tr>
 <tr><td>Tipografía</td><td class="tenue">Fundamentos</td><td><a href="fundamentos.html#tipografia">fundamentos &rarr;</a></td></tr>
+<tr><td>Escala, espaciado y esquina</td><td class="tenue">Fundamentos</td><td><a href="fundamentos.html#escala">fundamentos &rarr;</a></td></tr>
 <tr><td>Íconos</td><td class="tenue">Fundamentos</td><td><a href="fundamentos.html#iconos">fundamentos &rarr;</a></td></tr>
 <tr><td>Armazón de página</td><td class="tenue">Layout</td><td><a href="layout.html#armazon">layout &rarr;</a></td></tr>
 <tr><td>Menú lateral</td><td class="tenue">Layout</td><td><a href="layout.html#lateral">layout &rarr;</a></td></tr>
@@ -333,7 +341,7 @@
     });
 
     function normalizarTexto(s) {
-      return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
     var buscador = document.getElementById("nav-buscar");
     var sinResultados = document.getElementById("nav-sin-resultados");
@@ -400,6 +408,56 @@
     });
     pre.appendChild(boton);
   });
+
+  /* Lector de tokens de la portada: lee el :root real de esta pagina
+     (el que deja dist/ui.css) y escribe la tabla con lo que encuentra.
+     Si el CSS publicado cambiara un token, esta tabla lo muestra sola
+     -- por eso es una prueba y no una captura. */
+  (function () {
+    var cuerpo = document.getElementById("lector-filas");
+    if (!cuerpo) return;
+    var tokens = ["--color-fondo", "--color-superficie", "--color-texto", "--color-azul", "--color-verde", "--color-rojo"];
+    var pie = document.getElementById("lector-pie");
+
+    function pintar() {
+      var estilo = getComputedStyle(document.documentElement);
+      cuerpo.textContent = "";
+      tokens.forEach(function (token) {
+        var valor = estilo.getPropertyValue(token).trim();
+        var tr = document.createElement("tr");
+        var tdMuestra = document.createElement("td");
+        var muestra = document.createElement("span");
+        muestra.className = "lector-muestra";
+        muestra.style.background = valor;
+        tdMuestra.appendChild(muestra);
+        var tdNombre = document.createElement("td");
+        var codigo = document.createElement("code");
+        codigo.className = "lector-nombre";
+        codigo.textContent = token;
+        tdNombre.appendChild(codigo);
+        var tdValor = document.createElement("td");
+        tdValor.className = "valor";
+        tdValor.textContent = valor || "(sin definir)";
+        tr.appendChild(tdMuestra);
+        tr.appendChild(tdNombre);
+        tr.appendChild(tdValor);
+        cuerpo.appendChild(tr);
+      });
+      if (pie) {
+        var cuerpoEstilo = getComputedStyle(document.body);
+        pie.textContent =
+          "Tipografia en uso: " + cuerpoEstilo.fontFamily.split(",")[0].replace(/["']/g, "") +
+          " · cuerpo " + cuerpoEstilo.fontSize + " con interlineado " + cuerpoEstilo.lineHeight + ".";
+      }
+    }
+
+    pintar();
+    new MutationObserver(pintar).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    if (window.matchMedia) {
+      var consulta = window.matchMedia("(prefers-color-scheme: dark)");
+      if (consulta.addEventListener) consulta.addEventListener("change", pintar);
+    }
+  })();
 </script>
 </body>
 </html>
