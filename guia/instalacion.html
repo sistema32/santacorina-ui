@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>santacorina/ui — Instalación</title>
+<link rel="stylesheet" href="../dist/ui.css">
+<link rel="stylesheet" href="guia.css">
+</head>
+<body>
+<script>
+  // Aplica el tema guardado antes de pintar, para evitar parpadeo.
+  (function () {
+    var guardado = localStorage.getItem("santacorina-guia-tema");
+    if (guardado === "light" || guardado === "dark") {
+      document.documentElement.setAttribute("data-theme", guardado);
+    }
+  })();
+</script>
+<button class="doc-nav-toggle" id="doc-nav-toggle">☰ Componentes</button>
+<div class="doc-shell">
+  <nav class="doc-nav" id="doc-nav">
+    <p class="marca">@sistema32/santacorina-ui</p>
+    <p class="sub">Guía de componentes</p>
+    <div class="tema-selector" role="group" aria-label="Tema">
+      <button type="button" data-tema="light">Claro</button>
+      <button type="button" data-tema="system">Sistema</button>
+      <button type="button" data-tema="dark">Oscuro</button>
+    </div>
+    <div class="nav-buscar-caja">
+      <span class="icono icono-buscar"></span>
+      <input type="search" id="nav-buscar" placeholder="Buscar componente..." aria-label="Buscar en la guía">
+    </div>
+    <p class="nav-sin-resultados" id="nav-sin-resultados">Sin resultados.</p>
+    <a href="index.html" class="nav-inicio">&larr; Portada / índice completo</a>
+    <div class="grupo">Instalación</div>
+    <a href="#npm">Instalar el paquete</a>
+    <a href="#con-tailwind">Con tu build de Tailwind</a>
+    <a href="#sin-node">Sin Node (CSS compilado)</a>
+    <a href="#js">Utilidades JS</a>
+    <a href="#personalizar">Personalizar colores/tipografía</a>
+    <a href="#modo-oscuro">Modo oscuro</a>
+    <div class="grupo">Fundamentos</div>
+    <a href="fundamentos.html#tokens">Tokens</a>
+    <a href="fundamentos.html#tipografia">Tipografía</a>
+    <a href="fundamentos.html#iconos">Íconos</a>
+    <div class="grupo">Layout</div>
+    <a href="layout.html#armazon">Armazón de página</a>
+    <a href="layout.html#lateral">Menú lateral</a>
+    <a href="layout.html#variantes-cabecera">Variantes de cabecera/pie</a>
+    <a href="layout.html#contenedor">Contenedor</a>
+    <a href="layout.html#columnas-variantes">Columnas (2/4)</a>
+    <a href="layout.html#masonry">Masonry</a>
+    <a href="layout.html#hero">Hero</a>
+    <a href="layout.html#col-ancha">Columna ancha</a>
+    <a href="layout.html#z-index">Z-index</a>
+    <div class="grupo">Formularios</div>
+    <a href="formularios.html#campo">Campo</a>
+    <a href="formularios.html#campo-error">Error de campo</a>
+    <a href="formularios.html#check">Checkbox / radio</a>
+    <a href="formularios.html#interruptor">Interruptor</a>
+    <a href="formularios.html#rango">Rango</a>
+    <a href="formularios.html#archivo">Archivo</a>
+    <a href="formularios.html#buscador">Buscador</a>
+    <a href="formularios.html#contador">Contador de caracteres</a>
+    <a href="formularios.html#grupo-campo">Grupo de campo</a>
+    <a href="componentes.html#barra-filtros">Barra de filtros</a>
+    <a href="formularios.html#campo-grupo">Fieldset / leyenda</a>
+    <a href="formularios.html#combobox">Combobox</a>
+    <a href="formularios.html#medidor-clave">Medidor de contraseña</a>
+    <a href="formularios.html#formulario-seccion">Secciones de formulario</a>
+    <a href="formularios.html#formulario-largo">Formulario largo (ejemplo)</a>
+    <a href="formularios.html#resumen-revision">Resumen de revisión</a>
+    <a href="formularios.html#resumen-errores">Resumen de errores</a>
+    <a href="formularios.html#validacion-guardado">Validación con guardado</a>
+    <div class="grupo">Componentes</div>
+    <a href="componentes.html#tarjeta">Tarjeta</a>
+    <a href="componentes.html#kpi">KPI</a>
+    <a href="componentes.html#etiqueta">Etiqueta</a>
+    <a href="componentes.html#boton">Botón</a>
+    <a href="componentes.html#pastilla">Pastilla</a>
+    <a href="componentes.html#aviso">Aviso</a>
+    <a href="componentes.html#aviso-pagina">Aviso de página</a>
+    <a href="componentes.html#tabla">Tabla</a>
+    <a href="componentes.html#tabla-ordenable">Tabla ordenable</a>
+    <a href="componentes.html#tabla-variantes">Variantes de tabla</a>
+    <a href="componentes.html#densidad">Densidad por bloque</a>
+    <a href="componentes.html#dato">Dato</a>
+    <a href="componentes.html#luz">Semáforo</a>
+    <a href="componentes.html#tiempo">Línea de tiempo</a>
+    <a href="componentes.html#vacio">Estado vacío</a>
+    <a href="componentes.html#stepper">Stepper</a>
+    <a href="componentes.html#asistente">Asistente</a>
+    <a href="componentes.html#rastreador">Rastreador de proceso</a>
+    <a href="componentes.html#validacion">Validación</a>
+    <a href="componentes.html#total-caja">Total</a>
+    <a href="componentes.html#progreso">Barra de progreso</a>
+    <a href="componentes.html#tabs">Tabs</a>
+    <a href="componentes.html#tab-panel">Pestañas con panel</a>
+    <a href="componentes.html#tooltip">Tooltip</a>
+    <a href="componentes.html#toggletip">Toggletip</a>
+    <a href="componentes.html#breadcrumb">Breadcrumb</a>
+    <a href="componentes.html#skeleton">Skeleton</a>
+    <a href="componentes.html#chip">Chip</a>
+    <a href="componentes.html#avatar">Avatar</a>
+    <a href="componentes.html#divisor">Divisor</a>
+    <a href="componentes.html#acordeon">Acordeón</a>
+    <a href="componentes.html#paginacion">Paginación</a>
+    <a href="componentes.html#menu">Menú</a>
+    <a href="componentes.html#confirmar">Confirmación</a>
+    <a href="componentes.html#insignia">Insignia</a>
+    <a href="componentes.html#insignia-icono">Insignia de ícono</a>
+    <a href="componentes.html#tarjeta-accion">Tarjeta de acción</a>
+    <a href="componentes.html#cargando">Spinner</a>
+    <a href="componentes.html#grupo-botones">Grupo de botones</a>
+    <a href="componentes.html#lista-grupo">Lista de grupo</a>
+    <a href="componentes.html#popover">Popover</a>
+    <a href="componentes.html#colapsar">Colapsar genérico</a>
+    <a href="componentes.html#cajon">Cajón</a>
+    <a href="componentes.html#carousel">Carousel</a>
+    <a href="componentes.html#pildora-archivo">Píldora de archivo</a>
+    <a href="componentes.html#zona-arrastre">Zona de arrastre</a>
+    <a href="componentes.html#calendario-estado">Calendario de estado</a>
+    <a href="componentes.html#celda-doble">Celda de dos líneas</a>
+    <a href="componentes.html#seleccion-filas">Selección de filas</a>
+    <div class="grupo">JS / Utilidades</div>
+    <a href="js-utilidades.html#utils-js">Utilidades JS</a>
+    <a href="js-utilidades.html#ciclo-de-vida">Ciclo de vida y eventos</a>
+  </nav>
+  <main class="doc-main">
+    <header class="doc-header">
+      <p class="eyebrow">Guía de instalación</p>
+      <h1>Instalación</h1>
+      <p>Cómo sumar <code>@sistema32/santacorina-ui</code> a un sistema nuevo, con o sin Node, y cómo conectar sus utilidades JS. Requiere <code>tailwindcss@^4.0.0</code> como peer dependency si usas el modo "con tu build de Tailwind" — el modo "sin Node" no lo necesita en absoluto.</p>
+    </header>
+
+    <section class="doc-sec" id="npm">
+      <h2>1. Instalar el paquete</h2>
+      <p class="uso">Un solo paquete trae el CSS (plugin de Tailwind) y el JS — se consumen por separado según lo que necesite el sistema.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <pre class="codigo" style="margin:0;border-radius:8px">npm install @sistema32/santacorina-ui</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="con-tailwind">
+      <h2>2. Con tu propio build de Tailwind</h2>
+      <p class="uso">El caso normal para un sistema con Node y Vite/Webpack ya corriendo Tailwind v4. Agrega el <code>@plugin</code> en el CSS de entrada:</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <pre class="codigo" style="margin:0;border-radius:8px">/* src/estilos.css */
+@import "tailwindcss";
+@plugin "@sistema32/santacorina-ui";</pre>
+        </div>
+      </div>
+      <p class="uso">Eso agrega los ~16 colores de marca como utilidades (<code>bg-navy</code>, <code>text-azul-oscuro</code>, <code>border-rojo-fondo</code>…) y los componentes (<code>.tarjeta</code>, <code>.kpi</code>, <code>.etiqueta</code>, <code>.boton</code>, <code>.campo</code>, etc.) disponibles en cualquier plantilla que Tailwind ya esté escaneando — sin copiar CSS entre repos.</p>
+    </section>
+
+    <section class="doc-sec" id="sin-node">
+      <h2>3. Sin Node (backend sin build propio)</h2>
+      <p class="uso">El caso real de <code>sgp</code>: el backend Python no tiene Node en su imagen de producción. <code>dist/ui.css</code> es el plugin ya compilado contra Tailwind — se enlaza directo, sin paso de build ni Tailwind instalado del lado del consumidor.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <pre class="codigo" style="margin:0;border-radius:8px">&lt;link rel="stylesheet" href="node_modules/@sistema32/santacorina-ui/dist/ui.css"&gt;</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-sec" id="js">
+      <h2>4. Utilidades JS</h2>
+      <p class="uso">Dos modos de consumo, mismo criterio que el CSS: uno con auto-arranque para plantillas sin bundler, otro explícito para quien ya tiene su propio ciclo de vida (Vue y similares).</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <pre class="codigo" style="margin:0;border-radius:8px">&lt;!-- sin bundler (plantillas Jinja) --&gt;
+&lt;script src="node_modules/@sistema32/santacorina-ui/dist/js.global.js"&gt;&lt;/script&gt;
+&lt;!-- expone window.Santacorina y ya auto-arrancó .lateral-toggle, .tabs, etc. --&gt;</pre>
+        </div>
+      </div>
+      <div class="demo-wrap">
+        <div class="demo">
+          <pre class="codigo" style="margin:0;border-radius:8px">// con bundler (Vue u otro) -- esta entrada NO se auto-ejecuta
+import { formato, mostrarToast, abrirModal, iniciarTodo, destruirTodo } from "@sistema32/santacorina-ui/js";
+
+// onMounted(() =&gt; iniciarTodo(raizRef.value));
+// onUnmounted(() =&gt; destruirTodo(raizRef.value));</pre>
+        </div>
+      </div>
+      <p class="uso">El listado completo de funciones (qué hace cada una y si se auto-inicia) está en <a href="js-utilidades.html">JS / Utilidades</a>.</p>
+    </section>
+
+    <section class="doc-sec" id="personalizar">
+      <h2>5. Personalizar colores y tipografía</h2>
+      <p class="uso">Los tokens de marca son variables CSS en un <code>:root</code> <strong>sin</strong> <code>@layer</code> — eso le gana a cualquier regla dentro de un layer (el plugin define sus colores en <code>@layer base</code>) sin importar el orden en que aparezcan en el archivo.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <pre class="codigo" style="margin:0;border-radius:8px">@import "tailwindcss";
+@plugin "@sistema32/santacorina-ui";
+
+:root {
+  --color-azul: #1d4ed8;
+  --font-sans: 'Inter', sans-serif;
+}</pre>
+        </div>
+      </div>
+      <p class="uso"><code>--font-sans</code> es el mismo nombre que usa el tema por defecto de Tailwind v4 para <code>font-sans</code> — el override también alcanza esa utilidad y el <code>&lt;html&gt;</code> base, no solo <code>body</code>. Sin fuente propia, el navegador cae a <code>system-ui</code> (el paquete no carga ningún <code>&lt;link&gt;</code> de Google Fonts por su cuenta). Más detalle en <a href="fundamentos.html#tipografia">Fundamentos → Tipografía</a>.</p>
+    </section>
+
+    <section class="doc-sec" id="modo-oscuro">
+      <h2>6. Modo oscuro</h2>
+      <p class="uso">Sigue <code>prefers-color-scheme</code> por defecto. <code>data-theme="dark"</code>/<code>"light"</code> en cualquier ancestro (típicamente <code>&lt;html&gt;</code>) lo fuerza a mano — mismo mecanismo que colores y tipografía, solo variables CSS.</p>
+      <div class="demo-wrap">
+        <div class="demo">
+          <pre class="codigo" style="margin:0;border-radius:8px">&lt;!-- forzar oscuro sin importar el sistema operativo --&gt;
+&lt;html data-theme="dark"&gt;</pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="../dist/js.global.js"></script>
+<script>
+  // Solo para esta pagina de documentacion -- no es parte del paquete.
+  var botonesTema = document.querySelectorAll(".tema-selector button");
+  function marcarTemaActivo() {
+    var actual = localStorage.getItem("santacorina-guia-tema") || "system";
+    botonesTema.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.tema === actual));
+    });
+  }
+  botonesTema.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      var tema = boton.dataset.tema;
+      if (tema === "system") {
+        localStorage.removeItem("santacorina-guia-tema");
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        localStorage.setItem("santacorina-guia-tema", tema);
+        document.documentElement.setAttribute("data-theme", tema);
+      }
+      marcarTemaActivo();
+    });
+  });
+  marcarTemaActivo();
+
+  // Agrupa cada ".grupo" con los links que le siguen (hasta el
+  // proximo ".grupo") en un contenedor colapsable -- el HTML sigue
+  // siendo plano (grupo + links sueltos), esto solo los envuelve en
+  // tiempo de ejecucion. Estado colapsado/expandido persiste por
+  // nombre de grupo (no por pagina, asi es consistente en las 5).
+  (function () {
+    var navEl = document.getElementById("doc-nav");
+    if (!navEl) return;
+    var marcadores = Array.prototype.slice.call(navEl.querySelectorAll(".grupo"));
+    marcadores.forEach(function (marcador) {
+      var contenido = document.createElement("div");
+      contenido.className = "grupo-contenido";
+      var siguiente = marcador.nextElementSibling;
+      while (siguiente && !siguiente.classList.contains("grupo")) {
+        var actual = siguiente;
+        siguiente = siguiente.nextElementSibling;
+        contenido.appendChild(actual);
+      }
+      marcador.insertAdjacentElement("afterend", contenido);
+
+      var boton = document.createElement("button");
+      boton.type = "button";
+      boton.className = "grupo";
+      var nombre = marcador.textContent.trim();
+      boton.innerHTML = '<span class="texto"></span><span class="chevron" aria-hidden="true">&#9662;</span>';
+      boton.querySelector(".texto").textContent = nombre;
+      marcador.replaceWith(boton);
+
+      var clave = "santacorina-guia-grupo-" + nombre;
+      var colapsado = false;
+      try { colapsado = localStorage.getItem(clave) === "1"; } catch (e) {}
+      boton.setAttribute("aria-expanded", String(!colapsado));
+      contenido.hidden = colapsado;
+
+      boton.addEventListener("click", function () {
+        var expandido = boton.getAttribute("aria-expanded") === "true";
+        boton.setAttribute("aria-expanded", String(!expandido));
+        contenido.hidden = expandido;
+        try { localStorage.setItem(clave, expandido ? "1" : "0"); } catch (e) {}
+      });
+    });
+
+    function normalizarTexto(s) {
+      return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    }
+    var buscador = document.getElementById("nav-buscar");
+    var sinResultados = document.getElementById("nav-sin-resultados");
+    if (buscador) {
+      buscador.addEventListener("input", function () {
+        var texto = normalizarTexto(buscador.value.trim());
+        var algunoVisible = false;
+        navEl.querySelectorAll(".grupo-contenido").forEach(function (contenido) {
+          var boton = contenido.previousElementSibling;
+          var enlaces = Array.prototype.slice.call(contenido.querySelectorAll("a"));
+          var hayCoincidencia = false;
+          enlaces.forEach(function (a) {
+            var coincide = !texto || normalizarTexto(a.textContent).indexOf(texto) !== -1;
+            a.style.display = coincide ? "" : "none";
+            if (coincide) hayCoincidencia = true;
+          });
+          if (texto) {
+            contenido.hidden = !hayCoincidencia;
+            boton.style.display = hayCoincidencia ? "" : "none";
+            if (hayCoincidencia) boton.setAttribute("aria-expanded", "true");
+          } else {
+            boton.style.display = "";
+            var claveB = "santacorina-guia-grupo-" + boton.querySelector(".texto").textContent.trim();
+            var colapsadoGuardado = false;
+            try { colapsadoGuardado = localStorage.getItem(claveB) === "1"; } catch (e) {}
+            contenido.hidden = colapsadoGuardado;
+            boton.setAttribute("aria-expanded", String(!colapsadoGuardado));
+          }
+          if (hayCoincidencia) algunoVisible = true;
+        });
+        if (sinResultados) sinResultados.classList.toggle("visible", !!texto && !algunoVisible);
+      });
+    }
+  })();
+
+  var navToggle = document.getElementById("doc-nav-toggle");
+  var nav = document.getElementById("doc-nav");
+  navToggle.addEventListener("click", function () {
+    nav.classList.toggle("abierta");
+  });
+  nav.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () { nav.classList.remove("abierta"); });
+  });
+
+  document.querySelectorAll("pre.codigo").forEach(function (pre) {
+    var texto = pre.textContent;
+    var boton = document.createElement("button");
+    boton.className = "copiar-boton";
+    boton.type = "button";
+    boton.textContent = "Copiar";
+    boton.addEventListener("click", function () {
+      Santacorina.copiarAlPortapapeles(texto);
+      Santacorina.mostrarToast("Código copiado", "ok");
+    });
+    pre.appendChild(boton);
+  });
+</script>
+</body>
+</html>

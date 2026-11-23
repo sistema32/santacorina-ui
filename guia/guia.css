@@ -108,5 +108,14 @@
   .doc-nav .grupo .chevron{ transition:none; }
 }
 .nav-inicio{ font-weight:600; color:var(--doc-ink) !important; margin-bottom:10px; }
-.uso-paginas{ margin-top:12px !important; font-size:13.5px; }
-.uso-paginas a{ color: var(--color-azul-oscuro); }
+
+.portada-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+.portada-card{
+  display:flex; flex-direction:column; gap:6px; padding:20px;
+  border:1px solid var(--doc-border); border-radius:12px; background:var(--doc-surface);
+  text-decoration:none; color:inherit;
+}
+.portada-card:hover{ border-color:var(--doc-ink-dim); }
+.portada-card .icono{ font-size:20px; margin-bottom:4px; }
+.portada-card b{ font-size:15px; color:var(--doc-ink); }
+.portada-card span:last-child{ font-size:13px; color:var(--doc-ink-dim); line-height:1.5; }

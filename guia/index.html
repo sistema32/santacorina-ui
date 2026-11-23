@@ -33,10 +33,17 @@
     </div>
     <p class="nav-sin-resultados" id="nav-sin-resultados">Sin resultados.</p>
     <a href="index.html" class="nav-inicio">&larr; Portada / índice completo</a>
+    <div class="grupo">Instalación</div>
+    <a href="instalacion.html#npm">Instalar el paquete</a>
+    <a href="instalacion.html#con-tailwind">Con tu build de Tailwind</a>
+    <a href="instalacion.html#sin-node">Sin Node (CSS compilado)</a>
+    <a href="instalacion.html#js">Utilidades JS</a>
+    <a href="instalacion.html#personalizar">Personalizar colores/tipografía</a>
+    <a href="instalacion.html#modo-oscuro">Modo oscuro</a>
     <div class="grupo">Fundamentos</div>
-    <a href="#tokens">Tokens</a>
-    <a href="#tipografia">Tipografía</a>
-    <a href="#iconos">Íconos</a>
+    <a href="fundamentos.html#tokens">Tokens</a>
+    <a href="fundamentos.html#tipografia">Tipografía</a>
+    <a href="fundamentos.html#iconos">Íconos</a>
     <div class="grupo">Layout</div>
     <a href="layout.html#armazon">Armazón de página</a>
     <a href="layout.html#lateral">Menú lateral</a>
@@ -125,46 +132,40 @@
       <p class="eyebrow">SLEP Santa Corina</p>
       <h1>@sistema32/santacorina-ui</h1>
       <p>Plugin de Tailwind CSS v4: tokens de marca + los componentes que Tailwind no trae de fábrica. Este CSS lo sirve directamente <code>dist/ui.css</code> — lo que ves es exactamente lo que recibe cualquier proyecto que instale el paquete.</p>
-      <p class="uso-paginas">La guía está dividida en <a href="layout.html">Layout</a>, <a href="formularios.html">Formularios</a>, <a href="componentes.html">Componentes</a> y <a href="js-utilidades.html">JS / Utilidades</a> -- el nav de la izquierda ya te lleva a cualquiera de las 4 desde esta misma página.</p>
     </header>
 
-<section class="doc-sec" id="tokens">
-      <h2>Tokens</h2>
-      <p class="uso">Color semántico: azul = informativo/en curso, verde = conforme, naranjo = alerta/pendiente, rojo = rechazado o sobregirado, gris = neutro.</p>
-      <div class="token-grid">
-        <div class="token"><div class="swatch" style="background:#0c2d4a"></div><div class="meta"><b>navy</b><span>#0c2d4a</span></div></div>
-        <div class="token"><div class="swatch" style="background:#2a78d6"></div><div class="meta"><b>azul</b><span>#2a78d6</span></div></div>
-        <div class="token"><div class="swatch" style="background:#1e8e5a"></div><div class="meta"><b>verde</b><span>#1e8e5a</span></div></div>
-        <div class="token"><div class="swatch" style="background:#d97a12"></div><div class="meta"><b>naranjo</b><span>#d97a12</span></div></div>
-        <div class="token"><div class="swatch" style="background:#c8362f"></div><div class="meta"><b>rojo</b><span>#c8362f</span></div></div>
-        <div class="token"><div class="swatch" style="background:#7a8794"></div><div class="meta"><b>gris</b><span>#7a8794</span></div></div>
-      </div>
-    </section>
-
-<section class="doc-sec" id="tipografia">
-      <h2>Tipografía</h2>
-      <p class="uso"><strong>Public Sans</strong> (licencia SIL Open Font) es la tipografía de marca por defecto — diseñada para el US Web Design System, pensada para texto denso en tablas y formularios de gobierno. El paquete <strong>no</strong> carga el <code>&lt;link&gt;</code> de Google Fonts por su cuenta (un plugin no debe imponer una petición de red); sin él, el navegador cae a <code>system-ui</code>, exactamente igual que antes de 0.9.0.</p>
-      <div class="demo-wrap">
-        <div class="demo">
-          <pre class="codigo" style="margin:0;border-radius:8px">&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&amp;display=swap"&gt;</pre>
-        </div>
-      </div>
-      <p class="uso">El valor vive en la variable <code>--font-sans</code> — mismo nombre que usa Tailwind para su propia utilidad <code>font-sans</code>, así que el override (sin <code>@layer</code>, igual mecanismo que los colores) también alcanza a esa utilidad y al <code>&lt;html&gt;</code> base, no solo a <code>body</code>.</p>
-      <div class="demo-wrap">
-        <div class="demo">
-          <pre class="codigo" style="margin:0;border-radius:8px">:root { --font-sans: 'Inter', sans-serif; }</pre>
-        </div>
-      </div>
-    </section>
-
-<section class="doc-sec" id="iconos">
-      <h2>Íconos</h2>
-      <p class="uso">100% CSS vía <code>mask-image</code> + <code>background-color: currentColor</code> — heredan el color de texto como cualquier letra. Reemplazan los glifos sueltos (<code>✓</code>/<code>✔</code> inconsistente, <code>✕</code>, <code>→</code>) repetidos a mano en decenas de plantillas de <code>sgp</code>. Cada clase es <code>icono-&lt;nombre&gt;</code> — hacé clic en cualquiera para copiar el HTML.</p>
-      <div class="demo-wrap">
-        <div class="demo">
-          <div class="icono-grid" id="icono-grid"></div>
-        </div>
-        <pre class="codigo">&lt;span class="icono icono-check"&gt;&lt;/span&gt;</pre>
+    <section class="doc-sec" id="secciones">
+      <div class="portada-grid">
+        <a class="portada-card" href="instalacion.html">
+          <span class="icono icono-agregar"></span>
+          <b>Instalación</b>
+          <span>npm install, con/sin Tailwind, utilidades JS, personalizar colores.</span>
+        </a>
+        <a class="portada-card" href="fundamentos.html">
+          <span class="icono icono-info"></span>
+          <b>Fundamentos</b>
+          <span>Tokens de color, tipografía de marca e íconos.</span>
+        </a>
+        <a class="portada-card" href="layout.html">
+          <span class="icono icono-menu"></span>
+          <b>Layout</b>
+          <span>Armazón de página, menú lateral, contenedores, hero, columnas.</span>
+        </a>
+        <a class="portada-card" href="formularios.html">
+          <span class="icono icono-editar"></span>
+          <b>Formularios</b>
+          <span>Campos, validación, combobox, resumen de errores, formulario largo.</span>
+        </a>
+        <a class="portada-card" href="componentes.html">
+          <span class="icono icono-ver"></span>
+          <b>Componentes</b>
+          <span>Tarjetas, tablas, tabs, menú, modal, cajón y el resto del catálogo.</span>
+        </a>
+        <a class="portada-card" href="js-utilidades.html">
+          <span class="icono icono-check"></span>
+          <b>JS / Utilidades</b>
+          <span>Funciones JS, auto-arranque vs. bundler, ciclo de vida y eventos.</span>
+        </a>
       </div>
     </section>
 
@@ -176,9 +177,9 @@
           <table>
             <thead><tr><th>Nombre</th><th>Categoría</th><th>Página</th></tr></thead>
             <tbody>
-<tr><td>Tokens</td><td class="tenue">Fundamentos</td><td><a href="#tokens">index &rarr;</a></td></tr>
-<tr><td>Tipografía</td><td class="tenue">Fundamentos</td><td><a href="#tipografia">index &rarr;</a></td></tr>
-<tr><td>Íconos</td><td class="tenue">Fundamentos</td><td><a href="#iconos">index &rarr;</a></td></tr>
+<tr><td>Tokens</td><td class="tenue">Fundamentos</td><td><a href="fundamentos.html#tokens">fundamentos &rarr;</a></td></tr>
+<tr><td>Tipografía</td><td class="tenue">Fundamentos</td><td><a href="fundamentos.html#tipografia">fundamentos &rarr;</a></td></tr>
+<tr><td>Íconos</td><td class="tenue">Fundamentos</td><td><a href="fundamentos.html#iconos">fundamentos &rarr;</a></td></tr>
 <tr><td>Armazón de página</td><td class="tenue">Layout</td><td><a href="layout.html#armazon">layout &rarr;</a></td></tr>
 <tr><td>Menú lateral</td><td class="tenue">Layout</td><td><a href="layout.html#lateral">layout &rarr;</a></td></tr>
 <tr><td>Variantes de cabecera/pie</td><td class="tenue">Layout</td><td><a href="layout.html#variantes-cabecera">layout &rarr;</a></td></tr>
@@ -384,27 +385,6 @@
       caja.hidden = false;
       simularError.hidden = true;
       Santacorina.iniciarResumenErrores(document.getElementById("demo-resumen-errores"));
-    });
-  }
-
-  var ICONOS = [
-    "check", "cerrar", "flecha-derecha", "chevron-izq", "chevron-der",
-    "mas-opciones", "menu", "buscar", "agregar", "candado",
-    "filtro", "eliminar", "editar", "ver", "advertencia", "info",
-  ];
-  var grillaIconos = document.getElementById("icono-grid");
-  if (grillaIconos) {
-    ICONOS.forEach(function (nombre) {
-      var clase = "icono-" + nombre;
-      var tarjeta = document.createElement("button");
-      tarjeta.type = "button";
-      tarjeta.className = "icono-card";
-      tarjeta.innerHTML = '<span class="icono ' + clase + '"></span><span class="nombre">' + clase + "</span>";
-      tarjeta.addEventListener("click", function () {
-        Santacorina.copiarAlPortapapeles('<span class="icono ' + clase + '"></span>');
-        Santacorina.mostrarToast("Copiado: " + clase, "ok");
-      });
-      grillaIconos.appendChild(tarjeta);
     });
   }
 

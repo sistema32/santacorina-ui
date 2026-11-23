@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const paginas = ["index.html", "layout.html", "formularios.html", "componentes.html", "js-utilidades.html"];
+const paginas = ["index.html", "instalacion.html", "fundamentos.html", "layout.html", "formularios.html", "componentes.html", "js-utilidades.html"];
 
 for (const pagina of paginas) {
   test(`${pagina}: nav sin errores de consola, grupos y buscador presentes`, async ({ page }) => {
