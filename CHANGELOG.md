@@ -1,5 +1,81 @@
 # Changelog
 
+## 0.27.0 — sin publicar — escalas de tipografía y espaciado, una sola esquina, KPI y contraste AA
+
+Revisión de diseño del plugin, no de la guía: lo que cambia acá cambia
+la cara de `sgp`. El pedido fue que el sistema no pareciera hecho con
+IA **sin tocar el esquema de colores**, y ningún valor de
+`src/theme.ts` cambió. Lo que estaba sin decidir era todo lo demás.
+
+- **Escala tipográfica (`--t-menor` 13px, `--t-cuerpo` 16px,
+  `--t-lead` 20px, `--t-titulo` 26px, `--t-display` 34px)** — había
+  **16 tamaños sueltos** entre 10.5px y 26px (10.5, 11, 11.5, 12,
+  12.5, 13, 13.5, 14, 14.5, 15, 16, 17, 19, 21, 25, 26), elegidos uno
+  por uno al escribir cada componente. Esa escalera sin escalones es
+  el tic que delata una interfaz promediada. Los 106 literales de
+  `fontSize` quedaron mapeados a los cinco escalones. **El cuerpo sube
+  de 15px a 16px y las celdas de tabla de 14px a 16px**: las pantallas
+  densas (matriz de presupuesto) van a ocupar más ancho. Si molesta,
+  se cambia `--t-cuerpo` una vez y cambia todo — por eso es una
+  variable y no 60 literales.
+- **Un solo radio (`--radio: 0`, `--radio-pastilla: 999px`)** — había
+  **10 radios blandos distintos** (3, 4, 6, 7, 8, 9, 10, 11, 12 y
+  14px) sin ninguna relación entre sí. Ahora todo lo rectangular es
+  recto, como corresponde a una plataforma de Estado, y la pastilla
+  sigue siendo pastilla (insignia, interruptor, barra de progreso,
+  avatar; los 13 círculos de `50%` quedaron igual). Para volver a
+  esquinas redondeadas: `--radio: 8px` en `:root`.
+- **Contraste AA del botón primario** — blanco sobre `--color-azul`
+  (#2a78d6) da **4,42:1** y el mínimo de WCAG AA es 4,5. `.boton` pasa
+  a `--color-azul-oscuro` (#1f5fae, **6,35:1**), que ya estaba en la
+  paleta y es fijo en ambos temas; el `:hover` baja a `--color-navy`.
+  Pendiente y **no** resuelto acá: blanco sobre `--color-verde` da
+  4,14:1 y sobre `--color-naranjo` 3,11:1 (ver abajo).
+- **Sin versalitas diminutas** — `th`, `.lateral .grupo` y
+  `.ficha div span` estaban en mayúsculas a 11/11.5px con
+  `letter-spacing`. Pasan a caja normal a 13px con peso 600: la
+  jerarquía la hace el peso, no el estiramiento de las letras.
+- **Escala de espaciado (`--esp-1` 4px … `--esp-7` 48px)** — había
+  **14 valores de `gap` distintos** (2, 4, 5, 6, 8, 10, 12, 13, 14,
+  16, 18, 20, 28px) y **67 paddings distintos**, con joyas como
+  `15px 17px` y `7px 8px`: nadie eligió 17px, apareció. Un espaciado
+  sin ritmo se nota aunque no se sepa por qué. Todos los `gap`,
+  `padding` y `margin` del paquete quedaron en la escala, redondeando
+  al escalón más cercano y, en los empates, hacia arriba. **Los
+  gutters de `.columnas` pasan de 8 / 18 / 28 a 8 / 16 / 32**, donde
+  cada uno es el doble del anterior.
+- **KPI rediseñado** — era una caja con borde de 1px y un filo de
+  color a la izquierda; cuatro iguales en fila son la postal del
+  tablero generado. En una cifra destacada el número *es* el gráfico,
+  así que ahora manda él (de `--t-titulo` 26px a `--t-display` 34px) y
+  la caja desaparece: el color del estado pasa a ser una marca corta
+  arriba del número. Tres correcciones de visualización de datos:
+  dígitos **proporcionales** (`tabular-nums` le da a cada dígito el
+  ancho de un cero y un «121» se ve flojo a 34px; lo tabular queda
+  donde corresponde, en las columnas de `td.peso`); `.kpi .delta`
+  nuevo y opcional para la variación contra un período con nombre
+  (único texto del paquete que lleva color de dato, porque ahí el
+  color *es* la dirección); y queda documentado que la etiqueta tiene
+  que decir el estado — `data-tono` refuerza, nunca reemplaza, o quien
+  no distingue rojo de verde no se entera de nada.
+- **Sin resplandores en reposo** — fuera el halo azul de
+  `.tarjeta-accion:hover` (ahora escalón de tono + borde de marca) y
+  el anillo difuso de `.rastreador-item.actual` (ahora filo sólido de
+  4px, que es lo que de verdad significa). Las 12 sombras que quedan
+  están todas en cosas que flotan de verdad: modal, menú, popover,
+  toast, cajón, lateral, y el pulgar del `range`/interruptor.
+
+Lo que se probó y se dejó como estaba: quitarle el borde de 1px a
+`.tarjeta`/`.kpi`/`.tarjeta-accion` para separarlas solo por tono. El
+escalón real (blanco sobre `#f4f7fa`) es del 2% y la tarjeta
+desaparece en cuanto cae dentro de otro panel claro. Acá la línea
+hace trabajo, así que vuelve.
+
+Queda abierto, porque es decisión de paleta y no de forma: blanco
+sobre `verde` y sobre `naranjo` no llega a AA. Necesitan un tono
+oscuro propio (`--color-verde-oscuro`, `--color-naranjo-oscuro`) o
+dejar de usarse como fondo sólido con texto blanco.
+
 ## 0.26.0 — sin publicar — utilidades para listados, formularios y documentos
 
 Segunda de dos rondas pedidas por el usuario, sobre la base de

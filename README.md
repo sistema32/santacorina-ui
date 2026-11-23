@@ -203,6 +203,55 @@ v4 para su utilidad `font-sans` — el override (sin `@layer`) también le
 gana a esa utilidad y al `<html>` base, no solo a `body`: toda la
 plataforma queda en una sola tipografía, consistente.
 
+## Escala de tamaños, espaciado y esquina (0.27.0)
+
+Mismo mecanismo que `--color-*` y `--z-*`: variables en `:root`, una
+sola fuente de verdad. Antes de 0.27.0 el paquete tenía 16 tamaños de
+letra sueltos (de 10.5px a 26px) y 10 radios blandos distintos (de 3px
+a 14px), elegidos uno por uno al escribir cada componente. Ahora son
+cinco escalones y una esquina.
+
+| Variable | Valor | Para qué |
+| --- | --- | --- |
+| `--t-menor` | `13px` | Metadatos, timestamps, ayuda de campo, celdas secundarias. Es el piso: nada legible baja de ahí. |
+| `--t-cuerpo` | `16px` | Texto corrido, campos, botones, celdas de tabla. |
+| `--t-lead` | `20px` | Bajadas, títulos de tarjeta, cifras de KPI. |
+| `--t-titulo` | `26px` | `h1`/`h2` de pantalla, hero. |
+| `--t-display` | `34px` | La cifra o el título que manda en la pantalla. |
+| `--radio` | `0` | Todo lo rectangular: botón, campo, tarjeta, panel, modal. |
+| `--radio-pastilla` | `999px` | Lo que de verdad es pastilla: insignia, interruptor, barra de progreso. |
+
+Y el espaciado, en múltiplos de 4. Antes había **14 valores de `gap`
+distintos** (2, 4, 5, 6, 8, 10, 12, 13, 14, 16, 18, 20, 28px) y **67
+paddings distintos**, con joyas como `15px 17px` y `7px 8px`: nadie
+eligió 17px, apareció. Un espaciado sin ritmo se nota aunque no se sepa
+por qué.
+
+| Variable | Valor | Variable | Valor |
+| --- | --- | --- | --- |
+| `--esp-1` | `4px` | `--esp-5` | `24px` |
+| `--esp-2` | `8px` | `--esp-6` | `32px` |
+| `--esp-3` | `12px` | `--esp-7` | `48px` |
+| `--esp-4` | `16px` | | |
+
+Los *gutters* de `.columnas` salen de ahí y ahora sí son una escala
+(cada uno el doble del anterior) en vez de 8 / 18 / 28:
+`.gutters-0` = `0` · `.gutters-chico` = `--esp-2` · sin clase =
+`--esp-4` · `.gutters-grande` = `--esp-6`.
+
+Se sobreescriben como cualquier otro token, después del `@plugin` y sin
+envolverlos en un `@layer`:
+
+```css
+@import "tailwindcss";
+@plugin "@sistema32/santacorina-ui";
+
+:root {
+  --t-cuerpo: 15px;   /* pantallas muy densas: tablas de presupuesto */
+  --radio: 8px;       /* volver a la esquina redondeada de 0.26.0 */
+}
+```
+
 ## Modo oscuro
 
 Sigue `prefers-color-scheme` por defecto; `data-theme="dark"`/`"light"`
