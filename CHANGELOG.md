@@ -1,5 +1,56 @@
 # Changelog
 
+## 0.28.0 — sin publicar — barra de navegación horizontal
+
+El paquete tenía `.lateral` (navegación vertical, de aplicación) y
+`.menu` (un desplegable suelto), pero no había con qué armar la
+cabecera de un portal. `.barra-nav` es eso, y está construida sobre lo
+que ya existía en vez de al lado.
+
+- **`.barra-nav`** + `.barra-nav-lista` / `.barra-nav-grupo` /
+  `.barra-nav-panel` / `.barra-nav-toggle`, y
+  **`iniciarBarraNav`** (`src/js/barra-nav.ts`, auto-iniciada por
+  `iniciarTodo`). Bajo 900px —el breakpoint que ya usaba `.lateral`,
+  no uno nuevo— la barra colapsa en un botón y los paneles dejan de
+  flotar: pasan a ser una sangría, sin borde ni sombra, con 44px de
+  alto mínimo de objetivo táctil.
+- **Casi todo lo hace el navegador, a propósito.** Abrir y cerrar es
+  `<details>/<summary>`, que ya expone `aria-expanded` y responde a
+  Enter y Espacio; que abrir un grupo cierre el otro es el atributo
+  `name` compartido (accordion exclusivo nativo); el colapso en móvil
+  es CSS. La JS solo agrega lo que no existe: voltear el panel con
+  `posicionarFlotante` si no hay espacio debajo, cerrar con clic
+  afuera, y que Escape cierre nada más la capa de arriba (`apilarCapa`,
+  la misma pila que modal/cajón/popover).
+- **Sin JS la barra sigue sirviendo**: los submenús abren igual y en
+  móvil la lista se ve entera en vez de esconderse detrás de un botón
+  que no respondería. El CSS que la colapsa cuelga de `[data-js]`, que
+  pone el script.
+- **Los enlaces son enlaces.** No llevan `role="menuitem"` como
+  `.menu`: eso es para menús de aplicación (acciones), y esto es
+  navegación, donde el patrón de ARIA es *disclosure navigation* —
+  marcarlos como ítems de menú les quita la semántica de enlace a
+  cambio de nada. La página actual va con `aria-current="page"`; el
+  peso y la marca de 3px son refuerzo, no el único aviso.
+  `:focus-visible` en vez de `:focus`, y `touch-action: manipulation`
+  para sacar la espera de 300ms del doble toque.
+
+### Dos reglas que no se aplicaban, encontradas al escribir esto
+
+Las reglas del plugin son claves de **un mismo objeto literal**, así
+que dos `"@media (max-width: 900px)"` no se suman: el segundo **pisa**
+al primero y las reglas del primero desaparecen sin ningún aviso. Pasó
+al agregar la barra (se perdió el `.lateral` móvil completo) y está
+ahora comentado en el código, en el bloque que quedó.
+
+Por lo mismo, una regla base escrita **después** de su propio override
+responsivo le gana por orden del cascade y el override queda muerto:
+
+- **`.masonry` nunca bajó a 2 columnas entre 560px y 900px.** La regla
+  existía desde 0.24.0 pero `.masonry` se definía 900 líneas más
+  abajo. Las dos líneas base suben antes del bloque responsivo y ahora
+  la regla se aplica.
+
 ## 0.27.0 — sin publicar — escalas de tipografía y espaciado, una sola esquina, KPI y contraste AA
 
 Revisión de diseño del plugin, no de la guía: lo que cambia acá cambia

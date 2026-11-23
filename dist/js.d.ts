@@ -134,6 +134,8 @@ declare function iniciarSeleccionTabla(raiz?: ParentNode): void;
 
 declare function iniciarMenus(raiz?: ParentNode): void;
 
+declare function iniciarBarraNav(raiz?: ParentNode): void;
+
 /**
  * Posicionamiento compartido para capas flotantes (popover, toggletip,
  * calendario, combobox, menu): hoy todas abren siempre hacia abajo,
@@ -186,4 +188,4 @@ declare function iniciarScrollspy(nav: HTMLElement, contenedor?: ParentNode): vo
 /** Conecta todo lo auto-iniciable. */
 declare function iniciarTodo(raiz?: ParentNode): void;
 
-export { abrirModal, avanzarCarrusel, cerrarModal, confirmar, copiarAlPortapapeles, debounce, destruirTodo, formato, huboCambios, iniciarAsistentes, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarCambiosSinGuardar, iniciarCamposClp, iniciarCarruseles, iniciarColaAdjuntos, iniciarColapsables, iniciarCombobox, iniciarComboboxRemoto, iniciarContadores, iniciarFiltrosUrl, iniciarFormularios, iniciarGruposRepetibles, iniciarLateral, iniciarMedidorClave, iniciarMenus, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarReintento, iniciarResumenErrores, iniciarScrollspy, iniciarSeleccionTabla, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarVistaPrevia, iniciarZonasArrastre, irAPaso, mostrarToast, ponerCargando, posicionarFlotante, quitarCargando, valorClp };
+export { abrirModal, avanzarCarrusel, cerrarModal, confirmar, copiarAlPortapapeles, debounce, destruirTodo, formato, huboCambios, iniciarAsistentes, iniciarBarraNav, iniciarBuscadores, iniciarCajones, iniciarCalendario, iniciarCambiosSinGuardar, iniciarCamposClp, iniciarCarruseles, iniciarColaAdjuntos, iniciarColapsables, iniciarCombobox, iniciarComboboxRemoto, iniciarContadores, iniciarFiltrosUrl, iniciarFormularios, iniciarGruposRepetibles, iniciarLateral, iniciarMedidorClave, iniciarMenus, iniciarModales, iniciarPopovers, iniciarRangoFechas, iniciarReintento, iniciarResumenErrores, iniciarScrollspy, iniciarSeleccionTabla, iniciarTablasOrdenables, iniciarTabs, iniciarTodo, iniciarToggletips, iniciarVistaPrevia, iniciarZonasArrastre, irAPaso, mostrarToast, ponerCargando, posicionarFlotante, quitarCargando, valorClp };

@@ -231,6 +231,128 @@ export function buildComponents(): CssEnJs {
       backgroundColor: "rgba(8,20,34,0.5)",
       zIndex: "var(--z-cajon-fondo)",
     },
+    ".masonry": { columnCount: "3", columnGap: "var(--esp-4)" },
+    ".masonry > *": { breakInside: "avoid", marginBottom: "var(--esp-4)" },
+
+    /* ---------------------------------------------------------------
+     * Barra de navegacion horizontal con submenus desplegables.
+     * Reusa `.menu` en todo lo que puede: el submenu es el mismo
+     * `<details>` de siempre y el panel flotante se voltea con el mismo
+     * `posicionarFlotante`. Lo propio es la barra, el colapso en movil
+     * (breakpoint 900px, el que ya usa `.lateral` -- no uno nuevo) y
+     * que los enlaces sean enlaces: navegacion, no menu de aplicacion
+     * (ver `barra-nav.ts`).
+     *
+     * Sin la barra no se podia armar una cabecera con navegacion
+     * horizontal: el paquete solo tenia `.lateral` (vertical, de
+     * aplicacion) y `.menu` (un desplegable suelto).
+     * ------------------------------------------------------------- */
+    ".barra-nav": {
+      display: "flex",
+      alignItems: "center",
+      gap: "var(--esp-4)",
+      flexWrap: "wrap",
+    },
+    ".barra-nav-lista": {
+      display: "flex",
+      alignItems: "center",
+      gap: "var(--esp-1)",
+      listStyle: "none",
+      margin: "0",
+      padding: "0",
+      flexWrap: "wrap",
+    },
+    ".barra-nav-lista > li": { position: "relative" },
+    /* Un solo juego de estilos para el enlace suelto y para el
+       `<summary>` que abre un submenu: en la barra son lo mismo. */
+    ".barra-nav-lista > li > a, .barra-nav-grupo > summary": {
+      display: "flex",
+      alignItems: "center",
+      gap: "var(--esp-1)",
+      padding: "var(--esp-2) var(--esp-3)",
+      color: "var(--color-texto)",
+      fontSize: "var(--t-cuerpo)",
+      fontWeight: "600",
+      textDecoration: "none",
+      cursor: "pointer",
+      listStyle: "none",
+      borderRadius: "var(--radio)",
+      // Sin esto, el navegador espera 300ms por un posible doble toque
+      // antes de disparar el clic.
+      touchAction: "manipulation",
+    },
+    ".barra-nav-grupo > summary::-webkit-details-marker": { display: "none" },
+    ".barra-nav-lista > li > a:hover, .barra-nav-grupo > summary:hover": {
+      backgroundColor: "var(--color-gris-fondo)",
+    },
+    ".barra-nav-grupo[open] > summary": { backgroundColor: "var(--color-gris-fondo)" },
+    /* `:focus-visible` y no `:focus`: el anillo tiene que aparecer para
+       quien navega con teclado, no para quien acaba de hacer clic. */
+    ".barra-nav-lista > li > a:focus-visible, .barra-nav-grupo > summary:focus-visible": {
+      outline: "2px solid var(--color-azul-oscuro)",
+      outlineOffset: "2px",
+    },
+    /* La pagina actual no se marca solo con color: lleva peso y una
+       marca de 3px, y en el HTML `aria-current="page"`, que es lo que
+       el lector de pantalla anuncia. */
+    ".barra-nav-lista a[aria-current='page']": {
+      color: "var(--color-titulo)",
+      fontWeight: "700",
+      boxShadow: "inset 0 -3px 0 var(--color-azul-oscuro)",
+    },
+    ".barra-nav-grupo > summary .icono": {
+      transform: "rotate(90deg)",
+      transition: "transform 0.15s ease",
+    },
+    ".barra-nav-grupo[open] > summary .icono": { transform: "rotate(-90deg)" },
+    ".barra-nav-panel": {
+      position: "absolute",
+      top: "calc(100% + 4px)",
+      left: "0",
+      zIndex: "var(--z-flotante)",
+      minWidth: "220px",
+      backgroundColor: "var(--color-superficie)",
+      border: "1px solid var(--color-borde)",
+      borderRadius: "var(--radio)",
+      boxShadow: "0 10px 30px rgba(12, 45, 74, 0.18)",
+      padding: "var(--esp-2)",
+    },
+    ".barra-nav-panel[data-posicion='arriba']": { top: "auto", bottom: "calc(100% + 4px)" },
+    ".barra-nav-panel a": {
+      display: "block",
+      padding: "var(--esp-2) var(--esp-3)",
+      borderRadius: "var(--radio)",
+      color: "var(--color-texto)",
+      fontSize: "var(--t-cuerpo)",
+      textDecoration: "none",
+      touchAction: "manipulation",
+    },
+    ".barra-nav-panel a:hover": { backgroundColor: "var(--color-gris-fondo)" },
+    ".barra-nav-panel a:focus-visible": {
+      outline: "2px solid var(--color-azul-oscuro)",
+      outlineOffset: "-2px",
+    },
+    ".barra-nav-panel a[aria-current='page']": { fontWeight: "700", color: "var(--color-titulo)" },
+    ".barra-nav-toggle": {
+      display: "none",
+      alignItems: "center",
+      gap: "var(--esp-2)",
+      padding: "var(--esp-2) var(--esp-3)",
+      border: "0",
+      borderRadius: "var(--radio)",
+      backgroundColor: "var(--color-gris-fondo)",
+      color: "var(--color-texto)",
+      fontFamily: "inherit",
+      fontSize: "var(--t-cuerpo)",
+      fontWeight: "600",
+      cursor: "pointer",
+      touchAction: "manipulation",
+    },
+    ".barra-nav-toggle:focus-visible": {
+      outline: "2px solid var(--color-azul-oscuro)",
+      outlineOffset: "2px",
+    },
+
     "@media (max-width: 900px)": {
       ".app": { flexDirection: "column" },
       ".contenido": { padding: "var(--esp-5) var(--esp-4) var(--esp-6)" },
@@ -251,6 +373,34 @@ export function buildComponents(): CssEnJs {
       ".lateral-toggle": { display: "flex" },
       ".lateral-fondo.visible": { display: "block" },
       ".masonry": { columnCount: "2" },
+      /* Barra de navegacion horizontal -> columna. Estas reglas viven
+         aca y no en un bloque propio a proposito: son claves de un
+         mismo objeto literal, asi que un segundo
+         "@media (max-width: 900px)" no se suma, PISA a este y se
+         pierden las reglas de arriba sin ningun aviso. Un bloque por
+         consulta, siempre. */
+      ".barra-nav": { alignItems: "stretch", flexDirection: "column", gap: "var(--esp-2)" },
+      /* `[data-js]` lo pone `iniciarBarraNav`: si el script no corre,
+         nada queda escondido detras de un boton que no responderia. */
+      ".barra-nav[data-js] .barra-nav-toggle": { display: "inline-flex", alignSelf: "flex-start" },
+      ".barra-nav[data-js] .barra-nav-lista:not(.abierta)": { display: "none" },
+      ".barra-nav-lista": { flexDirection: "column", alignItems: "stretch", gap: "0", width: "100%" },
+      ".barra-nav-grupo, .barra-nav-grupo > summary": { width: "100%" },
+      /* 44px de alto minimo: el objetivo tactil recomendado. */
+      ".barra-nav-lista > li > a, .barra-nav-grupo > summary": {
+        minHeight: "44px",
+        padding: "var(--esp-2) var(--esp-3)",
+      },
+      /* En movil el panel deja de flotar y pasa a ser una sangria: sin
+         borde, sin sombra y sin medir espacio libre. */
+      ".barra-nav-panel": {
+        position: "static",
+        minWidth: "0",
+        border: "0",
+        boxShadow: "none",
+        padding: "0 0 var(--esp-2) var(--esp-4)",
+      },
+      ".barra-nav-panel a": { minHeight: "44px", display: "flex", alignItems: "center" },
     },
 
     /* ---------------------------------------------------------------
@@ -1126,8 +1276,6 @@ export function buildComponents(): CssEnJs {
      * `grid-template-rows: masonry` (hoy solo Firefox tras flag) ni una
      * libreria JS: con soporte universal y sin JS alcanza.
      * ------------------------------------------------------------- */
-    ".masonry": { columnCount: "3", columnGap: "var(--esp-4)" },
-    ".masonry > *": { breakInside: "avoid", marginBottom: "var(--esp-4)" },
     "@media (max-width: 560px)": {
       ".masonry": { columnCount: "1" },
       ".documento-fila": { gridTemplateColumns: "1fr auto" },
@@ -1884,6 +2032,7 @@ export function buildComponents(): CssEnJs {
     ".menu-panel button.peligro, .menu-panel a.peligro": { color: "var(--color-rojo-texto)" },
     ".menu-panel hr": { border: "0", borderTop: "1px solid var(--color-borde)", margin: "var(--esp-2) 0" },
 
+
     /* ---------------------------------------------------------------
      * Calendario -- selector de fecha en grilla visual, mismo patron de
      * capa flotante que `.menu`. El JS vive en `@sistema32/santacorina-ui/js`
@@ -2463,6 +2612,7 @@ export function buildComponents(): CssEnJs {
      * ------------------------------------------------------------- */
     "@media (prefers-reduced-motion: reduce)": {
       ".cajon, .lateral, .lateral.lateral-fija": { transition: "none" },
+      ".barra-nav-grupo > summary .icono": { transition: "none" },
       ".toast": { animation: "none" },
       ".cargando": { animation: "none" },
       ".skeleton": { animation: "none" },

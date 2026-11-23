@@ -383,6 +383,7 @@ los mismos de antes, solo cambió el mecanismo.
 | `.columnas-2` / `.columnas-4` | Variantes de `.columnas` |
 | `.gutters-0` / `.gutters-chico` / `.gutters-grande` (sobre `.columnas`) | Espaciado — "gutters" de Bootstrap, modificadores del mismo `.columnas`, no un segundo sistema de grid |
 | `.contenedor` / `.contenedor-fluido` | De Bootstrap — contenedor centrado reusable *fuera* del armazón `.app`. Se llama `.contenedor`, no `.container`: Tailwind v4 ya genera su propia utilidad `.container` en `@layer utilities` que le ganaba a la nuestra (confirmado) |
+| `.barra-nav` + `.barra-nav-lista` / `.barra-nav-grupo` / `.barra-nav-panel` / `.barra-nav-toggle` | Navegación horizontal con submenús desplegables; colapsa en un botón bajo 900px y los paneles dejan de flotar. Complementa a `.lateral` (vertical, de aplicación) |
 | `.z-flotante` / `.z-flotante-alto` / `.z-cajon` / `.z-modal` / `.z-toast` | Utilidades de la escala de z-index (`--z-*`) que ya usan `.menu-panel`/`.cajon`/`.modal`/`.toast` — para apilar tu propio HTML sin adivinar un número |
 | `.masonry` | Empaquetado tipo Pinterest, vía `columns` CSS |
 | `.hero` | Banner de introducción (dashboard/bienvenida) |

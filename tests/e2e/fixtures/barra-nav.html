@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../../dist/ui.css">
+<style>body{margin:0;padding:0}</style>
+</head>
+<body>
+
+<!-- Barra de navegacion horizontal. Los enlaces son enlaces y los
+     grupos son <details> con el mismo `name`, que es lo que hace que
+     abrir uno cierre el otro sin JS. -->
+<nav class="barra-nav" aria-label="Principal">
+  <button type="button" class="barra-nav-toggle" aria-controls="nav-lista" id="toggle">
+    <span class="icono icono-menu" aria-hidden="true"></span>Menú
+  </button>
+  <ul class="barra-nav-lista" id="nav-lista">
+    <li><a href="#inicio" aria-current="page">Inicio</a></li>
+    <li>
+      <details class="barra-nav-grupo" name="nav-demo" id="grupo-compras">
+        <summary>Compras <span class="icono icono-chevron-der" aria-hidden="true"></span></summary>
+        <div class="barra-nav-panel">
+          <a href="#solicitudes">Solicitudes</a>
+          <a href="#oc">Órdenes de compra</a>
+        </div>
+      </details>
+    </li>
+    <li>
+      <details class="barra-nav-grupo" name="nav-demo" id="grupo-finanzas">
+        <summary>Finanzas <span class="icono icono-chevron-der" aria-hidden="true"></span></summary>
+        <div class="barra-nav-panel">
+          <a href="#presupuesto">Presupuesto</a>
+        </div>
+      </details>
+    </li>
+    <li><a href="#reportes">Reportes</a></li>
+  </ul>
+</nav>
+<p id="afuera" style="margin-top:400px">Clic acá es clic afuera.</p>
+
+<script src="../../../dist/js.global.js"></script>
+</body>
+</html>

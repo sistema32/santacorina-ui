@@ -31,6 +31,7 @@ var Santacorina = (() => {
     formato: () => formato_exports,
     huboCambios: () => huboCambios,
     iniciarAsistentes: () => iniciarAsistentes,
+    iniciarBarraNav: () => iniciarBarraNav,
     iniciarBuscadores: () => iniciarBuscadores,
     iniciarCajones: () => iniciarCajones,
     iniciarCalendario: () => iniciarCalendario,
@@ -1340,6 +1341,57 @@ var Santacorina = (() => {
     });
   }
 
+  // src/js/barra-nav.ts
+  function iniciarBarraNav(raiz = document) {
+    raiz.querySelectorAll(".barra-nav").forEach((barra) => {
+      const lista = barra.querySelector(".barra-nav-lista");
+      const boton = barra.querySelector(".barra-nav-toggle");
+      if (lista && boton && primeraVez(barra, "barra-nav-toggle")) {
+        barra.dataset.js = "";
+        boton.setAttribute("aria-expanded", "false");
+        boton.addEventListener("click", () => {
+          const abierta = lista.classList.toggle("abierta");
+          boton.setAttribute("aria-expanded", String(abierta));
+        });
+        lista.addEventListener("click", (e) => {
+          if (e.target.closest("a")) {
+            lista.classList.remove("abierta");
+            boton.setAttribute("aria-expanded", "false");
+          }
+        });
+      }
+      barra.querySelectorAll("details.barra-nav-grupo").forEach((grupo) => {
+        const resumen = grupo.querySelector("summary");
+        const panel = grupo.querySelector(".barra-nav-panel");
+        if (!resumen || !panel) return;
+        if (primeraVez(grupo, "barra-nav")) {
+          let desapilar = null;
+          grupo.addEventListener("toggle", () => {
+            if (grupo.open) {
+              if (getComputedStyle(panel).position === "absolute") posicionarFlotante(resumen, panel);
+              desapilar = apilarCapa(() => {
+                grupo.open = false;
+                resumen.focus();
+              });
+            } else {
+              desapilar?.();
+              desapilar = null;
+            }
+          });
+        }
+        if (!activar(grupo, "barra-nav-doc")) return;
+        const alClicAfuera = (e) => {
+          if (grupo.open && !grupo.contains(e.target)) grupo.open = false;
+        };
+        document.addEventListener("click", alClicAfuera);
+        registrarDestructor(raiz, () => {
+          document.removeEventListener("click", alClicAfuera);
+          desactivar(grupo, "barra-nav-doc");
+        });
+      });
+    });
+  }
+
   // src/js/filtros-url.ts
   function camposDe(form) {
     return Array.from(form.querySelectorAll("input[name], select[name]"));
@@ -1657,6 +1709,7 @@ var Santacorina = (() => {
     iniciarFormularios(raiz);
     iniciarSeleccionTabla(raiz);
     iniciarMenus(raiz);
+    iniciarBarraNav(raiz);
     iniciarGruposRepetibles(raiz);
     iniciarCamposClp(raiz);
     iniciarVistaPrevia(raiz);

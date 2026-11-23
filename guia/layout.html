@@ -48,6 +48,7 @@
     <div class="grupo">Layout</div>
     <a href="#armazon">Armazón de página</a>
     <a href="#lateral">Menú lateral</a>
+    <a href="#barra-nav">Barra de navegación</a>
     <a href="#variantes-cabecera">Variantes de cabecera/pie</a>
     <a href="#contenedor">Contenedor</a>
     <a href="#columnas-variantes">Columnas (2/4)</a>
@@ -178,6 +179,57 @@
         </div>
         <pre class="codigo">&lt;aside class="lateral"&gt;&lt;nav&gt;&lt;a class="item activo"&gt;Solicitudes &lt;span class="contador"&gt;4&lt;/span&gt;&lt;/a&gt;&lt;/nav&gt;&lt;/aside&gt;</pre>
       </div>
+    </section>
+
+<section class="doc-sec" id="barra-nav">
+      <h2>Barra de navegación</h2>
+      <p class="uso">Navegación horizontal con submenús, para cabeceras de portal. Complementa a <code>.lateral</code>, que es vertical y de aplicación. Bajo 900px —el mismo breakpoint que ya usa el menú lateral, no uno nuevo— la barra colapsa en un botón y los paneles dejan de flotar: se vuelven una sangría, sin borde ni sombra. Probalo achicando la ventana.</p>
+      <div class="demo-wrap">
+        <div class="demo" data-ui>
+          <nav class="barra-nav" aria-label="Ejemplo">
+            <button type="button" class="barra-nav-toggle" aria-controls="demo-nav-lista">
+              <span class="icono icono-menu" aria-hidden="true"></span>Menú
+            </button>
+            <ul class="barra-nav-lista" id="demo-nav-lista">
+              <li><a href="#barra-nav" aria-current="page">Inicio</a></li>
+              <li>
+                <details class="barra-nav-grupo" name="demo-nav">
+                  <summary>Compras <span class="icono icono-chevron-der" aria-hidden="true"></span></summary>
+                  <div class="barra-nav-panel">
+                    <a href="#barra-nav">Solicitudes</a>
+                    <a href="#barra-nav">Órdenes de compra</a>
+                    <a href="#barra-nav">Recepciones</a>
+                  </div>
+                </details>
+              </li>
+              <li>
+                <details class="barra-nav-grupo" name="demo-nav">
+                  <summary>Finanzas <span class="icono icono-chevron-der" aria-hidden="true"></span></summary>
+                  <div class="barra-nav-panel">
+                    <a href="#barra-nav">Presupuesto</a>
+                    <a href="#barra-nav">Fuentes de financiamiento</a>
+                  </div>
+                </details>
+              </li>
+              <li><a href="#barra-nav">Reportes</a></li>
+            </ul>
+          </nav>
+        </div>
+        <pre class="codigo">&lt;nav class="barra-nav" aria-label="Principal"&gt;
+  &lt;button type="button" class="barra-nav-toggle" aria-controls="nav"&gt;&lt;span class="icono icono-menu"&gt;&lt;/span&gt;Menú&lt;/button&gt;
+  &lt;ul class="barra-nav-lista" id="nav"&gt;
+    &lt;li&gt;&lt;a href="/" aria-current="page"&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;
+      &lt;details class="barra-nav-grupo" name="nav"&gt;
+        &lt;summary&gt;Compras &lt;span class="icono icono-chevron-der"&gt;&lt;/span&gt;&lt;/summary&gt;
+        &lt;div class="barra-nav-panel"&gt;&lt;a href="/solicitudes"&gt;Solicitudes&lt;/a&gt;...&lt;/div&gt;
+      &lt;/details&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</pre>
+      </div>
+      <p class="uso">Tres cosas que hace el navegador y el paquete no reimplementa: abrir y cerrar es <code>&lt;details&gt;</code>, que ya expone <code>aria-expanded</code> y responde a Enter y Espacio; que abrir un grupo cierre el otro es el atributo <code>name</code> compartido (accordion exclusivo nativo); y el colapso en móvil es CSS. <code>iniciarBarraNav</code> solo agrega lo que falta: voltear el panel si no hay espacio debajo, cerrar con clic afuera, y que Escape cierre nada más la capa de arriba (la misma pila que modal y cajón).</p>
+      <p class="uso"><strong>Sin JS la barra sigue sirviendo</strong>: los submenús abren igual y en móvil la lista se ve entera, estirada hacia abajo, en vez de esconderse detrás de un botón que no respondería — por eso el CSS que la colapsa cuelga de <code>[data-js]</code>, que pone el script. Los enlaces son <code>&lt;a&gt;</code> dentro de un <code>&lt;ul&gt;</code> y <strong>no</strong> llevan <code>role="menuitem"</code>: eso es para menús de aplicación, y acá el patrón de ARIA es <em>disclosure navigation</em> — marcarlos como ítems de menú les quita la semántica de enlace a cambio de nada. La página actual va con <code>aria-current="page"</code>, que es lo que anuncia el lector de pantalla; el peso y la marca de 3px son el refuerzo visual, no el único aviso.</p>
     </section>
 
 <section class="doc-sec" id="variantes-cabecera">
