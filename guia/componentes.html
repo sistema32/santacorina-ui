@@ -156,6 +156,56 @@
         </div></div>
         <pre class="codigo">&lt;div class="kpi" data-tono="rojo"&gt;&lt;div class="n"&gt;1&lt;/div&gt;&lt;div class="t"&gt;Establecimiento sobregirado&lt;/div&gt;&lt;div class="delta" data-direccion="baja"&gt;-6 vs. octubre&lt;/div&gt;&lt;/div&gt;</pre>
       </div>
+      <p class="uso">Con <strong>mini gráfico</strong>: siete barras le dan forma a la cifra sin ocupar una pantalla de gráfico. Son <code>&lt;span&gt;</code> con una altura en porcentaje (<code>--v</code>, de 0 a 100), sin librería ni SVG — una de charts no se puede renderizar desde una plantilla Jinja sin JS, que es el caso de <code>sgp/web</code>. Cada barra lleva su pista de fondo: sin ella, siete barras cortas flotando no se leen como una serie. La que importa va con <code>.actual</code> en el tono pleno y el resto apagado.</p>
+      <div class="demo-wrap">
+        <div class="demo" data-ui><div class="kpis" style="margin-bottom:0">
+          <div class="kpi" data-tono="azul">
+            <div class="t">Órdenes de compra</div>
+            <p class="kpi-periodo">Últimos 7 días</p>
+            <div class="kpi-grafico" role="img" aria-label="Órdenes por día de los últimos 7 días: 75, 65, 25, 55, 60, 40 y 88. El máximo es hoy.">
+            <span class="barra" style="--v:75"><span></span></span>
+            <span class="barra" style="--v:65"><span></span></span>
+            <span class="barra" style="--v:25"><span></span></span>
+            <span class="barra" style="--v:55"><span></span></span>
+            <span class="barra" style="--v:60"><span></span></span>
+            <span class="barra" style="--v:40"><span></span></span>
+            <span class="barra actual" style="--v:88"><span></span></span>
+            </div>
+            <div class="kpi-cifra">
+              <div class="n">124</div>
+              <div class="delta" data-direccion="sube">+12,6%</div>
+            </div>
+          </div>
+          <div class="kpi" data-tono="verde">
+            <div class="t">Ejecución del presupuesto</div>
+            <p class="kpi-periodo">Mes a mes, 2026</p>
+            <div class="kpi-grafico" role="img" aria-label="Ejecución mensual: 40, 52, 58, 61, 70, 82 y 99 por ciento. El mes en curso es el máximo.">
+              <span class="barra" style="--v:40"><span></span></span>
+              <span class="barra" style="--v:52"><span></span></span>
+              <span class="barra" style="--v:58"><span></span></span>
+              <span class="barra" style="--v:61"><span></span></span>
+              <span class="barra" style="--v:70"><span></span></span>
+              <span class="barra" style="--v:82"><span></span></span>
+              <span class="barra actual" style="--v:99"><span></span></span>
+            </div>
+            <div class="kpi-cifra">
+              <div class="n">99%</div>
+              <div class="delta" data-direccion="sube">+4,2 pts</div>
+            </div>
+          </div>
+        </div></div>
+        <pre class="codigo">&lt;div class="kpi" data-tono="azul"&gt;
+  &lt;div class="t"&gt;Órdenes de compra&lt;/div&gt;
+  &lt;p class="kpi-periodo"&gt;Últimos 7 días&lt;/p&gt;
+  &lt;div class="kpi-grafico" role="img" aria-label="Órdenes por día: 75, 65, 25, 55, 60, 40 y 88. El máximo es hoy."&gt;
+    &lt;span class="barra" style="--v:75"&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;
+    ...
+    &lt;span class="barra actual" style="--v:88"&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="kpi-cifra"&gt;&lt;div class="n"&gt;124&lt;/div&gt;&lt;div class="delta" data-direccion="sube"&gt;+12,6%&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+      <p class="uso">El <code>aria-label</code> del gráfico no es opcional: es la única forma de que la serie exista para quien no la ve. Que lo escriba la pantalla con sus números reales, no con una frase genérica.</p>
       <p class="uso"><strong>La etiqueta tiene que decir el estado.</strong> <code>data-tono</code> refuerza, nunca reemplaza: si el único que sabe que algo anda mal es el color, quien no distingue rojo de verde no se entera. Por eso la etiqueta dice «Establecimiento sobregirado» y no «Alertas». Los dígitos van proporcionales a propósito — <code>tabular-nums</code> le da a cada uno el ancho de un cero y a 34px un «121» se ve flojo; lo tabular es para columnas que deben alinearse, y ahí sigue estando (<code>td.peso</code>).</p>
     </section>
 

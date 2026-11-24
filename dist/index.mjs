@@ -426,7 +426,7 @@ function buildComponents() {
       display: "block",
       width: "28px",
       height: "4px",
-      backgroundColor: "var(--color-gris)",
+      backgroundColor: "var(--kpi-tono, var(--color-gris))",
       marginBottom: "var(--esp-3)"
     },
     ".kpi .n": {
@@ -443,11 +443,88 @@ function buildComponents() {
     ".kpi .delta": { fontSize: "var(--t-menor)", fontWeight: "600", marginTop: "var(--esp-1)" },
     ".kpi .delta[data-direccion='sube']": { color: "var(--color-verde-texto)" },
     ".kpi .delta[data-direccion='baja']": { color: "var(--color-rojo-texto)" },
-    ".kpi[data-tono='azul']::before": { backgroundColor: "var(--color-azul)" },
-    ".kpi[data-tono='verde']::before": { backgroundColor: "var(--color-verde)" },
-    ".kpi[data-tono='naranjo']::before": { backgroundColor: "var(--color-naranjo)" },
-    ".kpi[data-tono='rojo']::before": { backgroundColor: "var(--color-rojo)" },
-    ".kpi[data-tono='gris']::before": { backgroundColor: "var(--color-gris)" },
+    /* El tono viaja en una variable en vez de repetir el color en cada
+       pieza: lo consumen la marca de arriba y las barras del grafico. */
+    ".kpi[data-tono='azul']": { "--kpi-tono": "var(--color-azul)" },
+    ".kpi[data-tono='verde']": { "--kpi-tono": "var(--color-verde)" },
+    ".kpi[data-tono='naranjo']": { "--kpi-tono": "var(--color-naranjo)" },
+    ".kpi[data-tono='rojo']": { "--kpi-tono": "var(--color-rojo)" },
+    ".kpi[data-tono='gris']": { "--kpi-tono": "var(--color-gris)" },
+    /* ---------------------------------------------------------------
+     * KPI con mini grafico. La cifra sola dice "99%" y no dice si
+     * viene subiendo; siete barras al lado le dan forma sin ocupar
+     * una pantalla de grafico. Es el `trend` que la ficha de dato
+     * pide y que faltaba.
+     *
+     * Sin libreria de graficos: son divs con una altura en porcentaje.
+     * Para siete barras, traerse 500 KB de ApexCharts (lo que hace la
+     * plantilla de la que salio la idea) es desproporcionado -- y una
+     * libreria de charts no se puede renderizar desde una plantilla
+     * Jinja sin JS, que es justo el caso de `sgp/web`.
+     *
+     * Cada barra lleva su pista de fondo, como en el original: sin la
+     * pista, siete barras cortas flotando no se leen como una serie.
+     * Extremos rectos y no redondeados, al reves de lo que recomienda
+     * la guia de visualizacion: manda la decision del sistema
+     * (`--radio: 0`), y a 7px de ancho la diferencia no se ve.
+     * ------------------------------------------------------------- */
+    ".kpi-periodo": {
+      fontSize: "var(--t-menor)",
+      color: "var(--color-tenue)",
+      margin: "var(--esp-1) 0 0"
+    },
+    ".kpi-grafico": {
+      display: "flex",
+      alignItems: "flex-end",
+      gap: "var(--esp-1)",
+      height: "60px",
+      /* El ancho del grafico se topa a proposito: si siguiera al de la
+         tarjeta, en una columna ancha quedarian siete barras flacas
+         perdidas en un campo vacio. La serie se lee por la proporcion
+         entre barra y hueco, no por lo ancha que sea. */
+      maxWidth: "190px",
+      margin: "var(--esp-3) 0"
+    },
+    ".kpi-grafico .barra": {
+      flex: "1",
+      minWidth: "4px",
+      maxWidth: "14px",
+      height: "100%",
+      display: "flex",
+      alignItems: "flex-end",
+      backgroundColor: "var(--color-gris-fondo)"
+    },
+    /* `--v` es el valor, de 0 a 100, y lo pone el consumidor por barra:
+       `<span class="barra" style="--v:75">`. Sin JS y sin SVG. */
+    ".kpi-grafico .barra > *": {
+      display: "block",
+      width: "100%",
+      height: "calc(var(--v, 0) * 1%)",
+      backgroundColor: "var(--kpi-tono, var(--color-azul))"
+    },
+    /* La barra que importa (hoy, el maximo, el mes en curso) va en el
+       tono pleno y el resto apagado -- "destacar una y bajar el resto"
+       en vez de siete barras gritando lo mismo. */
+    ".kpi-grafico .barra:not(.actual) > *": { opacity: "0.38" },
+    /* Cifra y variacion en una sola fila, la cifra a la izquierda y el
+       delta pegado a la derecha. */
+    /* Cifra y variacion juntas, en esa orden de lectura. NO separadas
+       a los extremos: con `space-between`, en una tarjeta ancha el
+       delta se va a la otra punta y deja de pertenecer al numero. */
+    ".kpi-cifra": {
+      display: "flex",
+      alignItems: "baseline",
+      flexWrap: "wrap",
+      gap: "0 var(--esp-3)"
+    },
+    ".kpi-cifra .delta": { marginTop: "0" },
+    /* Con grafico, la marca de color de arriba sobra: el color ya lo
+       llevan las barras. */
+    ".kpi:has(.kpi-grafico)::before": { display: "none" },
+    /* La etiqueta puede ir arriba (variante con grafico) o debajo de la
+       cifra (variante simple); el margen superior es solo para la
+       segunda. */
+    ".kpi > .t:first-child": { marginTop: "0" },
     /* ---------------------------------------------------------------
      * Etiqueta -- estado corto, en linea con texto (no es clicable).
      * ------------------------------------------------------------- */

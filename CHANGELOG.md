@@ -1,5 +1,50 @@
 # Changelog
 
+## 0.29.0 — sin publicar — mini gráfico en el KPI
+
+Idea tomada de una plantilla comercial de dashboards que el usuario
+trajo como referencia. Lo que se copia es **el patrón**, nunca su CSS
+ni sus assets: todo esto se arma con tokens nuestros.
+
+Medido contra la referencia, lo interesante no era la tipografía —su
+cifra va a 24px/500 y la nuestra a 34px/700, o sea la nuestra pesa
+más— sino que la pieza **trae contexto**: la cifra sola dice «99%» y
+no dice si viene subiendo.
+
+- **`.kpi-grafico`** — siete barras (o las que sean) con su pista de
+  fondo. Cada una es un `<span>` con `--v` de 0 a 100 y la altura sale
+  de ahí: **sin librería y sin SVG**. Traerse 500 KB de una librería
+  de charts para siete barras es desproporcionado, y además no se
+  puede renderizar desde una plantilla Jinja sin JS, que es justo el
+  caso de `sgp/web`. La pista de fondo no es decoración: sin ella,
+  siete barras cortas flotando no se leen como una serie. `.actual`
+  marca la que importa (hoy, el máximo, el mes en curso) en el tono
+  pleno y apaga el resto, en vez de siete barras gritando lo mismo.
+- **`.kpi-periodo`** — el período con nombre, siempre visible
+  («Últimos 7 días», «Mes a mes, 2026»), no solo dentro del delta.
+- **`.kpi-cifra`** — cifra y variación en una fila, en ese orden de
+  lectura. Juntas y no separadas a los extremos con `space-between`:
+  en una tarjeta ancha el delta se va a la otra punta y deja de
+  pertenecer al número (se vio en el primer render).
+- El ancho del gráfico se topa en 190px a propósito: si siguiera al de
+  la tarjeta, en una columna ancha quedarían siete barras flacas
+  perdidas en un campo vacío. La serie se lee por la proporción entre
+  barra y hueco.
+- El tono dejó de repetirse pieza por pieza y viaja en `--kpi-tono`,
+  que consumen la marca de arriba y las barras. Con gráfico, la marca
+  sobra y se esconde: el color ya lo llevan las barras.
+- Extremos rectos, al revés de lo que recomienda la guía de
+  visualización de datos (puntas de 4px): manda la decisión del
+  sistema (`--radio: 0`) y a 7px de ancho la diferencia no se ve.
+- El `aria-label` del gráfico no es opcional y la guía lo dice: es la
+  única forma de que la serie exista para quien no la ve, y lo escribe
+  la pantalla con sus números reales.
+
+Dos pruebas e2e: que `--v` se traduzca de verdad en la altura de cada
+barra (si alguien cambia la fórmula, el gráfico miente sin romperse,
+que es la peor forma de romperse) y que se anuncie como imagen con su
+serie en el nombre.
+
 ## 0.28.0 — sin publicar — barra de navegación horizontal
 
 El paquete tenía `.lateral` (navegación vertical, de aplicación) y
